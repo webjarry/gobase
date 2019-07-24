@@ -1,0 +1,6 @@
+/.idea
+/.vscode
+/Runtime
+/Application/Home/Conf/config.php
+/Application/User/Conf/config.php
+.DS_Store
