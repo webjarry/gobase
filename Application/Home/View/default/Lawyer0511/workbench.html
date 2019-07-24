@@ -1,0 +1,403 @@
+<!DOCTYPE HTML>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css"/>
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__JS__/ajaxupload.3.5.js"></script>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <style type="text/css">
+        .point {
+            position: absolute;
+            top: 0.22rem;
+            right: -0.05rem;
+            width: 0.15rem;
+            height: 0.15rem;
+            border-radius: 50%;
+            background: #ff0000;
+        }
+
+        .back_btn1 {
+            display: flex;
+            align-items: center;
+            left: 3%;
+            height: 0.9rem;
+            line-height: 0.9rem;
+        }
+
+        .dashang {
+            background: url("__IMG__/jinbi.png") left center no-repeat !important;
+            background-size: 0.3rem auto !important;
+            font-size: 0.26rem;
+            color: #f3a536 !important;
+            margin-right: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:;" onclick="aaplay('personal_setting_news_user.html')" class="back_btn1"
+       style="position: absolute;background: none; width: 0.48rem;">
+        <img src="__IMG__/pm1.png" style="width:auto;height: .34rem;margin-right: 0;border-radius: 0;">
+        <em class="point" style="display: block"></em>
+    </a>
+    <!--<a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>-->
+    <h2>我的工作台</h2>
+    <a href="javascript:void (0);" class="search_btn set_btn">设置</a>
+</header>
+<section class="profit_section">
+    <div class="profit">
+        <p id='date'>11-18 星期三</p>
+        <ul>
+            <li></li>
+            <li>
+                <em class="profit_to" style="background: none">本周收益(元)</em>
+                <span id="week">0.00</span>
+            </li>
+
+            <li onclick="aaplay('find_ranking')"><em class="profit_hq">本周未上榜</em></li>
+
+            <li onclick="aaplay('personal_money_income')">
+                <em class="profit_to">我的收益(元)</em>
+                <span id="total">0.00</span>
+            </li>
+
+            <li onclick="aaplay('wdz')">
+                <em class="profit_to">未到账(元)</em>
+                <span id="wdz">0.00</span>
+            </li>
+            <li>
+                <a href="##" class="cash_btn" onclick="aaplay('personal_money_cash')">提现</a>
+            </li>
+        </ul>
+    </div>
+    <div class="gc_list">
+        <ul>
+            <li><a href="javascript:;" onclick="aaplay('fask')" class="zx"><h6>咨询广场</h6>
+                <p>回答有奖挖掘案源</p></a></li>
+            <li><a href="javascript:;" onclick="aaplay('wt')" class="jb"><h6>竞标广场</h6>
+                <p>全国案源实时更新</p></a></li>
+        </ul>
+    </div>
+</section>
+<section class="tool_section">
+    <div class="news_title">
+        <h2>常用工具推荐</h2>
+    </div>
+    <div class="tool_list">
+        <ul>
+            <li>
+                <a href="javascript:;" onclick="aaplay('fask')"><h6></h6>
+                    <p>免费咨询</p></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="askorder(1)"><h6></h6>
+                    <p>图文咨询</p><i class="tips" id='tuwen'>1</i></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="askorder(2)"><h6></h6>
+                    <p>电话咨询</p><i class="tips" id='tel'>1</i></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="askorder(3)"><h6></h6>
+                    <p>预约面谈</p><i class="tips" id='face'>1</i></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="askorder(5)"><h6></h6>
+                    <p>代发律师函</p><i class="tips" id='lawyer'>1</i></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="askorder(4)"><h6></h6>
+                    <p>代写文书</p><i class="tips" id='book'>1</i></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="aaplay('wtmy')"><h6></h6>
+                    <p>竞标动态</p><i class="tips" id='wt'>19</i></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="aaplay('addpl')"><h6></h6>
+                    <p>发布动态</p></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="aaplay('release_contract')"><h6></h6>
+                    <p>发布合同</p></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="aaplay('service_package')"><h6></h6>
+                    <p>企业服务包</p><i class="tips">惠</i></a>
+            </li>
+            <li class="waiting">
+                <a href="javascript:void (0);"><h6></h6>
+                    <p>敬请期待</p></a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="new_news">
+    <div class="news_title">
+        <h2>最新咨询</h2>
+        <a href="javascript:;" onclick="aaplay('fask.html')" class="news_more">更多</a>
+    </div>
+    <div class="ask_list">
+        <ul id='con'>
+            <!-- <li>
+                <a href="javascript:;" onclick="aaplay('index','ask_details.html')">
+                    <div class="userInfo">
+                        <img src="__IMG__/userimg1.jpg" alt="">
+                        <div class="userName">
+                            <h6>135****7574</h6>
+                            <span>重庆 重庆市 <em>5小时前</em></span>
+                        </div>
+                    </div>
+                    <div class="comment_info">
+                        <p>我转租了一个门面，签合同的时候说明里面东西都归我，现在有人来说机器是他的，要求我归还，我是不是可以不给他？</p>
+                    </div>
+                    <div class="ask_kinds">
+                        <span>合同纠纷</span>
+                        <div class="ask_active">
+                            <em class="answer_num">4人回答</em>
+                            <p>我来回答</p>
+                        </div>
+                    </div>
+                </a>
+            </li> -->
+
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_nav">
+    <ul>
+        <li class="active"><a href="javascript:;" onclick=""><h6 class="icon"></h6>工作台</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('news')"><h6 class="icon"></h6>资讯</a></li>
+        <li><a href="javascript:;" onclick="aaplay('find')"><h6 class="icon"></h6>发现</a></li>
+        <li><a href="javascript:;" onclick="personal()"><h6 class="icon"></h6>我的</a></li>
+    </ul>
+</section>
+
+<section class="fixed_set">
+    <div class="set_kinds">
+        <ul>
+            <li>
+                <a href="javascript:;" onclick="aaplay('workbench_chargeset')">
+                    <img src="__IMG__/set1.png" alt="">
+                    <p>收费设置</p>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="aaplay('workbench_couponset')">
+                    <img src="__IMG__/set2.png" alt="">
+                    <p>优惠券设置</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+</body>
+<include file="Public/footer"/>
+<script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    console.log(token)
+
+    var tan = "{$Think.get.tan}"
+    if (tan == 1) {
+
+        $(".fixed_set").fadeIn().find(".set_kinds").animate({
+            'top': '0',
+            'opacity': '1'
+        }, 400)
+    }
+
+    var page = 1;
+
+    var myDate = new Date();
+    var day = myDate.getDay();
+    var day = numtrans(day);
+
+    $('#date').html(getNowFormatDate() + ' 星期' + day);
+
+    toDoRequest();
+
+
+    function userdata() {
+        loginCheck()
+        var p = {token: token, infock: 2};
+        $.post(webSiteUrl + '/app/user/sindex', p, function (ret) {
+            console.log(JSON.stringify(ret))
+            if (ret.code == 200) {
+                var tj = ret.data;
+                if (tj.tuwen > 0) {
+                    $('#tuwen').html(tj.tuwen);
+                    $('#tuwen').show();
+                }
+                if (tj.tel > 0) {
+                    $('#tel').html(tj.tel);
+                    $('#tel').show();
+                }
+                if (tj.face > 0) {
+                    $('#face').html(tj.face);
+                    $('#face').show();
+                }
+                if (tj.book > 0) {
+                    $('#book').html(tj.book);
+                    $('#book').show();
+                }
+                if (tj.lawyer > 0) {
+                    $('#lawyer').html(tj.lawyer);
+                    $('#lawyer').show();
+                }
+                if (tj.wt > 0) {
+                    $('#wt').html(tj.wt);
+                    $('#wt').show();
+                }
+                $('#week').html(tj.week + ' &nbsp;&nbsp;&nbsp;')
+                $('#total').html(tj.total + ' &nbsp;&nbsp;&nbsp;')
+                $('#wdz').html(tj.wdz + ' &nbsp;&nbsp;&nbsp;')
+
+            }
+
+        });
+    }
+
+    function toDoRequest() {
+        var p = {page: page};
+        $.post(webSiteUrl + '/app/public/fask', p, function (ret) {
+
+            if (ret.code == 200) {
+
+                html = "";
+                var dashang ='';
+                var tj = ret.data;
+                if (tj != null) {
+
+                    for (var i = 0; i < tj.length; i++) {
+
+                        // if(tj[i].reward_price!=0){
+                        //     dashang = '<em class="dashang">'+tj[i].reward_price+'元</em>';
+                        // }else {
+                        //     dashang = ''
+                        // }
+                        dashang = ''
+
+                        html += '<li onclick="askdetail(' + tj[i].id + ')"><a href="javascript:;"><div class="userInfo"><img src="' + tj[i].icon + '" alt=""><div class="userName"><h6>' + tj[i].phone + '</h6><span><em style="top: 0;">' + tj[i].time + '</em></span></div></div><div class="comment_info"><p>' + tj[i].content + '</p></div><div class="ask_kinds"><span>' + tj[i].ajtype + '</span><div class="ask_active">'+dashang+'<em class="answer_num">' + tj[i].num + '人回答</em><p onclick="askdetail(' + tj[i].id + ')">我来回答</p></div></div></a></li>';
+
+
+                    }
+                }
+
+                $('#con').html(html);
+
+
+            } else {
+
+                $('#con').html('<p style="text-align:center">暂无数据</p>');
+
+
+            }
+            userdata();
+            notice()
+        });
+
+    }
+
+    function notice() {
+
+        if (token == '') {
+            return;
+        }
+        p = {token: token};
+        $.post(webSiteUrl + '/app/user/notice', p, function (ret) {
+
+            console.log(ret)
+            if (ret.code == 200) {
+                $('.point').show()
+
+            } else {
+                $('.point').hide()
+
+            }
+        });
+    }
+
+
+    function askorder(type) {
+        location.href = '/Home/lawyer/askorder?type=' + type;
+    }
+
+    //打开设置
+    $(".set_btn").click(function () {
+        $(".fixed_set").fadeIn().find(".set_kinds").animate({
+            'top': '0',
+            'opacity': '1'
+        }, 400)
+    });
+    $(".set_kinds").click(function (e) {
+        e.stopPropagation();
+    });
+    $(".set_btn ul li a").click(function () {
+        $(".fixed_set").fadeOut().find(".set_kinds").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        }, 400)
+    });
+
+    //关闭设置
+    $(".fixed_set").click(function (e) {
+        e.stopPropagation();
+        $(".fixed_set").fadeOut().find(".set_kinds").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        }, 400)
+    });
+
+    $(".tips").hide();
+
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = month + seperator1 + strDate;
+        return currentdate;
+    }
+
+    function numtrans(num) {
+        if (num == 0) {
+            d = '天';
+        } else if (num == 1) {
+            d = '一';
+        } else if (num == 2) {
+            d = '二';
+        } else if (num == 3) {
+            d = '三';
+        } else if (num == 4) {
+            d = '四';
+        } else if (num == 5) {
+            d = '五';
+        } else if (num == 6) {
+            d = '六';
+        }
+        return d;
+    }
+</script>
+</html>

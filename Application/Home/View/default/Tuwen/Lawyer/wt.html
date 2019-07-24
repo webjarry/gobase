@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>投标广场</h2>
+    <!--<a href="my_answer.html" class="myAnswer_btn">我的回答</a>-->
+</header>
+<section class="bid_condition">
+    <ul>
+        <li>
+            <select name="area" id="area"  onchange="areafilter()">
+                
+
+            </select>
+        </li>
+        <li>
+            <select name="kinds" id="kinds" onchange="ajcatefilter()">
+                
+            </select>
+        </li>
+        <li>
+            <select name="" id=""  onchange="sortfilter()">
+                <option value="1">智能排序</option>
+                <option value="2">保证金高低</option>
+                <option value="3">委托报价</option>
+            </select>
+        </li>
+    </ul>
+</section>
+<section class="ask_square">
+    <div class="ask_list bid_list">
+        <ul id='con'>
+            
+            <!-- <li class="active1">
+                <a href="javascript:;" onclick="aaplay('index','bid_page_details.html')">
+                    <div class="userInfo">
+                        <img src="__IMG__/userimg2.jpg" alt="">
+                        <div class="userName">
+                            <h6>135****7574</h6>
+                            <span>重庆 重庆市 <em>2018-11-18  15:18</em></span>
+                        </div>
+                    </div>
+                    <div class="comment_info">
+                        <p>我打算和儿子他妈协议离婚，我给他两间房，但我想让她以后管儿子，管儿子结婚，上学，如果她同意，又怕她以后无法落实，我该怎么办？ </p>
+                    </div>
+                    <div class="ask_kinds">
+                        <span>离婚协议</span>
+                        <div class="ask_active">
+                            <i></i>
+                            <p>我要投标</p>
+                        </div>
+                    </div>
+                    <div class="bid_price">
+                        <p>委托报价:<i>3000-5000元</i></p>
+                        <span class="look_num">58人浏览</span>
+                        <span class="bid_num">4人竞标</span>
+                    </div>
+                </a>
+            </li> -->
+            
+        </ul>
+    </div>
+</section>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    var page=1;
+    var addrid=0;
+    var ajid=0;
+    var sort=0;
+    
+    cate();
+
+   function toDoRequest(){
+        var p={addrid:addrid,ajid:ajid,sort:sort,page:page};
+        $.post(webSiteUrl+'/app/public/wt',p,function(ret){
+                if(ret.code==200){
+                   
+                    html = "";
+                    var tj=ret.data;
+                    if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+                        if(tj[i].over == 1){
+                            html+='<li  class="active1">';
+                        }else{
+                            html+='<li>';
+                        }
+html+='<a href="javascript:;"><div class="userInfo"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].phone+'</h6><span>'+tj[i].addr+'<em>'+tj[i].time+'</em></span></div></div><div class="comment_info"  onclick="wtdetail('+tj[i].id+')"><p>'+tj[i].content+'</p></div><div class="ask_kinds"><span>'+tj[i].ajtype+'</span><div class="ask_active"><i></i><p onclick="wtdetail('+tj[i].id+')">我要投标</p></div></div><div class="bid_price"><p>委托报价:<i>'+tj[i].price+'元</i></p><span class="look_num">'+tj[i].view+'人浏览</span><span class="bid_num">'+tj[i].num+'人竞标</span></div></a></li>';
+
+                    }
+                    }
+                    if(page==1){
+                        $('#con').html(html);
+                    }else{
+                        $('#con').append(html);
+                    }
+                    page++;
+
+                }else{
+                    if(page==1){
+                        $('#con').html('<p style="text-align:center">暂无数据</p>');
+                    }
+                    
+                }
+            });
+       
+    }
+    function areafilter(){
+        page=1
+        addrid=$('#area').val();
+        toDoRequest();
+    }
+    function ajcatefilter(){
+        page=1
+        ajid=$('#kinds').val();
+       
+        toDoRequest();
+    }
+    function sortfilter(){
+        page=1
+        sort=$('#sort').val();
+        toDoRequest();
+    }
+    function cate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+            if(ret.code==200){
+               
+                f = "";
+                s = "";
+                var tj=ret.data;
+                
+                html='<option  style="cursor: pointer" value="">案件类型</option>';
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        
+
+                        var son=tj[i].son
+                        if(son != null){
+                            for(var j=0;j<son.length;j++){
+                                html+='<option style="cursor: pointer" value="'+son[j].id+'">'+son[j].name+'</option>';
+                            }
+                            
+                        }
+                        
+                    }
+                }
+                $('#kinds').html(html)
+                
+                region();
+                
+            }else{
+                alert(ret.msg);
+            }
+        });
+       
+    };
+    function region(){
+        $.post(webSiteUrl+'/app/public/region',function(ret){
+        
+            if(ret.code==200){
+                var tj=ret.data;
+                
+                var html='<option  style="cursor: pointer" value="0">全国</option>';
+                
+                for(var j=0;j<tj.length;j++){
+                    html+='<option  style="cursor: pointer" value="'+tj[j].id+'">'+tj[j].name+'</option>';
+                }
+
+                $('#area').html(html)
+                
+                toDoRequest();
+                
+            }
+        });
+       
+    };
+    function wtdetail(id){
+        location.href='/Home/lawyer/wtdetail?id='+id;
+        
+    }
+    
+    
+    
+</script>
+</html>

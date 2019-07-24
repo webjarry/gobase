@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f9f9f9;">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>转发</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+
+<section class="fabulous_section">
+    <div class="fabulous">
+        <ul id='list'>
+            <!-- <li>
+               <div class="userInfo">
+                   <img src="__IMG__/userimg1.jpg" alt="">
+                   <div class="info">
+                       <p>方大同律师</p>
+                       <span>2018-11-11　18:45</span>
+                   </div>
+               </div>
+               <p>方大同律师转发了该条动态</p>
+                       </li> -->
+          
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+
+<script>
+    var page=1;
+
+        
+        zhongchou();
+        
+
+
+    //众筹列表
+    function zhongchou(){
+        loginCheck()
+        var p={token:token,type:2,page:page}
+            $.post(webSiteUrl+'/app/user/dzzf',p,function(ret){
+
+            if (ret.code == 200) {
+
+                var list = ret.data;
+                var html = '';
+                if (list != null) {
+                    for (var i =0;i< list.length; i++) {
+html+=' <li><div class="userInfo"><img src="'+webSiteUrl+list[i].icon+'" alt=""><div class="info"><p>'+list[i].name+'律师</p><span>'+list[i].time+'</span></div></div><p>'+list[i].name+'律师转发了您的动态</p></li>';
+                    }
+                    if(page==1){
+                        $('#list').html(html);
+                    }else{
+                        $('#list').append(html);
+                    }
+                    page++;
+              
+                    
+                }
+            }else{
+                $('#list').html('<p style="text-align:center">暂无数据</p>');
+            }
+        });
+    }
+
+</script>
+</html>

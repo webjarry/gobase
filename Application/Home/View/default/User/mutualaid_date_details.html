@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<section class="public_date">
+    <header class="header">
+        <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+        <h2>12月1期公示</h2>
+        <<a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+    </header>
+    <div class="date_info">
+        <ul>
+            <li>
+                <span>受助人数</span>
+                <p>108<span>人</span></p>
+            </li>
+            <li>
+                <span>分摊人数</span>
+                <p>108541<span>人</span></p>
+            </li>
+            <li>
+                <span>划拨互助金</span>
+                <p>458<span>万元</span></p>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="click_look">
+    <a href="javascript:;" onclick="aaplay('mutualAid_date_details.html')">点击查看往期公示</a>
+</section>
+<section class="personal_publicity">
+    <ul id="con">
+        <li>
+            <div class="personal_user">
+                <div class="info">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div>
+                        <p style="font-size: 0.32rem;">张三</p>
+                        <span style="font-size: 0.26rem;">中青年法律互助计划</span>
+                    </div>
+                </div>
+                <a href="##" class="objection">我有异议</a>
+            </div>
+            <p>20000元互助金</p>
+            <span>加入互助100天，参与21次分摊，花费5.21元。</span>
+        </li>
+        <li>
+            <div class="personal_user">
+                <div class="info">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div>
+                        <p style="font-size: 0.32rem;">张三</p>
+                        <span style="font-size: 0.26rem;">中青年法律互助计划</span>
+                    </div>
+                </div>
+                <a href="##" class="objection">我有异议</a>
+            </div>
+            <p>20000元互助金</p>
+            <span>加入互助100天，参与21次分摊，花费5.21元。</span>
+        </li>
+        <li>
+            <div class="personal_user">
+                <div class="info">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div>
+                        <p style="font-size: 0.32rem;">张三</p>
+                        <span style="font-size: 0.26rem;">中青年法律互助计划</span>
+                    </div>
+                </div>
+                <a href="##" class="objection">我有异议</a>
+            </div>
+            <p>20000元互助金</p>
+            <span>加入互助100天，参与21次分摊，花费5.21元。</span>
+        </li>
+    </ul>
+</section>
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    gonggao();
+
+    //互助公告
+    function gonggao(){
+        $.post(webSiteUrl+'/app/public/hz',function(ret){
+
+            if (ret.code == 200) {
+                var list = ret.data;
+                var html = '';
+                if (list != null) {
+                    for (var i =0;i< list.length; i++) {
+html+='<li><div class="personal_user"><div class="info"><img src="'+webSiteUrl+list[i].icon+'" alt=""><div><p style="font-size: 0.32rem;">'+list[i].nickname+'</p><span style="font-size: 0.26rem;">'+list[i].name+'</span></div></div><a href="##" class="objection" onclick="yiyi('+list[i].id+')">我有异议</a></div><p>'+list[i].money+'元互助金</p><span>加入互助100天，参与21次分摊，花费5.21元。</span></li>';
+                    }
+
+                    $('#con').html(html);
+                }
+            }else{
+                $('#con').html('<p style="text-align:center">暂无数据</p>');
+            }
+        });
+    }
+
+    //具体情况
+    function shop(id){
+        location.href='/home/user/mutualaid_personal_details.html?id='+id
+
+    }
+
+    function yiyi(id) {
+        location.href='/home/user/yiyi?id='+id;
+    }
+
+</script>
+</html>

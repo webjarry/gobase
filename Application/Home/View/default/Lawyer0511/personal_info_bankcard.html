@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>绑定银行卡</h2>
+    <!--<a href="javascript:;" class="tel_btn">保存</a>-->
+</header>
+<section class="binding_bankCard">
+    <ul>
+        <li>
+            <div class="info_item">
+                <p>姓名</p>
+                <input type="text" placeholder="请输入姓名" id='name'>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>卡号</p>
+                <input type="text" placeholder="请输入卡号" id='cardno'>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>手机号</p>
+                <input type="text" placeholder="请输入银行预留手机号" id='phone'>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>身份证号</p>
+                <input type="text" placeholder="请输入身份证号" id='icno'>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>手机验证码</p>
+                <div class="send_code">
+                    <input type="text" placeholder="请输入验证码" id='regyzm'>
+                    <a href="javascript:void (0);" class="send_btn" onclick="yzm()">发送验证码</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+<section class="calc_btn">
+    <a href="javascript:void (0);" onclick='tijiao()'>绑定银行卡</a>
+</section>
+
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    
+    function tijiao(){
+        var name=$('#name').val();
+        var phone=$('#phone').val();
+        var cardno=$('#cardno').val();
+        var icno=$('#icno').val();
+        if(name==''){
+            alert({msg:"请输入姓名！"});return;
+        }
+        if(phone==''){
+            alert("请输入手机号！");return;
+        }else if(!/^1[345678]\d{9}$/.test(phone)){
+            alert("手机号格式错误！");return;
+        }
+        if(cardno==''){
+            alert("请输入银行卡号！");return;
+        }
+        if(icno==''){
+            alert("请输入身份证号！");return;
+        }
+        
+
+        var  p={token:token,model:'applybaoquan',name:name,phone:phone,cardno:cardno,icno:icno};
+        $.post(webSiteUrl+'/app/user/apply',function(ret){
+        
+            if(ret.code==200){
+                
+                alert(ret.msg);
+                //aaplay('');
+            }else{
+                alert(ret.msg)
+            }
+
+        });
+    }
+
+    
+
+</script>
+</html>

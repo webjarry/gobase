@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f9f9f9">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>咨询详情</h2>
+    <!--<a href="javascript:void(0);" class="qiandao_btn">注册</a>-->
+</header>
+<section class="ask_article">
+    <div class="userInfo">
+        <img src="__IMG__/userimg1.jpg" alt="">
+        <div class="userName">
+            <h6>135****7574</h6>
+            <span>2018-11-25  18:51</span>
+        </div>
+    </div>
+    <div class="comment_info">
+        <p>租房子签了一年合同，但是销售人员说住不够可以提前一个月联系他，他帮我找下家，现在没住够一年我搬走了，他们完全不管了，我该怎么办？</p>
+    </div>
+</section>
+
+<section class="comment_section">
+    <div class="news_title">
+        <h2>律师回复</h2>
+    </div>
+    <div class="comment_list">
+        <ul>
+            <li>
+                <div class="userInfo">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div class="userName">
+                        <h6>张岳伦律师 <i>LV.6</i></h6>
+                        <span>2018-11-11  14:45</span>
+                    </div>
+                    <a href="##" class="consultation_btn">咨询</a>
+                </div>
+                <div class="comment_info">
+                    <p>担保人还从中作梗，以后要睁大眼睛选担保人了。</p>
+                </div>
+                <div class="comment_active">
+                    <span class="caina_active active">已采纳</span>
+                    <div class="active_list">
+                        <dl>
+                            <dd class="xinyi">送心意</dd>
+                            <dd class="huifu">回复</dd>
+                        </dl>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="userInfo">
+                    <img src="__IMG__/userimg2.jpg" alt="">
+                    <div class="userName">
+                        <h6>方大同律师</h6>
+                        <span>2018-11-11  14:45</span>
+                    </div>
+                    <a href="##" class="consultation_btn">咨询</a>
+                </div>
+                <div class="comment_info">
+                    <p>钱借给别人，但借条被担保人撕了，这钱还能要回来吗？近日法院审理了这样一起民事纠纷案件。</p>
+                </div>
+                <div class="comment_active">
+                    <span class="caina_active">已采纳</span>
+                    <div class="active_list">
+                        <dl>
+                            <dd class="xinyi">送心意</dd>
+                            <dd class="huifu">回复</dd>
+                        </dl>
+                    </div>
+                </div>
+
+            </li>
+
+            <li>
+                <div class="userInfo">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div class="userName">
+                        <h6>张岳伦律师</h6>
+                        <span>2018-11-11  14:45</span>
+                    </div>
+                    <a href="##" class="consultation_btn">咨询</a>
+                </div>
+                <div class="comment_info">
+                    <p>担保人还从中作梗，以后要睁大眼睛选担保人了。</p>
+                </div>
+                <div class="comment_active">
+                    <span class="caina_active">已采纳</span>
+                    <div class="active_list">
+                        <dl>
+                            <dd class="xinyi">送心意</dd>
+                            <dd class="huifu">回复</dd>
+                        </dl>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="fixed_xinyi">
+    <div class="xinyi_content">
+        <div class="lawyer_pic">
+            <img src="__IMG__/userimg2.jpg" alt="">
+            <p>感谢律师尽心尽责的帮助</p>
+            <input type="text" id="price" placeholder="输入金额">
+            <div class="choose_price">
+                <ul>
+                    <li class="random">随机金额</li>
+                    <li>66.66元</li>
+                    <li>88.88元</li>
+                </ul>
+            </div>
+            <a href="javascript:;" class="sure_btn">确定</a>
+        </div>
+    </div>
+</section>
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script type="text/javascript" src="__JS__/api.js"></script>
+<script>
+    //采纳
+    $(".active_list dl dd.caina").click(function () {
+        $(this).hide();
+        $(this).parents('.active_list').prev('.active').show()
+    });
+
+
+    //送心意
+    $(".xinyi").click(function () {
+        $(".fixed_xinyi").fadeToggle();
+        $(".fixed_xinyi .xinyi_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+    });
+    $(".sure_btn").click(function () {
+        $(".fixed_xinyi").fadeToggle();
+        $(".fixed_xinyi .xinyi_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        },400);
+    });
+
+    $(".choose_price ul li").click(function () {
+        if($(this).index()!=0){
+            $(this).addClass('active').siblings('li').removeClass('active');
+            $("#price").val($(this).html());
+        }else {
+            var num = (Math.random()*100+1).toFixed(2)+'元';
+            $("#price").val(num);
+        }
+
+
+    });
+    $('.random').click(function () {
+
+    });
+
+
+
+    //打开新窗口
+    function aaplay(name,url){
+        api.openWin({
+            name: name,
+            url: url,
+            pageParam: {
+
+            }
+        });
+    }
+
+    //返回上一级
+    function comeBack(){
+        api.historyBack({
+        },function(ret,err){
+            if (!ret.status) {
+                api.closeWin();
+            }
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我的收藏</h2>
+    <!--<a href="javascript:void (0);" class="search_btn set_btn">设置</a>-->
+</header>
+<section class="info_kinds">
+    <div class="info">
+        <ul>
+            <li class="active"><a href="javascript:;">文章</a></li>
+            <li class=""><a href="javascript:;">动态</a></li>
+        </ul>
+    </div>
+</section>
+<section class="collect_article" id="sec">
+    <div class="news_list" id="bigcon">
+        <ul id='con'>
+            <!-- <li>
+                <a href="javascript:;" onclick="aaplay('index','news_info.html')">
+                    <img src="__IMG__/news01.jpg" alt="">
+                    <div class="news_info">
+                        <h6>借条被担保人撕毁，债务还能要回来吗？</h6>
+                        <div class="news_times">
+                            <em>2小时前</em>
+                            <span>709</span>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            
+            <li>
+                <div class="userInfo">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div class="userName">
+                        <h6>张岳伦律师 <i>LV.6</i></h6>
+                        <span>2018-11-25  18:51</span>
+                    </div>
+                </div>
+                <a href="javascript:;" onclick="aaplay('index','##')">
+                    <div class="comment_info">
+                        <p>我转租了一个门面，签合同的时候说明里面东西都归我，现在有人来说机器是他的，要求我归还，我是不是可以不给他？</p>
+                        <dl>
+                            <dd><img src="__IMG__/photos1.jpg" alt=""></dd>
+                            <dd><img src="__IMG__/photos2.jpg" alt=""></dd>
+                            <dd><img src="__IMG__/photos3.jpg" alt=""></dd>
+                        </dl>
+                    </div>
+                </a>
+                <div class="lawyers_active">
+                    <dl>
+                        <dd><a href="##" class="lawyers_share">34</a></dd>
+                        <dd><a href="##" class="lawyers_info">20</a></dd>
+                        <dd><a href="javascript:void (0);" class="lawyers_fabulous">132</a></dd>
+                    </dl>
+                </div>
+            </li> -->
+            
+
+        </ul>
+    </div>
+</section>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    loginCheck()
+    var page=1;
+    var p='';
+    var type=1;
+
+    toDoRequest()
+
+
+    function toDoRequest(){
+
+        p= {token:token,type:type,page:page};
+        $.post(webSiteUrl+'/app/user/collection',p,function(ret){
+
+              
+                if(ret.code==200){
+
+                    if(type==1){
+
+                        $('#sec').addClass('collect_article').removeClass('lawyers');
+                        $('#bigcon').addClass('news_list').removeClass('lawyers_list');
+                    }else{
+                        $('#sec').addClass('lawyers').removeClass('collect_article');
+                        $('#bigcon').addClass('lawyers_list').removeClass('news_list');
+                    }
+                   
+                    html = "";
+                    var tj=ret.data;
+                    if(tj != null){
+
+for(var i=0;i<tj.length;i++){
+
+    if(type == 1){
+        
+html+='<li onclick="newsdetail('+tj[i].tid+')"><a href="javascript:;"><img src="'+webSiteUrl+tj[i].icon+'"><div class="news_info"><h6>'+tj[i].name+'</h6><div class="news_times"><em>'+tj[i].time+'</em><span>'+tj[i].num+'</span></div></div></a></li>';
+
+    }else{
+
+html+='<li><div class="userInfo"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].nickname+'律师 <i>LV.6</i></h6><span>'+tj[i].time+'</span></div></div><a href="javascript:;" onclick="dtdetail('+tj[i].tid+')"><div class="comment_info"><p>'+tj[i].content+'</p><dl>';
+        if(tj[i].icons.length>0){
+            for(var j=0;j<tj[i].icons.length;j++){
+                html+='<dd><img src="'+webSiteUrl+tj[i].icons[j]+'" style="display:inline-block"></dd>';
+            } 
+        }
+html+='</dl></div></a><div class="lawyers_active"><dl><dd><a href="##" class="lawyers_share">'+tj[i].zf+'</a></dd><dd><a href="##" class="lawyers_info">'+tj[i].pl+'</a></dd><dd><a href="javascript:;" class="lawyers_fabulous">'+tj[i].dz+'</a></dd></dl></div></li>';
+    }
+}
+                    }
+                    if(page==1){
+                        $('#con').html(html);
+                    }else{
+                        $('#con').append(html);
+                    }
+                    page++;
+                  
+                   
+                }else{
+                    if(page==1){
+                        $('#con').html('<p style="text-align:center">暂无数据</p>');
+                    }
+                    
+                }
+            });
+       
+    }
+
+    $('.info li').click(function(){
+        $(this).addClass('active').siblings().removeClass('active');
+
+        $('#con').empty()
+
+        if($(this).index()==0){
+            $('#sec').addClass('collect_article').removeClass('lawyers');
+            $('#bigcon').addClass('news_list').removeClass('lawyers_list');
+        }else{
+            $('#sec').addClass('lawyers').removeClass('collect_article');
+            $('#bigcon').addClass('lawyers_list').removeClass('news_list');
+        }
+        page=1
+        type=parseInt($(this).index()+1)
+        toDoRequest();
+
+    })
+
+
+    //点赞
+    $(document).on('click','.lawyers_list dl dd .lawyers_fabulous',function(){
+   
+        if(!$(this).hasClass('active')){
+            $(this).addClass('active');
+            $(this).html(parseInt($(this).text())+1)
+        }
+    });
+    
+
+</script>
+</html>

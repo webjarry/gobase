@@ -1,0 +1,144 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>免费咨询列表</h2>
+	</div>
+	<div class="cf">
+		<div class="fl">
+            <button class="btn confirm" onclick="foreverdel(0,'/Admin/Fask');" target-form="ids">删 除</button>
+			<font style="color:#f00;">默认以发布时间排序，如需置顶，可以改打排序值，值越大排在前面</font>
+			
+			<font style="color:#f00; margin-left:30px;">总条数：{$_total|default=0}条</font>
+        </div>
+
+        
+		<div class="search-form fr cf">
+			<form action="/admin/fask/index" method="get">
+				<div class="sleft">
+					<input type="text" name="date1" id="date1" class="search-input" value="{:I('date1')}" placeholder="开始日期" >
+					<input type="text" name="date2" id="date2"  class="search-input" value="{:I('date2')}" placeholder="结束日期">
+					<!--<input type="text" name="type" class="search-input" value="" placeholder="文件分类">-->
+					<select class="search-input" name="type">
+						<option value="">请选择分类</option>
+						<option value="1" <if condition="$get['type'] eq 1">selected</if>>免费咨询</option>
+						<option value="2" <if condition="$get['type'] eq 2">selected</if>>付费咨询</option>
+						<option value="3" <if condition="$get['type'] eq 3">selected</if>>隐私咨询</option>
+						<option value="4" <if condition="$get['type'] eq 4">selected</if>>文字咨询</option>
+					</select>
+					<input type="text" name="name" class="search-input" value="{$get[name]}" placeholder="标题">
+					<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+				</div>
+			</form>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="row-selected row-selected" style="width: 2%"><input class="check-all" type="checkbox"/></th>
+		<th class="">编号</th>
+		<th class="">咨询用户</th>
+		<th class="">案件类型</th>
+		<th class="">是否私密</th>
+		<th class="">打赏金额（0为未打赏）</th>
+		<th class="">咨询内容</th>
+		<th class="">排序</th>
+		
+		<th class="">咨询时间</th>
+		
+			<!--<th class="">状态</th>-->
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="list">
+		<volist name="list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			<td><if condition="empty(modelField($vo['uid'],'usermember','nickname'))">{$vo.uid|modelField='usermember','phone'}<else />{$vo.uid|modelField='usermember','nickname'}</if></td>
+			<td>{$vo.ajid|modelField='ajcate','name'}</td>
+			<td><if condition="$vo['private'] eq 1">是<else />否</if></td>
+			<td>￥{$vo['reward_price']}&nbsp;元</td>
+			<td style="width: 30%">{$vo.content} </td>
+			<td><input type="text" name="sort" data-id="{$vo.id}" value="{$vo.sort}" style="width:50px;" /></td>
+			<td>{$vo.create_time|date='Y-m-d H:i',###}</td>
+
+			<!--<td>{$vo.status|get_status_title}</td>-->
+			<td><!--<eq name="vo.status" value="1">
+				<a href="{:U('Fask/changeStatus?method=forbidUser&id='.$vo['id'])}" class="ajax-get">禁用</a>
+				<else/>
+				<a href="{:U('Fask/changeStatus?method=resumeUser&id='.$vo['id'])}" class="ajax-get">启用</a>
+				</eq>-->
+                <a href="{:U('Fanswer/index?pid='.$vo['id'])}">查看回复</a>
+				<a href="{:U('Fask/foreverdelete?id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+                </td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+	<script type="text/javascript">
+	
+	$('input[name=sort]').blur(function(){
+	
+		var id = $(this).attr('data-id');
+		var sort = $(this).val();
+		
+		$.post('{:U("savesort")}',{id:id,sort:sort},function(){});
+	
+	});
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+		//alert(url);
+        var query  = $('.search-form').find('.search-input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date1'
+		});
+	})
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date2'
+		});
+	})
+    //导航高亮
+    highlight_subnav('{:U('Fask/index')}');
+	</script>
+</block>

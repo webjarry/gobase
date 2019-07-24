@@ -1,0 +1,368 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f9f9f9">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>案件委托</h2>
+    <!--<a href="javascript:void(0);" class="search_btn"><img src="__IMG__/search.png" alt=""></a>-->
+</header>
+<section class="condition">
+    <ul>
+        <li>
+            <p>全国</p>
+            <div class="area_choose myarea">
+                <div class="choose">
+                    <div class="area">
+                        <dl id="cityf">
+                        </dl>
+                    </div>
+                    <div class="cities" id="cityson">
+
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <p>案件类型</p>
+            <div class="area_choose myaj">
+                <div class="choose">
+                    <div class="area">
+                        <dl id="f">
+
+                        </dl>
+                    </div>
+                    <div class="cities" id="son">
+                        <dl>
+                            <dd>全部</dd>
+                        </dl>
+                        <dl>
+                            <dd>万州区</dd>
+
+                        </dl>
+                        <dl>2</dl>
+                        <dl>3</dl>
+
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <p>智能排序</p>
+            <div class="area_choose">
+                <div class="sort" style="height:auto!important;">
+                    <dl>
+                        <dd data="1">智能排序</dd>
+                        <dd data="2">发布时间</dd>
+                        <dd data="3">竞标人数</dd>
+                        <dd data="4">保证金高低</dd>
+                        <dd data="5">招标中</dd>
+                        <dd data="6">已结束</dd>
+                        <dd data="7">众筹订单</dd>
+                        <dd data="8">互助订单</dd>
+                    </dl>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+<!--<section class="bid_condition">
+    <ul>
+        <li>
+            <select name="area" id="area"  onchange="areafilter()">
+                
+            </select>
+        </li>
+        <li>
+            <select  name="kinds" id="kinds" onchange="ajcatefilter()">
+                
+            </select>
+        </li>
+        <li>
+            <select name="" id=""  onchange="sortfilter()">
+                <option value="">智能排序</option>
+                <option value="">发布时间</option>
+                <option value="">参与人数</option>
+                <option value="">保证金高低</option>
+                <option value="">招标中</option>
+                <option value="">招标结束</option>
+            </select>
+        </li>
+    </ul>
+</section>-->
+<section class="case_entrusted">
+    <div class="ask_list bid_list">
+        <ul id='con'>
+            <!-- <li>
+                <a href="javascript:;" onclick="aaplay('index','case_entrusted_details.html')">
+                    <div class="userInfo">
+                        <img src="__IMG__/userimg1.jpg" alt="">
+                        <div class="userName">
+                            <h6>135****7574</h6>
+                            <span>重庆 重庆市 <em>2018-11-18  15:18</em></span>
+                        </div>
+                    </div>
+                    <div class="comment_info">
+                        <p>我转租了一个门面，签合同的时候说明里面东西都归我，现在有人来说机器是他的，要求我归还，我是不是可以不给他？</p>
+                    </div>
+                    <div class="ask_kinds">
+                        <span>合同纠纷</span>
+                    </div>
+                    <div class="bid_price">
+                        <p>委托保证金:<i>50元</i></p>
+                        <span class="look_num">58人浏览</span>
+                        <span class="bid_num">4人竞标</span>
+                    </div>
+                </a>
+            </li> -->
+            
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_btn">
+    <a href="release_entrusted.html">发布委托(五大保障)</a>
+</section>
+<section class="fixed_entrusted">
+    <div class="entrust_content">
+        <img src="__IMG__/entrustedImg.png" alt="">
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    //打开和关闭列表
+    $(".condition ul li p").click(function (e) {
+        if($(this).hasClass('on')){
+            $(this).removeClass('on').siblings('.area_choose').slideUp();
+            $(this).parents('li').siblings('li').find('.area_choose').slideUp();
+        }else {
+            $(this).addClass('on').siblings('.area_choose').slideDown().find(".cities dl").eq(0).show().siblings('dl').hide();
+            $(this).parents('li').siblings('li').find('p').removeClass('on').siblings('.area_choose').slideUp();
+        }
+    });
+    //城市切换
+    $(document).on('click',".condition ul li .area_choose .area dl dd",function () {
+        $(this).addClass('active').siblings('dd').removeClass('active');
+        $(this).parents('.area').siblings(".cities").find('dl').eq($(this).index()).show().siblings('dl').hide();
+
+    });
+
+    $(document).on('click',".myarea .cities dl dd",function () {
+        var city = $(this).text();
+        $(this).parents('.area_choose').slideUp().siblings('p').text(city).removeClass('on');
+
+        page = 1;
+        addrid = $(this).attr('data');
+        toDoRequest()
+    });
+    $(document).on('click',".myaj .cities dl dd",function () {
+        var city = $(this).text();
+        $(this).parents('.area_choose').slideUp().siblings('p').text(city).removeClass('on');
+
+        page = 1;
+        ajid = $(this).attr('data');
+        toDoRequest()
+    });
+    //智能排序
+    $(".area_choose .sort dl dd").click(function () {
+        $(this).addClass('active').siblings('dd').removeClass('active');
+        $(this).parents('.area_choose').slideUp().siblings('p').text($(this).html()).removeClass('on');
+
+        page = 1;
+        sort = parseInt($(this).index()+1);
+        toDoRequest()
+    });
+    var page=1;
+    var addrid=0;
+    var ajid=0;
+    var sort=0;
+
+    ajcate();
+    
+    function toDoRequest(){
+		var p={addrid:addrid,ajid:ajid,sort:sort,page:page};console.log(p)
+		$.post(webSiteUrl+'/app/public/wt',p,function(ret){
+			if(ret.code==200){
+                   
+                    html = "";
+                    var tj=ret.data;
+                    if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+                        if(tj[i].over == 1){
+                            html+='<li  class="active1">';
+                        }else{
+                            html+='<li>';
+                        }
+html+='<a href="javascript:;"><div class="userInfo"><img src="'+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].phone+'</h6><span>'+tj[i].addr+'<em>'+tj[i].time+'</em></span></div></div>';
+                        var otype='';
+                        if(tj[i].type==0){
+                            html+='<div class="comment_info"  onclick="wtdetail('+tj[i].id+','+tj[i].uid+')">';
+                        }else if(tj[i].type==1){
+                            html+='<div class="comment_info"  onclick="hzwt('+tj[i].id+','+tj[i].uid+')">';
+                            otype='<span class="orderTips">互助订单</span>';
+                        }else if(tj[i].type==2){
+                            html+='<div class="comment_info"  onclick="zcwt('+tj[i].id+','+tj[i].uid+')">';
+                            otype='<span class="orderTips">众筹订单</span>';
+                        }
+                        html+='<p>'+otype+tj[i].content+'</p></div><div class="ask_kinds"><span>'+tj[i].ajtype+'</span></div><div class="bid_price"><p>委托保证金:<i>'+tj[i].margin+'元</i></p><span class="look_num">'+tj[i].view+'人浏览</span><span class="bid_num">'+tj[i].num+'人竞标</span></div></a></li>';
+  
+                    }
+                    }
+                    if(page==1){
+                        $('#con').html(html);
+                    }else{
+                        $('#con').append(html);
+                    }
+                    page++;
+
+                }else{
+                    if(page==1){
+                        $('#con').html('<p style="text-align:center">暂无数据</p>');
+                    }
+                    
+                }
+		
+		});
+
+       
+    }
+
+    function ajcate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        f+='<dd  style="cursor: pointer">'+tj[i].name+'</dd>';
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<dl style="cursor: pointer">';
+                            for(var j=0;j<son.length;j++){
+                                s+='<dd style="cursor: pointer" data="'+son[j].id+'">'+son[j].name+'</dd>';
+                            }
+                            s+='</dl>';
+                        }
+
+                    }
+                }
+                $('#f').html(f)
+                $('#son').html(s)
+
+                ajcity()
+
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+    function ajcity(){
+        $.post(webSiteUrl+'/app/public/region',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        f+='<dd  style="cursor: pointer">'+tj[i].name+'</dd>';
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<dl style="cursor: pointer">';
+                            for(var j=0;j<son.length;j++){
+                                s+='<dd style="cursor: pointer" data="'+son[j].id+'">'+son[j].name+'</dd>';
+                            }
+                            s+='</dl>';
+                        }
+
+                    }
+                }
+                $('#cityf').html(f)
+                $('#cityson').html(s)
+
+                toDoRequest()
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+
+    function wtdetail(id,uid){
+        location.href='/home/user/case_entrusted_details_originator.html?id='+id+'&uid='+uid;
+    }
+    function hzwt(id,uid){
+        location.href='/Home/user/mutualAid_details_bid?id='+id+'&uid='+uid+'&type=1';
+    }
+    function zcwt(id,uid){
+        location.href='/Home/user/mutualAid_details_bid?id='+id+'&uid='+uid+'&type=2';
+    }
+    //隐藏提示
+    $(".fixed_entrusted").click(function () {
+        $(this).fadeOut();
+    })
+
+    //采纳
+    $(".active_list dl dd.caina").click(function () {
+        $(this).hide();
+        $(this).parents('.active_list').prev('.active').show()
+    });
+
+    //隐藏已采纳
+    $(".comment_active .active").hide();
+
+    //送心意
+    $(".xinyi").click(function () {
+        $(".fixed_xinyi").fadeToggle();
+        $(".fixed_xinyi .xinyi_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+    });
+    $(".sure_btn").click(function () {
+        $(".fixed_xinyi").fadeToggle();
+        $(".fixed_xinyi .xinyi_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        },400);
+    });
+
+    $(".choose_price ul li").click(function () {
+        if($(this).index()!=0){
+            $(this).addClass('active').siblings('li').removeClass('active');
+            $("#price").val($(this).html());
+        }else {
+            var num = (Math.random()*100+1).toFixed(2)+'元';
+            $("#price").val(num);
+        }
+
+
+    });
+    $('.random').click(function () {
+
+    });
+
+
+
+    
+</script>
+</html>

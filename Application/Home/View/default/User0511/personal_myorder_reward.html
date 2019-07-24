@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style type="text/css">
+        .reward_list{}
+        .reward_list ul li{}
+        .reward_list ul li:after{
+            display: block;
+            content: '';
+            clear: both;
+        }
+        .reward_list ul li .info{
+            width: 4.5rem;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我的打赏</h2>
+    <!--<a href="ask_page_myAnswer.html" class="myAnswer_btn">我的回答</a>-->
+</header>
+
+<section class="reward">
+    <div class="reward_count">
+        <p>打赏总金额</p>
+        <span><b id="price">0.00</b>元 </span>
+    </div>
+    <div class="reward_list">
+        <ul id="list">
+            
+            <!-- <li>
+                <img src="__IMG__/userimg2.jpg" alt="">
+                <div class="info">
+                    <p>打赏给 方大同律师</p>
+                    <span>2018-11-11  18:45</span>
+                </div>
+                <em>5.00元</em>
+            </li> -->
+            
+        </ul>
+    </div>
+</section>
+
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    loginCheck()
+    var page = 1;
+
+        
+        
+        dashang();
+
+
+
+    //打赏
+    function dashang(){
+        var p = {token:token,page:page};
+        $.post(webSiteUrl+'/app/user/umind',p,function(ret){
+            if (ret.code == 200) {
+                var list = ret.data.data;
+                var html = '';
+                if (list != null) {
+                    for (var i =0;i< list.length; i++) {
+                        html += '<li><img src="'+list[i].icon+'" alt=""><div class="info"><p>打赏给 '+list[i].name+'律师</p><span>'+list[i].time+'</span></div><em>'+list[i].money+'元</em></li>';
+                    }
+
+                    $('#list').html(html); 
+                    $('#price').html(ret.data.total); //打赏总金额
+                }
+            }else{
+                $('#list').html('<p style="text-align:center">暂无数据</p>');
+            }
+        });
+    }
+
+   
+</script>
+</html>

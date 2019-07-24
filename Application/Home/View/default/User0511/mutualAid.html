@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>互助金援助</h2>
+    <a href="javascript:;" onclick="aaplay('apply_mutualAid.html')" class="myAnswer_btn edit_btn">申请互助</a>
+</header>
+<section class="assistance">
+    <a href="##"><img src="__IMG__/assistance.jpg" alt=""></a>
+</section>
+<section class="mutual">
+    <ul>
+        <li>
+            <p>已有互助会员(人)</p>
+            <span>15,156,486</span>
+        </li>
+        <li>
+            <p>已拨互助金额(元)</p>
+            <span>154,648,928</span>
+        </li>
+    </ul>
+    <dl>
+        <dd><a href="javascript:;" onclick="aaplay('crowd-funding_learnMutual2.html')"><img src="__IMG__/mutual1.png" alt="">刑事互助计划</a></dd>
+        <dd><a href="javascript:;" onclick="aaplay('crowd-funding_learnMutual_pay.html')"><img src="__IMG__/mutual2.png" alt="">家庭互助计划</a></dd>
+        <dd><a href="javascript:;" onclick="aaplay('mutualAid_notice.html')"><img src="__IMG__/mutual3.png" alt="">互助公示</a></dd>
+        <dd><a href="javascript:;" onclick="aaplay('mutualAid_apply_history.html')"><img src="__IMG__/mutual4.png" alt="">我的互助</a></dd>
+    </dl>
+</section>
+<section class="apply_history">
+    <div class="common_title" style="padding-top: 0!important;">
+        <h6 style="font-weight: normal!important;font-size: 0.32rem!important;">加入互助</h6>
+    </div>
+    <ul id="list">
+        
+        
+        <!-- <li>
+            <a href="javascript:;" onclick="aaplay('','')">
+                <img src="__IMG__/applyh_pic3.png" alt="">
+                <div class="apply_title">
+                    <h6>帮扶因公丧子的孤独老人</h6>
+                    <p>帮助老人与儿子用人单位打官司，给老人一个说法</p>
+                    <div class="apply_money">
+                        <span></span>
+                        <em class="join_btn">加入</em>
+                    </div>
+                </div>
+            </a>
+        </li> -->
+       
+    </ul>
+</section>
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+
+        
+        huzhu();
+        
+ 
+
+    //互助列表
+    function huzhu(){
+           $.post(webSiteUrl+'/app/public/hz',p,function(ret){
+      
+            if (ret.code == 200) {
+                var list = ret.data;
+                var html = '';
+                if (list != null) {
+                    for (var i =0;i< list.length; i++) {
+                       
+                        html += '<li><a><img src="'+list[i].icon+'" alt="" onclick="shop('+list[i].id+')"><div class="apply_title"><h6 onclick="shop('+list[i].id+')">'+list[i].name+'</h6><p onclick="shop('+list[i].id+')">'+list[i].content+'</p><div class="apply_money"><span></span><em class="join_btn" onclick="jiaru('+list[i].id+')">加入</em></div></div></a></li>';
+                  
+                        
+                    }
+
+                    $('#list').html(html);
+                }
+            }else{
+                $('#list').html('<p style="text-align:center">暂无数据</p>');
+            }
+        });
+    }
+
+    //具体情况
+    function shop(id){
+        location.href='/home/user/mutualAid_personal_details.html?id='+id
+        
+    }
+
+
+    function jiaru(id){
+        if(window.confirm('确定加入吗？')){
+            var p = {token:token,id:id};
+            $.post(webSiteUrl+'/app/user/joinhz',p,function(ret){
+            
+              
+                if(ret.code==200){
+                    alert(ret.msg)
+                }else{
+                    alert(ret.msg)
+                }
+            });
+        }
+        
+    }
+
+</script>
+</html>

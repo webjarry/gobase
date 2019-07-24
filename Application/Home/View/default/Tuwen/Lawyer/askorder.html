@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2 id='title'>代写文书</h2>
+    <!--<a href="javascript:void (0);" class="search_btn charge_btn">说明</a>-->
+</header>
+
+<section class="picture_kinds">
+    <div class="news_kinds">
+        <ul>
+            <li class="active"><a href="javascript:;">新订单</a></li>
+            <li><a href="javascript:;" >未完成</a></li>
+            <li><a href="javascript:;" >已完成</a></li>
+        </ul>
+    </div>
+</section>
+<section class="order_section">
+    <div class="order_list">
+        <ul id='con'>
+            <!-- <li>
+                <p>订单号：2524556842</p>
+                <div class="order_info">
+                    <img src="__IMG__/userimg2.jpg" alt="">
+                    <div class="info">
+                        <h6>方大同律师</h6>
+                        <span>代写文书</span>
+                    </div>
+                    <a href="##" class="look_demand">查看需求</a>
+                </div>
+                <div class="order_active">
+                    <span>总计：<em>¥150.00</em></span>
+                    <div class="active_btn">
+                        <a href="##" class="no_btn">拒绝接单</a>
+                        <a href="##" class="yes_btn">确认接单</a>
+                    </div>
+                </div>
+            </li> -->
+            
+        </ul>
+    </div>
+</section>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    var page=1;
+    
+    var state=1;
+    var title='';
+    var type
+
+  
+
+        
+        if(para('type')==1){
+            title='图文咨询';
+            $('#title').html('图文咨询');
+        }else if(para('type')==2){
+            title='电话咨询';
+            $('#title').html('电话咨询');
+        }else if(para('type')==3){
+            title='见面咨询';
+            $('#title').html('见面咨询');
+        }else if(para('type')==4){
+            title='代写文书';
+            $('#title').html('代写文书');
+        }else if(para('type')==5){
+            title='代发律师函';
+            $('#title').html('代发律师函');
+        }
+
+        toDoRequest()
+    
+
+    function toDoRequest(){
+        
+        var p= {token:token,type:para('type'),state:state,page:page};
+        $.post(webSiteUrl+'/app/user/saskorder',p,function(ret){
+        
+              
+                if(ret.code==200){
+                   
+                    html = "";
+                    var tj=ret.data;
+                    if(tj != null){
+
+for(var i=0;i<tj.length;i++){
+
+html+='<li id="'+tj[i].id+'"><p>订单号：'+tj[i].orderno+'</p><div class="order_info"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'律师</h6><span>'+title+'</span></div>';
+                    if(type==4 && state==1){
+                        html+= ' <a href="##" class="look_demand">查看需求</a>';
+                    }
+html+='</div><div class="order_active"><span>总计：<em>¥'+tj[i].money+'</em></span>';
+
+                    if(tj[i].status==1){
+html+='<div class="active_btn"><a href="##" class="no_btn" onclick="orderstatus('+tj[i].id+','+3+')">拒绝接单</a><a href="##" class="yes_btn" onclick="orderstatus('+tj[i].id+','+2+')">确认接单</a></div>';
+                    }else if(tj[i].status==2){
+html+='<div class="active_btn"><a href="##" class="no_btn" onclick="contactuser('+tj[i].uid+')">联系客户</a><a href="##" class="yes_btn" onclick="orderstatus('+tj[i].id+','+4+')">确认完成</a></div>';
+                    }else if(tj[i].status==4){
+                        if(tj[i].uover==0){
+                            html+='<div class="active_btn">等待客户确认完成</div>';
+                        }else if(tj[i].uover==1){
+                            html+='<div class="active_btn">客户已确认完成</div>';
+                        }else if(0){
+
+                        }
+                    }
+html+='</div></div></li>'; 
+}
+
+                    }
+                    if(page==1){
+                        $('#con').html(html);
+                    }else{
+                        $('#con').append(html);
+                    }
+                    page++;
+                  
+                   
+                }else{
+                    if(page==1){
+                        $('#con').html('<p style="text-align:center">暂无数据</p>');
+                    }
+                    
+                }
+            });
+       
+    }
+     
+
+    function orderstatus(id,num){
+        if(num==2){
+            var askmsg='确认接单吗？'
+        }else if(num==3){
+            var askmsg='确认拒接订单吗？'
+        }else if(num==4){
+            var askmsg='确认完成吗？'
+        }else if(num==5){
+            var askmsg='确认吗？'
+        }
+        if(window.confirm(askmsg)){
+            var p={token:token,status:num,id:id}
+            $.post(webSiteUrl+'/app/user/askorderstatus',p,function(ret){
+            
+                if(ret.code==200){
+                    $('#'+id).remove();
+                    
+                }
+            });
+        }
+        
+    };
+    
+    function newsdetail(id){
+        location.href='/Home/lawyer/news_info?id='+id;
+        
+    }
+    
+    
+    
+    $(document).on('click','.news_kinds li',function(){
+        page=1
+        state=parseInt($(this).index()+1);
+
+        $(this).addClass('active').siblings().removeClass('active');
+        
+        toDoRequest()
+    });
+    
+    
+</script>
+</html>

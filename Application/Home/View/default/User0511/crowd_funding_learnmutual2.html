@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>刑事互助</h2>
+    <!--<a href="ask_page_myAnswer.html" class="myAnswer_btn">我的回答</a>-->
+</header>
+<section class="crowd_details_img">
+    <img src="__IMG__/Groupofyoung2.jpg" alt="">
+</section>
+
+<section class="family">
+    <div class="common_title">
+        <h6>刑事互助简介</h6>
+    </div>
+    <div class="details">
+        <p>升级为刑事互助计划，可在身负刑事案件时同样申请互助金援助，众所周知刑事案件错综复杂，取证慢，判决等待时间长，需要更多的精力和经济能力支持，加入刑事互助计划，在必要时申请互助金援助。</p>
+    </div>
+</section>
+<section class="family">
+    <div class="common_title">
+        <h6>给全家人添加保障的好处</h6>
+    </div>
+    <div class="details">
+        <p>
+            为全家人添加保障，使申请人或其家庭成员在遇到上述情况时，发生的直接费用或损失获得补偿的一种保险。全家都可以享受保障。而且每多加入一个人，分摊到个人的费用也是非常低。现在加入，保障未来的自己和家人，加入互助，帮助他人，保护自己，保护家人，有人需要帮助时，大家协力相助，共同度过难关。
+        </p>
+    </div>
+</section>
+<section class="benefit_users">
+    <div class="common_title">
+        <h6>互助受益用户</h6>
+    </div>
+    <div class="benefit_list">
+        <ul>
+            <li>
+                <img src="__IMG__/buser1.png" alt="">
+                <p>10801524</p>
+                <span>已加入人数(人)</span>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="lawyer_card">
+        <div class="swiper-container">
+            <ul class="swiper-wrapper">
+                <li class="swiper-slide">
+                    <div class="card_info">
+                        <img src="__IMG__/userimg1.jpg" alt="">
+                        <div>
+                            <p>张三</p>
+                            <span>中青年法律互助计划</span>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <dl>
+                            <dd><p><em>7.05</em>元</p><span>加入互助共分摊</span></dd>
+                            <dd><p><em>30</em>万</p><span>患病后获得互助金</span></dd>
+                            <dd><p><em>24</em>小时</p><span>加入互助时间</span></dd>
+                        </dl>
+                    </div>
+                </li>
+                
+            </ul>
+            <div class="swiper-pagination"></div>
+        </div>
+        <script language="javascript">
+            var mySwiper = new Swiper('.lawyer_card .swiper-container',{
+                autoplay: 3000,
+                loop: true,
+                spaceBetween: 20,
+                pagination: '.swiper-pagination',
+            })
+        </script>
+    </div>
+</section>
+
+<section class="safe">
+    <div class="common_title">
+        <h6>平台运营安全可靠</h6>
+    </div>
+    <div class="safe_list">
+        <ul>
+            <li><img src="__IMG__/safe1.png" alt=""><p>银行资金存管</p></li>
+            <li><img src="__IMG__/safe2.png" alt=""><p>工商局备案</p></li>
+            <li><img src="__IMG__/safe3.png" alt=""><p>12级风控制度</p></li>
+            <li><img src="__IMG__/safe4.png" alt=""><p>信息安全等级高</p></li>
+        </ul>
+    </div>
+
+</section>
+
+<section class="fixed_btn">
+    <a href="javascript:;" onclick="sj()" id="xs">点击升级</a>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+    function sj() {
+        loginCheck()
+        if(xs==1 || $('#xs').hasClass('xs')){
+            alert('已升级为刑事互助计划');return;
+        }
+        if(window.confirm('确认升级为刑事互助计划吗？')) {
+
+            location.href='/home/user/order_pay?type=17&money='+200;return;
+
+            var p={token:token,xs:1};
+            $.post(webSiteUrl+'/app/user/edit_user',p,function(ret){
+                if(ret.code==200){
+                    alert('升级成功')
+                    $('#xs').addClass('xs')
+
+                }else{alert(ret.msg)}
+            });
+        }
+
+    }
+
+   
+</script>
+</html>

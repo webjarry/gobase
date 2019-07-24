@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>保全申请</h2>
+    <!--<a href="tel:12345678910" class="search_btn set_btn"><img src="__IMG__/tel.png" alt=""></a>-->
+</header>
+
+<section class="apply_section">
+    <div class="release_list">
+        <ul>
+            <li>
+                <div class="release_item">
+                    <p>姓名</p>
+                    <input type="text" placeholder="请输入真实姓名" id='name'>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>电话</p>
+                    <input type="text" placeholder="请输入联系电话" id='phone'>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>法院信息</p>
+                    <input type="text" placeholder="请输入法院信息" id='depart'>
+                </div>
+
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>标的金额(元)</p>
+                    <input type="text" placeholder="请输入标的金额" id='money'>
+                </div>
+
+            </li>
+
+        </ul>
+    </div>
+</section>
+<section class="calc_btn">
+    <a href="javascript:void (0);" onclick="tijiao()">提交信息</a>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+
+    function tijiao(){
+        var name=$('#name').val();
+        var phone=$('#phone').val();
+        var depart=$('#depart').val();
+        var money=$('#money').val();
+        if(name==''){
+            alert("请输入姓名！");return;
+        }
+        if(phone==''){
+            alert("请输入手机号！");return;
+        }else if(!/^1[345678]\d{9}$/.test(phone)){
+            alert("手机号格式错误！");return;
+        }
+        if(depart==''){
+            alert("请输入法院名称！");return;
+        }
+        if(money==''){
+            alert("请输入标的金额！");return;
+        }else if(!/^\d+$/.test(money)){
+            alert("金额必须是数字！");return;
+        }
+        
+
+        var  p={token:token,model:'baoquan',name:name,phone:phone,depart:depart,money:money};
+        $.post(webSiteUrl+'/app/user/apply',p,function(ret){
+       
+            if(ret.code==200){
+                
+                alert(ret.msg);
+                //aaplay('');
+            }else{
+                alert(ret.msg)
+            }
+
+        });
+    }
+
+</script>
+</html>

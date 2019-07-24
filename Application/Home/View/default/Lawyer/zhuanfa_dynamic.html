@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript">
+        window['adaptive'].desinWidth = 750;
+        window['adaptive'].baseFont = 28;
+        window['adaptive'].maxWidth = 750;
+        window['adaptive'].init();
+    </script>
+    <style type="text/css">
+        .zhuanfa{
+            padding: 0.2rem 0.1rem;
+            background: #f1f1f1;
+        }
+        .zfInfo{
+            font-size: 0.28rem;
+            line-height: 0.4rem;
+        }
+        .zfInfo span{
+            color: #1c83ea;
+        }
+        .zhuanfaImg dl{
+            display: flex;
+            margin-top: 0.2rem;
+        }
+        .zhuanfaImg dl dd{
+            width: 31%;
+            margin-right: 3%;
+        }
+        .zhuanfaImg dl dd:last-child{
+            margin-right: 0;
+        }
+        .zhuanfaImg dl dd img{
+            display: block;
+            width: 2.2rem;
+            height: 2.2rem;
+        }
+		.fixed_btn {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 1rem;
+    z-index: 999;
+}
+		.fixed_btn a {
+    display: block;
+    width: 100%;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    background: #1c83ea;
+    color: #ffffff;
+    font-size: 0.32rem;
+}
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" onclick="comeBack()" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>转发</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="dynamic_form" style="border-bottom: none!important;">
+    <form action="">
+        <textarea style='width:100%; padding-top: 0.1rem;' name="" id="content" cols="30" rows="10" placeholder="请输入转发内容"></textarea>
+        <div class="zhuanfa">
+            <div class="zfInfo">
+                <p><span>律师名字：</span></p>
+            </div>
+            <div class="zhuanfaImg">
+                <dl>
+
+                </dl>
+            </div>
+        </div>
+    </form>
+</section>
+<section class="fixed_btn">
+    <a href="javascript:void(0)"  onclick="tijiao()">确认转发</a>
+</section>
+
+</body>
+<include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+<script>
+    var id = para('id');
+    if(id>0){
+		dongtai();
+	}
+
+    function dongtai() {
+        var p={model:'dongtai',id:id};
+		$.post(webSiteUrl+'/app/home/find',p,function(ret){
+		
+			if(ret.code==200){
+              console.log(JSON.stringify(ret));
+                //$('#content').val(ret.data.content);
+                $('.zfInfo').html('<p><span onclick="dtdetail('+ret.data.id+')">'+ret.data.name+'：</span>'+ret.data.content+'</p>');
+
+                var str = '';
+                if(ret.data.icon.length>0){
+                    for( var i=0;i<ret.data.icon.length;i++){
+                        str+='<dd><img src="'+webSiteUrl+ret.data.icon[i]+'" alt=""></dd>'
+                    }
+                    $(".zhuanfaImg dl").html(str)
+                }else{
+                  $(".zhuanfaImg dl").html('')
+                }
+
+            }else{
+                alert(ret.msg)
+            }
+		
+		});
+        
+
+    }
+
+    function tijiao(){
+        if(!loginCheck()){
+            return;
+        }
+        var content=$('#content').val();
+
+        if(content==''){
+            api.alert({msg:"请输入内容！"});return;
+        }
+//alert(icon);
+
+        var  p={token:token,content:content,id:id};
+		
+		$.post(webSiteUrl+'/app/user/adddongtai',p,function(ret){
+		
+			if(ret.code==200){
+                alert(ret.msg);
+                window.location.href = '/Home/Lawyer/lawyerquan';
+            }else{
+                alert(ret.msg)
+            }
+		
+		});
+
+    }
+ 
+</script>
+</html>

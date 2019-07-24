@@ -1,0 +1,40 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>关联业务员</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+
+        <div class="form-item">
+        <input type="hidden" name="id" value="{$info.id}" />
+        </div>
+        <div class="form-item">
+            <label class="item-label">推广业务员<span class="check-tips">（不选择则为普通用户）</span></label>
+            <div class="controls">
+
+                <select name="pid"  style="width:390px;">
+                    <option value="0">请选择业务员</option>
+                    <volist name="staff" id="son">
+                        <option value="{$son.id}" {$son['id']==$info['pid']?'selected':''}>{$son.nickname}</option>
+                    </volist>
+                </select>
+
+            </div>
+        </div>
+
+
+        <div class="form-item">
+            <button class="btn submit-btn" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Usermember/index')}');
+    </script>
+</block>

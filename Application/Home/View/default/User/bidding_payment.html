@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>待付款</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="ask_square">
+    <div class="ask_list">
+        <ul id="list">
+
+           <!--  <li>
+                <a href="javascript:;" onclick="aaplay('index','ask_details.html')">
+                    <div class="userInfo">
+                        <img src="__IMG__/userimg1.jpg" alt="">
+                        <div class="userName">
+                            <h6>135****7574</h6>
+                            <span>重庆 重庆市 <em class="bid_status">待付款</em></span>
+                        </div>
+                    </div>
+                    <div class="comment_info">
+                        <p>我转租了一个门面，签合同的时候说明里面东西都归我，现在有人来说机器是他的，要求我归还，我是不是可以不给他？</p>
+                    </div>
+                </a>
+                <div class="ask_kinds">
+                    <p>总计：<i>¥150.00</i></p>
+                    <div class="ask_active">
+                        <a href="##" class="choose">继续支付</a>
+                    </div>
+                </div>
+            </li> -->
+
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+    toDoRequest2();
+
+    function toDoRequest2(){
+        loginCheck()
+        var p = {uid:uid,type:1};
+        $.post(webSiteUrl+'/app/public/wt',p,function(ret){
+            if (ret.code == 200) {
+                
+                var list = ret.data;
+                var html = '';
+                if (list != null) {
+                    for (var i =0;i< list.length; i++) {
+                        var tip='';
+                        if(list[i].type==1 ){
+                            tip='<span class="orderTips">互助订单</span>';
+                        }else if(list[i].type==2 ){
+                            tip='<span class="orderTips">众筹订单</span>';
+                        }
+						
+						if(list[i].choose == 1){
+						
+							html += '<li><a href="javascript:;" onclick="xiangqi(' + list[i].uid + ',' + list[i].id + ',' + list[i].type + ')"><div class="userInfo"><img src="' + list[i].icon +
+                              '" alt=""><div class="userName"><h6>' + list[i].phone + '</h6><span>' + list[i].addr + ' <em class="bid_status">' + list[i].progress + '</em></span></div></div><div class="comment_info"><p>' + tip +
+                              list[i].content + '</p></div></a><div class="ask_kinds"><p>竞标已完成，请您尽快完成支付</p><div class="ask_active"><a href="##" class="choose"  onclick="jixu(' + list[i].orderno + ',' + list[i].rest +
+                              ')">支付律师费</a></div></div></li>';
+						
+						
+						}else{
+						
+							html += '<li><a href="javascript:;" onclick="xiangqi('+list[i].uid+','+list[i].id+','+list[i].type+')"><div class="userInfo"><img src="'+list[i].icon+'" alt=""><div class="userName"><h6>'+list[i].phone+'</h6><span>'+list[i].addr+' <em class="bid_status">待付款</em></span></div></div><div class="comment_info"><p>'+tip+list[i].content+'</p></div></a><div class="ask_kinds"><p>总计：<i>¥'+list[i].margin+'</i></p><div class="ask_active"><a href="##" class="choose" onclick="jixuone('+list[i].orderno+','+list[i].margin+')">继续支付</a></div></div></li>';
+						
+						}
+                        
+                    }
+
+                    $('#list').html(html);
+                }
+            }else{
+                $('#list').html('<p style="text-align:center">暂无数据</p>');
+            }
+        });
+    }
+	
+	function jixuone(orderno, money) {
+	
+		window.location.href = '/Home/User/pay_bond?orderno='+orderno+'&money='+money;
+    }
+    function jixu(orderno,money) {
+        window.location.href = '/Home/user/order_pay?type=8&orderno='+orderno+'&money='+money+'&jixu=1';
+    }
+    function xiangqi(uid,id,type){
+        if(type==0){
+            location.href='/home/user/case_entrusted_details_originator?id='+id+'&uid='+uid;
+        }else if(type==1){
+            location.href='/Home/user/mutualAid_details_bid?id='+id+'&uid='+uid+'&type=1';
+        }else{
+            location.href='/Home/user/mutualAid_details_bid?id='+id+'&uid='+uid+'&type=2';
+        }
+
+    }
+</script>
+</html>

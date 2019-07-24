@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html >
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body >
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2 id="title">法律告知函</h2>
+    <a href="tel:{:C('WEB_SITE_MOBILE')}" class="tel_btn"><img src="__IMG__/tel.png" alt=""></a>
+</header>
+<section class="legal_img">
+    <img src="__IMG__/legalImg.png" alt="">
+</section>
+
+<section class="contract_detail">
+    <h2 class="service_title">服务流程</h2>
+    <div class="flow_list">
+        <ul>
+            <li><em>1</em><p>需求描述</p></li>
+            <li><em>2</em><p>支付购买</p></li>
+            <li><em>3</em><p>电话沟通</p></li>
+            <li><em>4</em><p>函告发送</p></li>
+        </ul>
+    </div>
+    <h2 class="service_title">服务内容</h2>
+    <div class="service_content">
+        <p>
+            法律告知函是由法援宝法律服务公司推出的，由专业人员起草，法援宝法律服务公司发送的法律文书。通过向对方提出严正警告，让对方意识到问题严重性，从而促成问题的解决。<br><br>
+            主要功能：催促积极履行义务、警告对方停止侵害、将告知函作为证据、协助打破协商僵局。<br><br>
+            适用范围：不还钱、拖欠款项、造成损失、要求赔偿、侵权、解除合同、延长诉讼时效、打破协商僵局。
+        </p>
+    </div>
+    <h2 class="service_title">服务说明</h2>
+    <div class="notes">
+        <p>
+            1、费用支付成功，律师立即与您沟通、确定方案；<br>
+            2、本服务自沟通之时起一到三个工作日发出，视具体案情复杂程度而定；<br>
+            3、邮费由服务方承担；<br>
+            4、函告一经发出不予退费。
+        </p>
+    </div>
+</section>
+<div class="pay-links">
+    <p onclick="freemoney()"><span>会员免费</span></p>
+    <a href="javascript:void (0);" onclick="legalpay()" class="link_btn">确认支付： ￥199.00</a>
+</div>
+
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+
+<script>
+    if(para('type')==1){
+        $('#title').html('法律告知函')
+    }else{
+        $('#title').html('律师分析报告')
+    }
+
+    var gznum,fxnum
+    user()
+    function user() {
+
+        loginCheck()
+        var p={token:token}
+        $.post(webSiteUrl+'/app/user/user',p,function(ret) {
+            if (ret.code == 200) {
+
+                var tj = ret.data;
+                gznum=tj.gznum
+                fxnum=tj.fxnum
+            }
+        })
+    }
+
+
+    function freemoney() {
+        if(vip>0){
+
+            if(para('type')==1){
+                if(gznum==0){
+                    alert('免费次数已用完，请支付购买');return;
+                }
+                location.href='/home/user/legal_notice_form'
+            }else{
+                if(fxnum==0){
+                    alert('免费次数已用完，请支付购买');return;
+                }
+                location.href='/home/user/analysisreport'
+            }
+
+        }else{
+            alert('您还未成为法援宝的会员，快去成为会员吧 ！');
+            location.href='/home/user/service_package'
+        }
+    }
+    function legalpay() {
+        if(para('type')==1){
+            location.href='/home/user/legal_notice_form'
+        }else{
+            location.href='/home/user/analysisreport'
+        }
+
+    }
+</script>
+</html>

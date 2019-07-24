@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>知识产权申请</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="ask_square">
+    <div class="ask_list">
+        <ul id="con">
+            <!-- <li>
+                <a href="javascript:;" onclick="aaplay('ask_details.html')">
+                    <div class="property">
+                        <span class="property_title">商标申请</span>
+                        <span class="status">未处理</span>
+                    </div>
+                    <div class="comment_info">
+                        <p style="color: #999;">商标注册申请书是指在我国境内从事商品生产或经营活动，并依法登记的企业、个体工商户、个人合伙、具有法人资格的企事单位依《商标法》规定办理......</p>
+                    </div>
+                </a>
+                <div class="ask_kinds">
+                    <p>申请时间：2018-11-18</p>
+                    <div class="ask_active">
+                        <a href="##" class="choose">查看详情</a>
+                    </div>
+                </div>
+            </li>
+             -->
+
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var type = para('type');
+
+    toDoRequest2()
+
+    function toDoRequest2(){
+        if(!loginCheck()){
+            return;
+        }
+
+
+        var p={token:token}
+        $.post(webSiteUrl+'/app/user/knowledge',p,function(ret){
+            if(ret.code==200){
+
+                html = "";
+                var tj=ret.data;
+                if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+
+html+='<li><a href="javascript:;" style=" display: block;width: 100%;"><div class="property" style="width: 100%">';
+                        if(tj[i].type==1){
+                            html+='<span class="property_title">商标申请</span>';
+                        }else  if(tj[i].type==2){
+                            html+='<span class="property_title">专利业务申请</span>';
+                        }else  if(tj[i].type==3){
+                            html+='<span class="property_title">软件著作权申请</span>';
+                        }
+
+                        if(tj[i].status==1){
+                            html+='<span class="status">未处理</span>';
+                        }else{
+                            html+='<span class="status">已处理</span>';
+                        }
+html+='</div><div class="comment_info"><p style="color: #999;">'+tj[i].content+'</p></div></a><div class="ask_kinds"><p>申请时间：'+tj[i].time+'</p><div class="ask_active"><a href="##" class="choose" onclick="kdetail('+tj[i].id+','+tj[i].type+')">查看详情</a></div></div></li>';
+                    }
+
+                    $('#con').html(html);
+                }else{
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+
+            }
+        });
+
+
+    }
+    function kdetail(id,type) {
+        location.href='/Home/user/kdetail?id='+id+'&type='+type;
+    }
+</script>
+</html>

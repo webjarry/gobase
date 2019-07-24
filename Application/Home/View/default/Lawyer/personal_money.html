@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3;" lang="zh-cmn-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" onclick="comeBack()" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我的钱包</h2>
+    <!--<a href="javascript:void (0);" class="search_btn set_btn">设置</a>-->
+</header>
+<section class="money_section">
+    <div class="profit">
+        <ul>
+            <li></li>
+            <li>
+                <em class="profit_to" style="background: none">本周收益(元)</em>
+                <span id="week">0.00</span>
+            </li>
+            <li><em class="profit_hq">本周未上榜</em></li>
+            <li>
+                <em class="profit_to"  style="background: none">我的余额(元)</em>
+                <span id="balance">0.00</span>
+            </li>
+            <li  onclick="aaplay('personal_money_income')">
+                <em class="profit_to">我的收益(元)</em>
+                <span id="total">0.00</span>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="aaplay('personal_money_recharge')" class="recharge_btn">充值</a>
+                <a href="javascript:;" onclick="aaplay('personal_money_cash')" class="cash_btn">提现</a>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="other_operation">
+    <ul>
+        <li><a href="javascript:;" onclick="moneyUrl()">收支明细</a></li>
+        <!--<li><a href="javascript:;" onclick="aaplay('personal_money_income')">收益明细</a></li>-->
+    </ul>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    loginCheck()
+    userdata();
+
+    function userdata(){
+        var p={token:token,infock:2};
+        $.post(webSiteUrl+'/app/user/sindex',p,function(ret){
+            console.log(JSON.stringify(ret))
+            if(ret.code==200){
+                var tj=ret.data;
+
+                $('#week').html(tj.week+' &nbsp;&nbsp;&nbsp;')
+                $('#total').html(tj.total+' &nbsp;&nbsp;&nbsp;')
+                $('#balance').html(balance+' &nbsp;&nbsp;&nbsp;')
+
+            }
+
+        });
+    }
+	
+	function moneyUrl(){
+      var p = {token:token};
+	  
+	  $.post(webSiteUrl+'/app/staff/userSwitch',p,function(ret){
+	  
+		var data = ret.data;
+
+        if(data.lock == 1){
+          aaplay('personal_money_budget0');
+        }else if(data.lock == 2){
+          aaplay('personal_money_budget');
+        }else{
+          aaplay('personal_mind_switch');
+        }
+	  
+	  });
+      
+
+
+    }
+   
+</script>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>众筹打官司</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+
+<section class="crowd_img">
+    <img src="__IMG__/crowd_img.png" alt="">
+</section>
+<section class="crowd" style="padding-bottom: 1.2rem!important;">
+    <div class="common_title">
+        <h6>众筹列表</h6>
+        <a href="crowd_funding_list.html" class="more">更多></a>
+    </div>
+    <div class="crowd_list">
+        <ul id="list">
+           
+            <!-- <li>
+                <a href="javascript:;" onclick="aaplay('Crowd-funding','personal_myCrowd-funding_details.html')">
+                    <img src="__IMG__/applyh_pic3.png" alt="">
+                    <div class="crowd_info">
+                        <h6>帮扶因公丧子的孤独老人</h6>
+                        <p class="content">帮助老人与儿子用人单位打官司，给老人一个说法</p>
+                        <div class="bar">
+                            <div class="progress_bar"></div>
+                        </div>
+                        <div class="bar_info">
+                            <p>还差<span>1750.64</span>元</p>
+                            <span class="percentage">60%</span>
+                        </div>
+                    </div>
+                </a>
+            </li> -->
+        </ul>
+    </div>
+</section>
+<section class="fixed_btn">
+    <a href="javascript:;" onclick="aaplay('apply_Crowd_funding')">申请众筹</a>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+
+    zhongchou();
+
+    function zhongchou(){
+       $.post(webSiteUrl+'/app/public/zc',function(ret){
+			console.log(ret);
+            if (ret.code == 200) {
+                var list = ret.data;
+                var html = '';
+                if (list != null) {
+                    for (var i =0;i< list.length; i++) {
+					
+						if(list[i].money <= 0){
+                          var cha = '<p>已筹齐款项</p>';
+                        }else{
+                          var cha = '<p>还差<span>'+list[i].money+'</span>元</p>';
+
+                        }
+                       
+                        html += '<li><a href="javascript:;" onclick="shop('+list[i].id+','+list[i].status+')"><img src="'+webSiteUrl+list[i].icon+'" alt=""><div class="crowd_info"><h6>'+list[i].name+'</h6><p class="content">'+list[i].content+'</p><div class="bar"><div class="progress_bar"></div></div><div class="bar_info">'+cha+'<span class="percentage">'+list[i].bili+'</span></div></div></a></li>';
+
+                    }
+
+					
+                    $('#list').html(html);
+                    $(".crowd_list ul li").each(function () {
+                        var _num = $(this).find('.percentage').text();
+                        $(this).find('.progress_bar').width(_num);
+                    });
+                }
+            }else{
+                $('#list').html('<p style="text-align:center">暂无数据</p>');
+            }
+        });
+    }
+
+    //众筹详情
+    function shop(id,sta){
+		if(sta==1){
+			location.href='/home/user/personal_myCrowd_funding_details.html?id='+id;
+		}else{
+			location.href='/home/user/personal_mycrowd_funding_jk.html?id='+id;
+		}	
+    }
+
+</script>
+</html>

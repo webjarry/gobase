@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/common.css" />
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f9f9f9">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>捐款支付</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="friends">
+    <ul>
+        <li>
+            <div class="friend-info">
+                <img id="utx" src="__IMG__/userimg1.jpg" alt="">
+                <div>
+                    <p><label id="uname"></label><em>筹款人</em></p>
+                    <span>2018-11-11  14:45</span>
+
+                </div>
+            </div>
+            <div class="info">
+                <p id="ucontent"></p>
+            </div>
+        </li>
+    </ul>
+</section>
+<section class="zijin" style="border-top:0.25rem solid #f3f3f3">
+    <div class="section_title">帮助资金</div>
+    <ul>
+        <li class="chooseprice on"><span>10</span>元</li>
+        <li class="chooseprice"><span>20</span>元</li>
+        <li class="chooseprice"><span>50</span>元</li>
+        <li class="chooseprice"><span>100</span>元</li>
+        <li class="chooseprice"><span>200</span>元</li>
+        <li class="chooseprice"><span>500</span>元</li>
+    </ul>
+    <div class="chooseprice zdy">
+        <input type="number" placeholder="其他金额"  />
+        <span class="">元</span>
+    </div>
+</section>
+<section class="ly_box" style="border-top:0.25rem solid #f3f3f3">
+    <div class="section_title">我要留言</div>
+    <textarea id="lyval" placeholder="我也要留言"></textarea>
+
+</section>
+<section class="" style="border-top:0.25rem solid #f3f3f3;padding:0 3%;">
+    <div class="section_title">选择支付方式</div>
+    <div class="pay_list">
+        <ul>
+            <li>
+                <div class="pay">
+                    <img src="__IMG__/pay1.png" alt="">
+                    <div class="pay_info">
+                        <p>支付宝</p>
+                        <span>绿色充值通道，安全便捷</span>
+                    </div>
+                </div>
+                <span class="checkbox"></span>
+            </li>
+            <li>
+                <div class="pay">
+                    <img src="__IMG__/pay2.png" alt="">
+                    <div class="pay_info">
+                        <p>微信</p>
+                        <span>绿色充值通道，安全便捷</span>
+                    </div>
+                </div>
+                <span class="checkbox"></span>
+            </li>
+           <!-- <li>
+                <div class="pay">
+                    <img src="__IMG__/pay3.png" alt="">
+                    <div class="pay_info">
+                        <p>账户余额</p>
+                        <span>可用金额￥0.00</span>
+                    </div>
+                </div>
+                <span class="tips">余额不足</span>
+                <span class="checkbox"></span>
+            </li>-->
+        </ul>
+    </div>
+<section class="fixed_btn contribution_fixed" >
+    <div >总金额：￥<em class="donation_price">10</em></div>
+    <div id="pay" class="submit">确认支付</div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script type="text/javascript" src="__JS__/api.js"></script>
+<script>
+    var id=para('id')
+    var type=0;
+    var money = 10;
+    $(".chooseprice").click(function(){
+        $(".chooseprice").removeClass("on");
+        $(this).addClass("on");
+        if(!$(this).hasClass("zdy")){
+             money = $(this).find("span").text();
+        }
+        $(".donation_price").html(money);
+    })
+    $(".zdy").find("input").change(function(){
+        $(".donation_price").html($(this).val());
+    })
+    $('#pay').click(function(){
+        loginCheck()
+        if($(".zdy").hasClass("on")){
+            console.log("true");
+            money = $(".zdy").find("input").val();
+        }
+        console.log(type);
+        console.log(money);
+        //var money = $('input[name=money]').val();
+        if(type == 0){
+            alert('请选择支付方式！');return;
+        }
+        if(money == ''){
+            alert('请输入金额！');return;
+        }else if(!/^\d+(\.\d{1,2})?$/.test(money)){
+            alert('金额必须是数字！');return;
+        }
+		var content =$("#lyval").val();
+		if(content == ''){
+            alert('请输入留言！');return;
+        }
+        $.post("/App/Zongcou/add_order",{pay_type:type,pay_price:money,zc_id:id,uid:uid,content:content},function(res){
+			console.log(res);
+            if(res.code == 200){
+                var orderno=res.data.order_number;
+                if(type==1){
+                    location.href = '/App/Zongpay/alipay/order_number/' + orderno;
+                }else if(type==2){
+                    if(isWeiXin()){
+                        location.href = '/App/Zongpay/weixinpay/order_number/' + orderno;
+                    }else{
+					 location.href = '/App/Zongpay/wxh5pay/order_number/' + orderno;
+                      
+                    }
+					
+                }else{
+                    location.href = '/Home/user/yepay/orderno/' + orderno;
+                }
+
+            }else{
+                //alert(res.msg);return false;
+
+            }
+
+        });
+		
+		
+
+    });
+	
+    
+    order_list();
+    function order_list(){
+        var p = {token:token,zc_id:id}
+        $.post(webSiteUrl+'/App/Zongcou/pay_page',p,function(ret){
+            console.log(ret);
+            if (ret.code == 200) {
+                var data = ret.data;
+               $("#uname").html(data.nickname);
+               $("#ucontent").html(data.content);
+               $("#utx").attr("src",webSiteUrl+data.head_img);
+
+            }
+        });
+    }
+
+    $(".pay_money").keyup(function () {
+        if($(this).val()==''){
+            $(".donation_price").html('0.00');
+        }else {
+            $(".donation_price").html($(this).val());
+        }
+    });
+
+    //选择支付方式
+    $(".pay_list li").click(function () {
+        if($(this).find('.checkbox').length>0){
+            $(this).addClass('active').siblings('li').removeClass('active');
+            type=parseInt($(this).index()+1)
+            console.log(type)
+        }
+    });
+
+</script>
+
+</html>

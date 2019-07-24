@@ -1,0 +1,349 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css"/>
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <style type="text/css">
+        .pay_btn {
+            line-height: 0.5rem;
+            height: 0.5rem;
+            padding: 0 0.1rem;
+            border: 1px #f3a536 solid;
+            border-radius: 5px;
+            color: #f3a536;
+            cursor: pointer;
+            font-size: 0.24rem;
+            margin-top: 0.1rem;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>委托详情</h2>
+    <!--<a href="javascript:void (0);" class="search_btn set_btn">设置</a>-->
+</header>
+<section class="crowd_details_img">
+    <img src="" id="icon">
+    <div class="details_progress">
+        <div class="details" style="margin-top: 0!important;">
+            <ul>
+                <li>
+                    <span><b id='tmoney'>892.45</b>元 </span>
+                    <p>目标金额</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="crowd_title">
+        <h6 id='name'>儿子工作致盲，被单位抛弃</h6>
+        <!--<p id="content">因操作不慎使一只眼睛完全看不清东西，却被单位狠心抛弃</p>-->
+    </div>
+</section>
+<section class="crowd_details">
+    <div class="common_title">
+        <h6 style="font-weight: normal; font-size: 0.3rem;" id="wttype">众筹详情</h6>
+    </div>
+    <div class="content">
+        <div id='content'><p>
+
+        </p></div>
+
+        <ul id='img'>
+            <!--<li><img src="__IMG__/applyh_pic1.png" alt=""></li>
+            <li><img src="__IMG__/applyh_pic2.png" alt=""></li>
+            <li><img src="__IMG__/applyh_pic3.png" alt=""></li>-->
+        </ul>
+    </div>
+</section>
+<section class="comment_section" style="margin-bottom: 0.5rem!important;">
+
+    <div class="news_title">
+        <h2>竞标律师</h2>
+    </div>
+    <div class="comment_list">
+        <ul id='con'>
+            <!--<li>
+                <div class="userInfo">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div class="userName">
+                        <h6>张岳伦律师 <i>LV.6</i></h6>
+                        <span>2018-11-11  14:45</span>
+                    </div>
+                </div>
+                <div class="service_kinds">
+                    <dl>
+                        <dd>遗产纠纷</dd>
+                        <dd>劳动仲裁</dd>
+                        <dd>人身损害</dd>
+                        <dd>合同纠纷</dd>
+                        <dd>家产分割</dd>
+                    </dl>
+                </div>
+            </li>-->
+
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_xinyi">
+    <div class="xinyi_content">
+        <div class="lawyer_pic">
+            <img src="" id='icon1'>
+            <p>感谢律师尽心尽责的帮助</p>
+            <input type="text" id="price" placeholder="输入金额" value=""
+                   onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')">
+            <div class="choose_price">
+                <ul>
+                    <li class="random">随机金额</li>
+                    <li>6.6元</li>
+                    <li>8.8元</li>
+                </ul>
+            </div>
+            <a href="javascript:;" class="sure_btn" onclick="givemind()">确定</a>
+        </div>
+    </div>
+</section>
+
+</body>
+<include file="Public/userfooter"/>
+<script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+
+<script>
+    var lastime = 0
+    var zcid
+
+    var me = 0;
+    var is_zb = 0;
+    var sid = 0;
+
+    if (para('type') == 1) {
+        var name = '互助详情'
+    } else if (para('type') == 2) {
+        var name = '众筹详情'
+    }
+    $('wttype').html(name)
+
+    iszb();
+
+    function iszb() {
+        var p = {token: token, id: para('id')};
+        $.post(webSiteUrl + '/app/user/is_zb', p, function (ret) {
+            if (ret.code == 200) {
+
+                is_zb = 1
+            }
+            wtdetail()
+        });
+
+    }
+
+
+    var rest = '';
+    function wtdetail() {
+        var p = {id: para('id')}
+        $.post(webSiteUrl + '/app/public/wtdetail', p, function (ret) {
+
+            if (ret.code == 200) {
+
+                var info = ret.data.info;
+                zcid = info.tid
+                me = info.uid
+
+                var html = "";
+                var pay = '';
+                var tj = ret.data.list;
+                if (tj != null) {
+
+                    for (var i = 0; i < tj.length; i++) {
+                        var ps = '';
+                        for (var j = 0; j < tj[i].label.length; j++) {
+                            ps += '<dd>' + tj[i].label[j] + '</dd>';
+                        }
+
+                        if (tj[i].choose == 1) {
+                            rest = tj[i].money - info.margin;
+
+                            pay = '<div onclick="jixu(' + info.orderno + ',' + rest + ')"  class="pay_btn">支付律师费</div>';
+                        }
+
+                        html += '<li><div class="userInfo" ><img onclick="lawyer(' + tj[i].uid + ')" src="' + tj[i].icon + '" alt=""><div onclick="lawyer(' + tj[i].uid + ')" style="width: 4.5rem;" class="userName"><h6>' + tj[i].nickname + '律师 <i>LV.6</i></h6><span>服务次数 ' + tj[i].num + '　综合评价100%</span></div>' + pay + '</div><div class="service_kinds"><dl>' + ps + '</dl></div><div class="comment_active entrust_active"><span class="entrust_price">' + tj[i].money + '元</span><div class="active_list"><dl>';
+                        if (me == uid && is_zb == 0) {
+                            html += '<dd class="caina" onclick="caina(' + tj[i].id + ')">委托</dd>';
+                        }
+                        html += '<dd class="xinyi" data="' + tj[i].uid + '"  tx="' + webSiteUrl + tj[i].icon + '">送心意</dd><dd class="huifu">回复</dd></dl></div></div></li>';
+
+                    }
+                    $('#con').html(html);
+                } else {
+                    $('#con').html('<p style="text-align:center">暂无竞标</p>');
+                }
+
+                aaa()
+
+            }
+        });
+
+    }
+
+    //跳转支付页面
+    function jixu(orderno,money) {
+        window.location.href = '/Home/user/order_pay?type=23&orderno='+orderno+'&money='+money+'&jixu=1';
+    }
+
+    function aaa() {
+        if (para('type') == 1) {
+            var model = 'hz'
+        } else if (para('type') == 2) {
+            var model = 'zc'
+        }
+        var p = {'model': model, id: zcid}
+
+        $.post(webSiteUrl + '/app/home/find', p, function (ret) {
+            var tj = ret.data
+            $('#icon').attr('src', webSiteUrl + tj.icon)
+            $('#name').html(tj.name)
+            $('#content').html(tj.content)
+            //$('#detail').html(tj.detail)
+            $('#tmoney').html(tj.money)
+
+            var html = '';
+            var img = tj.icons
+            if (img != null) {
+                for (var i = 0; i < img.length; i++) {
+                    html += ' <li><img src="' + webSiteUrl + img[i] + '" alt=""></li>'
+                }
+            }
+            $('#img').html(html)
+        })
+
+    }
+
+    function jionwt() {
+        loginCheck()
+        /* var timestamp = (new Date()).getTime();
+         if(timestamp>lasttime){
+             alert('投标已截止，请查看其他案源');return;
+         }*/
+        var money = $('#money').val();
+        if (!/^[0-9]+$/.test(money)) {
+            alert('金额必须是数字');
+            return;
+        }
+        var p = {token: token, id: para('id'), money: money};
+
+        $.post(webSiteUrl + '/app/user/joinwt', p, function (ret) {
+
+            if (ret.code == 200) {
+
+                html = "";
+                var tj = ret.data;
+                if (tj != null) {
+
+
+                    html += '<li><div class="userInfo"><img src="' + webSiteUrl + tj.icon + '" alt=""><div class="userName"><h6>' + tj.nickname + '律师 <i>LV.6</i></h6><span>' + tj.time + '</span></div></div><div class="service_kinds"><dl>';
+
+                    if (tj.label.length > 0) {
+                        for (var j = 0; j < tj.label.length; j++) {
+                            html += '<dd>' + tj.label[j] + '</dd>';
+                        }
+                    }
+                    html += '</dl></div></li>';
+                }
+                if ($('#con li').length > 0) {
+                    $('#con').prepend(html);
+                } else {
+                    $('#con').html(html);
+                }
+
+
+                alert(ret.msg)
+            } else {
+
+                alert(ret.msg)
+
+
+            }
+        });
+
+    }
+
+
+
+
+    function caina(id) {
+        if (window.confirm('确认委托吗？')) {
+            var p = {token: token, id: id};
+            $.post(webSiteUrl + '/app/user/zb', p, function (ret) {
+                if (ret.code == 200) {
+
+                    location.reload()
+                } else {
+
+                }
+            });
+        }
+
+    }
+
+    function givemind() {
+        var money = $('#price').val();
+        if (money == "") {
+            alert('请输入金额');
+            return;
+        } else if (money.indexOf('元')) {
+
+            money = money.replace('元', '');
+        } else if (!/^\d+$/.test(money)) {
+            alert('金额必须是数字');
+            return;
+        }
+
+        var p = {token: token, id: sid, money: money};
+        mind_pay(sid, money)
+
+    }
+
+
+    //送心意
+    $(document).on('click', '.xinyi', function () {
+        sid = $(this).attr('data');
+        $('#icon1').attr('src', $(this).attr('tx'));
+
+        $(".fixed_xinyi").fadeToggle();
+        $(".fixed_xinyi .xinyi_content").animate({
+            'top': '0',
+            'opacity': '1'
+        }, 400);
+    });
+
+    $(".sure_btn").click(function () {
+        $(".fixed_xinyi").fadeToggle();
+        $(".fixed_xinyi .xinyi_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        }, 400);
+    });
+
+    $(".choose_price ul li").click(function () {
+        if ($(this).index() != 0) {
+            $(this).addClass('active').siblings('li').removeClass('active');
+            $("#price").val($(this).html());
+        } else {
+            var num = (Math.random() * 10 + 1).toFixed(1) + '元';
+            $("#price").val(num);
+        }
+    });
+</script>
+</html>

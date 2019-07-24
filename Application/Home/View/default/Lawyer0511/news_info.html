@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style>
+        .details img{
+            width:100%
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>资讯详情</h2>
+    <!--<a href="javascript:void (0);" class="share_btn"><img src="__IMG__/share_icon.png" alt=""></a>-->
+</header>
+
+<section class="news_detail">
+    <div class="details_img">
+        <div id='pv' style="width:100%"></div>
+        
+        <h6 class="details_title" id='name'></h6>
+        <div class="detail_time">
+            <em id='time'>2018-05-03 08:10:56</em>
+            <span id='view'>1103</span>
+        </div>
+    </div>
+    <div class="details" id='content'>
+        <p></p>
+    </div>
+</section>
+
+<section class="comment_section">
+    <div class="news_title">
+        <h2>评论区</h2>
+    </div>
+    <div class="comment_list">
+        <ul id='con'>
+            
+            <!-- <li>
+                <div class="userInfo">
+                    <img src="__IMG__/userimg2.jpg" alt="">
+                    <div class="userName">
+                        <h6>175****7415</h6>
+                        <span>2018-11-11  14:45</span>
+                    </div>
+                </div>
+                <div class="comment_info">
+                    <p>钱借给别人，但借条被担保人撕了，这钱还能要回来吗？近日法院审理了这样一起民事纠纷案件。</p>
+                </div>
+            </li> -->
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_comment">
+    <ul>
+        <li><span class="collect_btn" style="display: block;cursor: pointer"></span></li>
+        <li><input id="comment_info" type="text" placeholder="我来说两句"></li>
+        <li><button class="comment_submit" type="button">发送</button></li>
+    </ul>
+</section>
+<div class="fixed_share">
+    <div class="fixed_content">
+        <div class="fixed_title">
+            <h6>分享</h6>
+        </div>
+        <div class="fixed_article">
+            <div class="share">
+                <ul>
+                    <li><a href="##"><img src="__IMG__/share1.png" alt=""><p>微信好友</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share2.png" alt=""><p>朋友圈</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share3.png" alt=""><p>QQ好友</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share4.png" alt=""><p>QQ空间</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share5.png" alt=""><p>新浪微博</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share6.png" alt=""><p>复制链接</p></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+  
+    var plnum
+    
+    news()
+    function news() {
+        var p={model:'news',id:para('id')};
+        $.post(webSiteUrl+'/app/home/find',p,function(ret){
+       
+            if(ret.code==200){
+                if(ret.data.fileid>0){
+                    var video='<video style="height:3.2rem; width:100%;" src="'+webSiteUrl+ret.data.file+'"  poster="'+webSiteUrl+ret.data.icon+'" controls="controls"></video>';
+                    $('#pv').html(video);
+                }else{
+                    $('#pv').html('<img src="'+webSiteUrl+ret.data.icon+'">');
+                }
+                
+                
+                $('#name').html(ret.data.name);
+                $('#content').html(ret.data.content);
+                $('#time').html(ret.data.time);
+                $('#view').html(ret.data.view);
+
+                //is_col()
+                pl()
+            }else{alert(ret.msg)}
+        });
+
+    }
+    function is_col(){
+        var p={token:token,type:1,id:para('id')};
+        $.post(webSiteUrl+'/app/user/is_col',p,function(ret){
+       
+            if(ret.code==200){
+                $('.collect_btn').addClass('active');
+            }else{
+                $('.collect_btn').removeClass('active');
+            }
+
+        });
+    }
+    function pl(){
+        var p={type:1,id:para('id')}
+        $.post(webSiteUrl+'/app/public/pl',p,function(ret){
+        
+            
+            if(ret.code==200){
+      
+                var html="";
+                var tj=ret.data.com;
+
+                if(tj.length>0){
+                    plnum=tj.length;
+for(var i=0;i<tj.length;i++){
+html+='<li><div class="userInfo"><img src="'+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].phone+'</h6><span>'+tj[i].time+'</span></div></div><div class="comment_info"><p>'+tj[i].content+'</p></div></li>';
+}
+                    $(".comment_list ul").html(html);
+                }else{
+                    plnum=0;
+                    $('#con').html('<p style="text-align:center">暂无评论</p>');
+                }
+
+                
+                //$('#icon').attr("src",webSiteUrl+ret.data.icon);
+                $('#name').html(ret.data.name);
+                $('#content').html(ret.data.content);
+                $('#time').html(ret.data.time);
+                $('#view').html(ret.data.view);
+
+
+            }else{alert(ret.msg)}
+        });
+
+
+    }
+    
+    
+    $(".share_btn").click(function () {
+        $(".fixed_share").fadeIn().find(".fixed_content").animate({
+            'top':'0',
+            'opacity':'1'
+        },400)
+    });
+    $(".fixed_content").click(function (e) {
+        e.stopPropagation();
+    });
+    $(".share ul li").click(function () {
+        $(".fixed_share").fadeOut().find(".fixed_content").animate({
+            'top':'4rem',
+            'opacity':'0'
+        },400)
+    });
+    //关闭分享
+    $(".fixed_share").click(function (e) {
+        e.stopPropagation();
+        $(".fixed_share").fadeOut().find(".fixed_content").animate({
+            'top':'4rem',
+            'opacity':'0'
+        },400)
+    });
+
+    //收藏
+    $('.collect_btn').click(function () {
+
+        if($(this).hasClass('active')){
+            var p={token:token,type:1,id:para('id'),infock:2}
+            $.post(webSiteUrl+'/app/user/del_collection',p,function(ret){
+            
+                if(ret.code==200){
+                    $('.collect_btn').removeClass('active');
+                    
+                }
+            });
+
+        }else {
+            var p={token:token,type:1,id:para('id'),infock:2}
+            $.post(webSiteUrl+'/app/user/add_collection',p,function(ret){
+            
+                if(ret.code==200){
+                    $('.collect_btn').addClass('active');
+                    
+                }
+            });
+           
+        }
+    });
+    //fa评论
+    $('.comment_submit').click(function () {
+        var val = $("#comment_info").val();
+        if(val!=''){
+            var p={token:token,type:1,id:para('id'),content:val}
+            $.post(webSiteUrl+'/app/user/addpl',p,function(ret){
+            
+                
+                if(ret.code==200){
+                    //alert(JSON.stringify(ret))
+                    var tj=ret.data
+var html='<li><div class="userInfo"><img src="'+webSiteUrl+tj.icon+'" alt=""><div class="userName"><h6>'+tj.phone+'</h6><span>'+tj.time+'</span></div></div><div class="comment_info"><p>'+tj.content+'</p></div></li>';
+                if($(".comment_list ul li").length>0){
+                    $(".comment_list ul").prepend(html);
+                }else{
+                    $(".comment_list ul").html(html);
+                }
+               
+                $("#comment_info").val('')
+                    
+                }else{alert(ret.msg)}
+            });
+
+            
+            
+        }else {
+            alert('请输入评论内容')
+        }
+    })
+
+</script>
+</html>

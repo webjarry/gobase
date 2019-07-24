@@ -1,0 +1,154 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>修改优惠券</h2>
+    </div>
+    <ul class="tab-nav nav">
+
+
+        <li class="current"><a href="javascript:void(0)">基本信息</a></li>
+		<!--<li><a href="javascript:void(0)">高级信息</a></li>-->
+
+    </ul>
+    
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <input type="hidden" name="fenlid" value="{$_GET[typeid]}"/>
+    <div class="tab-content">
+
+
+
+       
+       <!-- <div class="form-item">
+            <label class="item-label">优惠券类别<span class="check-tips">（类别必须选择）</span></label>
+            <div class="controls">
+				<select name="typeid" style="width:150px;">
+					<option value="">请选择类别</option>
+					<volist name="lists" id="typelist">
+						<option value="{$typelist.id}" <if condition="$vo.typeid eq $typelist['id']">selected="selected"</if>>{$typelist.html}{$typelist.title}</option>
+					</volist>
+				</select>
+			</div>
+        </div>-->
+
+
+        <div class="form-item">
+            <label class="item-label">优惠券名称<span class="check-tips">（名称必须填写）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="name" value="{$vo.name}">
+                <input type="hidden" name="id" value="{$vo.id}" />
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">优惠券金额<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="money" value="{$vo.money}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">到期时间</label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="last_time" id="deadline2" value="{$vo.last_time|time_format='Y-m-d H:i'}">
+            </div>
+        </div>
+
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </div>
+    <div class="tab-content" style="display:none;">
+	
+	   <!-- <div class="form-item">
+            <label class="item-label">优惠券关键词</label>
+            <div class="controls">
+                <label class="textarea input-large">
+                    <textarea name="keywords">{$vo.keywords}</textarea>
+                </label>
+            </div>
+        </div>-->
+    
+    	<div class="form-item">
+            <label class="item-label">
+            是否显示<span class="check-tips">（该优惠券是否在前台显示）</span>
+            </label>
+            <div class="controls">
+                <label class="inline radio"><input type="radio" name="status" value="1" <if condition="$vo.status eq 1">checked</if>>显示</label>
+                <label class="inline radio"><input type="radio" name="status" value="0" <if condition="$vo.status eq 0">checked</if>>不显示</label>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">优惠券属性</label>
+            <div class="controls">
+                <volist name="Think.config.DOCUMENT_POSITION" id="flags">
+                    <label class="checkbox">
+                        <input type="checkbox" name="flag[{$key}]" value="{$key}" <in name="key" value="$vo.flag">checked</in>>{$flags}
+                </volist>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">优惠券排序</label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="sort" value="{$vo.sort}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">优惠券浏览量</label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="view" value="{$vo.view}">
+            </div>
+        </div>
+        
+       
+        <div class="form-item">
+            <label class="item-label">优惠券来源<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" id="source" name="source" value="{$vo.source}">
+            </div>
+        </div>
+        
+        <div class="form-item">
+            <label class="item-label">优惠券发布人<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" id="mid" name="mid" value="{$vo.mid|get_username}" readonly="readonly">
+            </div>
+        </div>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    
+    </div>
+    </form>
+</block>
+
+<block name="script">
+<include file="Public:datetime" />
+    <script type="text/javascript">
+	
+		$('.tab-nav li').click(function(){
+			$(this).attr('class','current')
+						.siblings().attr('class','');
+			var n_index=$('.tab-nav li').index(this);
+				$('.tab-content').eq(n_index).show()
+							 .siblings().hide();
+		});
+	
+        //导航高亮
+        highlight_subnav('{:U('Couponpt/index')}');
+		
+		$('#deadline').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+		$('#deadline2').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+    </script>
+</block>

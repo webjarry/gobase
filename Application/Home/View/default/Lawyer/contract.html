@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>合同文书</h2>
+    <a href="javascript:void (0);" class="kinds_btn">分类</a>
+</header>
+
+<section class="contract_section">
+    <div class="contract_search">
+        <form action="" onsubmit="return false;"><input type="text" placeholder="搜索合同文书" id="key"></form>
+        <span>共有18723645份合同可下载</span>
+    </div>
+    <div class="contract_list">
+        <ul id='con'>
+
+        </ul>
+    </div>
+</section>
+<section class="fixed_bg">
+    <div class="contract_kinds">
+        <div class="news_title">
+            <h2>合同分类</h2>
+        </div>
+        <div class="kinds_list">
+            <ul id='cate'>
+                
+            </ul>
+        </div>
+        <div class="contract_btn">
+            <a href="javascript:void (0);" class="cancel_btn" onclick="shou()">取消</a>
+            <a href="javascript:void (0);" class="sure_btn" onclick="changetype()">确定</a>
+        </div>
+    </div>
+</section>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    var page=1;
+    var p='';
+    var type=0;
+    var name=''
+
+    $('form').on('submit', function(e){
+        name=$('#key').val();
+        page=1;
+        toDoRequest()
+    });
+
+    cate()
+
+    function toDoRequest(){
+        p= {model:'hetong',type:type,page:page,pagesize:4,name:name};
+        console.log(p)
+        $.post(webSiteUrl+'/app/home/lists',p,function(ret){
+            if(ret.code==200){
+               console.log(ret)
+                var html = "";
+                var tj=ret.data;
+                
+                if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+                        if(tj[i].status == 1){
+                            html+='<li onclick="hetongdetail('+tj[i].id+')"><a href="javascript:;"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'</h6><span>￥'+tj[i].money+'</span></div></a></li>';
+                        }
+
+                    }
+                }
+                if(page==1){
+                    $('#con').html(html);
+                }else{
+                    $('#con').append(html);
+                }
+                page++;
+
+            }else{
+                if(page==1){
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+                
+            }
+        });
+       
+    }
+    function cate(){
+        var p={type:114};
+        $.post(webSiteUrl+'/app/public/cate',p,function(ret){
+        
+            if(ret.code==200){
+                
+                var tj=ret.data;
+                html = "";
+                for(var i=0;i<tj.length;i++){
+                    if(i==0){
+                        html+='<li style="cursor: pointer" class="active" data="'+tj[i].id+'">'+tj[i].title+'</li>';
+                    }else{
+                        html+='<li style="cursor: pointer"  data="'+tj[i].id+'">'+tj[i].title+'</li>';
+                    }
+
+                    
+                }
+                $('#cate').html(html);
+
+                toDoRequest()
+
+            }
+        });
+
+    }
+    function changetype(){
+        shou();
+        var id= $(".kinds_list ul").find('.active').attr('data');
+        page=1
+        type=id
+        toDoRequest()
+
+    }
+    //合同搜索
+    $(".contract_search input").focus(function () {
+        $('.contract_search span').hide()
+    });
+    $(".contract_search input").blur(function () {
+        if($(this).val() ==''){
+            $('.contract_search span').show()
+        }else {
+            $('.contract_search span').hide()
+        }
+    });
+    //合同条件打开
+    $(".kinds_btn").click(function () {
+        $(".fixed_bg").fadeToggle();
+        $(".fixed_bg .contract_kinds").animate({
+            'right': '0',
+            'opacity': '1'
+        },400);
+    });
+    function shou(){
+        $(".fixed_bg").fadeToggle();
+        $(".fixed_bg .contract_kinds").animate({
+            'right': '-6rem',
+            'opacity': '0'
+        },400);
+    }
+        
+
+    //合同条件搜索
+    $(document).on('click',".kinds_list ul li",function(){
+        $(this).addClass('active').siblings().removeClass('active');return;
+        
+    })
+    
+</script>
+</html>

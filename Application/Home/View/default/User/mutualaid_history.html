@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="__CSS__/mobiscroll_002.css" >
+    <script src="__JS__/mobiscroll_002.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_004.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_003.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_005.js" type="text/javascript"></script>
+</head>
+<body>
+<section class="public_date">
+    <header class="header">
+        <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+        <h2>互助记录</h2>
+        <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+    </header>
+    <div class="date_info">
+        <ul>
+            <li>
+                <span>已帮助人数</span>
+                <p id="num">0</p>
+            </li>
+            <li>
+                <span>加入互助天数</span>
+                <p id="day">0</p>
+            </li>
+            <li>
+                <span>划拨互助金(元)</span>
+                <p id="money">0</p>
+            </li>
+        </ul>
+    </div>
+</section>
+<div id="con">
+    <!--<section class="statistics">
+        <div class="statistics_time">
+            <div class="time">
+                <p>本周</p>
+                <span>分摊：￥5.66 　帮助：58人</span>
+            </div>
+            <a href="javascript:void (0);" class="date_btn"><img src="__IMG__/date_icon.png" alt=""></a>
+        </div>
+        <div class="user_info">
+            <ul>
+                <li>
+                    <a href="javascript:;">
+                        <div class="info">
+                            <p>中青年法律互助计划</p>
+                            <span>帮助2人</span>
+                        </div>
+                        <div class="money_sum">
+                            <span style="color: #333;">8.66元</span>
+                            <em>2017-6-1 09:35</em>
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </section>
+    <section class="statistics">
+        <div class="statistics_time">
+            <div class="time">
+                <p>本月</p>
+                <span>分摊：￥5.66 　帮助：58人</span>
+            </div>
+            <a href="javascript:void (0);" class="date_btn"><img src="__IMG__/date_icon.png" alt=""></a>
+        </div>
+        <div class="user_info">
+            <ul>
+                <li>
+                    <a href="javascript:;">
+                        <div class="info">
+                            <p>中青年法律互助计划</p>
+                            <span>帮助2人</span>
+                        </div>
+                        <div class="money_sum">
+                            <span style="color: #333;">8.66元</span>
+                            <em>2017-6-1 09:35</em>
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </section>-->
+</div>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+<script>
+    var date='';
+    user()
+    function user(){
+        var p = {token:token};
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+            if (ret.code == 200) {
+
+                //$('#num').html(ret.data.hz_time);
+                $('#day').html(ret.data.hz_time);
+                //$('#money').html(ret.data.hz_time);
+            }
+            toDoRequest2()
+        });
+    }
+
+    function toDoRequest2(){
+        var p= {token:token,date:date};
+
+        $.post(webSiteUrl+'/app/user/hzhistory',p,function(ret){
+            if(ret.code==200){
+
+                html = "";
+                var t=ret.data;
+
+
+                var tj=ret.data;
+                //alert(tj.length);
+                if(date == ''){
+
+                    for(var i=0;i<tj.length;i++){
+                        html+='<section class="statistics"><div class="statistics_time"><div class="time"><p>'+tj[i].monthname+'</p><span>分摊：￥'+tj[i].monthmoney+' 　帮助：'+tj[i].num+'人</span></div>';
+                        if(i==0){
+                            html+='<a href="javascript:void (0);" class="date_btn"><img src="/Public/Home/img/date_icon.png" alt=""><input onchange="datechoose()" readonly="readonly" name="appDateTime"  id="appDate" type="text"  class="hideinput"></a>';
+                        }
+                        html+='</div><div class="user_info"><ul>';
+
+                        var tjm=tj[i].month;
+
+                        if(tjm!=null){
+                            for(var j=0;j<tjm.length;j++) {
+html+=' <li><a href="javascript:;"><div class="info"><p>' + tjm[j].name + '</p><span>帮助' + tjm[j].num + '人</span></div><div class="money_sum"><span style="color: #333;">' + tjm[j].money + '元</span><em>' + tjm[j].time + '</em></div></a></li>';
+                            }
+                        }
+                        html+='</ul></div></section>';
+                    }
+
+                }else{
+                    html+='<section class="statistics"><div class="statistics_time"><div class="time"><p>'+tj.monthname+'</p><span>分摊：￥'+tj.monthmoney+' 　帮助：'+tj.num+'人</span></div>';
+
+                    html+='<a href="javascript:void (0);" class="date_btn"><img src="/Public/Home/img/date_icon.png" alt=""><input onchange="datechoose()" readonly="readonly" name="appDateTime"  id="appDate" type="text"  class="hideinput"></a>';
+
+                    html+='</div><div class="user_info"><ul>';
+
+                    var tj=tj.month;
+                    for(var i=0;i<tj.length;i++) {
+html += ' <li><a href="javascript:;"><div class="info"><p>' + tj[i].name + '</p><span>帮助' + tj[i].num + '人</span></div><div class="money_sum"><span style="color: #333;">' + tj[i].money + '元</span><em>' + tj[i].time + '</em></div></a></li>';
+                    }
+                    html+='</ul></div></section>';
+                }
+
+                $('#con').html(html);
+                $("#appDate").mobiscroll($.extend(opt['date'], opt['default']));
+            }else{
+
+                $('#con').html('<p style="text-align:center">暂无数据</p>');
+
+
+            }
+        });
+
+    }
+
+    //时间选择
+    var currYear = (new Date()).getFullYear();
+    var opt={};
+    opt.date = {preset : 'date'};
+    opt.datetime = {preset : 'datetime'};
+    opt.time = {preset : 'time'};
+    opt.default = {
+        theme: 'android-ics light', //皮肤样式
+        display: 'modal', //显示方式
+        mode: 'scroller', //日期选择模式
+        dateFormat: 'yyyy-mm',
+        lang: 'zh',
+        showNow: false,
+        nowText: "今天",
+        startYear: currYear , //开始年份
+        endYear: currYear + 10 //结束年份
+    };
+
+
+    function datechoose(){
+        date=$('#appDate').val()
+        toDoRequest2()
+    }
+
+    
+</script>
+</html>

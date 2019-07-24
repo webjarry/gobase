@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+   <!--  <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a> -->
+    <h2>资讯</h2>
+    <!-- <a href="javascript:;" onclick="aaplay('news_find')" class="search_btn"><img src="__IMG__/search.png" alt=""></a> -->
+</header>
+<section class="news_section">
+    <div class="news_kinds">
+        <ul id='cate'>
+
+        </ul>
+    </div>
+    <div class="news_box">
+        <div class="news_title">
+            <h2>文章报道</h2>
+            <a href="##" class="news_more"  id='newsmore'>更多</a>
+        </div>
+        <div class="news_list">
+            <ul id='con'>
+                
+                
+            </ul>
+        </div>
+    </div>
+    <div class="news_box">
+        <div class="news_title">
+            <h2>视频报道</h2>
+            <a href="##" class="news_more" id='videomore'>更多</a>
+        </div>
+        <div class="video_list">
+            <ul id='video'>
+                
+                
+            </ul>
+        </div>
+    </div>
+
+</section>
+
+<section class="fixed_nav">
+    <ul>
+        <li><a href="javascript:;" onclick="aaplay('workbench')"><h6 class="icon"></h6>工作台</a></li>
+        <li class="active"><a href="##"><h6 class="icon"></h6>资讯</a></li>
+        <li><a href="javascript:;" onclick="aaplay('find')"><h6 class="icon"></h6>发现</a></li>
+        <li><a href="javascript:;" onclick="aaplay('personal')"><h6 class="icon"></h6>我的</a></li>
+    </ul>
+</section>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    var p='';
+
+    var cateid=0;
+    var catename
+    var cname='';
+
+    cate();
+
+    function cate(){
+        var p={type:2};
+        $.post(webSiteUrl+'/app/public/cate',p,function(ret){
+
+            if(ret.code==200){
+                
+               var tj=ret.data;
+
+                cateid=tj[0].id;
+                catename=tj[0].title;
+                $("#newsmore"). attr("onclick","more("+cateid+','+0+")");
+                $("#videomore").attr("onclick","more("+cateid+','+1+")");
+
+
+                html = "";
+                for(var i=0;i<tj.length;i++){
+                    
+                    if(i==0){
+html+='<li class="active" onclick="catenews('+tj[i].id+')" id="'+tj[i].id+'" data="'+tj[i].title+'"><a href="javascript:void(0);">'+tj[i].title+'</a></li>';
+                    }else{
+html+='<li class="" onclick="catenews('+tj[i].id+')" id="'+tj[i].id+'"  data="'+tj[i].title+'"><a href="javascript:void(0);">'+tj[i].title+'</a></li>';              
+                    }
+
+                }
+                $('#cate').html(html);
+
+                toDoRequest()
+
+            }else{alert(ret.msg)}
+        });
+
+    }
+   
+
+    function toDoRequest(){
+        
+        p= {type:cateid,newstype:0};
+        $.post(webSiteUrl+'/app/public/news',p,function(ret){
+
+                if(ret.code==200){
+                   
+                    html = "";
+                    var tj=ret.data;
+                    if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+html+='<li onclick="newsdetail('+tj[i].id+')"><a href="javascript:;"><img src="'+webSiteUrl+tj[i].icon+'"><div class="news_info"><h6>'+tj[i].name+'</h6><div class="news_times"><em>'+tj[i].time+'</em><span>'+tj[i].plnum+'</span></div></div></a></li>';
+                       
+                    }
+                    }
+                    $('#con').html(html)
+                }else{
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+
+                videoRequest();
+            });
+       
+    }
+    function videoRequest(){
+        
+        p= {type:cateid,newstype:1};
+        $.post(webSiteUrl+'/app/public/news',p,function(ret){
+       
+                if(ret.code==200){
+                    //alert(ret.data.length);return;
+                    html = "";
+                    var tj=ret.data;
+                    if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+html+='<li  onclick="newsdetail('+tj[i].id+')"><a href="javascript:;"><div class="video_box"><img src="'+webSiteUrl+tj[i].icon+'"><div class="shade"></div></div><div class="news_info"><h6>'+tj[i].name+'</h6><div class="news_times"><em>'+tj[i].time+'</em><span>'+tj[i].view+'</span></div></div></a></li>';
+
+                    }
+                    }
+                    
+                    $('#video').html(html);
+                }else{
+                    $('#video').html('<p style="text-align:center">暂无数据</p>');
+                }
+            });
+       
+    }
+
+    function catenews(id){
+        $('#'+id).addClass('active').siblings().removeClass('active');
+
+        $("#newsmore"). attr("onclick","more("+id+','+0+")");
+        $("#videomore").attr("onclick","more("+id+','+1+")");
+        //alert($("#newsmore").attr("onclick"));
+        cateid=id;
+        
+
+        toDoRequest(); 
+    }   
+    function more(id,num){
+        catename=$('#'+id).attr('data');
+        location.href='/Home/lawyer/news_list?id='+id+'&newstype='+num+'&catename='+catename;
+        
+    }
+
+</script>
+</html>

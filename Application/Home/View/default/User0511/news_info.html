@@ -1,0 +1,257 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style>
+        .details img{
+            width:100%
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>资讯</h2>
+    <!--<a href="javascript:void (0);" class="share_btn"><img src="__IMG__/share_icon.png" alt=""></a>-->
+</header>
+
+<section class="news_detail">
+    <div class="details_img">
+        <div  id='pv'  style="width:100%"></div>
+        
+         <h6 class="details_title" id='name'>借条被担保人撕毁，债务还能要回来吗？担保人需要承担什么责任？</h6>
+        <div class="detail_time">
+            <em id='time'>2018-05-03 08:10:56</em>
+            <span id='view'>1103</span>
+        </div>
+    </div>
+    <div class="details"  id='content'>
+        <p>　　钱借给别人，但借条被担保人撕了，这钱还能要回来吗？<br>　　2017年4月，王某将4万元借给卜某，常某提供担保。可卜某偿还两个月利息后，便再没还款，而且失去了联系。2017年底，由于找不到卜某，王某便到常某家中要钱。在要钱过程中，常某提出要看借条原件，于是王某将原件拿给了常某看，谁知常某接过原件后就撕了，而且拒不还钱。王某很气愤，只好将借条碎片捡了回去并粘好。<br><br>　　由于卜某找不到，担保人常某也不还钱，王某便持着撕碎的借条诉至清江浦法院。<br><br>　　庭审中，王某拿着粘贴好的借条，要求卜某、常某偿还4万元及利息。而常某则辩称，卜某向王某借款4万确是事实，但王某上门要钱时，双方已经谈好1万元了结此事，当时他就还了1万元，所以才撕了借条。因此，自己不应再承担还款责任。<br><br>　　法院在审理后认为，本案关键在于，常某撕毁借条是因债务的结清而撕毁，还是恶意撕毁，但这部分事实法院最终无法查清。在这样的情况下，根据相关法律规定，举证责任的分配尤为重要。因常某对于卜某向王某借款事实予以认可，故4万元借条本身真实性可以确认。那么即便借条已被撕毁，关于常某是否偿还借款以及1万元对价是否可以结清4万元债务的举证责任，仍然在常某一方。但常某无法举证证明,而且这一约定违背常理，故法院对于常某辩称不予支持。最终，法院判令卜某向王某偿还4万元及相应利息，常某承担连带清偿的保证责任。</p>
+    </div>
+</section>
+
+<section class="comment_section">
+    <div class="news_title">
+        <h2>评论区</h2>
+    </div>
+    <div class="comment_list">
+        <ul  id='con'>
+            
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_comment">
+    <ul>
+        <li><span class="collect_btn"></span></li>
+        <li><input id="comment_info" type="text" placeholder="我来说两句"></li>
+        <li><button class="comment_submit" type="button">发送</button></li>
+    </ul>
+</section>
+<div class="fixed_share">
+    <div class="fixed_content">
+        <div class="fixed_title">
+            <h6>分享</h6>
+        </div>
+        <div class="fixed_article">
+            <div class="share">
+                <ul>
+                    <li><a href="##"><img src="__IMG__/share1.png" alt=""><p>微信好友</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share2.png" alt=""><p>朋友圈</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share3.png" alt=""><p>QQ好友</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share4.png" alt=""><p>QQ空间</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share5.png" alt=""><p>新浪微博</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share6.png" alt=""><p>复制链接</p></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+
+<script>
+    
+    var plnum
+    
+    news()
+    function news() {
+        
+       
+
+        var p={model:'news',id:para('id')};
+          $.post(webSiteUrl+'/app/home/find',p,function(ret){
+
+            //alert(JSON.stringify(ret))
+            if(ret.code==200){
+                if(ret.data.fileid>0){
+                    var video='<video style="height:3.2rem; width:100%;" src="'+webSiteUrl+ret.data.file+'"  poster="'+webSiteUrl+ret.data.icon+'" controls="controls"></video>';
+                    $('#pv').html(video);
+                }else{
+                    $('#pv').html('<img src="'+webSiteUrl+ret.data.icon+'">');
+                }
+                
+                
+                $('#name').html(ret.data.name);
+                $('#content').html(ret.data.content);
+                $('#time').html(ret.data.time);
+                $('#view').html(ret.data.view);
+
+
+
+                iscol()
+            }else{alert(ret.msg)}
+        });
+
+
+       
+    }
+    function iscol(){
+        var p={token:token,type:1,id:para('id')};
+        $.post(webSiteUrl+'/app/user/is_col',p,function(ret){
+     
+            if(ret.code==200){
+                $('.collect_btn').addClass('active');
+            }else{
+                $('.collect_btn').removeClass('active');
+            }
+            pl()
+        });
+    }
+    function pl(){
+        var p={type:1,id:para('id')}
+          $.post(webSiteUrl+'/app/public/pl',p,function(ret){
+        
+            
+            if(ret.code==200){
+      
+                var html="";
+                var tj=ret.data.com;
+
+                if(tj.length>0){
+                    plnum=tj.length;
+for(var i=0;i<tj.length;i++){
+html+='<li><div class="userInfo"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].phone+'</h6><span>'+tj[i].time+'</span></div></div><div class="comment_info"><p>'+tj[i].content+'</p></div></li>';
+}
+                    $(".comment_list ul").html(html);
+                }else{
+                    plnum=0;
+                    $('#con').html('<p style="text-align:center">暂无评论</p>');
+                }
+
+                
+                //$('#icon').attr("src",webSiteUrl+ret.data.icon);
+                $('#name').html(ret.data.name);
+                $('#content').html(ret.data.content);
+                $('#time').html(ret.data.time);
+                $('#view').html(ret.data.view);
+
+
+            }else{alert(ret.msg)}
+        });
+
+
+    }
+   
+    
+    $(".share_btn").click(function () {
+        $(".fixed_share").fadeIn().find(".fixed_content").animate({
+            'top':'0',
+            'opacity':'1'
+        },400)
+    });
+    $(".fixed_content").click(function (e) {
+        e.stopPropagation();
+    });
+    $(".share ul li").click(function () {
+        $(".fixed_share").fadeOut().find(".fixed_content").animate({
+            'top':'4rem',
+            'opacity':'0'
+        },400)
+    });
+    //关闭分享
+    $(".fixed_share").click(function (e) {
+        e.stopPropagation();
+        $(".fixed_share").fadeOut().find(".fixed_content").animate({
+            'top':'4rem',
+            'opacity':'0'
+        },400)
+    });
+
+    //收藏
+    $('.collect_btn').click(function () {
+        
+        if($(this).hasClass('active')){
+            var p={token:token,type:1,id:para('id')}
+            $.post(webSiteUrl+'/app/user/del_collection',p,function(ret){
+          
+                if(ret.code==200){
+                    $('.collect_btn').removeClass('active');
+                    
+                }
+            });
+
+        }else {
+            var p={token:token,type:1,id:para('id')}
+             $.post(webSiteUrl+'/app/user/add_collection',p,function(ret){
+          
+                if(ret.code==200){
+                    $('.collect_btn').addClass('active');
+                    
+                }
+            });
+           
+        }
+    });
+    //fa评论
+    $('.comment_submit').click(function () {
+        var results = loginCheck();
+		
+		if(results == false){
+		
+			return false;
+		
+		}
+        var val = $("#comment_info").val();
+        if(val!=''){
+            var p={token:token,type:1,id:para('id'),content:val}
+            $.post(webSiteUrl+'/app/user/addpl',p,function(ret){
+     
+                
+                if(ret.code==200){
+                    //alert(JSON.stringify(ret))
+                    var tj=ret.data
+var html='<li><div class="userInfo"><img src="'+webSiteUrl+tj.icon+'" alt=""><div class="userName"><h6>'+tj.phone+'</h6><span>'+tj.time+'</span></div></div><div class="comment_info"><p>'+tj.content+'</p></div></li>';
+                if($(".comment_list ul li").length>0){
+                    $(".comment_list ul").prepend(html);
+                }else{
+                    $(".comment_list ul").html(html);
+                }
+               
+                $("#comment_info").val('')
+                    
+                }else{alert(ret.msg)}
+            });
+
+            
+            
+        }else {
+            alert('请输入评论内容')
+        }
+    })
+    
+    
+
+    
+    
+
+</script>
+</html>

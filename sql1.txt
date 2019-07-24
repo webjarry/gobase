@@ -1,0 +1,1 @@
+SELECT h.* FROM bhy_hetonguser as h INNER JOIN bhy_order as o on o.orderno=h.orderno  WHERE ( h.uid = '567' ) AND ( o.utype = 2 ) AND ( o.status = 1 ) ORDER BY h.id desc LIMIT 0,4  

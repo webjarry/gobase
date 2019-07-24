@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f3f3f3;">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>评价</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="evaluate_area">
+    <div class="evaluate_star">
+        <p>总体评价</p>
+        <ul>
+            <li class="star"></li>
+            <li class="star"></li>
+            <li class="star"></li>
+            <li class="star"></li>
+            <li class="star"></li>
+        </ul>
+    </div>
+    <div class="evaluate_content">
+        <p>评论详情</p>
+        <textarea name="content" id="" cols="30" rows="10" placeholder="请填写评论内容"></textarea>
+    </div>
+</section>
+
+<section class="fixed_btn">
+    <a onclick="pinglun()">发布评论</a>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    loginCheck()
+    $('.evaluate_star ul li').click(function () {
+        $('.evaluate_star ul li').removeClass('star');
+        var _index = $(this).index();
+        for(var i=0;i<=_index; i++){
+            $('.evaluate_star ul li').eq(i).addClass('star');
+        }
+    });
+
+    
+    //发布评论
+    function pinglun(){
+        var star = $(".star").length;
+        var id = para('id');
+        var type = para('type');
+        var content = $('textarea[name=content]').val();
+        if (content == '') {
+            api.alert({msg:'请输入评论内容'});return;
+        }
+        var p = {id:id,type:type,token:token,content:content,star:star};
+        $.post(webSiteUrl+'/app/user/addpl',p,function(ret){
+        
+            if (ret.code == 200) {
+                
+                alert(ret.msg);
+                location.href='/home/user/personal_myorder_evaluated.html'
+                
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+
+  
+</script>
+</html>

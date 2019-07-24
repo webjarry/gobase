@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <style type="text/css">
+        .header .swiper-pagination {
+            position: static !important;
+        }
+        .all-photos {
+            height: calc(100% - 0.88rem - 1px);
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .photos-all{
+            padding: 0.3rem 0.1rem;
+        }
+        .photos-all ul li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 9.7rem;
+        }
+
+        .photos-all ul li img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .all-photos .download {
+            position: absolute;
+            right: 0.3rem;
+            bottom: 0.8rem;
+            width: 0.76rem;
+            height: 0.76rem;
+            background: url("/Public/Home/img/downloadPic.png") center no-repeat;
+            background-size: 0.76rem auto;
+            border-radius: 50%;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body style="background: #f3f3f3">
+<header class="header">
+    <a class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2 class="swiper-pagination"></h2>
+</header>
+<section class="all-photos">
+    <div class="photos-all swiper-container">
+        <ul class="swiper-wrapper" id="con">
+            <!--<li class="swiper-slide"><img src="__IMG__/applyh_pic1.png" alt=""></li>
+            <li class="swiper-slide"><img src="__IMG__/applyh_pic2.png" alt=""></li>
+            <li class="swiper-slide"><img src="__IMG__/applyh_pic3.png" alt=""></li>-->
+        </ul>
+    </div>
+    <a href="" id="down"><div class="download"></div></a>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+<script type="text/javascript">
+    loginCheck()
+    $(function () {
+        var mySwiper = new Swiper('.photos-all', {
+            autoplay: false,//可选选项，自动滑动
+            initialSlide: 0,
+            pagination : '.swiper-pagination',
+            paginationType : 'fraction',
+        });
+        $(".all-photos").css({
+            'height': $(window).height()-$('.header').outerHeight(true)
+        });
+    });
+    tuwen()
+
+    function tuwen() {
+        p={token:token,infock:2,id:para('id')};
+        $.post(webSiteUrl+'/app/user/tuwen',p,function(ret){
+            if(ret.code==200){
+                html = "";
+                var tj=ret.data.icon;
+                console.log(tj)
+                if(tj != null){
+                    $('#down').attr('href',webSiteUrl+tj[0])
+                    $('#down').attr('download',webSiteUrl+tj[0])
+
+                    for(var i=0;i<tj.length;i++){
+                        html+='<li class="swiper-slide"><img src="'+webSiteUrl+tj[i]+'"></li>';
+
+                    }
+                    $('#con').html(html);
+
+                    var mySwiper = new Swiper('.photos-all', {
+                        autoplay: false,//可选选项，自动滑动
+                        initialSlide: 0,
+                        pagination : '.swiper-pagination',
+                        paginationType : 'fraction',
+                    });
+                    $(".all-photos").css({
+                        'height': $(window).height()-$('.header').outerHeight(true)
+                    });
+                }
+
+
+            }
+
+        });
+    };
+
+
+    $(".userInfo_list ul li select").change(function () {
+        $(this).prev('input').val($(this).val());
+    });
+
+    //选择类型
+    $(".check_kinds").click(function () {
+        $(".fixed_checked").fadeIn().find('.checked_section').animate({
+            'top': 0,
+            'opacity': 1
+        },400);
+        $(".check_box ul li").eq(0).addClass('active').siblings('li').removeClass('active');
+        $(".kinds_item ul").eq(0).show().siblings('ul').hide();
+        $(".kinds_item ul").eq(0).find('li').eq(0).addClass('active').siblings('li').removeClass('active');
+    });
+
+    $(".check_box ul li").click(function () {
+        $(this).addClass('active').siblings('li').removeClass('active');
+        $(".kinds_item ul").eq($(this).index()).show().siblings('ul').hide();
+        $(".kinds_item ul").eq($(this).index()).show().find('li').eq(0).addClass('active').siblings('li').removeClass('active');
+    });
+
+    $(".kinds_item ul li").click(function () {
+        $(".kinds_item ul li").removeClass('active');
+        $(this).addClass('active').siblings('li').removeClass('active');
+    });
+
+    $(".sure_btn").click(function () {
+        $(".fixed_checked").fadeOut().find('.checked_section').animate({
+            'top': '-4rem',
+            'opacity': 0
+        },400);
+
+        var str=$(".check_box ul li.active").html()+' '+$(".kinds_item ul li.active").html();
+        if(str!=''){
+            $(".check_kinds").html(str).css('color','#333');
+        }else {
+            $(".check_kinds").css('color','#999');
+        }
+    });
+
+    $(".checked_section").click(function (e) {
+       e.stopPropagation();
+    });
+    $(".fixed_checked").click(function () {
+        $(".fixed_checked").fadeOut().find('.checked_section').animate({
+            'top': '-4rem',
+            'opacity': 0
+        },400);
+    });
+
+</script>
+</html>

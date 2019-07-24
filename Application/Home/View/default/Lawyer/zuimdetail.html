@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>罪名解析</h2>
+    <!--<a href="javascript:void (0);" class="search_btn"><img src="__IMG__/search.png" alt=""></a>-->
+</header>
+
+<section class="analysis_detail">
+    <h6 id='name'>人格权纠纷</h6>
+    <div class="detail"  id='content'>
+        <!--<p>
+            取水权是单位和个人依照法定程序取得的取水利用的权利，属于一种用益物权。取水权人享有依法取水和收益的排他性权利，其他任何人不得侵犯。取水权纠纷，是指因取水权的归属、使用、侵权等引发的民事纠纷。 取水权纠纷一般应由水域所在地人民法院专属管辖。因取水权转让、抵押、继承、出租等引起的纠纷，区别产生纠纷的基础法律关系依照《民事诉讼法》的相关规定确定管辖。
+            <br><br>
+            1、《民法通则》 第八十一条 国家所有的森林、山岭、草原、荒地、滩涂、水面等自然资源，可以依法由全民所有制单位使用，也可以依法确定由集体所有制单位使用，国家保护它的使用、收益的权利；使用单位有管理、保护、合理利用的义务。 国家所有的矿藏，可以依法由全民所有制单位和集体所有制单位开采，也可以依法由公民采挖。国家保护合法的采矿权。 公民、集体依法对集体所有的或者国家所有由集体使用的森林、山岭、草原、荒地、滩涂、水面的承包经营权，受法律保护。承包双方的权利和义务，依照法律由承包合同规定。 国家所有的矿藏、水流，国家所有的和法律规定属于集体所有的林地、山岭、草原、荒地、滩涂不得买卖、出租、抵押或者以其他形式非法转让。
+            <br><br>
+            2、《物权法》 第一百二十三条 依法取得的探矿权、采矿权、取水权和使用水域、滩涂从事养殖、捕捞的权利受法律保护。
+            <br><br>
+            3、《水法》 第三条 水资源属于国家所有。水资源的所有权由国务院代表国家行使。农村集体经济组织的水塘和由农村集体经济组织修建管理的水库中的水，归各该农村集体经济组织使用。 第六条 国家鼓励单位和个人依法开发、利用水资源，并保护其合法权益。开发、利用水资源的单位和个人有依法保护水资源的义务。 第七条 国家对水资源依法实行取水许可制度和有偿使用制度。但是，农村集体经济组织及其成员使用本集体经济组织的水塘、水库中的水的除外。国务院水行政主管部门负责全国取水许可制度和水资源有偿使用制度的组织实施。
+            <br><br>
+            第二十八条 任何单位和个人引水、截（蓄）水、排水，不得损害公共利益和他人的合法权益。
+        </p>-->
+    </div>
+</section>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    
+    var plnum
+    zuim()
+    function zuim() {
+        
+        var p={model:'zuim',id:para('id')};
+        $.post(webSiteUrl+'/app/home/find',p,function(ret){
+       
+            if(ret.code==200){
+                
+                
+                //$('#icon').attr("src",webSiteUrl+ret.data.icon);
+                $('#name').html(ret.data.name);
+                $('#content').html(ret.data.content);
+            }else{alert(ret.msg)}
+        });
+
+
+       
+    }
+    
+
+</script>
+</html>

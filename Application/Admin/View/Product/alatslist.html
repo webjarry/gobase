@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>上传图集</title>
+<link href="__ROOT__/Public/favicon.ico" type="image/x-icon" rel="shortcut icon">
+<link rel="stylesheet" type="text/css" href="__CSS__/base.css" media="all">
+<link rel="stylesheet" type="text/css" href="__CSS__/common.css" media="all">
+<link rel="stylesheet" type="text/css" href="__CSS__/module.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/{$Think.config.COLOR_STYLE}.css" media="all">
+
+<script type="text/javascript" src="__JS__/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+<script src="__JS__/jquery-1.8.0.js"></script>
+    <style>
+        body{width:800px;margin:0 auto; padding:0; margin-top:30px; }
+        .upload-img-box{margin-top: 4px;width: 100%; float: left;  max-height:520px; overflow-y: scroll;}
+        .upload-img-box .upload-pre-item{width: 180px !important;}
+    </style>
+
+</head>
+
+<body>
+
+<form action="{:U('')}" method="post" class="form-horizontal" id="atlasTwo" >
+
+	<input type="hidden" name="id" id="id" value="{$get[id]}" />
+    <span class="check-tips"></span>
+    {:hook('UploadImages')}
+    <div style="width:100%; margin-top:20px; float: left;">
+        <input class="btn submit-btn ajax-post" id="submit" type="button" value="确 定" target-form="form-horizontal">
+        <input class="btn btn-return closebtn" value="返 回" style="height: 39px; padding:0;">
+    </div>
+</form>
+</body>
+</html>
+
+<script>
+    var  imgarr = '{$user[imgarr]}';
+    $("input[name=pics]").val(imgarr);
+
+	var index = parent.layer.getFrameIndex(window.name); //获取当前窗体索引
+	$('.closebtn').click(function(){
+	    parent.layer.close(index); //执行关闭
+	});
+	$('#submit').click(function(){
+		//var index = parent.layer.getFrameIndex(window.name);
+		 $.post("/Admin/Product/alatsList", $("#atlasTwo").serialize(),function(data){
+			 if(data == '200'){
+                 layer.msg('上传图片成功',{time:1000});
+                 setTimeout(function () {
+                     parent.layer.close(index); //执行关闭
+                 },1000);
+			 }else{
+                 layer.msg('上传图片失败');
+             }
+		});
+		
+	});
+
+</script>
+
+
+

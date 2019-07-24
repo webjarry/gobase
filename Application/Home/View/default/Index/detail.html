@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <meta name="Keywords" content="Keywords">
+    <meta name="description" content="description">
+    <title>{:C('WEB_SITE_TITLE')}</title>
+
+    <link type="text/css" href="__CSS__/reset.css" rel="stylesheet"  />
+    <link type="text/css" href="__CSS__/setphone.css" rel="stylesheet"  />
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/adaptive.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript">
+        window['adaptive'].desinWidth = 750;
+        window['adaptive'].baseFont = 28;
+        window['adaptive'].maxWidth = 750;
+        window['adaptive'].init();
+    </script>
+</head>
+<body>
+
+    <div class="newstit" style="color:#6666cc;font-weight: bold;">{$fx.name}</div>
+
+    <div class="newstxt">{$fx.content}</div>
+
+    <div class="newsimg">
+        <if condition="$fx.icon neq 0">
+            <volist name="fx[icon]" id="vo">
+                <p><img src="{$vo.icon|picture}"></p>
+            </volist>
+        </if>
+    </div>
+
+    <div class="newsviedo">
+        <if condition="$fx.file neq 0">
+        <video src="{$fx.file|picture}" controls="controls" style="width: 100%; height: 5rem;">
+            您的浏览器不支持 video 标签。
+        </video>
+        </if>
+    </div>
+
+</body>
+<script>
+    var size="{$fx['size']}";
+    var color="{$fx['color']}";
+    var style="{$fx['style']}";
+    var align="{$fx['align']}";
+    //alert(size)
+    var content=$('.newstxt');
+
+
+    if(size!=0){
+        content.css('font-size',size);
+    }
+    if(color!=0){
+        content.css('color',color);
+    }
+    if(style!=0) {
+        if (style == 'bold') {
+            content.css('font-weight', 'bold');
+        } else if (style == 'italic') {
+            content.css('font-style', 'italic');
+        } else if (style == 'underline') {
+            content.css('text-decoration', 'underline');
+        }
+    }
+    if(align!=0) {
+        if (align == 'center') {
+            content.css('align', "center");
+        } else if (align == 'left') {
+            content.css('align', "left");
+        } else if (align == 'right') {
+            content.css('align', "right");
+        }
+    }
+
+    var id="{$Think.get.id}";
+    var uid="{$uid}";
+    window.onload=function (){
+
+        if( 1 || uid !=0 ){
+            $.post("/Home/Public/beginscan",{ 'id':22,  'uid':22},function(da){
+                var obj = jQuery.parseJSON(da);
+
+            });
+        }
+
+
+    }
+
+    window.onunload=function (){
+        if( 1 || uid !=0 ) {
+            $.post("/Home/Public/endscan", {'id': 22, 'uid': 22}, function (da) {
+                var obj = jQuery.parseJSON(da);
+
+            });
+        }
+    }
+
+</script>
+</html>

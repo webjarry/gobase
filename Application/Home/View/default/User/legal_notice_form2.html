@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>填写信息</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="flow_section">
+    <div class="flow_list">
+        <ul>
+            <li><em>1</em><p>填写信息</p></li>
+            <li><em>2</em><p>支付</p></li>
+            <li><em>3</em><p>律师接单</p></li>
+            <li><em>4</em><p>评价</p></li>
+        </ul>
+    </div>
+</section>
+<section class="release_contract">
+    <div class="release_list">
+        <ul>
+            <li>
+                <div class="release_item" style="justify-content: start!important;">
+                    <p>电话：</p>
+                    <input style="text-align: left!important;" type="text" placeholder="请输入电话">
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>问题概述：</p>
+                </div>
+                <textarea name="" id="" cols="30" rows="10" placeholder="请输入您文书的需求：如文书类型，内容，用途等"></textarea>
+                <div class="mp3">
+                    <a href="javascript:void(0);" class="mp3_btn"><img src="__IMG__/MP3.png" alt=""></a>
+                    <span>限300字</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="fixed_btn">
+    <a href="javascript:;" onclick="legal_pay()">提交信息</a>
+</section>
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+    function legal_pay(){
+        location.href='/home/user/legal_pay';
+    }
+</script>
+</html>

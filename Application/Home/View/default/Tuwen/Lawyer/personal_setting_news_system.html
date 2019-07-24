@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>消息中心</h2>
+    <a href="javascript:;" class="tel_btn readed_btn">标记为已读</a>
+</header>
+<section class="info_kinds">
+    <div class="info">
+        <ul>
+            <li class=""><a href="javascript:;" onclick="aaplay('index','personal_setting_news_user.html')">我的消息</a></li>
+            <li class="active"><a href="javascript:;" onclick="aaplay('index','personal_setting_news_system.html')">系统消息</a></li>
+        </ul>
+    </div>
+</section>
+
+<section class="system_info">
+    <ul>
+        <li class="active">
+            <a href="javascript:;" onclick="aaplay('index','##')">
+                <h6>系统消息</h6>
+                <p>钱借给别人，但借条被担保人撕了，这钱还能要回来吗？钱借 给别人，但借条被担保人撕了，这钱还能要回来吗？</p>
+                <div class="info_time">
+                    <span>2018-11-18  14:57</span>
+                    <span>点击查看</span>
+                </div>
+            </a>
+        </li>
+        
+        <li>
+            <a href="javascript:;" onclick="aaplay('index','##')">
+                <h6>系统消息</h6>
+                <p>钱借给别人，但借条被担保人撕了，这钱还能要回来吗？钱借 给别人，但借条被担保人撕了，这钱还能要回来吗？</p>
+                <div class="info_time">
+                    <span>2018-11-18  14:57</span>
+                    <span>点击查看</span>
+                </div>
+            </a>
+        </li>
+    </ul>
+</section>
+
+
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    
+    //标记为已读
+    $(".readed_btn").click(function () {
+        $('.system_info ul li').removeClass('active');
+    })
+
+</script>
+</html>

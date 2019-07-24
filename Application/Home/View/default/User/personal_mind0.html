@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="__CSS__/mobiscroll_002.css" >
+    <script src="__JS__/mobiscroll_002.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_004.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_003.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_005.js" type="text/javascript"></script>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我的钱包</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="money_section">
+    <div class="profit">
+        <div class="myAward">
+            <p>我的余额</p>
+            <h6 id="balance">0.00元</h6>
+            <div class="my_code">
+                <a href="javascript:;" onclick="aaplay('personal_money_recharge.html')" class="cash_btn">充值</a>
+                <a href="javascript:;" onclick="aaplay('personal_money_cash.html')" class="cash_btn">提现</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="con">
+    <!--<section class="statistics">
+        <div class="statistics_time">
+            <div class="time">
+                <p>本月</p>
+                <span><em>收入：556.00</em> <em>支出：58.00</em></span>
+            </div>
+            <a href="javascript:void (0);" class="date_btn"><img src="__IMG__/date_icon.png" alt=""></a>
+        </div>
+        <div class="budget_list">
+            <ul>
+                <li>
+                    <div class="income">
+                        <p>收益</p>
+                        <span>2017-6-1 09:35</span>
+                    </div>
+                    <em class="add_money">+8.66元</em>
+                </li>
+                <li>
+                    <div class="income">
+                        <p>提现</p>
+                        <span>2017-6-1 09:35</span>
+                    </div>
+                    <em class="minus_money">-5.00元</em>
+                </li>
+                <li>
+                    <div class="income">
+                        <p>充值</p>
+                        <span>2017-6-1 09:35</span>
+                    </div>
+                    <em class="add_money">+8.66元</em>
+                </li>
+                <li>
+                    <div class="income">
+                        <p>提现</p>
+                        <span>2017-6-1 09:35</span>
+                    </div>
+                    <em class="minus_money">-5.00元</em>
+                </li>
+                <li>
+                    <div class="income">
+                        <p>支出</p>
+                        <span>2017-6-1 09:35</span>
+                    </div>
+                    <em class="minus_money">-5.00元</em>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="statistics">
+        <div class="statistics_time">
+            <div class="time">
+                <p>11月</p>
+                <span><em>收入：556.00</em> <em>支出：58.00</em></span>
+            </div>
+        </div>
+        <div class="budget_list">
+            <ul>
+                <li>
+                    <div class="income">
+                        <p>收益</p>
+                        <span>2017-6-1 09:35</span>
+                    </div>
+                    <em class="add_money">+8.66元</em>
+                </li>
+                <li>
+                    <div class="income">
+                        <p>提现</p>
+                        <span>2017-6-1 09:35</span>
+                    </div>
+                    <em class="minus_money">-5.00元</em>
+                </li>
+                <li>
+                    <div class="income">
+                        <p>充值</p>
+                        <span>2017-6-1 09:35</span>
+                    </div>
+                    <em class="add_money">+8.66元</em>
+                </li>
+                <li>
+                    <div class="income">
+                        <p>提现</p>
+                        <span>2017-6-1 09:35</span>
+                    </div>
+                    <em class="minus_money">-5.00元</em>
+                </li>
+                <li>
+                    <div class="income">
+                        <p>支出</p>
+                        <span>2017-6-1 09:35</span>
+                    </div>
+                    <em class="minus_money">-5.00元</em>
+                </li>
+            </ul>
+        </div>
+    </section>-->
+</div>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+<script>
+    loginCheck()
+    $('#balance').html(balance+'元')
+    var date='';
+
+    toDoRequest2()
+
+    function toDoRequest2(){
+        var p= {token:token,date:date};
+        $.post(webSiteUrl+'/app/user/ubudget',p,function(ret){
+            console.log(ret);
+
+            if(ret.code==200){
+
+                var html = "";
+                var t=ret.data;
+
+                var tj=ret.data;
+                if(date == ''){
+
+                    for(var i=0;i<tj.length;i++){
+                        html+='<section class="statistics"><div class="statistics_time"><div class="time"><p>'+tj[i].monthname+'</p><span><em>收入：0</em> <em>支出：'+tj[i].monthmoney+'</em></span></div>';
+                        if(i==0){
+                            html+='<a href="javascript:void (0);" class="date_btn" id="date1"><img src="/Public/Home/img/date_icon.png" alt=""><input onchange="datechoose()" readonly="readonly" name="appDateTime"  id="appDate" type="text"  class="hideinput"></a>';
+                        }
+                        html+='</div><div class="budget_list"><ul>';
+
+                        var tjm=tj[i].month;
+
+                        if(tjm!=null){
+                            for(var j=0;j<tjm.length;j++) {
+                                html += '<li><div class="income"><p>' + tjm[j].action + '</p><span>' + tjm[j].time + '</span></div>';
+                                if(tjm[j].jia==1){
+                                    html += '<em class="add_money">+' + tjm[j].money + '元</em></li>';
+                                }else{
+                                    html += '<em class="add_money">-' + tjm[j].money + '元</em></li>';
+                                }
+
+                            }
+                        }
+
+
+                        html+='</ul></div></section>';
+
+                    }
+
+                }else{
+                    html+='<section class="statistics"><div class="statistics_time"><div class="time"><p>'+tj.monthname+'</p><span><em>收入：0</em> <em>支出：'+tj.monthmoney+'</em></span></div>';
+
+                        html+='<a href="javascript:void (0);" class="date_btn" id="date1"><img src="/Public/Home/img/date_icon.png" alt=""><input onchange="datechoose()" readonly="readonly" name="appDateTime"  id="appDate" type="text"  class="hideinput"></a>';
+
+                    html+='</div><div class="budget_list"><ul>';
+
+                    var tj=ret.data.month;
+
+                    if(tj!=null){
+                        for(var i=0;i<tj.length;i++) {
+                            html += '<li><div class="income"><p>' + tj[i].action + '</p><span>' + tj[i].time + '</span></div>';
+                            if(tj[i].jia==1){
+                                html += '<em class="add_money">+' + tj[i].money + '元</em></li>';
+                            }else{
+                                html += '<em class="add_money">-' + tj[i].money + '元</em></li>';
+                            }
+                        }
+                    }
+
+                    html+='</ul></div></section>';
+                }
+
+                $('#con').html(html);
+                $("#appDate").mobiscroll($.extend(opt['date'], opt['default']));
+            }else{
+
+                $('#con').html('<p style="text-align:center">暂无数据</p>');
+
+
+            }
+        });
+
+    }
+
+    //时间选择
+    var currYear = (new Date()).getFullYear();
+    var opt={};
+    opt.date = {preset : 'date'};
+    opt.datetime = {preset : 'datetime'};
+    opt.time = {preset : 'time'};
+    opt.default = {
+        theme: 'android-ics light', //皮肤样式
+        display: 'modal', //显示方式
+        mode: 'scroller', //日期选择模式
+        dateFormat: 'yyyy-mm',
+        lang: 'zh',
+        showNow: false,
+        nowText: "今天",
+        startYear: currYear , //开始年份
+        endYear: currYear + 10 //结束年份
+    };
+
+
+    function datechoose(){
+        date=$('#appDate').val()
+        toDoRequest2()
+    }
+</script>
+</html>

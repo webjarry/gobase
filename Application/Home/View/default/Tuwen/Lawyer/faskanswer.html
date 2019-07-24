@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>咨询回答</h2>
+    <!--<a href="javascript:void (0);" class="share_btn"><img src="__IMG__/share_icon.png" alt=""></a>-->
+</header>
+<section class="ask_article">
+    <div class="userInfo">
+        <img src="" alt="" id='icon'>
+        <div class="userName">
+            <h6 id='phone'></h6>
+            <span  id='time'></span>
+        </div>
+    </div>
+    <div class="comment_info">
+        <p id='content'></p>
+    </div>
+</section>
+<section class="release_dynamic">
+    <div class="release_list">
+        <ul>
+            <li>
+                <textarea name="" id="answer" cols="30" rows="10" placeholder="请输入答案内容"></textarea>
+
+            </li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="fixed_ask">
+    <a href="javascript:;"  class="ask_btn"  onclick="tijiao()">提交答案</a>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    fdetial()
+    function fdetial() {
+        var p={id:para('id')}
+        $.post(webSiteUrl+'/app/public/faskdetail',p,function(ret){
+                if(ret.code==200){
+                    var tj=ret.data.uinfo;
+                    $('#icon').attr('src',tj.icon);
+                    $('#phone').html(tj.phone);
+                    
+
+                    var info=ret.data.info;
+                    $('#time').html(info.time);
+                    $('#content').html(info.content);
+                }
+            });
+
+    };
+    var can=true;
+    function tijiao(){
+        if(!can){
+            return;
+        }
+        can=false;
+        var content=$('#answer').val();
+        if(content==''){
+            alert("请输入答案内容！");return;
+        }
+        var  p={token:token,id:para('id'),content:content};
+        $.post(webSiteUrl+'/app/user/answer',p,function(ret){
+            if(ret.code==200){
+
+                alert(ret.msg);
+                location.href='/Home/lawyer/faskdetail?id='+para('id');
+
+            }else{
+                alert(ret.msg)
+            }
+
+        });
+    }
+
+
+</script>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>优惠券设置</h2>
+    <a href="javascript:void (0);" class="search_btn charge_btn">说明</a>
+</header>
+
+<section class="charge_section">
+    <div class="charge_list">
+        <ul>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge1.png" alt="">
+                    <div class="charge_name">
+                        <h6>图文咨询优惠券</h6>
+                        <p class="st1">已关闭</p>
+                        <p class="st2">100.00元/50张</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch" data="0" id='tuwen'></a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge2.png" alt="">
+                    <div class="charge_name">
+                        <h6>电话咨询优惠券</h6>
+                        <p class="st1">已关闭</p>
+                        <p class="st2">100.00元/50张</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch" data="0" id='tel'>关闭</a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge3.png" alt="">
+                    <div class="charge_name">
+                        <h6>面谈咨询优惠券</h6>
+                        <p class="st1">已关闭</p>
+                        <p class="st2">100.00元/50张</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch" data="0" id='face'>关闭</a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge4.png" alt="">
+                    <div class="charge_name">
+                        <h6>代写文书优惠券</h6>
+                        <p class="st1">已关闭</p>
+                        <p class="st2">100.00元/50张</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch" data="0" id='book'>关闭</a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge5.png" alt="">
+                    <div class="charge_name">
+                        <h6>律师函优惠券</h6>
+                        <p class="st1">已关闭</p>
+                        <p class="st2">100.00元/50张</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch" data="0" id='lawyer'>关闭</a>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="fixed_charge">
+    <div class="charge_notes coupon_notes">
+        <h6>优惠券说明</h6>
+        <div class="coupon_info">
+            <p>
+                1.优惠券是由律师个人设置发放，用户购买律师相关服务时可做抵扣使用;<br><br>
+                2.优惠券成本由律师承担，律师服务最终收益=服务价格-服务费-优惠券满减金额;<br><br>
+                3.优惠券作为一种促销手段，需要律师根据个人需要灵活谨慎的设置，故系统给出合理的建议价格区间供律师参考使用。
+            </p>
+        </div>
+    </div>
+</section>
+<section class="fixed_coupon">
+    <div class="charge_notes coupon_set_content">
+        <h6 class="coupon_title">优惠券说明</h6>
+        <div class="coupon_set">
+            <p>优惠券金额设定：<input type="text" class="jine" placeholder="1-3" id='money'>元</p>
+            <span>扣除服务费和优惠券满减金额，订单完成后获得的最终受益为<em>13.00元</em></span>
+            <p>优惠券数量设定：<input type="text" class="shul" placeholder="10-1000" id='num'>张</p>
+        </div>
+        <div class="coupon_set_btn">
+            <a href="javascript:void (0);" class="set_cancel">取消</a>
+            <a href="javascript:void (0);" class="set_sure set_cancel" onclick="addcoupon()">确定</a>
+        </div>
+    </div>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    loginCheck()
+    var type=0;
+    var p
+    couponinfo();
+    //user()
+
+    function user() {
+        p={token:token};
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+        
+            if(ret.code==200){
+                var tj=ret.data;
+                
+                $("#tuwen").attr('data',tj.tuwencp);
+                if(tj.tuwencp==0){
+                    $("#tuwen").html('关闭');
+                }else{
+                    $("#tuwen").html('开启');
+                    $("#tuwen").parents('li').find(".st1").hide().siblings(".st2").show();
+                }
+                $("#tel").attr('data',tj.telcp);
+                if(tj.telcp==0){
+                    $("#tel").html('关闭');
+                }else{
+                    $("#tel").html('开启');
+                    $("#tel").parents('li').find(".st1").hide().siblings(".st2").show();
+                }
+                $("#face").attr('data',tj.facecp);
+                if(tj.facecp==0){
+                    $("#face").html('关闭');
+                }else{
+                    $("#face").html('开启');
+                    $("#face").parents('li').find(".st1").hide().siblings(".st2").show();
+                }
+                $("#book").attr('data',tj.bookcp);
+                if(tj.bookcp==0){
+                    $("#book").html('关闭');
+                }else{
+                    $("#book").html('开启');
+                    $("#book").parents('li').find(".st1").hide().siblings(".st2").show();
+                }
+                $("#lawyer").attr('data',tj.lawyercp);
+                if(tj.lawyercp==0){
+                    $("#lawyer").html('关闭');
+                }else{
+                    $("#lawyer").html('开启');
+                    $("#lawyer").parents('li').find(".st1").hide().siblings(".st2").show();
+                }
+
+                //couponinfo();
+            }
+        });
+
+      
+    };
+
+    function addcoupon() {
+        var money=$("#money").val();
+        var num=$("#num").val();
+        var reg=/^[0-9]+$/;
+        if(!reg.test(money)){
+            alert('金额必须是数字');return;
+        }
+        if(!reg.test(num)){
+            alert('数量必须是数字');return;
+        }
+       
+        var p={token:token,type:type,money:money,num:num};
+        $.post(webSiteUrl+'/app/user/addcoupon',p,function(ret){
+        
+            if(ret.code==200){
+                
+                window.location.reload();
+                
+                
+            }else{alert(ret.msg)}
+        });
+    }
+
+    function couponinfo() {
+        if(!loginCheck()){
+            return;
+        }
+        p={token:token,infock:2};
+        $.post(webSiteUrl+'/app/user/couponinfo',p,function(ret){
+
+            if(ret.code==200){
+                var tj=ret.data;
+                console.log(JSON.stringify(tj));
+                for(var i=0;i<tj.length;i++){
+                    if(tj[i].num==0){
+                        //var c='暂无优惠券';
+                        var c='未加入';
+                        var h='加入';
+                    }else{
+                        //var c=tj[i].money+'元/'+tj[i].num+'张';
+                        var c=tj[i].money+' 元';
+                        var h='退出';
+                        $(".charge_list li").eq(i).find(".st1").hide().siblings(".st2").show();
+                    }
+                    var c=tj[i].money+' 元';
+                    $('.st2').eq(i).html(c)
+                    $('.st2').eq(i).parents('li').find("a").html(h)
+
+                    $('.st2').eq(i).parents('li').attr('data',tj[i].money)
+
+
+
+                }
+                
+                
+            }
+        });
+    }
+   
+
+    //打开说明
+    $(".charge_btn").click(function () {
+        $(".fixed_charge").fadeIn().find(".charge_notes").animate({
+            'top':'0',
+            'opacity':'1'
+        },400)
+    });
+    $(".set_kinds").click(function (e) {
+        e.stopPropagation();
+    });
+
+    //关闭说明
+    $(".fixed_charge").click(function (e) {
+        e.stopPropagation();
+        $(".fixed_charge").fadeOut().find(".charge_notes").animate({
+            'top':'-4rem',
+            'opacity':'0'
+        },400)
+    });
+
+
+    //打开设置
+    $(".switch").click(function () {
+
+        
+    });
+
+    //关闭设置
+    $(".set_cancel").click(function (e) {
+        e.stopPropagation();
+        $(".fixed_coupon").fadeOut().find(".coupon_set_content").animate({
+            'top':'-4rem',
+            'opacity':'0'
+        },400);
+    });
+
+
+    $(".charge_list ul li .switch").click(function () {
+        if($(this).html()=='加入'){
+            var msg='确定加入吗？';
+            var msg1='加入成功';
+            var t=1;
+        }else{
+            var msg='确定退出吗？';
+            var msg1='退出成功';
+            var t=2;
+        }
+        var ele=$(this);
+        var ttt=parseInt(ele.parents('li').index()+1)
+        if(window.confirm(msg)){
+            p={token:token,type:ttt,action:t};
+            //alert(JSON.stringify(p));
+            $.post(webSiteUrl+'/app/user/couponswitch',p,function(ret) {
+                if (ret.code == 200) {
+                    alert(msg1)
+
+                    if(t==1){
+
+                        ele.removeClass('on').html('退出');
+                        var money=ele.parents('li').attr('data')
+                        ele.parents('li').find('.st2').html(money+' 元')
+                        ele.parents('li').find(".st1").hide().siblings(".st2").show();
+
+                    }else {
+
+                        ele.addClass('on').html('加入');
+                        ele.parents('li').find(".st2").hide().siblings(".st1").show();
+                    }
+
+                }else{alert(ret.msg)}
+            })
+        }
+        /*var text = $(this).siblings('.charge_info').find('h6').text();
+        $(".coupon_title").html(text);
+
+        type=parseInt($(this).parents('li').index()+1);*/
+    });
+
+    //开启应用
+    $(".charge_list ul li .switch1").click(function () {
+        var tuwencp=$("#tuwen").attr('data');
+        var telcp=$("#tel").attr('data');
+        var facecp=$("#face").attr('data');
+        var bookcp=$("#book").attr('data');
+        var lawyercp=$("#lawyer").attr('data');
+
+        var ele=$(this);
+        p={token:token,tuwencp:tuwencp,telcp:telcp,facecp:facecp,bookcp:bookcp,lawyercp:lawyercp};
+        //alert(JSON.stringify(p));
+        $.post(webSiteUrl+'/app/user/edit_user',p,function(ret){
+
+            if(ret.code==200){
+
+                if(ele.html()=='关闭'){
+                    $(".fixed_coupon").fadeIn().find(".coupon_set_content").animate({
+                        'top':'0',
+                        'opacity':'1'
+                    },400)
+                }
+                if(ele.hasClass('on')){
+                    ele.attr('data',0);
+                    ele.removeClass('on').html('关闭');
+                    ele.parents('li').find(".st2").hide().siblings(".st1").show();
+
+                }else {
+                    ele.attr('data',1);
+                    ele.addClass('on').html('开启');
+                    ele.parents('li').find(".st1").hide().siblings(".st2").show();
+                }
+                //window.location.reload();
+
+            }else{alert(ret.msg)}
+        });
+
+
+        tijiao();
+
+    })
+</script>
+</html>

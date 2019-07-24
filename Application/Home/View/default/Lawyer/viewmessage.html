@@ -1,0 +1,465 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/baguetteBox.css" />
+     <link rel="stylesheet" type="text/css" href="__CSS__/common.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/baguetteBox.js"></script>
+    <script type="text/javascript" src="__JS__/highlight.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script>
+        $(function () {
+            window['adaptive'].desinWidth = 750;
+            window['adaptive'].baseFont = 28;
+            window['adaptive'].maxWidth = 750;
+            window['adaptive'].init();
+        });
+    </script>
+    <style type="text/css">
+        #imgcon ul{
+            display: flex;
+            justify-content: start;
+            flex-wrap: wrap;
+        }
+        #imgcon ul li{
+            width: 25%;
+            height: 1.6rem;
+            line-height: 1.6rem;
+            text-align: center;
+            margin: 0.12rem 0;
+            padding: 0 0.1rem;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            position: relative;
+
+        }
+        #imgcon ul li .delete{
+            position: absolute;
+            right: 0;
+            top: -0.2rem;
+            width: 0.42rem;
+            height: 0.42rem;
+            z-index: 9;
+            background: url("__IMG__/deleteIcon2.png") center no-repeat;
+            background-size: 100% 100%;
+        }
+        #imgcon img{
+            max-width: 100%;
+            height: 100%;
+            vertical-align: middle;
+            border-radius: 5px;
+        }
+        .viewmessage ul li .info .imgLsit a{
+            margin-top: 0.25rem;
+            margin-right: 0.25rem;
+        }
+        .viewmessage ul li .info .imgLsit a:last-child{
+            margin-right: 0;
+        }
+        .viewmessage ul li .info .imgLsit img{
+            margin-right: 0!important;
+            margin-top: 0!important;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>查看信息</h2>
+    <!--<a href="javascript:void (0);" class="search_btn set_btn">设置</a>-->
+</header>
+<section class="viewmessage" style="padding-bottom: 1.1rem">
+    <ul id="message">
+        <!--<li>-->
+            <!--<div class="msg-info">-->
+                <!--<img src="__IMG__/userimg1.jpg" alt="">-->
+            <!--</div>-->
+            <!--<div class="info">-->
+                <!--<div class="name">写民宿</div>-->
+                <!--<p>谢谢您为我献出爱心，大恩大德，永不能忘！谢谢您为我献出爱心，大恩大德，永不能忘!</p>-->
+                <!--<div class="datetime">2019-03-05 19:23:20</div>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<div class="msg-info">-->
+                <!--<img src="__IMG__/userimg1.jpg" alt="">-->
+            <!--</div>-->
+            <!--<div class="info">-->
+                <!--<div class="name">写民宿</div>-->
+                <!--<p>谢谢您为我献出爱心，大恩大德，永不能忘！谢谢您为我献出爱心，大恩大德，永不能忘!</p>-->
+                <!--<div class="imgLsit">-->
+                    <!--<img src="__IMG__/video1.jpg" />-->
+                    <!--<img src="__IMG__/video1.jpg" />-->
+                    <!--<img src="__IMG__/video1.jpg" />-->
+                <!--</div>-->
+                <!--<div class="files_info">-->
+                    <!--<img src="__IMG__/file_icon.png" />-->
+                    <!--<div>-->
+                        <!--<div class="file_name">法律文件</div>-->
+                        <!--<div class="file_size">4.61M</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="datetime">2019-03-05 19:23:20</div>-->
+            <!--</div>-->
+        <!--</li>-->
+    </ul>
+</section>
+
+<section class="fixed_btn" style="background: #ffffff; height:auto!important;"" >
+    <div class="viewmsaage_footed">
+        <i class="image_file" id="icon"></i>
+        <input type="hidden" name="icon"  value="">
+        <i class="upload_file" id="file"></i>
+        <input type="hidden" name="file"  value="">
+        <input style="margin: 0 0.1rem;" type="text" name="content" id="content" placeholder="留言" />
+        <div class="submit" onclick="tijiao()">发布</div>
+    </div>
+    <div class="uploadImg">
+        <div id="imgcon">
+            <ul id="imgconUl">
+
+            </ul>
+        </div>
+    </div>
+</section>
+
+</body>
+<include file="Public/userfooter" />
+<script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+
+    var ask_id= para('id');
+    // $(".fixed_btn .submit").click(function(){
+    //      var layers = "";
+    //         var isnull = false;
+    //         $(".fixed_btn input").each(function(i,item){
+    //             var val = $(item).val();
+    //             if(val == "" && !isnull){
+    //                 switch(i){
+    //                     case 0:
+    //                     layers = "请输入留言";
+    //                     isnull = true;
+    //                     break;
+    //                 }
+    //             }
+    //         });
+    //         if(isnull){
+    //             console.log(layers);
+    //             alert(layers);//用的什么弹窗 到时候自己改一下
+    //             return;
+    //         }
+    // })
+
+
+    var mhtml = '';
+
+    message();
+    function message(){
+
+
+        var  p={ask_id:ask_id};
+        $.post(webSiteUrl+'/app/staff/twinfoList',p,function(ret){
+            console.log(ret)
+            if(ret.code==200){
+                var data = ret.data;
+                console.log(data)
+                //console.log(data[0].icon[0].path)
+                if(data){
+                    for(var i = 0; i<data.length; i++){
+
+                        var iconhtml = '';
+                        var filehtml = '';
+
+                        var icon = data[i].icon;
+                        var file = data[i].file;
+
+                        if(icon.length>0){
+                            for(var j = 0; j<icon.length; j++){
+                                iconhtml +='<a href="'+webSiteUrl+icon[j].path+'"><img src="'+webSiteUrl+icon[j].path+'" /></a>';
+                            }
+                        }
+                        if(file){
+                            if(file.length>0){
+                                for(var z = 0; z<file.length; z++){
+                                    filehtml +='<div class="files_info""><a style="display:flex; width: 100%:" href="'+webSiteUrl+file[z].path+'"><img src="__IMG__/file_icon.png" /><div><div class="file_name">'+file[z].name+'</div><div class="file_size">'+file[z].size+'</div></div></a></div>';
+                                }
+                            }
+                        }
+
+
+                        mhtml +='<li><div class="msg-info"><img src="'+webSiteUrl+data[i].user_icon+'" alt=""></div><div class="info"><div class="name">'+data[i].phone+'</div><p>'+data[i].content+'</p><div class="imgLsit baguetteBoxOne gallery">'+iconhtml+' </div>'+filehtml+'<div class="datetime">'+data[i].create_time+'</div></div></li>';
+                    }
+
+                }
+
+                //console.log(mhtml)
+
+                $('#message').html(mhtml);
+                baguetteBox.run('.baguetteBoxOne');
+
+
+            }else{
+                alert(ret.msg)
+            }
+
+        });
+    }
+
+
+
+
+
+    function tijiao(){
+
+
+        var icon_id=$("input[name=icon]").val();
+        var file_id=$("input[name=file]").val();
+        var content=$("input[name=content]").val();
+
+        if(icon_id == '' && file_id == '' && content == ''){
+            alert("请上传图片或者文件或者输入文字");
+            return;
+        }
+
+        var  p={ token:token,ask_id:ask_id,icon:icon_id,file:file_id,content:content };
+        $.post(webSiteUrl+'/app/staff/twinfoAdd',p,function(ret){
+            if(ret.code==200){
+                alert(ret.msg);
+                location.reload();
+
+            }else{
+                alert(ret.msg)
+            }
+
+        });
+    }
+    $(document).ready(function(){
+        uploadsasa('icon',2)
+        uploadfile('file',2)
+    });
+    function uploadsasa(btn,type){
+        ajaxUploadicon(
+            btn, //上传的按钮id名称
+            1000000000,  //允许上传的文件大小（单位：kb）
+            '/Home/Public/upload?form_name=userfile&file_size=10000', //提交服务器端地址
+            'userfile', //提交服务器文件表单名称
+            "$(\".img_div\").show();$(\"#img_path\").attr('src', obj.filename);$(\"#is_upload\").val('1');", //上传成功后执行的 js callback
+            'loadimg' ,
+            type
+        );
+    }
+    function ajaxUploadicon(id_name, filesize, url, filename, callback, loadingid,type) {
+
+        var index;
+        var button = $('#'+id_name), interval;
+        var fileType = "pic", fileNum = "one";
+        new AjaxUpload(button,{
+            action: url,
+            name: filename,
+            onSubmit : function(file, ext){
+                index = layer.load(1, {
+                    shade: [0.4,'#000000']
+                });
+                if(fileType == "pic") {
+                    if (ext && /^(jpg|png|gif|jpeg)$/.test(ext)){
+                        this.setData({
+                            'info': '上传类型为图片'
+                        });
+
+                    } else {
+                        alert('提示：您上传的是非图片类型！');
+                        layer.close(index);
+                        return false;
+                    }
+                }
+                $("#"+loadingid).show();
+                if(fileNum == 'one') this.disable();
+            },
+            onComplete: function(file, response){
+                layer.close(index);
+                var obj = jQuery.parseJSON(response);
+                if (obj['ok'] == 'ok') {
+
+                    addpic(obj['id'],obj['filename'],id_name ,type)
+
+                    uploadsasa(id_name,type);
+                } else {
+                    switch (response) {
+                        case '1':
+                            alert('提示：上传失败，图片不能大于100M');
+
+                            break;
+                        case '3':
+                            alert('提示：图片只有部分文件被上传，请重新上传！');
+
+                            break;
+                        case '4':
+                            alert('提示：没有任何文件被上传！');
+
+                            break;
+                        case '5':
+                            alert('提示：非图片类型，请上传jpg|png|gif图片！');
+
+                            break;
+                        default:
+                            alert('提示：上传失败，错误未知，请您及时联系网站客服人员！');
+
+                            break;
+                    }
+                }
+                $("#"+loadingid).hide();
+                window.clearInterval(interval);
+                this.enable();
+            }
+        });
+    }
+    function addpic(id,imgpath,target,type){
+        if(type==1){
+            $("input[name='"+target+"']").val(id);
+            $("#"+target).attr('src',imgpath);
+        }else{
+            var len=$('#imgcon').children().length;
+            if(len==3){
+                alert("最多上传3张图片");return;
+            }
+            var ids=$("input[name='"+target+"']").val();
+            if(ids != ''){
+                ids+=','+id;
+            }else{
+                ids=id;
+            }
+            $("input[name='"+target+"']").val(ids);
+            var a='<li data-id="'+id+'"><img src="'+webSiteUrl+imgpath+'" alt=""> <span class="delete"></span></li>';
+
+            $("#imgconUl").append(a);
+            console.log(ids)
+        }
+    }
+
+    $('.uploadImg').on('click','#imgcon ul li .delete',function () {
+        var index = $(this).index();
+        $(this).parents('li').remove();//移出被点击的li
+        var id = $(this).parents('li').attr('data-id');//获取需要删除的id
+        var ids = $("input[name=icon]").val();//获取input框的值
+        var arr = ids.toString().split(',');//将获取input框的值转化为字符串，以','分割成数组
+        arr.splice($.inArray(id,arr),1);//用$.inArray()遍历数组,找到需要删除的id的位置，并用splice将其删除
+        $("input[name=icon]").val(arr);
+        console.log(arr)
+    });
+
+
+    function uploadfile(btn,type){
+        ajaxUploadfile(
+            btn, //上传的按钮id名称
+            1000000000,  //允许上传的文件大小（单位：kb）
+            '/Home/Public/upload_files?form_name=userfile&file_size=10000', //提交服务器端地址
+            'userfile', //提交服务器文件表单名称
+            "$(\".img_div\").show();$(\"#img_path\").attr('src', obj.filename);$(\"#is_upload\").val('1');", //上传成功后执行的 js callback
+            'loadimg' ,
+            type
+        );
+    }
+    function ajaxUploadfile(id_name, filesize, url, filename, callback, loadingid,type) {
+
+        var index;
+        var button = $('#'+id_name), interval;
+        var fileType = "pic", fileNum = "one";
+        new AjaxUpload(button,{
+            action: url,
+            name: filename,
+            onSubmit : function(file, ext){
+                index = layer.load(1, {
+                    shade: [0.4,'#000000']
+                });
+                if(fileType == "pic") {
+                    if (ext && /^(doc|docx|pdf)$/.test(ext)){
+                        this.setData({
+                            'info': '上传类型为文件'
+                        });
+
+                    } else {
+                        alert('提示：您上传的是非文件类型！');
+                        layer.close(index);
+                        return false;
+                    }
+                }
+                $("#"+loadingid).show();
+                if(fileNum == 'one') this.disable();
+            },
+            onComplete: function(file, response){
+                layer.close(index);
+                var obj = jQuery.parseJSON(response);
+                if (obj['ok'] == 'ok') {
+
+                    addfile(obj['id'],obj['filename'],id_name ,type)
+
+                    uploadfile(id_name,type);
+                } else {
+                    switch (response) {
+                        case '1':
+                            alert('提示：上传失败，文件不能大于100M');
+
+                            break;
+                        case '3':
+                            alert('提示：文件只有部分文件被上传，请重新上传！');
+
+                            break;
+                        case '4':
+                            alert('提示：没有任何文件被上传！');
+
+                            break;
+                        case '5':
+                            alert('提示：非文件类型，请上传doc|docx|pdf文件！');
+
+                            break;
+                        default:
+                            alert('提示：上传失败，错误未知，请您及时联系网站客服人员！');
+
+                            break;
+                    }
+                }
+                $("#"+loadingid).hide();
+                window.clearInterval(interval);
+                this.enable();
+            }
+        });
+    }
+    function addfile(id,imgpath,target,type){
+        if(type==1){
+            $("input[name='"+target+"']").val(id);
+            //$("#"+target).attr('src',imgpath);
+        }else{
+            var len=$('#imgcon').children().length;
+            if(len==3){
+                alert("最多上传1个文件");return;
+            }
+            var ids=$("input[name='"+target+"']").val();
+            if(ids != ''){
+                ids+=','+id;
+            }else{
+                ids=id;
+            }
+            $("input[name='"+target+"']").val(ids);
+            console.log(ids)
+        }
+
+
+    }
+
+
+</script>
+</html>

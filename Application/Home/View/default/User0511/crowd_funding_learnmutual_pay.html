@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>家庭互助计划</h2>
+    <!--<a href="ask_page_myAnswer.html" class="myAnswer_btn">我的回答</a>-->
+</header>
+<section class="crowd_details_img">
+    <img src="__IMG__/Taopic.jpg" alt="">
+</section>
+<section class="buy_order" style="padding-bottom: 1.2rem;">
+    <div class="product">
+        <img src="__IMG__/fyb_img.png" alt="">
+        <div class="product_info">
+            <p>法援宝</p>
+            <span>家庭互助计划</span>
+        </div>
+    </div>
+    <!--<div class="family_choose">
+        <div class="family_title">
+            <p>选择要加入的家人</p>
+            <span>每人十元</span>
+        </div>
+        <div class="choose">
+            <ul>
+                <li><p>爱人</p><span class="check lover"></span></li>
+                <li><p>子女</p><div style="display: flex;align-items: center;"><input type="text" class="num" placeholder="输入子女人数"><span class="check child"></span></div></li>
+                <li><p>父母</p><span class="check parents"></span></li>
+                <li>
+                    <span class="ther">本人父亲</span>
+                    <span class="ther">本人母亲</span>
+                    <span class="ther">爱人父亲</span>
+                    <span class="ther">爱人母亲</span>
+                </li>
+            </ul>
+        </div>
+    </div>-->
+    <div class="pay_kinds">
+        <h6>选择支付方式</h6>
+        <div class="pay_list">
+            <ul>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay1.png" alt="">
+                        <div class="pay_info">
+                            <p>支付宝</p>
+                            <span>绿色充值通道，安全便捷</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay2.png" alt="">
+                        <div class="pay_info">
+                            <p>微信</p>
+                            <span>绿色充值通道，安全便捷</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay4.png" alt="">
+                        <div class="pay_info">
+                            <p>余额支付</p>
+                            <span>余额支付</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="pay_coupon">
+        <p>选择优惠券</p>
+        <span>不可用优惠券</span>
+    </div>
+    <div class="pay-result">
+        <p>总金额：￥<em class="donation_price">0.00</em></p>
+        <button onclick="pay()">确认支付</button>
+    </div>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var t=0
+    var num=0
+    var price = 10;
+    var count= 0;
+
+    var money=para('money');
+	var order_number = para('order_number');
+    $(".donation_price").html(money+'.00')
+
+    function pay() {
+        loginCheck()
+        /*location.href = '/Home/user/familyhelp_add';return
+        if(num == 0){
+            alert('请选择要加入的家人');return;
+        }*/
+        if(t == 0){
+            alert('请选择支付方式！');return;
+        }
+
+        count=price*num
+        $.post("/Home/Ajax/order",{pay_type:t,type:19,money:money,orderno:order_number},function(res){
+            var res=jQuery.parseJSON(res);
+            if(res.code == 200){
+                var orderno=res.msg
+                if(t==1){
+                    location.href = '/Home/Pay/testpay/orderno/' + orderno;
+                }else if(t==2){
+                    if(isWeiXin()){
+                        location.href = '/Home/Pay/tel_wx_pay/orderno/' + orderno;
+                    }else{
+                        location.href = '/Home/Pay/wxh5pay/orderno/' + orderno;
+                    }
+                }else{
+                    location.href = '/Home/user/yepay/orderno/' + orderno;
+                }
+
+            }else{
+                alert(res.msg);return false;
+
+            }
+
+        });
+
+    }
+    $(".choose ul li .check").click(function () {
+        if($(this).hasClass('parents')){
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+                $(".choose ul li .ther").removeClass('active');
+                num=num-4
+            }else {
+                $(this).addClass('active');
+                $(".choose ul li .ther").addClass('active');
+                num=num+4
+            }
+        }else {
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+                num--
+            }else {
+                $(this).addClass('active');
+                num++
+            }
+
+
+        }
+        jjj(num)
+    });
+
+    $(".choose ul li .ther").click(function () {
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+            jisuan();
+        }else {
+            $(this).addClass('active');
+            jisuan();
+        }
+    });
+
+
+    function jisuan(){
+
+        $(".choose ul li").eq(3).find('.active').each(function(){
+            num++
+
+        })
+
+        if($(".choose ul li .ther").hasClass('active')){
+            $(".parents").addClass('active');
+        }else {
+            $(".parents").removeClass('active');
+        }
+        jjj(num)
+
+    }
+    function jjj(num) {
+        count=num*price
+        console.log(count)
+        $(".donation_price").html(count+'.00')
+
+    }
+
+    //选择支付方式
+    $(".pay_list li").click(function () {
+        if($(this).find('.checkbox').length>0){
+            $(this).addClass('active').siblings('li').removeClass('active');
+        }
+
+        t=parseInt($(this).index()+1)
+    });
+
+   
+</script>
+</html>

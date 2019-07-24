@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我的收藏</h2>
+    <!--<a href="javascript:void (0);" class="search_btn set_btn">设置</a>-->
+</header>
+<section class="info_kinds">
+    <div class="info">
+        <ul>
+            <li class=""><a href="javascript:;" onclick="weidu(1)">文章</a></li>
+            <li class="active"><a href="javascript:;" onclick="weidu(3)">律师</a></li>
+        </ul>
+    </div>
+</section>
+<section class="about_info" style="padding-top: 0.3rem;">
+    <div class="recommend_lawyer">
+        <ul id="list">
+            
+            <!-- <li>
+                <a href="##">
+                    <img src="__IMG__/userimg2.jpg" alt="">
+                    <div class="lawyers_info">
+                        <h6>方大同律师 <em>执业1年</em></h6>
+                        <p class="location">重庆市 南岸区</p>
+                        <p class="addr">重庆市程建律师事务所</p>
+                        <dl>
+                            <dd>遗产纠纷</dd>
+                            <dd>劳动仲裁</dd>
+                            <dd>人身损害</dd>
+                        </dl>
+                    </div>
+                </a>
+            </li> -->
+            
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    //标记为已读
+    $(".readed_btn").click(function () {
+        $('.system_info ul li').removeClass('active');
+    })
+
+    var page = 1;
+
+    weidu(3);
+
+    //未读
+    function weidu(id){
+        loginCheck()
+        if (id == 3) {  //文章
+            var p = {token:token,type:id,page:page};
+            $.post(webSiteUrl+'/app/user/collection',p,function(ret){
+
+                if (ret.code == 200) {
+                    var list = ret.data;
+                    var html = '';
+                    if (list != null) {
+                        for (var i =0;i< list.length; i++) {
+                            html += '<li onclick="lawyer('+list[i].sid+')"><a href="##"><img src="'+list[i].icon+'" alt=""><div class="lawyers_info"><h6>'+list[i].name+'律师<em>执业1年</em></h6><p class="location">'+list[i].addr+'</p><p class="addr">'+list[i].depart+'</p><dl>';
+                            var label=list[i].label
+                            for (var  j=0;j< label.length; j++) {
+                                html+=' <dd>'+label[j]+'</dd>';
+                            }
+                            html+='</dl></div></a></li>';
+
+                        }
+
+                        $('#list').html(html);
+                    }
+                }else{
+                    $('#list').html('<p style="text-align:center">暂无数据</p>');
+                }
+            });
+        }else if(id == 1){ //律师
+            location.href='/home/user/personal_collect_article.html?id='+id
+            
+        }
+       
+    }
+
+  
+</script>
+</html>

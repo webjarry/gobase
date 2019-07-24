@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>互助公示</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="publicity_time">
+    <div class="notice_time">
+        <a href="javascript:;" class="notice_stage"   onclick="aaplay('mutualAid_date_details.html')">
+            <p>12月1期时间公示</p>
+            <span>12月3日发布</span>
+        </a>
+        <div class="notice_info">
+            <span>划拨互助金780万元</span>
+            <span>分摊人数1872万人</span>
+        </div>
+    </div>
+</section>
+<section class="apply_history" style="padding-top: 0.2rem!important;">
+    <div class="common_title" style="padding-top: 0!important;">
+        <h6 style="font-weight: normal!important;font-size: 0.32rem!important;">本期申请互助金列表</h6>
+        <!-- <a href="javascript:;" class="more" onclick="aaplay('apply_mutualAid','apply_mutualAid.html')">更多></a> -->
+    </div>
+    <ul id="list">
+        
+     <!-- <li>
+            <a href="##">
+                <img src="__IMG__/applyh_pic2.png" alt="">
+                <div class="apply_title">
+                    <h6>儿子工作致盲</h6>
+                    <p>因操作不慎</p>
+                    <div class="apply_money">
+                        <span>申请金额：<em>2000.00</em>元</span>
+                    </div>
+                </div>
+            </a>
+        </li> -->
+       
+    </ul>
+</section>
+<section class="click_look" style="border-top: 0.3rem #f3f3f3 solid;">
+    <a href="javascript:;"  onclick="aaplay('mutualAid_date_details.html')">点击查看往期公示</a>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+    gonggao();
+
+    //互助公告
+    function gonggao(){
+       $.post(webSiteUrl+'/app/public/hz',function(ret){
+        
+            if (ret.code == 200) {
+                var list = ret.data;
+                var html = '';
+                if (list != null) {
+                    for (var i =0;i< list.length; i++) {
+                       
+                        html += '<li><a href="javascript:;" onclick="shop('+list[i].id+')"><img src="'+webSiteUrl+list[i].icon+'" alt=""><div class="apply_title"><h6>'+list[i].name+'</h6><p>'+list[i].content+'</p><div class="apply_money"><span>申请金额：<em>'+list[i].money+'</em>元</span></div></div></a></li>';
+                    }
+
+                    $('#list').html(html);
+                }
+            }else{
+                $('#list').html('<p style="text-align:center">暂无数据</p>');
+            }
+       });
+    }
+
+    //具体情况
+    function shop(id){
+        location.href='/home/user/mutualaid_personal_details.html?id='+id
+        
+    }
+
+</script>
+</html>

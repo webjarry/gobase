@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <div class="search_box">
+        <form action="" onsubmit="return false;" style="width: 100%;"><input type="text" placeholder="搜索律师或合同" id="key"></form>
+
+        <a href="javascript:;"  class="header_cancel" onclick="aaplay('index')">取消</a>
+    </div>
+</header>
+<section class="search_result">
+    <div class="result_title">
+        <h6>指定内容推荐</h6>
+    </div>
+    <div class="content_search">
+        <ul>
+            <li><a href="search_lawyer.html"  class="search1">律师搜索</a></li>
+            <li><a href="search_contract.html"  class="search2">合同文书</a></li>
+        </ul>
+    </div>
+    <div class="result_title">
+        <h6>推荐服务</h6>
+    </div>
+    <div class="content_search">
+        <ul>
+            <li><a href="legal_notice?type=1">法律告知函</a></li>
+            <li><a href="javascript:;" onclick="aaplay('cost_calc')">费用计算器</a></li>
+            <li><a href="legal_notice?type=2">律师分析报告</a></li>
+            <li><a href="javascript:;" onclick="aaplay('find_preservation')">诉讼保全保险</a></li>
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    $('form').on('submit', function(e){
+        var key=$('#key').val();
+        if(key==''){
+            alert('请输入关键字');return;
+        }
+        search(key,2);
+    });
+</script>
+</html>

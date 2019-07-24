@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>查询诉讼费</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+
+
+
+<section class="calc_section">
+    <div class="release_list">
+        <ul>
+            <li>
+                <div class="release_item">
+                    <p>案件类型</p>
+                    <span class="kinds_name"></span>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>是否涉及财产</p>
+                    <div class="checkbox_box">
+                        <input type="checkbox" id="checked">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>选择地区</p>
+                    <span class="area_choose"></span>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>其他费用</p>
+                </div>
+                <div class="other_cost">
+                    <dl>
+                        <dd><p>申请支付令</p><span>财产案件受理费的1/3</span></dd>
+                        <dd><p>申请公示催告</p><span>每件100</span></dd>
+                        <dd><p>申请确仲或撤仲</p><span>每件400</span></dd>
+                    </dl>
+                </div>
+            </li>
+            <li class="result">
+                <div class="release_item">
+                    <p>计算结果</p>
+                </div>
+                <div class="other_cost result_cost">
+                    <dl>
+                        <dd><p>受理费</p><span id="money">50-100元</span></dd>
+                        <dd><p>执行费</p><span id="price">50-500元</span></dd>
+                        <dd><p>保全费</p><span id="prices">30元</span></dd>
+                    </dl>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="fixed_btn">
+    <a href="javascript:void (0);" onclick="countfee(2)">计算结果</a>
+</section>
+
+<section class="fixed_select">
+    <div class="select_content">
+        <h6>请选择案件类型</h6>
+        <ul id="cate">
+           
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_select_area">
+    <div class="select_content">
+        <h6>请选择地区</h6>
+        <ul id="city">
+            
+        </ul>
+    </div>
+</section>
+
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+
+<script>
+    var ajid=0;
+    var addrid=0;
+    
+    cate();
+
+    function countfee(type){
+        if(ajid==0){
+            alert('请选择案件类型！');return;
+        }
+        if(addrid==0){
+            alert('请选择地区！');return;
+        }
+
+        if($('#checked').prop('checked')==true){
+            var checkedid =1;
+        }else{
+            var checkedid =0;
+
+        }
+
+        var p={ajid:ajid,addrid:addrid,type:type,caichan:checkedid};
+        //alert(JSON.stringify(p))
+        $.post(webSiteUrl+'/app/public/countfee',p,function(ret){
+        
+            if(ret.code==200){
+                $('#money').html(ret.data+'元');
+                $('#price').html(ret.data+'元');
+                $('#prices').html(ret.data+'元');
+                $(".result").show();
+            }else{
+                alert(ret.msg);
+            }
+        });
+       
+    };
+
+    // 类型选择
+    $(".kinds_name").click(function () {
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+    });
+
+    $(".fixed_select").on('click','.select_content ul li',function () {
+        ajid = $(this).attr("data");
+        $(".kinds_name").text($(this).html());
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        },400);
+    });
+    // 地区选择
+    $(".area_choose").click(function () {
+        $(".fixed_select_area").fadeToggle();
+        $(".fixed_select_area .select_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+    });
+
+    $(".fixed_select_area").on('click',".select_content ul li",function () {
+        addrid = $(this).attr("data");
+        $(".area_choose").text($(this).html());
+        $(".fixed_select_area").fadeToggle();
+        $(".fixed_select_area .select_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        },400);
+    })
+
+    //是否涉及财产勾选
+    $(".checkbox_box").click(function () {
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+        }else {
+            $(this).addClass('active')
+        }
+    });
+    //结果计算
+    $(".fixed_btn a").click(function () {
+        // $(".result").show();
+    })
+
+    //案件类型
+    function cate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+            if(ret.code==200){
+               
+                f = "";
+                s = "";
+                var tj=ret.data;
+                
+                html='';
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                           html+='<li style="cursor: pointer" data="'+tj[i].id+'">'+tj[i].name+'</li>';
+                        
+                    }
+                }
+                $('#cate').html(html);
+                city();
+
+            }
+        });
+       
+    };
+
+    //地区选择
+    function city(){
+        $.post(webSiteUrl+'/app/public/region',function(ret){
+            if(ret.code==200){
+               
+                f = "";
+                s = "";
+                var tj=ret.data;
+                
+                html='';
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                           html+='<li style="cursor: pointer" data="'+tj[i].id+'">'+tj[i].name+'</li>';
+                        
+                    }
+                }
+                $('#city').html(html)
+            }
+        });
+       
+    };
+
+   
+</script>
+</html>

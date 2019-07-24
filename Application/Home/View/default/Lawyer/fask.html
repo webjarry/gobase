@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css"/>
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__JS__/ajaxupload.3.5.js"></script>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style type="text/css">
+        .dashang {
+            background: url("__IMG__/jinbi.png") left center no-repeat !important;
+            background-size: 0.3rem auto !important;
+            font-size: 0.26rem;
+            color: #f3a536 !important;
+            margin-right: 0.3rem;
+        }
+		.ask_list ul li.lock{
+			background: url("__IMG__/locklock.png") right top no-repeat;
+			background-size: 0.6rem auto;
+		}
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2 class="typeName">咨询广场</h2>
+    <a href="javascript:;" onclick="aaplay('myanswer')" class="myAnswer_btn">我的回答</a>
+</header>
+
+<section class="ask_square">
+    <div class="ask_list">
+        <ul id='con'>
+            <!-- <li>
+                <a href="javascript:;" onclick="aaplay('index','ask_details.html')">
+                    <div class="userInfo">
+                        <img src="__IMG__/userimg1.jpg" alt="">
+                        <div class="userName">
+                            <h6>135****7574</h6>
+                            <span>重庆 重庆市 <em>5小时前</em></span>
+                        </div>
+                    </div>
+                    <div class="comment_info">
+                        <p>我转租了一个门面，签合同的时候说明里面东西都归我，现在有人来说机器是他的，要求我归还，我是不是可以不给他？</p>
+                    </div>
+                    <div class="ask_kinds">
+                        <span>合同纠纷</span>
+                        <div class="ask_active">
+                            <em class="answer_num">4人回答</em>
+                            <p>我来回答</p>
+                        </div>
+                    </div>
+                </a>
+            </li> -->
+
+        </ul>
+    </div>
+</section>
+
+
+</body>
+<include file="Public/footer"/>
+<script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    var page = 1;
+	var typeid = <?php echo $_GET['type']; ?>;
+	if(typeid==2){
+	  $(".typeName").html('付费咨询');
+	}
+
+    toDoRequest();
+	//alert(para('type'));
+
+    function toDoRequest() {
+
+        var p = {page: page,fask_type:typeid};
+        $.post(webSiteUrl + '/app/public/fask', p, function (ret) {
+            if (ret.code == 200) {
+
+                html = "";
+                var dashang ='';
+                var tj = ret.data;
+                if (tj != null) {
+
+                    for (var i = 0; i < tj.length; i++) {
+                         if(tj[i].reward_price!=0){
+                             dashang = '<em class="dashang">'+tj[i].reward_price+'元</em>';
+                         }else {
+                             dashang = ''
+                         }
+                        //dashang = '';
+                        if(tj[i].private == 1){
+                          html += '<li class="lock" onclick="askdetail(' + tj[i].id + ')"><a href="javascript:;"><div class="userInfo"><img src="' + tj[i].icon + '" alt=""><div class="userName"><h6>' + tj[i].phone + '</h6><span><em style="top: 0;">' +
+                              tj[i].time + '</em></span></div></div><div class="comment_info"><p>' + tj[i].content + '</p></div><div class="ask_kinds"><span>' + tj[i].ajtype + '</span><div class="ask_active">'+dashang+'<em class="answer_num">' + tj[i].num +
+                              '人回答</em><p>我来回答</p></div></div></a></li>';
+                        }else {
+                          html += '<li onclick="askdetail(' + tj[i].id + ')"><a href="javascript:;"><div class="userInfo"><img src="'+ tj[i].icon + '" alt=""><div class="userName"><h6>' + tj[i].phone + '</h6><span><em style="top: 0;">' +
+                              tj[i].time + '</em></span></div></div><div class="comment_info"><p>' + tj[i].content + '</p></div><div class="ask_kinds"><span>' + tj[i].ajtype + '</span><div class="ask_active">'+dashang+'<em class="answer_num">' + tj[i].num +
+                              '人回答</em><p>我来回答</p></div></div></a></li>';
+
+                        }
+
+
+                    }
+                }
+                if (page == 1) {
+                    $('#con').html(html);
+                } else {
+                    $('#con').append(html);
+                }
+                page++;
+
+
+            } else {
+                if (page == 1) {
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+
+            }
+        });
+
+    }
+
+    function myanswer() {
+        location.href = '/Home/Lawyer/fask?uid' + uid;
+    }
+
+</script>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE HTML>
+<html style="background: #f8f8f8;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+</head>
+<body style="background: #f8f8f8;">
+<header class="header">
+    <!--<a href="javascript:void(0);"  class="index_tel_btn"><img src="__IMG__/tel.png" alt=""></a>-->
+    <h2>找律师</h2>
+    <a href="javascript:void(0);" class="yhj_btn" onclick="aaplay('search_lawyer')" style="right:3%!important;"><img src="__IMG__/search.png" alt=""></a>
+</header>
+<section class="condition">
+    <ul>
+        <li>
+            <p>全国</p>
+            <div class="area_choose myarea">
+                <div class="choose">
+                    <div class="area">
+                        <dl id="cityf">
+                        </dl>
+                    </div>
+                    <div class="cities" id="cityson">
+
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <p>案件类型</p>
+            <div class="area_choose myaj">
+                <div class="choose">
+                    <div class="area">
+                        <dl id="f">
+
+                        </dl>
+                    </div>
+                    <div class="cities" id="son">
+                        <dl>
+                            <dd>全部</dd>
+                        </dl>
+                        <dl>
+                            <dd>万州区</dd>
+
+                        </dl>
+                        <dl>2</dl>
+                        <dl>3</dl>
+
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <p>智能排序</p>
+            <div class="area_choose">
+                <div class="sort">
+                    <dl>
+                        <dd>智能排序</dd>
+                        <dd>评价</dd>
+                        <dd>执业年限</dd>
+                    </dl>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+<section class="about_info" style="padding-top: 0.3rem; padding-bottom: 1rem;">
+    <div class="recommend_lawyer">
+        <ul id="con">
+            <!--<li>
+                <a href="javascript:;" onclick="aaplay('lawyer','lawyer_details.html')">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div class="lawyers_info">
+                        <h6>方大同律师 <em>执业1年</em></h6>
+                        <p class="location">重庆市 南岸区</p>
+                        <p class="addr">重庆市程建律师事务所</p>
+                        <dl>
+                            <dd>遗产纠纷</dd>
+                            <dd>劳动仲裁</dd>
+                            <dd>人身损害</dd>
+                        </dl>
+                    </div>
+                </a>
+            </li>-->
+        </ul>
+    </div>
+</section>
+<section class="navigation">
+    <ul>
+        <li class=""><a href="javascript:;" onclick="aaplay('index')"><h6 class="icon"></h6>首页</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('news')"><h6 class="icon"></h6>资讯</a></li>
+        <li class="active"><a href="javascript:;" onclick="aaplay('lawyers')"><h6 class="icon"></h6>找律师</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('find')"><h6 class="icon"></h6>发现</a></li>
+        <li class=""><a href="javascript:;" onclick="personal()"><h6 class="icon"></h6>我的</a></li>
+    </ul>
+</section>
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+    $(window).scroll(function(){
+
+        var scrollTop = $(this).scrollTop();    //滚动条距离顶部的高度
+        var scrollHeight = $(document).height();   //当前页面的总高度
+        var clientHeight = $(this).height();    //当前可视的页面高度
+        // console.log("top:"+scrollTop+",doc:"+scrollHeight+",client:"+clientHeight);
+       // alert(scrollTop + clientHeight+','+scrollHeight);
+        if(scrollTop + clientHeight >= scrollHeight-30){   //距离顶部+当前高度 >=文档总高度 即代表滑动到底部
+            //滚动条到达底部
+            //alert('bottom1111');
+            //toDoRequest();
+            /*try {
+                if(typeof toDoRequest === "function") { //是函数    其中 FunName 为函数名称
+                    toDoRequest();
+                } else { //不是函数
+
+
+                }
+            } catch(e) {}*/
+
+        }else if(scrollTop<=0){
+            //滚动条到达顶部
+            console.log('top')
+            //滚动条距离顶部的高度小于等于0 TODO
+
+        }
+    });
+
+    var ajid = 0;
+    var addrid = 0;
+    var sort = 0;
+    var page = 1;
+
+    if(para('ajid') != null){
+        ajid=para('ajid');
+    }
+
+    ajcate();
+
+    function toDoRequest(){
+
+        var p= {ajid:ajid,addrid:addrid,sort:sort,page:page};console.log(p)
+        page++;
+        $.post(webSiteUrl+'/app/public/searchlawyer',p,function(ret){
+        
+            //alert(JSON.stringify(ret))
+            if(ret.code==200){
+
+                html = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++) {
+
+                        html += '<li><a href="javascript:;" onclick="lawyer(' + tj[i].id + ')"><img src="'  + tj[i].icon + '" alt=""><div class="lawyers_info"><h6>' + tj[i].nickname + '律师 <em>执业' + tj[i].year + '年</em></h6><p class="location">' + tj[i].addr + '</p><p class="addr">' + tj[i].depart + '</p><dl>';
+                        for (var j = 0; j < tj[i].label.length; j++) {
+                            html += '<dd>' + tj[i].label[j] + '</dd>';
+                        }
+                        html += '</dl></div></a></li>';
+                    }
+                }
+                if(page==1){
+                    $('#con').html(html);
+                }else{
+                    $('#con').append(html);
+                }
+                //alert(page)
+
+
+            }else{
+                if(page==1){
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+            }
+
+        })
+
+    }
+    function ajcate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        f+='<dd  style="cursor: pointer">'+tj[i].name+'</dd>';
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<dl style="cursor: pointer">';
+                            for(var j=0;j<son.length;j++){
+                                s+='<dd style="cursor: pointer" data="'+son[j].id+'">'+son[j].name+'</dd>';
+                            }
+                            s+='</dl>';
+                        }
+
+                    }
+                }
+                $('#f').html(f)
+                $('#son').html(s)
+
+                ajcity()
+
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+    function ajcity(){
+        $.post(webSiteUrl+'/app/public/region',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        f+='<dd  style="cursor: pointer">'+tj[i].name+'</dd>';
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<dl style="cursor: pointer">';
+                            for(var j=0;j<son.length;j++){
+                                s+='<dd style="cursor: pointer" data="'+son[j].id+'">'+son[j].name+'</dd>';
+                            }
+                            s+='</dl>';
+                        }
+
+                    }
+                }
+                $('#cityf').html(f)
+                $('#cityson').html(s)
+
+                toDoRequest()
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+
+    //打开和关闭列表
+    $(".condition ul li p").click(function (e) {
+        if($(this).hasClass('on')){
+            $(this).removeClass('on').siblings('.area_choose').slideUp();
+            $(this).parents('li').siblings('li').find('.area_choose').slideUp();
+        }else {
+            $(this).addClass('on').siblings('.area_choose').slideDown().find(".cities dl").eq(0).show().siblings('dl').hide();
+            $(this).parents('li').siblings('li').find('p').removeClass('on').siblings('.area_choose').slideUp();
+        }
+    });
+    //城市切换
+    $(document).on('click',".condition ul li .area_choose .area dl dd",function () {
+        $(this).addClass('active').siblings('dd').removeClass('active');
+        $(this).parents('.area').siblings(".cities").find('dl').eq($(this).index()).show().siblings('dl').hide();
+
+    });
+
+    $(document).on('click',".myarea .cities dl dd",function () {
+        var city = $(this).text();
+        $(this).parents('.area_choose').slideUp().siblings('p').text(city).removeClass('on');
+
+        page = 1;
+        addrid = $(this).attr('data');
+        $('#con').empty()
+        toDoRequest()
+    });
+    $(document).on('click',".myaj .cities dl dd",function () {
+        var city = $(this).text();
+        $(this).parents('.area_choose').slideUp().siblings('p').text(city).removeClass('on');
+
+        page = 1;
+        ajid = $(this).attr('data');
+        $('#con').empty()
+        toDoRequest()
+    });
+    //智能排序
+    $(".area_choose .sort dl dd").click(function () {
+        $(this).addClass('active').siblings('dd').removeClass('active');
+        $(this).parents('.area_choose').slideUp().siblings('p').text($(this).html()).removeClass('on');
+
+        page = 1;
+        sort = parseInt($(this).index()+1);
+        $('#con').empty()
+        toDoRequest()
+    });
+
+
+</script>
+</html>

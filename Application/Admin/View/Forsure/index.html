@@ -1,0 +1,100 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>证明留言列表</h2>
+	</div>
+	<div class="cf">
+
+
+
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<form action="/Admin/Forsure/index" method="get" id="form1">
+			<div class="sleft">
+				<input type="text" name="date1" id="date1" class="search-input" value="{:I('date1')}" placeholder="开始日期" >
+				<input type="text" name="date2" id="date2"  class="search-input" value="{:I('date2')}" placeholder="结束日期">
+				<input type="hidden" name="zc_id"  value="{$get['zc_id']}" />
+				<!--<input type="text" name="name" class="search-input" value="{:I('name')}" placeholder="请输入众筹名称">-->
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+			</div>
+			</form>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="row-selected row-selected" style="width: 2%"><input class="check-all" type="checkbox"/></th>
+		<th class="">编号</th>
+		<!--<th class="">订单号</th>-->
+		<th class="">姓名</th>
+		<th class="">关系</th>
+		<th class="">身份证号</th>
+		<th class="">留言内容</th>
+		<th class="">添加时间</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="list">
+		<volist name="list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			<td>{$vo.username}</td>
+			<td>{$vo.relation_id|modelField='category','title'}</td>
+			<td>{$vo.code}</td>
+			<td>{$vo.content}</td>
+			<td>{$vo.create_time|date='Y-m-d H:i',###}</td>
+           <td>
+			   <a href="{:U('Forsure/foreverdelete?id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+            </td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+	<script type="text/javascript">
+	//搜索功能
+    $("#search").click(function () {
+        $("#form1").submit();
+    });
+    //回车搜索
+    $(".search-input").keyup(function (e) {
+        if (e.keyCode === 13) {
+            $("#search").click();
+            return false;
+        }
+    });
+
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date1'
+		});
+	})
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date2'
+		});
+	})
+    //导航高亮
+    highlight_subnav('{:U('Zc/index')}');
+	</script>
+</block>

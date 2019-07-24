@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{:C('WEB_SITE_TITLE')}</title>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+</head>
+<style>
+    *{margin:0; padding:0; list-style:none; box-sizing: border-box; outline: none;font-family: Microsoft Yahei,SimSun;}
+    /*ul{list-style-type: none;}
+    a{text-decoration: none;}
+    body{position: relative; z-index: 1;background: #eeeeee;}
+    .main{background: #eeeeee; width: 100%;  margin: 0 auto; overflow: hidden; padding-bottom: 1.78rem;}
+    section{width: 100%; float: left;}
+
+    .comheader{width: 100%; height: 1.2rem; float: left; background: #0db47b; line-height: 1.2rem; color: #fff;text-align: center; font-size: 0.4rem; position: relative; z-index: 1;}
+    .comheader i{font-size: 0.6rem; position: absolute; z-index: 2;left: 0.3rem; top: 0.3rem;}
+    .head_link{position: absolute; z-index: 2; right: 0.3rem; bottom: 0px; color: #fff;}
+    .detail_title{width: 100%; float: left; line-height: 0.6rem; font-size: 0.45rem; color: #333;font-weight: bolder; margin-top: 0.25rem;}
+    .detail_tent{width: 100%; float: left; line-height: 0.5rem; color: #333; font-size: 0.32rem; margin-top: 0.25rem;}*/
+
+    .con{margin:0 auto;background: #e8f2ff;width:100%;height:100%;padding-top:8rem}
+    .con input{width:40rem;height:8rem;margin-bottom:3rem}
+
+    .info{margin:0 auto;margin-top: 30rem;margin-left: 10rem}
+</style>
+<body>
+
+    <!--<header class="comheader">{$news.title}1111111111
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+    </header>
+    <section style="padding-bottom: 1.78rem;padding-left: 0.4rem; padding-right: 0.4rem;">
+
+        <div class="detail_title">{$news.title}11111111111</div>
+        <div class="detail_tent">{$news.content}2222222222</div>
+
+    </section>-->
+<div class="con">
+    <div style="text-align: center;color:#0db47b;font-size: 5rem;">意达订货注册</div>
+
+    <div class="info">
+        <!--<input type="text" name="idno" id="indo" placeholder="推荐人ID号">-->
+        <input type="text" name="username" id="username" placeholder="用户名">
+        <input type="text" name="password" id="password" placeholder="密码">
+        <input type="button" value="立即注册" class="reg" style="font-size: 3rem;background: #0db47b;color:white;margin-bottom:50rem">
+    </div>
+</div>
+</body>
+<script>
+
+    $('.reg').click(function(){
+        //var idno=$('input[name=idno]').val();
+        var username=$('input[name=username]').val();
+        var password=$('input[name=password]').val();
+
+        /*if(idno==''){
+            idno=0;
+        }*/
+        if(username==''){
+            layer.tips('请输入用户名!', '#username', {
+                tips: [1, '#3595CC'],
+                time: 4000
+            });return false;
+        }
+
+        if(password==''){
+            layer.tips('请输入密码!', '#password', {
+                tips: [1, '#3595CC'],
+                time: 4000
+            });return false;
+        }
+        var id="{$Think.get.id}";
+        //console.log(id,advicer,name,content,icon);return;
+
+        $.post("/Home/Index/index",{ 'username':username,  'password':password},function(da){
+            var obj = jQuery.parseJSON(da);
+            if(obj.code==200){
+                layer.alert(obj.msg);
+            }else{
+                layer.msg(obj.msg);
+
+            }
+        });
+    })
+</script>
+</html>

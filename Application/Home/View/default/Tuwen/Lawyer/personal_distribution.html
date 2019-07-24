@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3;" lang="zh-cmn-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>分享奖励</h2>
+    <!--<a href="javascript:void (0);" class="search_btn set_btn">设置</a>-->
+</header>
+<section class="money_section">
+    <div class="profit">
+        <div class="myAward">
+            <p>我的奖励金(元)</p>
+            <h6 id="reward">0.00</h6>
+            <div class="my_code">
+                <span>我的邀请码<em id="idno">35sdf</em></span>
+                <!--<a href="personal_money_cash.html" class="cash_btn">提现</a>-->
+            </div>
+        </div>
+    </div>
+</section>
+<section class="other_operation">
+    <ul>
+        <li><a href="javascript:;" >邀请律师好友使用法援宝 <span>点击分享</span></a></li>
+        <li><a href="javascript:;" >我的二维码 <span><img src="__IMG__/ewm_code.png" id="ewm"></span></a></li>
+        <li><a href="javascript:;">我的邀请码 <span id="idno1">35sdf</span></a></li>
+    </ul>
+</section>
+<section class="code" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;">
+    <div class="codeImg" style="position: absolute; left: 0; top: 0; right: 0;
+     bottom: 0; margin: auto; width: 5rem; height: 5rem; background: #ffffff;">
+        <img src="__IMG__/ewm_code.png" width="100%" height="100%" id="ewm1">
+    </div>
+</section>
+<script>
+    $(".code").hide()
+    $("#ewm").click(function () {
+        $(".code").show()
+    })
+    $(".code").click(function () {
+        $(this).hide();
+    })
+</script>
+<section class="other_operation">
+    <ul>
+        <!--<li><a href="javascript:;" onclick="aaplay('personal_distribution_profit')">收益明细</a></li>-->
+        <li><a href="javascript:;" onclick="aaplay('personal_distribution_invite')">邀请统计</a></li>
+    </ul>
+</section>
+<section class="reminder">
+    <h6>活动详情：</h6>
+    <p>
+        1、邀请好友注册使用app，好友消费后即可获得该单平台服务费的20%作为奖励；<br>
+        2、邀请律师好友入驻平台，律师认证成功后我与被邀请的律师都可获得现金奖励。
+    </p>
+</section>
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+
+    user()
+
+    function user() {
+        var p={token:token,infock:2};
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+            if(ret.code==200){
+                $("#reward").html(ret.data.reward);
+                $("#idno").html(ret.data.idno);
+                $("#idno1").html(ret.data.idno);
+
+                $("#ewm1").attr('src',ret.data.ewm);
+
+            }else{alert(ret.msg)}
+        });
+
+    }
+
+
+</script>
+</html>

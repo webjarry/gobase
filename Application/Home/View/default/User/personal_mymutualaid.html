@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script>
+        window['adaptive'].desinWidth = 750;
+        window['adaptive'].baseFont = 28;
+        window['adaptive'].maxWidth = 750;
+        window['adaptive'].init();
+    </script>
+    <style type="text/css">
+        .my_info{
+            width: 4rem;
+        }
+        .my_info .swiper-container{
+            height: 0.35rem;
+        }
+    </style>
+</head>
+<body>
+<section class="myInformation">
+    <header class="header" style="background: none;">
+        <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+        <h2></h2>
+        <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+    </header>
+    <div style="padding: 0 3%;">
+        <div class="my_pic">
+            <img src="__IMG__/user_tx.png" alt="" id="icon">
+            <div class="my_info">
+
+                <p id="phone">138****8886</p>
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" id="price">余额￥0.00</div>
+                        <div class="swiper-slide" id="num">已帮助0人</div>
+                        <div class="swiper-slide" id="day">已加入0123123天</div>
+                    </div>
+                </div>
+
+            </div>
+            <a href="javascript:;" onclick="aaplay('mutualaid_history.html')" class="myHistory">我的互助记录</a>
+        </div>
+        <div class="my_active">
+            <div class="welcome">
+                <div class="welcome_tips">
+                    <h6 id="nickname">欢迎，SHEJIGO</h6>
+                    <p>想了解更多关于互助~</p>
+                </div>
+                <a href="javascript:;" class="learn_more" onclick="aaplay('crowd_funding_learnMutual.html')">点击了解</a>
+            </div>
+            <div class="my_active_list">
+                <ul>
+                    <li><a href="javascript:;" onclick="aaplay('personal_distribution.html')"><img src="__IMG__/mm1.png" alt=""><p>邀请好友</p></a></li>
+                    <li><a href="javascript:;" onclick="personal_money_recharge()"><img src="__IMG__/mm2.png" alt=""><p>余额充值</p></a></li>
+                    <li><a href="javascript:;" onclick="aaplay('mutualaid_apply_history.html')"><img src="__IMG__/mm3.png" alt=""><p>申请记录</p></a></li>
+                    <li><a href="javascript:;" onclick="apply_mutualaid()"><img src="__IMG__/mm4.png" alt=""><p>求助申请</p></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="plans">
+    <ul>
+        <li>
+            <p>家庭互助计划 <em id="jiaren" onclick="aaplay('electronic_vouchers')">0人权益生效中</em></p>
+            <a href="javascript:;" onclick="aaplay('familyhelp_add.html')">为家人加入</a>
+        </li>
+        <li style="display: none">
+            <p>刑事互助计划 <em id="xingshi">0人权益生效中</em></p>
+            <a href="javascript:;" onclick="aaplay('crowd_funding_learnMutual2.html')">点击升级</a>
+        </li>
+    </ul>
+</section>
+<section class="family" style="padding-bottom: 0.3rem;">
+    <div class="common_title">
+        <h6>如何获得互助金</h6>
+    </div>
+    <div class="flow_list" style="border-bottom: none; padding: 0.2rem 0;">
+        <ul>
+            <li><em>1</em><p>加入互助</p></li>
+            <li><em>2</em><p>渡过等待期</p></li>
+            <li><em>3</em><p>审核申请信息</p></li>
+            <li><em>4</em><p>获得互助金</p></li>
+        </ul>
+    </div>
+    <div class="details" style="font-size: 0.24rem; color: #666666;">
+        <p>
+            1、2017年5月13号，家庭幸福的刘女士加入互助项目；<br>
+            2、刘女士持续为互助会员分摊互助金，余额充足并且渡过了180天等待期；<br>
+            3、2018年8月10日，刘女士老公出轨，把财产转移了，身上拿不出打官司的钱，申请互助金；<br>
+            4、2018年10月8日，平台通过调查审核通过刘女士的申请请求，刘女士收到互助金，得到及时帮助。<br>
+        </p>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    loginCheck()
+    var day=0
+    var need
+    //alert(uicon)url(/Public/Home/img/personal_bg.png)
+    if(uicon != "/Public/Home/img/user_tx.png"){
+        $('.myInformation').css('backgroundImage',"url("+uicon+")").css('backgroundSize','100% 100%')
+    }else{
+        $('.myInformation').css('backgroundImage',"url(/Public/Home/img/personal_bg.png)").css('backgroundSize','100% 100%')
+    }
+
+    $('#icon').attr('src',uicon);
+    $('#phone').html(loginphone);
+    $('#nickname').html('欢迎，  '+nickname);
+
+    $('#price').html('余额￥ '+reward);
+
+
+    wdhuzhu()
+    function wdhuzhu(){
+        var p = {token:token};
+        $.post(webSiteUrl+'/app/user/peoplenum',p,function(ret){
+            if (ret.code == 200) {
+                need=ret.data*10
+                $('#jiaren').html(ret.data+'人权益生效中'); //手机号
+                $('#xingshi').html(ret.data+'人权益生效中'); //余额
+            }
+            user()
+        });
+    }
+    function user(){
+        var p = {token:token};
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+            if (ret.code == 200) {
+
+                day=ret.data.hz_time;
+
+                $('#day').html('倒计时'+parseInt(180-ret.data.hz_time)+'天');
+
+                var mySwiper = new Swiper('.swiper-container', {
+                    autoplay: 4000,//可选选项，自动滑动
+                    direction : 'vertical',
+                    loop: true,
+                })
+            }
+        });
+    }
+    function apply_mutualaid() {
+        if(day<180){
+            alert('您加入互助未满180天,暂不符合申请资格');return;
+        }
+        aaplay('apply_mutualaid')
+    }
+    function personal_money_recharge() {
+        if(reward >= need){
+            alert('余额充足,无需充值');return;
+        }else{
+            var money=need-reward
+            location.href='/home/user/personal_money_recharge?reward=1&money='+money
+        }
+
+    }
+</script>
+</html>

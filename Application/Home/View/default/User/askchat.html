@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/chat.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css"/>
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/ajaxupload.3.5.js"></script>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style type="text/css">
+
+    </style>
+</head>
+<body style="background: #f9f9f9">
+<header class="header" style="z-index: 99;position: fixed; width: 100%;left: 0;top: 0">
+    <a href="javascript:void(0);" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>咨询回复</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<div class="height1" style="height: 1rem;"></div>
+<section class="viewmessage">
+    <ul id="recordchat">
+        <!--别人的消息-->
+        <!--<li class="other">-->
+            <!--<div class="msg-info">-->
+                <!--<img src="../image/uu1.jpg" alt="">-->
+            <!--</div>-->
+            <!--<div class="info">-->
+                <!--<div class="name">写民宿 <span class="datetime">2019-03-05 19:23:20</span></div>-->
+                <!--<div class="info-box">-->
+                    <!--<p>谢谢您为我献出爱心谢谢您为我献出爱心谢谢您为我献出爱心谢谢您为我献出爱心，大</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--自己的消息-->
+        <!-- <li class="self">
+            <div class="info">
+                <div class="name"><span class="datetime">2019-03-05 19:23:20</span> 写民宿</div>
+                <div class="info-box">
+                    <p>谢谢您为我献出爱心谢谢您为我献出爱心谢谢您为我献出爱心谢谢您为我献出爱心，大</p>
+                </div>
+            </div>
+            <div class="msg-info">
+                <img src="../image/uu2.jpg" alt="">
+            </div>
+        </li> -->
+    </ul>
+</section>
+
+<section class="height2" style="height: 1.1rem;"></section>
+<section class="fixed_btn" style="background: #ffffff; border-top: 1px #eee solid;">
+    <div class="viewmsaage_footed">
+        <input style="margin: 0 0.1rem;" type="text" name="content" id="content" placeholder="请输入内容" />
+        <div class="submit" id="tijiao" onclick="send()">发送</div>
+    </div>
+</section>
+
+</body>
+<include file="Public/userfooter"/>
+<script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var ask_id = para('id');
+    var ask_uid = para('uid');
+
+    if(ask_uid == uid){
+        $(".fixed_btn").show();
+    }else {
+        $(".fixed_btn").hide();
+    }
+
+
+    toDoRequest()
+
+    function send(){
+        console.log(ask_id)
+        var content = $("#content").val();
+        if (content == '') {
+            api.alert({
+                title: '提示',
+                msg: '咨询内容不能为空',
+            }, function(ret, err) {
+            });
+            return;
+        }
+        var p  = {
+            token: token,
+            id: ask_id,
+            content: content
+        };
+        $.post(webSiteUrl + '/App/staff/answer', p, function (ret) {
+            if (ret.code == 200) {
+                $("#content").val('')
+                toDoRequest();
+            }
+        });
+    }
+
+
+
+    function toDoRequest() {
+        var p = {
+            token: token,
+            id: ask_id
+        }
+        $.post(webSiteUrl + '/App/staff/answer_list', p, function (ret) {
+            console.log(JSON.stringify(ret))
+            if (ret.code == 200) {
+                var info = ret.data;
+                var html = '';
+                if(info){
+                    for(var i = 0;i<info.length;i++){
+                        if(info[i].user_path.indexOf('http')<0){
+                            info[i].user_path = webSiteUrl+info[i].user_path
+                        }
+                        if(info[i].user_type==2){
+                            html += '<li class="other"><div class="msg-info"><img src="'+info[i].user_path+'" alt=""></div><div class="info"><div class="name">'+info[i].nickname+' <span class="datetime">'+info[i].create_time+'</span></div><div class="info-box"><p>'+info[i].content+'</p></div></div></li>'
+                        }else {
+                            html += '<li class="self"><div class="info"><div class="name"><span class="datetime">'+info[i].create_time+'</span> '+info[i].nickname+'</div><div class="info-box"><p>'+info[i].content+'</p></div></div><div class="msg-info"><img src="'+info[i].user_path+'" alt=""></div></li>'
+                        }
+                    }
+                    $("#recordchat").html(html)
+
+                    var div = document.getElementById('recordchat');
+                    div.scrollTop = div.scrollHeight;
+
+                }else {
+                    $("#recordchat").html('<p class="t_center mt40">暂无咨询回复</p>')
+                }
+            }
+        });
+
+    }
+    $(function () {
+        $(".viewmessage").height($(window).height()-$('.height1').height()-$('.height2').height())
+        $('.viewmessage').scrollTop($(".viewmessage")[0].scrollHeight);
+    });
+
+
+</script>
+</html>

@@ -1,0 +1,31 @@
+<script>
+    var user="{$user}";
+    if(user != null && user != 'undefined'){
+        var token="{$user.token}";
+        var uid="{$user.id}";
+        var utype="{$user.type}";
+        var vip="{$user.vip}";
+        var islogin=1;
+        var loginphone="{$user.phone}";
+        var nickname="{$user.nickname}";
+        var uicon="{$user.icon}";
+        var balance="{$user.balance}";
+        var reward="{$user.reward}";
+        var xs="{$user.xs}";
+
+
+    }else{
+        var islogin=0;
+    }
+    function loginCheck() {
+       
+        if(token=='' || utype!=1){
+            alert('您尚未登录,请登录')
+            window.location.href = '/Home/Public/login_account';
+			return false;
+        }else{
+            return true;
+        }
+    }
+
+</script>

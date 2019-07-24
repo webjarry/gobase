@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/baguetteBox.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/baguetteBox.js"></script>
+    <script type="text/javascript" src="__JS__/highlight.min.js"></script>
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style type="text/css">
+        .gallery{
+            display: flex;
+            margin-top: 0.2rem;
+        }
+        .gallery a{
+            width: 31%;
+            margin-right: 3%;
+        }
+        .gallery a img{
+            display: block;
+            width: 2.22rem;
+            height: 2.22rem;
+        }
+        .gallery a:last-child{
+            margin-right: 0;
+        }
+        .full-image img{
+            width:100%!important;
+        }
+        .zhuanfa {
+            padding: 0.2rem 0.1rem 0.1rem;
+            background: #f1f1f1;
+            margin-bottom: 0.2rem;
+        }
+
+        .zfInfo {
+            font-size: 0.28rem;
+            line-height: 0.4rem;
+        }
+
+        .zfInfo span {
+            color: #1c83ea;
+        }
+    </style>
+</head>
+<body>
+<div id="secHeader">
+  <header class="header">
+      <a href="javascript:void(0);" onclick="aaplay('find')" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+      <h2>律师圈</h2>
+      <a href="javascript:;" onclick="commonUrl('addpl')" class="myAnswer_btn edit_btn"><img src="__IMG__/edit_icon.png" alt=""></a>
+  </header>
+</div>
+
+<section class="lawyers">
+    <div class="lawyers_list">
+        <ul id='con'>
+
+
+        </ul>
+    </div>
+</section>
+
+
+</body>
+<include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+<script>
+    var page=0;
+    var p='';
+	toDoRequest();
+	$(document).ready(function () {
+        $(window).scroll(function () {
+
+            if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+				toDoRequest();
+            }
+        });
+    });
+
+    function toDoRequest() {
+		page++;
+        //p= {uid:uid,utype:1,page:page};
+        p = {
+            page: page
+        };
+		$.post(webSiteUrl + '/app/public/dt',p,function(ret){
+		
+			if (ret.code == 200) {
+                console.log(JSON.stringify(ret));
+                html = "";
+                var tj = ret.data.data;
+                if (tj != null) {
+
+                    for (var i = 0; i < tj.length; i++) {
+
+                        if (tj[i].pid != '' && tj[i].zfInfo != '') {
+                            var strIcon = '';
+                            if (tj[i].zfInfo.icons.length > 0) {
+                                for (var j = 0; j < tj[i].zfInfo.icons.length; j++) {
+                                    strIcon += '<a href="'  + tj[i].zfInfo.icons[j] + '"><img src="' + tj[i].zfInfo.icons[j] + '" alt=""></a>'
+                                }
+
+                            }
+
+
+                            html += '<li><div class="userInfo" onclick="dtdetail(' + tj[i].id +
+                                ')"><img src="' + tj[i].icon + '" alt=""><div class="userName"><h6>' + tj[i].nickname + '</h6><span>' + tj[i].time +
+                                '</span></div></div><div class="comment_info" style="padding-bottom: 0.1rem!important;"><p>' + tj[i].content +
+                                '</p></div><div class="zhuanfa" onclick="dtdetail(' + tj[i].zfInfo.id +
+                                    ')"><div class="zfInfo"><p><span>' + tj[i].zfInfo.nickname + '：</span>' + tj[i].zfInfo.content + '</p></div><div class="zhuanfaImg baguetteBoxOne gallery">' + strIcon +
+                                '</div></div><div class="lawyers_active"><dl><dd onclick="zhuanfa(' + tj[i].id + ')"><a href="##" class="lawyers_share">' + tj[i].zf + '</a></dd><dd onclick="dtdetail(' + tj[i].id +
+                                    ')"><a href="##" class="lawyers_info">' + tj[i].pl +
+                                '</a></dd><dd><a href="javascript:void (0);" class="lawyers_fabulous">' + tj[i].dz + '</a></dd></dl></div></li>';
+                        } else {
+                            html += '<li><div class="userInfo" onclick="dtdetail(' + tj[i].id + ')"><img src="' + tj[i].icon + '" alt=""><div class="userName"><h6>' + tj[i].nickname + '</h6><span>' + tj[i].time +
+                                '</span></div></div><div class="comment_info" ><a href="javascript:;"><p onclick="dtdetail(' + tj[i].id + ')" style="cursor:pointer">' + tj[i].content + '</p></a><div class="baguetteBoxOne gallery">';
+                            if (tj[i].icons.length > 0) {
+                                for (var j = 0; j < tj[i].icons.length; j++) {
+
+                                    html += '<a href="' + tj[i].icons[j] + '" data-caption=""><img src="' + tj[i].icons[j] + '"></a>';
+                                }
+                            }
+                            html += '</div></div><div class="lawyers_active"><dl><dd><a href="##" class="lawyers_share" onclick="zhuanfa(' + tj[i].id + ')">' + tj[i].zf + '</a></dd><dd><a href="##" onclick="dtdetail(' + tj[i].id +
+                                ')" class="lawyers_info" style="cursor:pointer">' + tj[i].pl + '</a></dd><dd><a href="javascript:;" ';
+                            if (tj[i].is_dz == 1) {
+                                html += 'class="lawyers_fabulous active"';
+                            } else {
+                                html += 'class="lawyers_fabulous"';
+                            }
+                            html += ' data="' + tj[i].id + '">' + tj[i].dz + '</a></dd></dl></div></li>';
+                        }
+
+                    }
+                }
+                if (page == 1) {
+                    $('#con').html(html);
+                } else {
+                    $('#con').append(html);
+                }
+                page++;
+
+                baguetteBox.run('.baguetteBoxOne');
+
+            } else {
+                if (page == 1) {
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+
+            }
+		
+		});
+
+    }
+
+
+
+    function zhuanfa(id) {
+        if(!loginCheck()){
+          return false;
+        }
+         window.location.href='/Home/Lawyer/zhuanfa_dynamic?id='+id;
+    }
+
+
+    //点赞
+    $(document).on('click','.lawyers_list dl dd .lawyers_fabulous',function(){
+      if(!loginCheck()){
+        return false;
+      }
+        //console.log(parseInt($(this).text())+1)
+        if(!$(this).hasClass('active')){
+            $(this).addClass('active');
+            $(this).html(parseInt($(this).text())+1)
+            var id=$(this).attr('data');
+
+            loginCheck()
+            var p={token:token,type:2,id:id}
+			$.post(webSiteUrl+'/app/user/add_dz',p,function(ret){});
+        }
+    });
+</script>
+</html>

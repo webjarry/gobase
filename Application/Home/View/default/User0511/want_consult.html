@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我要咨询</h2>
+    <!--<a href="javascript:void(0);" class="qiandao_btn">注册</a>-->
+</header>
+
+<section class="cost_calc">
+    <div class="calc_list">
+        <h6 class="cost_title">选择咨询方式</h6>
+        <ul>
+            <li>
+                <a href="want_consult_release.html">
+                    <img src="__IMG__/ask01.png" alt="">
+                    <div class="cost_name">
+                        <h6>免费咨询</h6>
+                        <p>免费咨询，多名律师为您解答</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="asktype(1)">
+                    <img src="__IMG__/ask02.png" alt="">
+                    <div class="cost_name">
+                        <h6>图文咨询</h6>
+                        <p>通过图文、语音与律师在线沟通</p>
+                    </div>
+                </a>
+                <em class="tuijan">推荐</em>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="asktype(2)">
+                    <img src="__IMG__/ask03.png" alt="">
+                    <div class="cost_name">
+                        <h6>电话咨询</h6>
+                        <p>专业律师给您回电解答</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="asktype(3)">
+                    <img src="__IMG__/ask04.png" alt="">
+                    <div class="cost_name">
+                        <h6>见面咨询</h6>
+                        <p>约定时间、地点、与律师见面详谈</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+
+<script>
+    function asktype(type) {
+        location.href='/Home/user/lawyers_list?type='+type
+    }
+
+    //提示关闭
+    $(".fixed_tips").click(function () {
+        $(this).fadeOut();
+    });
+
+
+</script>
+</html>

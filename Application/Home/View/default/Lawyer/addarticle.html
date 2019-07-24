@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>发布文章</h2>
+    <a href="javascript:;" class="tel_btn" onclick="tijiao()">发布</a>
+</header>
+
+<section class="release_contract">
+    <div class="release_list">
+        <ul>
+            <!--<li>
+                <div class="release_item">
+                    <p>文章类型</p>
+                    <span class="kinds_name"></span>
+                </div>
+            </li>-->
+            <li>
+                <div class="release_item">
+                    <p>文章标题</p>
+                    <input type="text" placeholder="请输入文章标题" id='name'>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>文章内容</p>
+                </div>
+                <textarea name="" id="content" cols="30" rows="10" placeholder="请输入发布的文章内容"></textarea>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>请上传文章图片</p>
+                </div>
+                <div class="file_list">
+                    <div id='imgcon'>
+
+                    </div>
+                   
+                    <!-- <a href="javascript:void(0);" class="open_camera"></a> -->
+                    <div class="open_file"  id="icon"></div>
+                    <input type="hidden" name="icon" id='iconid' value="">
+                </div>
+
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="fixed_select">
+    <div class="select_content">
+        <h6>请选择文章类型</h6>
+        <ul id='cate'>
+
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    var type=0;
+    //cate()
+    function tijiao(){
+        loginCheck()
+        var name=$('#name').val();
+        var content=$('#content').val();
+        var icon=$("input[name=icon]").val();
+
+       /* if(type==0){
+            alert("请选择文章类型！");return;
+        }*/
+        if(name==''){
+            alert("请输入文章标题！");return;
+        }
+        if(content==''){
+            alert("请输入文章内容！");return;
+        }
+        var p={token:token,icon:icon,content:content,name:name,type:type};
+        $.post(webSiteUrl+'/app/user/adddongtai',p,function(ret){
+            if(ret.code==200){
+
+                alert(ret.msg);
+                location.href='/home/lawyer/lawyerquan'
+
+            }else{
+                alert(ret.msg)
+            }
+
+        });
+    }
+    function cate(){
+        var p={type:2};
+        $.post(webSiteUrl+'/app/public/cate',p,function(ret){
+            console.log(JSON.stringify(ret.data))
+            if(ret.code==200){
+
+                var tj=ret.data;
+                html = "";
+                for(var i=0;i<tj.length;i++){
+                    html+='<li style="cursor: pointer"  data="'+tj[i].id+'">'+tj[i].title+'</li>';
+                }
+                $('#cate').html(html);
+            }
+        });
+
+    }
+
+    //发布合同 类型选择
+    $(".kinds_name").click(function () {
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+    });
+    $(document).on('click',".select_content ul li",function(){
+        type=$(this).attr('data');
+        $(".kinds_name").text($(this).html());
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        },400);
+    })
+    $(document).ready(function(){
+        uploadsasa('icon',2)
+    });
+    function uploadsasa(btn,type){
+        ajaxUploadicon(
+                btn, //上传的按钮id名称
+                1000000000,  //允许上传的文件大小（单位：kb）
+                '/Home/Public/upload?form_name=userfile&file_size=10000', //提交服务器端地址
+                'userfile', //提交服务器文件表单名称
+                "$(\".img_div\").show();$(\"#img_path\").attr('src', obj.filename);$(\"#is_upload\").val('1');", //上传成功后执行的 js callback
+                'loadimg' ,
+                type
+        );
+    }
+    function ajaxUploadicon(id_name, filesize, url, filename, callback, loadingid,type) {
+
+        var index;
+        var button = $('#'+id_name), interval;
+        var fileType = "pic", fileNum = "one";
+        new AjaxUpload(button,{
+            action: url,
+            name: filename,
+            onSubmit : function(file, ext){
+                index = layer.load(1, {
+                    shade: [0.4,'#000000']
+                });
+                if(fileType == "pic") {
+                    if (ext && /^(jpg|png|gif|jpeg)$/.test(ext)){
+                        this.setData({
+                            'info': '上传类型为图片'
+                        });
+
+                    } else {
+                        alert('提示：您上传的是非图片类型！');
+                        layer.close(index);
+                        return false;
+                    }
+                }
+                $("#"+loadingid).show();
+                if(fileNum == 'one') this.disable();
+            },
+            onComplete: function(file, response){
+                layer.close(index);
+                var obj = jQuery.parseJSON(response);
+                if (obj['ok'] == 'ok') {
+
+                    addpic(obj['id'],obj['filename'],id_name ,type)
+
+                    uploadsasa(id_name,type);
+                } else {
+                    switch (response) {
+                        case '1':
+                            alert('提示：上传失败，图片不能大于100M');
+
+                            break;
+                        case '3':
+                            alert('提示：图片只有部分文件被上传，请重新上传！');
+
+                            break;
+                        case '4':
+                            alert('提示：没有任何文件被上传！');
+
+                            break;
+                        case '5':
+                            alert('提示：非图片类型，请上传jpg|png|gif图片！');
+
+                            break;
+                        default:
+                            alert('提示：上传失败，错误未知，请您及时联系网站客服人员！');
+
+                            break;
+                    }
+                }
+                $("#"+loadingid).hide();
+                window.clearInterval(interval);
+                this.enable();
+            }
+        });
+    }
+    function addpic(id,imgpath,target,type){
+        if(type==1){
+            $("input[name='"+target+"']").val(id);
+            $("#"+target).attr('src',imgpath);
+        }else{
+            var len=$('#imgcon').children().length;
+            if(len==3){
+                alert("最多上传3张图片");return;
+            }
+            var ids=$("input[name='"+target+"']").val();
+            if(ids != ''){
+                ids+=','+id;
+            }else{
+                ids=id;
+            }
+            $("input[name='"+target+"']").val(ids);
+
+            var a='<img src="'+imgpath+'" style="display:inline-block"/>';
+
+            $("#imgcon").append(a);
+        }
+
+
+    }
+
+</script>
+</html>

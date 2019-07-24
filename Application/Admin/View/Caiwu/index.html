@@ -1,0 +1,161 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$Think.get.id|modelField='usermember','name'}财务明细</h2>
+	</div>
+	<div class="cf">
+		<!--<div class="fl">
+            <a class="btn" href="{:U('Shop/add')}">新 增</a>
+            <button class="btn ajax-post" url="{:U('Shop/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
+            <button class="btn ajax-post" url="{:U('Shop/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+            <button class="btn ajax-post confirm" url="{:U('Shop/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
+        </div>-->
+        <div class="fl">
+            <!--<a class="btn" href="{:U('Shop/index')}" <if condition="$_GET['state'] eq 1 || $_GET['state'] eq ''">style="background: #FF1A1E;"</if> >全部({$total})</a>-->
+            <!--<a class="btn" href="{:U('Shop/index?state=1')}" <if condition="$_GET['state'] eq 1 || $_GET['state'] eq ''">style="background: #FF1A1E;"</if> >待审核({$d})</a>
+            <a class="btn" href="{:U('Shop/index?state=2')}" <if condition="$_GET['state'] eq 2">style="background: #FF1A1E;"</if>  >审核成功({$c})</a>
+            <a class="btn" href="{:U('Shop/index?state=3')}" <if condition="$_GET['state'] eq 3">style="background: #FF1A1E;"</if>  >审核失败({$s})</a>-->
+        </div>
+
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<input type="text" name="date1" id="date1" class="search-input" value="{:I('date1')}" placeholder="开始日期" >
+				<input type="text" name="date2" id="date2"  class="search-input" value="{:I('date2')}" placeholder="结束日期">
+				<!--<input type="text" name="uid" class="search-input" value="{:I('uid')}" placeholder="请输入用户ID">-->
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+			</div>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="row-selected row-selected" style="width: 2%"><input class="check-all" type="checkbox"/></th>
+		<th class="">编号</th>
+
+
+			<th class="">用户名称</th>
+			<th class="">购买数量</th>
+			<th class="">购买金额</th>
+			<th class="">购买时间</th>
+
+            <!--<th class="">商家图片</th>
+			<th class="">所属商家</th>
+
+            <th class="">财务</th>
+		<th class="">状态</th>
+		<th class="">操作</th>-->
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			<td>{$vo.uid|modelField='usermember','name'}</td>
+			<td>{$vo.num}</td>
+			<td>{$vo.money} 元</td>
+			<td>{$vo.time|date='Y-m-d H:i',###}</td>
+
+           <!-- <td><img src="{$vo.icon|picture}" style="width:50px;height:50px;"> </td>
+			<td>{$vo.hid|modelField='usermember','name'}</td>
+			<td>{$vo.price} 元</td>
+
+			<td>{$vo.time|date='Y-m-d h:i',###}</td>
+            <td>
+				<a href="{:U('caiwu/index?id='.$vo['id'])}" class="ajax-get">财务明细</a>-->
+               <!-- <if condition="$vo.state eq 1">
+                    <a href="{:U('state?state=2&id='.$vo['id'])}" class="ajax-get">审核成功</a>
+                    <a href="{:U('state?state=3&id='.$vo['id'])}" class="ajax-get">审核失败</a>
+                    <elseif condition="$vo.state eq 2"/>
+                    <a href="javascript:;" style="color: #FF1A1E;">审核成功</a>
+                    <elseif condition="$vo.state eq 3"/>
+                    <a href="javascript:;" style="color: #FF1A1E;">审核失败</a>
+                </if>-->
+            <!--</td>
+
+			<eq name="vo.status" value="1"><td>上架</td>
+                <else/><td><font style="color:#ff0000;">下架</font></td></eq>
+
+
+			<td><eq name="vo.status" value="1">
+				<a href="{:U('Shop/goodstate?id='.$vo['id'])}" class="">下架</a>
+				<else/>
+				<a href="{:U('Shop/goodstate?id='.$vo['id'])}" class="">上架</a>
+				</eq>
+                &lt;!&ndash;<a href="{:U('Shop/edit?id='.$vo['id'])}">编辑</a>&ndash;&gt;
+				<a href="{:U('Shop/foreverdelete?id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+                </td>-->
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		/*var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }*/
+        var id='{$Think.get.id}'
+        var date1=$('input[name=date1]').val();
+        var date2=$('input[name=date2]').val();
+        if(date1==''){
+            layer.tips('请选择开始日期!', '#date1', {
+                tips: [1, '#3595CC'],
+                time: 4000
+            });return false;
+        }else if(date2==''){
+            layer.tips('请选择结束日期!', '#date2', {
+                tips: [1, '#3595CC'],
+                time: 4000
+            });return false;
+        }
+		window.location.href = '/Admin/Caiwu/index/id/'+id+'/date1/'+date1+'/date2/'+date2;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date1'
+		});
+	})
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date2'
+		});
+	})
+    //导航高亮
+    highlight_subnav('{:U('Caiwu/index')}');
+	</script>
+</block>

@@ -1,0 +1,227 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>查看{$info.name}律师</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">昵称<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="nickname" value="{$info.nickname}">
+                <input type="hidden" name="id" value="{$info.id}" />
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">手机号<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="phone" value="{$info.phone}">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">地区<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="addr" value="{$info.addr}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">简介<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="content" value="{$info.content}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">评价百分比<span class="check-tips">（可控制律师圈排序）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="score" value="{$info.score}">&nbsp;%
+            </div>
+        </div>
+        <!--<div class="form-item">
+            <label class="item-label">图文咨询定价<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="tuwenprice" value="{$info.tuwenprice}">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">电话咨询定价<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="telprice" value="{$info.telprice}">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">见面咨询定价<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="faceprice" value="{$info.faceprice}">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">发布文书定价<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="bookprice" value="{$info.bookprice}">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">律师告知函定价<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="lawyerprice" value="{$info.lawyerprice}">
+
+            </div>
+        </div>-->
+
+        <div class="form-item">
+            <label class="item-label">所属律师所<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="depart" value="{$info.depart}">
+
+            </div>
+        </div>
+		<div class="form-item">
+            <label class="item-label">执业年限<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="work_year" value="{$info.work_year}">&nbsp;年
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">执业证号码<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="ipno" value="{$info.ipno}">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">开户行<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="cardno" value="{$info.bank}">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">银行卡号<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="cardno" value="{$info.cardno}">
+
+            </div>
+        </div>
+		<div class="form-item">
+            <label class="item-label">支付宝<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="zfb" value="{$info.zfb}">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">身份证号码<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="icno" value="{$info.icno}">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">执业证内页照片<span class="check-tips"></span></label>
+            <div class="controls">
+                <img src="{$info.ipzm|picture}" style="max-width:300px;margin-right:20px;">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">执业证年检照片<span class="check-tips"></span></label>
+            <div class="controls">
+                <img src="{$info.ipfm|picture}" style="max-width:300px;margin-right:20px;">
+
+            </div>
+        </div>
+
+        <div class="form-item">
+            <label class="item-label">身份证正面照片<span class="check-tips"></span></label>
+            <div class="controls">
+                <img src="{$info.iczm|picture}" style="max-width:300px;margin-right:20px;">
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">身份证反面照片<span class="check-tips"></span></label>
+            <div class="controls">
+                <img src="{$info.icfm|picture}" style="max-width:300px;margin-right:20px;">
+
+            </div>
+        </div>
+
+
+
+        <!--<div class="form-item">
+            <label class="item-label">排序<span class="check-tips">（用户排序）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="sort" value="{$info.sort}">
+            </div>
+        </div>-->
+
+        
+      <!--  <div class="form-item">
+            <div class="controls">
+                <label class="item-label">用户头像</label>
+                <input type="file" id="upload_picture">
+                <input type="hidden" name="icon" id="icon" value="{$info['icon']|default=''}"/>
+                <div class="upload-img-box">
+                <notempty name="info['icon']">
+                    <div class="upload-pre-item"><img src="__ROOT__{$info.icon|get_cover='path'}"/></div>
+                </notempty>
+                </div>
+            </div>
+            <script type="text/javascript">
+            //上传图片
+            /* 初始化上传插件 */
+            $("#upload_picture").uploadify({
+                "height"          : 30,
+                "swf"             : "__STATIC__/uploadify/uploadify.swf",
+                "fileObjName"     : "download",
+                "buttonText"      : "上传图片",
+                "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+                "width"           : 120,
+                'removeTimeout'	  : 1,
+                'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+                "onUploadSuccess" : uploadPicture,
+                'onFallback' : function() {
+                    alert('未检测到兼容版本的Flash.');
+                }
+            });
+            function uploadPicture(file, data){
+                var data = $.parseJSON(data);
+                var src = '';
+                if(data.status){
+                    $("#icon").val(data.id);
+                    src = data.url || '__ROOT__' + data.path;
+                    $("#icon").parent().find('.upload-img-box').html(
+                        '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                    );
+                } else {
+                    updateAlert(data.info);
+                    setTimeout(function(){
+                        $('#top-alert').find('button').click();
+                        $(that).removeClass('disabled').prop('disabled',false);
+                    },1500);
+                }
+            }
+            </script>
+        </div>-->
+
+
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">修改</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Staff/index')}');
+    </script>
+</block>

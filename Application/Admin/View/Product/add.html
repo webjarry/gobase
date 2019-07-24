@@ -1,0 +1,270 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style>
+        .add_list{background: #f3a800; color: #fff; padding:3px 15px; cursor: pointer; border-radius: 3px; margin-left:20px;}
+        .comm_add{margin-bottom: 10px;}
+    </style>
+    <div class="main-title">
+        <h2>添加商品</h2>
+    </div>
+    <ul class="tab-nav nav">
+
+        <li class="current"><a href="javascript:void(0)">商品信息</a></li>
+       <!-- <li><a href="javascript:void(0)">其他信息</a></li>-->
+
+    </ul>
+
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <div class="tab-content">
+            <div class="form-item">
+                <label class="item-label">商品名称<span class="check-tips">（必须填写）</span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="title" value="{$vo['title']}">
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">商品简介<span class="check-tips">（必须填写）</span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="brief" value="{$vo['brief']}">
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">商品类别<span class="check-tips">（必须选择）</span></label>
+                <div class="controls">
+                    <select name="typeid" style="width:390px;">
+                        <option value="">请选择类别</option>
+                        <volist name="typelist" id="list">
+                            <option value="{$list.id}" <?php if($vo[typeid]==$list[id]){echo 'selected';} ?> >{$list.html}{$list.title}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">选择商家<span class="check-tips">（必须选择，如果为增值服务商品请选择平台自营）</span></label>
+                <div class="controls">
+                    <select name="shop_id" style="width:390px;">
+                        <option value="0">平台自营</option>
+                        <volist name="shoplist" id="shop">
+                            <option value="{$shop.id}" <?php if($vo[shop_id]==$shop[id]){echo 'selected';} ?> >{$shop.title}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-item">
+                <label class="item-label">选择城市<span class="check-tips">（必须选择）</span></label>
+                <div class="controls">
+                    <select name="city_id" style="width:390px;">
+                        <option value="" >请选择城市</option>
+                        <volist name="citylist" id="cit">
+                            <option value="{$cit.id}" <?php if($vo[city_id]==$cit[id]){echo 'selected';} ?>>{$cit.city}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">是否属于增值服务：<span class="check-tips">（选择增值服务则只在增值服务处展示）</span></label>
+                <div class="controls">
+                    <label class="checkbox"><input type="radio" name="zengzhi_type" value="1" checked />不属于</label>
+                    <label class="checkbox"><input type="radio" name="zengzhi_type" value="2"/>属于</label>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">商品原价<span class="check-tips">（最低为0.01元）</span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="old_price" value="{$vo['old_price']}"> 元
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">商品现价<span class="check-tips">（最低为0.01元）</span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="new_price" value="{$vo['new_price']}"> 元
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">服务饱和值<span class="check-tips">（例：保洁服务的每天最大服务量）</span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="big_val" value="{$vo['big_val']}">单/天
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">商品标签<span class="check-tips" style="color: red;">（注：多个标签请用'&'符号隔开）</span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="tab" value="{$vo['tab']}">
+                </div>
+            </div>
+
+            <div class="form-item ">
+                <label class="item-label">商品属性<span class="check-tips">(可以多选)</span></label>
+                <div class="controls">
+                    <volist name="shuxing_list" id="shu">
+                        <label class="checkbox">
+                            <input type="checkbox" name="shuxing[]" value="{$shu['id']}">{$shu['title']}
+                        </label>
+                    </volist>
+                </div>
+            </div>
+
+            <div class="form-item ">
+                <label class="item-label">商品推荐<span class="check-tips">(可以多选，勾选了推荐就会在该页面显示)</span></label>
+                <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" name="flag[]" value="1">首页
+                            <input type="checkbox" name="flag[]" value="2">商家详情
+                        </label>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">商品快递类型：</label>
+                <div class="controls">
+                    <label class="checkbox"><input type="radio" name="shop_type" value="1" checked />非快递商品</label>
+                    <label class="checkbox"><input type="radio" name="shop_type" value="2"/>快递商品</label>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">排序</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="sort" value="">
+                </div>
+            </div>
+
+            <div class="form-item form_item2">
+                <label class="item-label">商品规格 <span class="add_list btn_add_list">＋添加</span> <span class="check-tips">（例：颜色、服务等）</span></label>
+                <div class="controls" id="controls_price">
+                    <!--<div class="zidingyi_price comm_add">
+                        <input type="text" class="text input-large text1" name="ziding_title[]" value="" placeholder="标题"/> &#45;&#45;
+                        <input type="text" class="text input-large text2" name="ziding_price[]" value="" placeholder="价格"/>
+                        <a href="javascript:;" class="btn_delete">删除</a>
+                    </div>-->
+                </div>
+            </div>
+
+            <div class="form-item">
+                <div class="controls">
+                    <label class="item-label">商品缩略图1(主要上传宽高为1:1的图片)</label>
+                    <input type="file" id="upload_picture">
+                    <input type="hidden" name="icon" id="icon" value="{$info['icon']|default=''}"/>
+                    <div class="upload-img-box">
+                        <notempty name="info['icon']">
+                            <div class="upload-pre-item"><img src="__ROOT__{$info.icon|get_cover='path'}"/></div>
+                        </notempty>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    //上传图片
+                    /* 初始化上传插件 */
+                    $("#upload_picture").uploadify({
+                        "height": 30,
+                        "swf": "__STATIC__/uploadify/uploadify.swf",
+                        "fileObjName": "download",
+                        "buttonText": "上传图片",
+                        "uploader": "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+                        "width": 120,
+                        'removeTimeout': 1,
+                        'fileTypeExts': '*.jpg; *.png; *.gif;',
+                        "onUploadSuccess": uploadPicture,
+                        'onFallback': function () {
+                            alert('未检测到兼容版本的Flash.');
+                        }
+                    });
+                    function uploadPicture(file, data) {
+                        var data = $.parseJSON(data);
+                        var src = '';
+                        if (data.status) {
+                            $("#icon").val(data.id);
+                            src = data.url || '__ROOT__' + data.path;
+                            $("#icon").parent().find('.upload-img-box').html(
+                                    '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                                    );
+                        }
+                    }
+                </script>
+            </div>
+            <div class="form-item">
+                <div class="controls">
+                    <label class="item-label">商品缩略图2<span class="check-tips">(主要上传宽比高大的图片)</span></label>
+                    <input type="file" id="upload_picture2">
+                    <input type="hidden" name="icon2" id="icon2" value="{$info['icon2']|default=''}"/>
+                    <div class="upload-img-box">
+                        <notempty name="info['icon2']">
+                            <div class="upload-pre-item"><img src="__ROOT__{$info.icon2|get_cover='path'}"/></div>
+                        </notempty>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    //上传图片
+                    /* 初始化上传插件 */
+                    $("#upload_picture2").uploadify({
+                        "height": 30,
+                        "swf": "__STATIC__/uploadify/uploadify.swf",
+                        "fileObjName": "download",
+                        "buttonText": "上传图片",
+                        "uploader": "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+                        "width": 120,
+                        'removeTimeout': 1,
+                        'fileTypeExts': '*.jpg; *.png; *.gif;',
+                        "onUploadSuccess": uploadPicture,
+                        'onFallback': function () {
+                            alert('未检测到兼容版本的Flash.');
+                        }
+                    });
+                    function uploadPicture(file, data) {
+                        var data = $.parseJSON(data);
+                        var src = '';
+                        if (data.status) {
+                            $("#icon2").val(data.id);
+                            src = data.url || '__ROOT__' + data.path;
+                            $("#icon2").parent().find('.upload-img-box').html(
+                                '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                            );
+                        }
+                    }
+                </script>
+            </div>
+            <div class="form-item">
+                <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+                <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+            </div>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+
+        $('.tab-nav li').click(function(){
+            $(this).attr('class','current')
+                .siblings().attr('class','');
+            var n_index=$('.tab-nav li').index(this);
+            $('.tab-content').eq(n_index).show()
+                .siblings().hide();
+        });
+        //导航高亮
+        highlight_subnav('{:U('Product/index')}');
+
+    </script>
+
+    <script type="text/javascript">
+        //新品名称添加
+        $(".btn_add_list").click(function () {
+            $html = '<div class="zidingyi_price comm_add"><input type="text" class="text input-large text1" name="cp_title[]" value="" placeholder="名称"/><a href="javascript:;" class="btn_delete">删除</a></div>';
+            $("#controls_price").append($html);
+        });
+        $("#controls_price").on('click','.btn_delete',function () {
+            $(this).parent('.zidingyi_price').remove();
+        })
+    </script>
+
+</block>

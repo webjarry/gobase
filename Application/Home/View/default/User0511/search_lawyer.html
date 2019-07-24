@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <div class="search_box">
+        <form action="" onsubmit="return false;"><input type="text" placeholder="搜索律师" id="key"></form>
+
+        <a href="javascript:;"  class="header_cancel" onclick="aaplay('search_contractOrLawyer')">取消</a>
+        <!--<a href="javascript:location.href=document.referrer"  class="header_cancel">取消</a>-->
+    </div>
+</header>
+<section class="search_result">
+    <div class="result_title">
+        <h6>热门搜索</h6>
+    </div>
+    <div class="hot_search">
+        <ul id='cate'>
+            
+           
+        </ul>
+    </div>
+    <div class="result_title">
+        <h6>最近搜索</h6>
+        <a href="javascript:;" class="clear_btn" onclick='clearsearch(2)'>清除</a>
+    </div>
+    <div class="history_list">
+        <ul id='history'>
+            
+            
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    $('form').on('submit', function(e){
+        var key=$('#key').val();
+        if(key==''){
+            alert('请输入关键字');return;
+        }
+        search(key,2);
+    });
+    ajcate()
+
+    function ajcate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+        
+            if(ret.code==200){
+                
+                var tj=ret.data;
+                html = "";
+                for(var i=0;i<tj.length;i++){
+
+                    var son=tj[i].son;
+                    for(var j=0;j<son.length;j++){
+                        html+='<li style="cursor: pointer"  data="'+son[j].name+'"><a href="javascript:;">'+son[j].name+'</a></li>';
+                    }
+                }
+                $('#cate').html(html);
+
+                history()
+            }
+        });
+
+    }
+    function history(){
+        if(token==''){
+            return
+        }
+        var p={token:token,type:2};
+        $.post(webSiteUrl+'/app/user/searchhistory',p,function(ret){
+        
+            if(ret.code==200){
+                
+                var tj=ret.data;
+                html = "";
+                for(var i=0;i<tj.length;i++){
+                    html+='<li style="cursor: pointer"  data="'+tj[i].key+'"><a href="javascript:;">'+tj[i].key+'</a></li>';
+                }
+                $('#history').html(html);
+            }
+        });
+
+    }
+    $(document).on('click','.header_cancel',function(){
+
+    })
+    $(document).on('click','#cate li',function(){
+         var key=$(this).attr('data');
+         search(key,2);
+    })
+    $(document).on('click','#history li',function(){
+         var key=$(this).attr('data');
+         search(key,2);
+    })
+
+    //清除历史记录
+    $(".clear_btn").click(function () {
+        $(".history_list ul").html('')
+        clearsearch(2);
+    });
+    function clearsearch(type){
+        if(token==''){
+            return
+        }
+        var p={type:type,token:token};
+        $.post(webSiteUrl+'/app/user/clearsearch',p,function(ret){
+            if(ret.code==200){
+                alert(ret.msg)
+            }
+        });
+    }
+
+  
+</script>
+</html>

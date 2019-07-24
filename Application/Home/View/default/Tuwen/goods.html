@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <meta name="Keywords" content="Keywords">
+    <meta name="description" content="description">
+    <title>{:C('WEB_SITE_TITLE')}</title>
+
+    <link type="text/css" href="__CSS__/reset.css" rel="stylesheet"  />
+    <link type="text/css" href="__CSS__/setphone.css" rel="stylesheet"  />
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/adaptive.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript">
+        window['adaptive'].desinWidth = 750;
+        window['adaptive'].baseFont = 28;
+        window['adaptive'].maxWidth = 750;
+        window['adaptive'].init();
+    </script>
+</head>
+<body>
+
+    <div class="newstit" style="color:#000;font-weight: bold;">{$vo.title}</div>
+	<if condition="$vo.file gt 0">
+		<div class="newsviedo"><video src="{$vo.file|fileurl}" controls="controls" style="width: 100%; height: 5rem;"></video></div>
+	</if>
+    <div class="newsimg"><img src="{$vo.icon|picture}" style="width:7.1rem"></div>
+    <div class="newstxt" style="color:{$vo['color']};">{$vo.content}</div>
+
+
+
+
+
+
+</body>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+
+	var id="{$Think.get.id}";
+	var uid="{$uid}";
+	var openid="{$openid}";
+
+	wx.config({
+		debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+		appId: '{$wxconfig[appId]}', // 必填，公众号的唯一标识
+		timestamp:'{$wxconfig[timestamp]}', // 必填，生成签名的时间戳
+		nonceStr: '{$wxconfig[nonceStr]}', // 必填，生成签名的随机串
+		signature: '{$wxconfig["signature"]}',// 必填，签名，见附录1
+		jsApiList: [
+			'onMenuShareTimeline',
+			'checkJsApi',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ',
+			'onMenuShareWeibo'
+		] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	});
+	wx.ready(function () {
+
+		wx.onMenuShareTimeline({
+			title:'{$news[title]}',
+			link:window.location.href+'&zhuan=1',
+			imgUrl:'{$news[picture]}',
+			desc:'{$news[brief]}',
+			success: function () {
+				alert("分享成功");
+				$.post("/Home/Public/forward",{ 'id':id, 'uid':uid},function(da){});
+			},
+			//用户取消分享后执行的回调函数
+			cancel: function () {
+				alert("您取消了分享");
+			}
+		});
+
+		wx.checkJsApi({
+			title:'{$news[title]}',
+			link:window.location.href,
+			imgUrl:'{$news[picture]}',
+			desc:'{$news[brief]}',
+		});
+		wx.onMenuShareAppMessage({
+			title:'{$news[title]}',
+			link:window.location.href+'&zhuan=1',
+			imgUrl:'{$news[picture]}',
+			desc:'{$news[brief]}',
+			success: function () {
+				alert("分享成功");
+				$.post("/Home/Public/forward",{ 'id':id, 'uid':uid},function(da){});
+			},
+			//用户取消分享后执行的回调函数
+			cancel: function () {
+				alert("您取消了分享");
+			}
+		});
+		wx.onMenuShareWeibo({
+			title:'{$news[title]}',
+			link:window.location.href,
+			imgUrl:'{$news[picture]}',
+			desc:'{$news[brief]}',
+		});
+
+
+
+
+	});
+
+	var size="{$fx['size']}";
+	var color="{$fx['color']}";
+	var style="{$fx['style']}";
+	var align="{$fx['align']}";
+	//alert(size)
+	var content=$('.newstit');
+
+
+	if(size!=0 && size!=''){
+		content.css('font-size',size+'px');
+	}
+	if(color!=0 && color!=''){
+		content.css('color',color);
+	}
+	if(style!=0 && style!='') {
+		if (style == 'bold') {
+			content.css('font-weight', 'bold');
+		} else if (style == 'italic') {
+			content.css('font-style', 'italic');
+		} else if (style == 'underline') {
+			content.css('text-decoration', 'underline');
+		}else{
+			content.css('font-weight', 'bold');
+		}
+	}
+	/*if(align!=0) {
+	 if (align == 'center') {
+	 content.css('align', "center");
+	 } else if (align == 'left') {
+	 content.css('align', "left");
+	 } else if (align == 'right') {
+	 content.css('align', "right");
+	 }
+	 }*/
+
+
+	var zhuan="{$Think.get.zhuan}";
+	window.onload=function (){
+		//alert(openid);
+
+		$.post("/Home/Public/beginscan",{ 'id':id, 'uid':uid,'zhuan':zhuan},function(da){
+			/*   var obj = jQuery.parseJSON(da);
+			 if(obj.code==200){
+			 layer.msg(obj.msg);
+			 }else{
+			 layer.msg(obj.msg);
+			 }*/
+		});
+
+	}
+
+	var s=setInterval("timeSave()",1000);
+	function timeSave() {
+
+		$.post("/Home/Public/endscan", {'id': id, 'uid': uid}, function (da) {
+
+		});
+
+	}
+
+</script>
+</html>

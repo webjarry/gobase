@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>138****8868</h2>
+    <!--<a href="javascript:;" class="tel_btn readed_btn">标记为已读</a>-->
+</header>
+
+<section class="talk_box">
+    <ul>
+        <li class="time">10月10日 08:54</li>
+        <li class="him">
+            <img src="__IMG__/infoImg1.png" alt="">
+            <div class="info_detail">
+                <p>你好，我有问题想要咨询。</p>
+            </div>
+        </li>
+        <li class="me">
+            <img src="__IMG__/userimg2.jpg" alt="">
+            <div class="info_detail"> 
+                <p>有什么可以帮助您的吗？</p>
+            </div>
+        </li>
+        <li class="him">
+            <img src="__IMG__/infoImg1.png" alt="">
+            <div class="info_detail">
+                <p>与合伙人签的合同被撕了怎么 办？？</p>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<section class="reply_box">
+    <input class="reply_info" type="text" placeholder="回复">
+    <a href="javascript:void (0);" class="addIcon"></a>
+    <button class="send_btn" type="submit">发送</button>
+</section>
+
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+  
+
+    //发送消息
+    var str='';
+    $('.send_btn').click(function () {
+        str = $(".reply_box .reply_info").val();
+        if(str!=''){
+            $(".talk_box ul").append("<li class=\"me\">\n" +
+                "            <img src=\"__IMG__/userimg2.jpg\" alt=\"\">\n" +
+                "            <div class=\"info_detail\">\n" +
+                "                <p>"+str+"</p>\n" +
+                "            </div>\n" +
+                "        </li>")
+        }
+        $(".reply_box .reply_info").val('');
+    })
+
+</script>
+</html>

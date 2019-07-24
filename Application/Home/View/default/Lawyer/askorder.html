@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style>
+
+        .order_list ul li .active_btn .no_btn em{
+            display: inline-block;
+            padding-left: 0.35rem;
+        }
+        .order_list ul li .active_btn .no_btn em.tel{
+            background: url("/Public/Home/img/pd1.png") left center no-repeat;
+            background-size: 0.28rem auto;
+            color: #1c83ea;
+        }
+        .order_list ul li .active_btn .no_btn em.msg{
+            background: url("/Public/Home/img/pd2.png") left center no-repeat;
+            background-size: 0.3rem auto;
+            color: #f3a536;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2 id='title'>代写文书</h2>
+    <!--<a href="javascript:void (0);" class="search_btn charge_btn">说明</a>-->
+</header>
+
+<section class="picture_kinds">
+    <div class="news_kinds">
+        <ul>
+            <li class="active"><a href="javascript:;">全部订单</a></li>
+            <li><a href="javascript:;" >未完成</a></li>
+            <li><a href="javascript:;" >已完成</a></li>
+        </ul>
+    </div>
+</section>
+<section class="order_section">
+    <div class="order_list">
+        <ul id='con'>
+            <!-- <li>
+                <p>订单号：2524556842</p>
+                <div class="order_info">
+                    <img src="__IMG__/userimg2.jpg" alt="">
+                    <div class="info">
+                        <h6>方大同律师</h6>
+                        <span>代写文书</span>
+                    </div>
+                    <a href="##" class="look_demand">查看需求</a>
+                </div>
+                <div class="order_active">
+                    <span>总计：<em>¥150.00</em></span>
+                    <div class="active_btn">
+                        <a href="##" class="no_btn">拒绝接单</a>
+                        <a href="##" class="yes_btn">确认接单</a>
+                    </div>
+                </div>
+            </li> -->
+            
+        </ul>
+    </div>
+</section>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    var page=1;
+    
+    var state=0;
+    var title='';
+    var type
+
+        if(para('type')==1){
+            title='图文咨询';
+            $('#title').html('图文咨询');
+        }else if(para('type')==2){
+            title='电话咨询';
+            $('#title').html('电话咨询');
+        }else if(para('type')==3){
+            title='见面咨询';
+            $('#title').html('见面咨询');
+        }else if(para('type')==4){
+            title='代写文书';
+            $('#title').html('代写文书');
+        }else if(para('type')==5){
+            title='代发律师函';
+            $('#title').html('代发律师函');
+        }
+
+        toDoRequest()
+    
+
+    function toDoRequest(){
+        if(!loginCheck()){
+            return;
+        }
+        var p= {token:token,type:para('type'),state:state,page:page};
+        $.post(webSiteUrl+'/app/user/saskorder',p,function(ret){
+                if(ret.code==200){
+                   
+                    html = "";
+                    var tj=ret.data;
+                    if(tj != null){
+
+for(var i=0;i<tj.length;i++){
+
+html+='<li  onclick="chakan('+tj[i].id+')" id="'+tj[i].id+'"><p>订单号：'+tj[i].orderno+'</p><div class="order_info"><img src="'+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'</h6><span>'+title+'</span></div>';
+                    if (tj[i].type == 2) {
+                            if (tj[i].is_urgent == 1) {
+                                html += ' <a href="##" class="look_demand" style="color:#666;">紧急订单</a>';
+                            } else {
+                                html += ' <a href="##" class="look_demand" style="color:#666;">一般订单</a>';
+                            }
+                        } else if(tj[i].type==1 && tj[i].state==2){
+                        // html+= '<a href="##" class="look_demand" onclick="message('+tj[i].id+','+tj[i].orderno+')">查看留言</a>';
+                        html+= '<a href="/Home/lawyer/chatroom?tel='+tj[i].uphone+'" class="look_demand">回复咨询</a>';
+                    }else{
+						html+= ' <a href="##" class="look_demand"  onclick="chakan('+tj[i].id+')">查看需求</a>';
+					
+					}
+html+='</div><div class="order_active"><span>总计：<em>¥'+tj[i].money+'</em></span>';
+
+                    if(tj[i].status==1){
+html+='<div class="active_btn"><a href="##" class="no_btn" onclick="orderstatus('+tj[i].id+','+3+')">拒绝接单</a><a href="##" class="yes_btn" onclick="orderstatus('+tj[i].id+','+2+')">确认接单</a></div>';
+                    }else if(tj[i].status==2 && tj[i].sover == 0){
+                        if(para('type')==2){
+                            html+='<div class="active_btn"><a href="tel:'+tj[i].phone+'" class="no_btn" onclick="contactuser('+tj[i].uid+')" style="border: 1px #1c83ea solid;"><em class="tel">联系客户</em></a><a href="##" class="yes_btn" onclick="orderstatus('+tj[i].id+','+4+')">确认完成</a></div>';
+                        }else if(para('type')==1){
+                            html+='<div class="active_btn"><a href="tel:'+tj[i].phone+'" class="no_btn" onclick="contactuser('+tj[i].uid+')" style="border: 1px #f3a536 solid;"><em class="msg">联系客户</em></a><a href="##" class="yes_btn" onclick="orderstatus('+tj[i].id+','+4+')">确认完成</a></div>';
+                        }else{
+                            html+='<div class="active_btn"><a href="tel:'+tj[i].phone+'" class="no_btn" onclick="contactuser('+tj[i].uid+')" style="border: 1px #1c83ea solid;">联系客户</a><a href="##" class="yes_btn" onclick="orderstatus('+tj[i].id+','+4+')">确认完成</a></div>';
+                        }
+                    } else if (tj[i].status == 2 && tj[i].sover == 1 && tj[i].uover == 0) {
+							html += '<div class="active_btn">待会员确认</div>';
+						
+					}else if(tj[i].status==6 && tj[i].after == 1){
+					
+						html+='<div class="active_btn">售后中</div>';
+					
+					}else if(tj[i].status==7 || tj[i].status==9){
+					
+						html+='<div class="active_btn">已退款</div>';
+					
+					}else{
+                        html+='<div class="active_btn">已完成</div>';
+                        /*if(tj[i].uover==0){
+                            html+='<div class="active_btn">等待客户确认完成</div>';
+                        }else if(tj[i].uover==1){
+                            html+='<div class="active_btn">客户已确认完成</div>';
+                        }else if(0){
+
+                        }*/
+                    }
+html+='</div></div></li>'; 
+}
+
+                    }
+                    if(page==1){
+                        $('#con').html(html);
+                    }else{
+                        $('#con').append(html);
+                    }
+                    page++;
+                  
+                   
+                }else{
+                    if(page==1){
+                        $('#con').html('<p style="text-align:center">暂无数据</p>');
+                    }
+                    
+                }
+            });
+       
+    }
+
+    function fnOpenChat(tel) {
+        location.href = '/Home/lawyer/chatroom?tel=' + tel;
+        return false;
+    }
+
+    //跳转留言
+    function message(id, orderno) {
+        location.href = '/Home/lawyer/viewmessage?id=' + id + '&orderno=' + orderno;
+        return false;
+    }
+
+
+    function chakan(id) {
+        location.href='/home/lawyer/chakan?id='+id+'&type=1';
+        return false;
+    }
+    function chuan(id,orderno) {
+        location.href='/home/lawyer/chuan?id='+id+'&orderno='+orderno;
+    }
+    function checkfile(id){
+        location.href='/home/lawyer/checkfile?id='+id
+    }
+    function contactuser(id) {
+
+    }
+    function orderstatus(id,num){
+        if(num==2){
+            var askmsg='确认接单吗？'
+        }else if(num==3){
+            var askmsg='确认拒接订单吗？'
+        }else if(num==4){
+            var askmsg='确认完成吗？'
+        }else if(num==5){
+            var askmsg='确认吗？'
+        }
+        if(window.confirm(askmsg)){
+            var p={token:token,status:num,id:id}
+            $.post(webSiteUrl+'/app/user/askorderstatus',p,function(ret){
+            
+                if(ret.code==200){
+                    window.location.reload();
+                    
+                }
+            });
+        }
+
+        return false;
+        
+    };
+
+    $(document).on('click','.news_kinds li',function(){
+        $(this).addClass('active').siblings().removeClass('active');
+
+        page=1
+        state=parseInt($(this).index()+1);
+        if(state==1){
+            state=0
+        }
+        toDoRequest()
+    });
+    
+    
+</script>
+</html>

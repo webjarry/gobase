@@ -1,0 +1,284 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>修改合同</h2>
+    </div>
+    <ul class="tab-nav nav">
+
+
+        <li class="current"><a href="javascript:void(0)">基本信息</a></li>
+		<!--<li><a href="javascript:void(0)">高级信息</a></li>-->
+
+    </ul>
+    
+    <form action="{:U()}" method="post" class="form-horizontal">
+
+    <div class="tab-content">
+        <div class="form-item">
+            <label class="item-label">合同标题<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="name" value="{$vo.name}">
+                <input type="hidden" name="id" value="{$vo.id}" />
+            </div>
+        </div>
+
+
+       
+        <div class="form-item">
+            <label class="item-label">合同类别<span class="check-tips">（类别必须选择）</span></label>
+            <div class="controls">
+				<select name="type" style="width:390px;">
+					<option value="">请选择类别</option>
+					<volist name="lists" id="typelist">
+						<option value="{$typelist.id}" <if condition="$vo.type eq $typelist['id']">selected="selected"</if>>{$typelist.html}{$typelist.title}</option>
+					</volist>
+				</select>
+			</div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">合同价格<span class="check-tips">（元）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="money" value="{$vo.money}">
+
+            </div>
+        </div>
+
+
+
+        <div class="form-item">
+            <div class="controls">
+                <label class="item-label">缩略图（可上传多张图片）</label>
+                <input type="file" id="upload_picture">
+                <input type="hidden" name="icon" id="icon" value="{$vo['icon']|default=''}"/>
+                <div class="upload-img-box">
+                <notempty name="vo['icon']">
+                    <div class="upload-pre-item"><img src="__ROOT__{$vo.icon|get_cover='path'}"/></div>
+                </notempty>
+                </div>
+            </div>
+            <script type="text/javascript">
+            //上传图片
+            /* 初始化上传插件 */
+            $("#upload_picture").uploadify({
+                "height"          : 30,
+                "swf"             : "__STATIC__/uploadify/uploadify.swf",
+                "fileObjName"     : "download",
+                "buttonText"      : "上传图片",
+                "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+                "width"           : 120,
+                'removeTimeout'	  : 1,
+                'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+                "onUploadSuccess" : uploadPicture,
+                'onFallback' : function() {
+                    alert('未检测到兼容版本的Flash.');
+                }
+            });
+            function uploadPicture(file, data){
+                var data = $.parseJSON(data);
+                var src = '';
+                if(data.status){
+                    var val = $("#icon").val();
+                    if(val == ''){
+
+                        $("#icon").val(data.id);
+                    }else{
+
+                        $("#icon").val(val+','+data.id);
+                    }
+                    src = data.url || '__ROOT__' + data.path;
+                    $("#icon").parent().find('.upload-img-box').append(
+                        '<div class="upload-pre-item" style="display: inline-block"><img src="' + src + '"/></div>'
+                    );
+                } else {
+                    updateAlert(data.info);
+                    setTimeout(function(){
+                        $('#top-alert').find('button').click();
+                        $(that).removeClass('disabled').prop('disabled',false);
+                    },1500);
+                }
+            }
+            </script>
+        </div>
+
+
+        <div class="form-item">
+            <div class="controls">
+                <label class="item-label">文档文件<span class="check-tips"></span></label>
+                <input type="file" id="upload_picture2">
+                <input type="hidden" name="file" id="file" value="{$vo.file}"/>
+                <div class="upload-img-box">
+					<volist name="fileList" id="fileLists">
+					<div class="upload-pre-item">{$fileLists.name}</div>
+					</volist>
+                </div>
+            </div>
+            <script type="text/javascript">
+                //上传视频
+                /* 初始化上传插件 */
+                $("#upload_picture2").uploadify({
+                    "height"          : 30,
+                    "swf"             : "/Public/static/uploadify/uploadify.swf",
+                    "fileObjName"     : "download",
+                    "buttonText"      : "上传文档",
+                    "uploader"        : "/Admin/File/upload/session_id/qvv69dse7br6f85t9ia2atc3b3.html",
+                    "width"           : 120,
+                    'removeTimeout'	  : 1,
+                    'fileTypeExts'	  : '*.xlsx;*.doc;*.docx;',
+                    "onUploadSuccess" : uploadPicture,
+                    'onFallback' : function() {
+                        alert('未检测到兼容版本的Flash.');
+                    }
+
+                });
+                function uploadPicture(file, data){
+
+                    var data = $.parseJSON(data);
+                    var src = '';
+                    if(data.status){
+                        var val = $("#file").val();
+						if(val == ''){
+						
+							$("#file").val(data.id);
+						}else{
+						
+							$("#file").val(val+','+data.id);
+						}
+                        src = data.url || '' + data.info;
+
+                        $("#file").parent().find('.upload-img-box').append(
+                                '<div class="upload-pre-item">'+src+'</div>'
+                        );
+                    } else {
+                        updateAlert(data.info);
+                        setTimeout(function(){
+                            $('#top-alert').find('button').click();
+                            $(that).removeClass('disabled').prop('disabled',false);
+                        },1500);
+                    }
+                }
+            </script>
+        </div>
+        
+
+
+
+
+		<!--<div class="form-item">
+            <label class="item-label">合同简介</label>
+            <div class="controls">
+                <label class="textarea">
+                    <textarea name="description">{$vo.description}</textarea>
+                    &lt;!&ndash;{:hook('adminArticleEdit', array('name'=>descriptions,'value'=>$vo['descriptions']))}&ndash;&gt;
+                </label>
+            </div>
+        </div>-->
+		<div class="form-item">
+            <label class="item-label">合同内容</label>
+            <div class="controls">
+                <label class="textarea">
+                    <textarea name="content">{$vo.content}</textarea>
+                    <!--{:hook('adminArticleEdit', array('name'=>content,'value'=>$vo['content']))}-->
+                </label>
+            </div>
+        </div>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </div>
+    <div class="tab-content" style="display:none;">
+	
+	   <!-- <div class="form-item">
+            <label class="item-label">合同关键词</label>
+            <div class="controls">
+                <label class="textarea input-large">
+                    <textarea name="keywords">{$vo.keywords}</textarea>
+                </label>
+            </div>
+        </div>-->
+    
+    	<div class="form-item">
+            <label class="item-label">
+            是否显示<span class="check-tips">（该合同是否在前台显示）</span>
+            </label>
+            <div class="controls">
+                <label class="inline radio"><input type="radio" name="status" value="1" <if condition="$vo.status eq 1">checked</if>>显示</label>
+                <label class="inline radio"><input type="radio" name="status" value="0" <if condition="$vo.status eq 0">checked</if>>不显示</label>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">合同属性</label>
+            <div class="controls">
+                <volist name="Think.config.DOCUMENT_POSITION" id="flags">
+                    <label class="checkbox">
+                        <input type="checkbox" name="flag[{$key}]" value="{$key}" <in name="key" value="$vo.flag">checked</in>>{$flags}
+                </volist>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">合同排序</label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="sort" value="{$vo.sort}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">合同浏览量</label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="view" value="{$vo.view}">
+            </div>
+        </div>
+        
+       
+        <div class="form-item">
+            <label class="item-label">合同来源<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" id="source" name="source" value="{$vo.source}">
+            </div>
+        </div>
+        
+        <div class="form-item">
+            <label class="item-label">合同发布人<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" id="mid" name="mid" value="{$vo.mid|get_username}" readonly="readonly">
+            </div>
+        </div>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    
+    </div>
+    </form>
+</block>
+
+<block name="script">
+<include file="Public:datetime" />
+    <script type="text/javascript">
+	
+		$('.tab-nav li').click(function(){
+			$(this).attr('class','current')
+						.siblings().attr('class','');
+			var n_index=$('.tab-nav li').index(this);
+				$('.tab-content').eq(n_index).show()
+							 .siblings().hide();
+		});
+	
+        //导航高亮
+        highlight_subnav('{:U('hetong/index')}');
+		
+		$('#deadline').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+		$('#deadline2').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+    </script>
+</block>

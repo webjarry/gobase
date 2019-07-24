@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我的收藏</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="info_kinds">
+    <div class="info">
+        <ul>
+            <li class="active"><a href="javascript:;" onclick="weidu(1)">文章</a></li>
+            <li class=""><a href="javascript:;" onclick="weidu(3)">律师</a></li>
+        </ul>
+    </div>
+</section>
+<section class="collect_article">
+    <div class="news_list">
+        <ul id="list">
+            
+            <!-- <li>
+                <a href="javascript:;" onclick="aaplay('index','news_info.html')">
+                    <img src="__IMG__/news02.jpg" alt="">
+                    <div class="news_info">
+                        <h6>明年开始我国将按新的个人所得税税率施行</h6>
+                        <div class="news_times">
+                            <em>5小时前</em>
+                            <span>709</span>
+                        </div>
+                    </div>
+                </a>
+            </li> -->
+            
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    //标记为已读
+    $(".readed_btn").click(function () {
+        $('.system_info ul li').removeClass('active');
+    })
+
+    var page = 1;
+   
+    weidu(1);
+
+    //未读
+    function weidu(id){
+        loginCheck()
+        if (id == 1) {  //文章
+            var p = {token:token,type:id,page:page};
+            $.post(webSiteUrl+'/app/user/collection',p,function(ret){
+         
+                if (ret.code == 200) {
+                    var list = ret.data;
+                    var html = '';
+                    if (list != null) {
+                        for (var i =0;i< list.length; i++) {
+                            html += '<li><a href="javascript:;" onclick="newsinfo('+list[i].tid+')"><img src="__IMG__/news01.jpg" alt=""><div class="news_info"><h6>'+list[i].name+'</h6><div class="news_times"><em>'+list[i].time+'</em><span>'+list[i].num+'</span></div></div></a></li>';
+                        }
+
+                        $('#list').html(html);
+                    }
+                }else{
+                    $('#list').html('<p style="text-align:center">暂无数据</p>');
+                }
+            });
+        }else if(id == 3){ //律师
+            location.href='/home/user/personal_collect_lawyer.html?id='+id
+            
+        }
+
+       
+    }
+    //查看详情
+    function newsinfo(id){
+        location.href='/home/user/news_info.html?id='+id
+        
+    }
+
+   
+</script>
+</html>

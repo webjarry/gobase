@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f3f3f3;">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>申请售后</h2>
+    <!--<a href="ask_page_myAnswer.html" class="myAnswer_btn">我的回答</a>-->
+</header>
+<section class="order_section">
+    <div class="order_list">
+        <ul id="list">
+            <!--<li>
+                <p id='orderno'>订单号：2524556842 </p>
+                <div class="order_info">
+                    <img src=""  id='icon'>
+                    <div class="info">
+                        <h6 id='name'>方大同律师</h6>
+                        <span id='otype'>代写文书</span>
+                    </div>
+                </div>
+                <div class="order_active">
+                    <span>总计：<em id='money'>¥150.00</em></span>
+                    <div class="active_btn">
+                    </div>
+                </div>
+            </li>-->
+        </ul>
+    </div>
+</section>
+<section class="afterSale">
+    <p>问题描述</p>
+    <textarea name="content" id="" cols="30" rows="10" placeholder="请详细填写问题描述，方便我们的客服进行正确处理。"></textarea>
+</section>
+<section class="fixed_btn">
+    <a onclick="tijiao()">提交信息</a>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    loginCheck()
+    var id = para('id');
+
+    xiangq(id);
+
+    //律师信息
+    function xiangq(id){
+        var p = {id:id};
+        $.post(webSiteUrl+'/app/public/askinfo1',p,function(ret){
+            if (ret.code == 200) {
+                var list = ret.data;
+                //alert(JSON.stringify(list))
+                var html = '<li><p>订单号：'+list.orderno+' </p><div onclick="lookDetails('+list[i].id+')" class="order_info"><img src="'+list.icon+'" alt=""><div class="info"><h6>'+list.name+'律师</h6><span>'+list.ordertype+'</span></div></div><div class="order_active"><span>总计：<em>¥'+list.money+'</em></span><div class="active_btn"></div></div></li>';
+                $('#list').html(html);
+                
+            }
+        });
+    }
+
+    //提交
+    function tijiao(){
+        var id = para('id');
+        var content = $('textarea[name=content]').val();
+        if (content == '') {
+            alert('请输入问题描述');return;
+        }
+        var p = {id:id,type:1,token:token,content:content};
+        $.post(webSiteUrl+'/app/user/shouhou',p,function(ret){
+            if (ret.code == 200) {
+
+                alert(ret.msg);
+                location.href = '/Home/user/personal_myorder_afterSale';
+                
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+    //查看详情
+    function lookDetails(id) {
+        location.href='/home/User/chakan?id='+id+'&type=1';
+    }
+
+
+
+
+</script>
+</html>

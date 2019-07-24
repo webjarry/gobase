@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <div class="search_box">
+        <form action="" onsubmit="return false;"><input type="text" placeholder="搜索律师" id="key"></form>
+        <a onclick="aaplay('search_lawyer')"  class="header_cancel">取消</a>
+    </div>
+</header>
+<section class="about_info" style="padding-top: 0.3rem;">
+    <div class="recommend_lawyer">
+        <ul id='con'>
+            
+            <!-- <li>
+                <a href="javascript:;" onclick="aaplay('search','lawyer_details.html')">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div class="lawyers_info">
+                        <h6>方大同律师 <em>执业1年</em></h6>
+                        <p class="location">重庆市 南岸区</p>
+                        <p class="addr">重庆市程建律师事务所</p>
+                        <dl>
+                            <dd>遗产纠纷</dd>
+                            <dd>劳动仲裁</dd>
+                            <dd>人身损害</dd>
+                        </dl>
+                    </div>
+                </a>
+            </li> -->
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+    $('form').on('submit', function(e){
+        var key=$('#key').val();
+        if(key==''){
+            alert('请输入关键字');return;
+        }
+        search(key,2);
+    });
+
+    var page=0;
+    var p='';
+    var key="{$key}"
+
+    toDoRequest();
+
+    function toDoRequest(){
+
+
+        p= {token:token,key:key,actiontype:2,page:page};
+        page++;
+        $.post(webSiteUrl+'/app/public/search',p,function(ret){
+            if(ret.code==200){
+
+                html = "";
+                var tj=ret.data;
+                if(tj != null){
+
+for(var i=0;i<tj.length;i++){
+html+='<li onclick="lawyer('+tj[i].id+')"><a href="javascript:;"><img src="'+tj[i].icon+'" alt=""><div class="lawyers_info"><h6>'+tj[i].name+'律师 <em>执业'+tj[i].year+'年</em></h6><p class="location">'+tj[i].addr+'</p><p class="addr">'+tj[i].depart+'</p><dl>';
+
+                        for(var j=0;j<tj[i].label.length;j++){
+                            html+='<dd>'+tj[i].label[j]+'</dd>';
+                        }
+html+='</dl></div></a></li>';
+ 
+}
+                }
+                if(page==1){
+                    $('#con').html(html);
+                }else{
+                    $('#con').append(html);
+                }
+
+
+            }else{
+                console.log(ret.msg)
+                if(page==1){
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+            }
+
+        });
+       
+    }
+
+
+</script>
+</html>

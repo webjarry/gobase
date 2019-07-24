@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>搜索详情</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="answer">
+    <div class="answer_info">
+        <span>回答：</span>
+        <p id="answer">委托保证金是为了保证案源的真实性，当选择律师中标时保证金将计入律师费中。</p>
+    </div>
+</section>
+<section class="about_info">
+    <div class="common_title">
+        <h6>相关咨询</h6>
+    </div>
+    <div class="ask_list">
+        <ul id="con">
+
+        </ul>
+    </div>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+
+<script>
+    //清除历史记录
+    $(".clear_btn").click(function () {
+        $(".history_list ul").html('')
+    });
+
+    toDoRequest2()
+    function toDoRequest2(){
+        var p={page:1};
+
+        $.post(webSiteUrl+'/app/public/fask',p,function(ret){
+
+            if(ret.code==200){
+
+                html = "";
+                var tj=ret.data;
+                if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+
+                        html+='<li onclick="askdetail('+tj[i].id+')"><a href="javascript:;"><div class="userInfo"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].phone+'</h6><span>'+tj[i].addr+'<em>'+tj[i].time+'</em></span></div></div><div class="comment_info"><p>'+tj[i].content+'</p></div><div class="ask_kinds"><span>'+tj[i].ajtype+'</span><div class="ask_active"><em class="answer_num">'+tj[i].num+'人回答</em></div></div></a></li>';
+
+
+                    }
+                }
+
+                $('#con').html(html);
+
+            }else{
+
+                $('#con').html('<p style="text-align:center">暂无数据</p>');
+
+            }
+            aaa()
+        });
+
+    }
+    function aaa(){
+        var p={'model':'ajcate',id:para('ajid')};
+
+        $.post(webSiteUrl+'/app/home/find',p,function(ret){
+
+            if(ret.code==200){
+
+
+                var tj=ret.data;
+
+
+                $('#answer').html(ret.data.answer);
+
+            }else{
+
+                $('#con').html('<p style="text-align:center">暂无数据</p>');
+
+            }
+
+        });
+
+    }
+
+</script>
+</html>

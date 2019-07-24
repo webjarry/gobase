@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <script>
+        $(function () {
+            window['adaptive'].desinWidth = 750;
+            window['adaptive'].baseFont = 28;
+            window['adaptive'].maxWidth = 750;
+            window['adaptive'].init();
+        });
+    </script>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="../image/head-fanhui.png" alt=""></a>
+    <h2>众筹详情</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="crowd_details_img">
+    <img src="../image/crowd_details_img.png" id="cover">
+    <div class="details_progress">
+        <div class="progress_time">
+            <span id="etime">结束时间：2018-12-11</span>
+        </div>
+        <div class="bar">
+            <div class="progress_bar"></div>
+        </div>
+        <div class="details">
+            <ul>
+                <li>
+                    <span><b id="price_s">892.45</b>元 </span>
+                    <p>目标</p>
+                </li>
+                <li style="display:none;">
+                    <span><b class="percentage" id="jindu">30%</b></span>
+                    <p>筹款进度</p>
+                </li>
+                <li>
+                    <div style="font-size: 0.28rem;color: #333;margin-top: 0.3rem" id="ajtype">民事类-人身损害</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="crowd_title">
+        <h6  id="name">儿子工作致盲，被单位抛弃</h6>
+        <p id="content">因操作不慎使一只眼睛完全看不清东西，却被单位狠心抛弃</p>
+    </div>
+</section>
+<section class="crowd_details" style="margin-bottom: 1.2rem">
+    <div class="common_title">
+        <h6 style="font-weight: normal; font-size: 0.3rem;">众筹详情</h6>
+    </div>
+    <div class="content">
+        <p id="detail">
+            病痛突来，前路未知。<br>
+            蕲水县农民喜大叔，今年69岁，儿子出事前，夫妻俩除了务农，还经常外出打工，准备年底过个好年。谁知这一场突如其来的意外，彻底改变了这个家庭的命运。<br>
+            儿子在工作中因操作不慎使一只眼睛成为了盲眼，这个家庭不仅花光了所有存款还负债累累，沉重的治疗费用已经压垮了这个家庭。<br>
+            儿子出事后，大叔老两口一夜之间变得特别沧桑，大娘也以为着急住了几天院，只有大叔一人还在撑着。<br>
+            如今儿子单位在儿子出事后不管不问，一分治疗钱都没有出，大叔已经没有办法，只好在这里请求帮助，让好心人出一份力，帮助他们讨个说法。<br>
+        </p>
+        <ul  id="img">
+           <!-- <li><img src="../image/applyh_pic1.png" alt=""></li>
+            <li><img src="../image/applyh_pic2.png" alt=""></li>
+            <li><img src="../image/applyh_pic3.png" alt=""></li>-->
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_btn">
+    <a href="##">点击确认</a>
+</section>
+
+</body>
+<script>
+    var id = para('id');
+    var wtid
+    var rest=0;
+
+    shop();
+
+    function shop(){
+        var p = {id:id}
+        $.post(webSiteUrl+'/app/public/zcdetail',p,function(ret){
+
+            if (ret.code == 200) {
+                var list = ret.data;console.log(list)
+
+                $('#cover').attr('src',webSiteUrl+list.cover);
+
+                var img = '';
+                for (var i = 0;i<list.icon.length;i++) {
+                    img += '<li><img src="'+webSiteUrl+list.icon[i]+'" alt=""></li>';
+                }
+
+                $('#etime').html(list.etime);//结束时间
+
+                $('#price_s').html(list.money);//目标金额
+
+                $('#jindu').html(list.bili+'%');//进度
+                $('#name').html(list.name);//标题
+                $('#content').html(list.content);//简介
+                $('#detail').html(list.detail);//详情
+                $('#ajtype').html(list.ajtype);//详情
+                $('#img').html(img);  //图片
+
+
+
+                var _num = $('.percentage').text();
+                $('.progress_bar').animate({
+                    'width': _num
+                },1500);
+
+            }else{
+                $('#list').html('<p style="text-align:center">暂无数据</p>');
+            }
+
+        });
+    }
+
+    function donation() {
+        location.href='/home/user/donation.html?id='+id;
+    }
+    function timeStamp( second_time ){
+        var time = parseInt(second_time) + "秒";
+        if( parseInt(second_time )> 60){
+
+            var second = parseInt(second_time) % 60;
+            var min = parseInt(second_time / 60);
+            time = min + "分" + second + "秒";
+
+            if( min > 60 ){
+                min = parseInt(second_time / 60) % 60;
+                var hour = parseInt( parseInt(second_time / 60) /60 );
+                time = hour + "小时" + min + "分" + second + "秒";
+
+                if( hour > 24 ){
+                    hour = parseInt( parseInt(second_time / 60) /60 ) % 24;
+                    var day = parseInt( parseInt( parseInt(second_time / 60) /60 ) / 24 );
+                    //time = day + "天" + hour + "小时" + min + "分" + second + "秒";
+                    time = '<b>'+day +'</b>天<b>'+hour +'</b>小时<b>'+min +'</b>分';
+                }
+            }
+
+
+        }
+
+        return time;
+    }
+
+    var _num = $('.percentage').text();
+    $('.progress_bar').animate({
+        'width': _num
+    },1500);
+
+
+
+
+
+</script>
+</html>

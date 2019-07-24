@@ -1,0 +1,421 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>申请互助金</h2>
+    <a href="javascript:;" onclick="aaplay('personal_myMutualAid.html')" class="myAnswer_btn edit_btn">我的互助金</a>
+</header>
+<section class="flow_section">
+    <div class="flow_list">
+        <ul>
+            <li><em>1</em><p>达成要求</p></li>
+            <li><em>2</em><p>填写信息</p></li>
+            <li><em>3</em><p>审核通过</p></li>
+            <li><em>4</em><p>申请成功</p></li>
+        </ul>
+    </div>
+</section>
+
+<section class="apply_form">
+    <form action="">
+        <ul>
+            <li style="padding-bottom: 0!important;">
+                <div class="item">
+                    <p>选择已加入互助的申请人</p>
+                </div>
+                <div class="choose_applyer">
+                    <dl>
+                        <dd><p>张三</p><span class="check"><input type="radio" name="apply"></span></dd>
+                        <dd><p>李四</p><span class="check"><input type="radio" name="apply"></span></dd>
+                    </dl>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>选择案件类型</p>
+                    <span class="kinds_name"></span>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>请填写申请标题</p>
+                    <input type="text" placeholder="请填写申请标题" id='name'>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>申请原因</p>
+                </div>
+                <textarea  cols="30" rows="10" placeholder="请详细填写您申请互助金的原因" id='content'></textarea>
+                <div class="file_list">
+                    <div id='imgcon'></div>
+                    
+                    <input type="hidden" name='icon' value="">
+                    <div class="open_file" id="icon"></div>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>申请金额</p>
+                    <div class="disflex">
+                        <input type="text" placeholder="请填写申请金额"  id='money'>
+                        <em class="disflex_notes"></em>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>是否允许公布？</p>
+                    <i class="checkbox"></i>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>请上传身份证照片</p>
+                </div>
+                <div class="photos" style="margin-top: 0.15rem">
+                    <dl>
+                        <dd><img src="__IMG__/user_upload3.png"   id='iczm'>
+                            <input type="hidden" name='iczm' value=""></dd>
+                        <dd><img src="__IMG__/user_upload4.png"   id='icfm'>
+                            <input type="hidden" name='icfm' value=""></dd>
+                    </dl>
+                </div>
+                <div class="item" style="margin-top: 0.15rem">
+                    <p>请上传其他相关证明材料</p>
+                </div>
+                <div class="photos" style="margin-top: 0.15rem">
+                    <dl id='zmcon'>
+                        <dd class="addPic_btn" id='file'><img src="__IMG__/user_upload5.png" alt=""></dd>
+                    </dl>
+                    <input type="hidden" name='file'  value=''>
+                </div>
+                
+            </li>
+            <!--<li>
+                <a href="##" id="share">
+                    <div class="item">
+                        <p>点击分享给好友验证</p>
+                        <span>0/5</span>
+                    </div>
+                </a>
+            </li>-->
+        </ul>
+        <div class="reminder">
+            <h6>申请要求：</h6>
+            <p>
+                1、第一次充值至今的时间超过180天；<br>
+                2、上次申请互助金并再次充值后，至今时间超过180天；<br>
+                3、互助金账户没有连续超过7天账户为零；<br>
+                4、发布互助金信息的时候需要把信息链接发给5个好友，邀请他们注册并点击确认这个互助信息，此互助信息才可以进入审核。
+            </p>
+        </div>
+    </form>
+</section>
+
+<section class="fixed_btn">
+    <a href="javascript:;" onclick="tijiao()">提交申请</a>
+</section>
+<div class="notes_fixed">
+    <div class="notes-section">
+        <div class="note_title">互助金金额说明</div>
+        <div class="info">
+            <div class="info-list1">
+                <p>案件类别</p>
+                <ul>
+                    <li>劳动纠纷</li>
+                    <li>婚姻、家庭、继承纠纷</li>
+                    <li>借贷、投资理财纠纷</li>
+                    <li>交通事故、医疗纠纷</li>
+                    <li>买卖、服务纠纷</li>
+                    <li>知识产权、加盟纠纷</li>
+                    <li>房屋买卖、租赁、拆迁纠纷</li>
+                    <li>刑事案件</li>
+                    <li>其他案件</li>
+                </ul>
+            </div>
+            <div class="info-list1">
+                <p>可获最高金额(元)</p>
+                <ul>
+                    <li>10000</li>
+                    <li>10000</li>
+                    <li>20000</li>
+                    <li>20000</li>
+                    <li>20000</li>
+                    <li>20000</li>
+                    <li>30000</li>
+                    <li>50000</li>
+                    <li>50000</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="fixed_select">
+    <div class="select_content">
+        <h6>请选择案件类型</h6>
+        <ul id='cate'>
+
+        </ul>
+    </div>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var file=0;
+    var ajid=0;
+
+    ajcate();
+
+    $(".check").click(function () {
+        $(this).addClass('active');
+        $(this).parents('dd').siblings('dd').find('.check').removeClass('active');
+        $(this).find('input').prop('checked',true);
+    });
+
+    $(".disflex_notes").click(function () {
+        $(".notes_fixed").show()
+    });
+    $(".notes_fixed").click(function () {
+        $(this).hide();
+    });
+
+    function tijiao() {
+        if(!loginCheck()){
+            return;
+        }
+        var name=$("#name").val();
+        var content=$("#content").val();
+        var money=$("#money").val();
+        
+       
+        var icon=$("input[name=icon]").val();
+        var iczm=$("input[name=iczm]").val();
+        var icfm=$("input[name=icfm]").val();
+        var file=$("input[name=file]").val();
+        if(ajid==0){
+            alert("请选择案件类型！");return;
+        }else if(name==''){
+            alert("请输入申请标题！");return;
+        }else if(content==''){
+            alert("请输入申请原因！");return;
+        }else if(money==''){
+            alert("请输入申请金额！");return;
+        }else if(!/^\d+$/.test(money)){
+            alert("金额必须是数字！");return;
+        }else if(iczm=='' || icfm==''){
+            alert("请上传证件图片！");return;
+        }else if(file==''){
+            alert("请上传证明材料！");return;
+        }
+        var private=$('.checkbox').hasClass('active')?1:0;
+
+        var p={token:token,model:'hz',ajid:ajid,name:name,content:content,money:money,icon:icon,iczm:iczm,icfm:icfm,file:file,private:private};
+        //alert(JSON.stringify(p));
+        $.post(webSiteUrl+'/app/user/apply',p,function(ret){
+            if(ret.code==200){
+                alert(ret.msg)
+
+                aaplay('mutualAid_apply_history');
+
+            }else{alert(ret.msg)}
+        });
+    }
+
+    function ajcate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                //alert(JSON.stringify(ret.data))
+
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        f+='<li>'+tj[i].name+'</li>';
+
+                        var son=tj[i].son
+                        if(son != null){
+                            for(var j=0;j<son.length;j++){
+                                s+='<li style="cursor: pointer;text-align:center" data="'+son[j].id+'">'+son[j].name+'</li>';
+                            }
+                        }
+
+                    }
+                }
+                $('#cate').html(s)
+
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+
+    $(document).ready(function(){
+        uploadsasa('icon',2)
+        uploadsasa('iczm',1)
+        uploadsasa('icfm',1)
+        uploadsasa('file',3)
+
+    });
+    function uploadsasa(btn,type){
+        ajaxUploadicon(
+                btn, //上传的按钮id名称
+                1000000000,  //允许上传的文件大小（单位：kb）
+                '/Home/Public/upload?form_name=userfile&file_size=10000', //提交服务器端地址
+                'userfile', //提交服务器文件表单名称
+                "$(\".img_div\").show();$(\"#img_path\").attr('src', obj.filename);$(\"#is_upload\").val('1');", //上传成功后执行的 js callback
+                'loadimg' ,
+                type
+        );
+    }
+    function ajaxUploadicon(id_name, filesize, url, filename, callback, loadingid,type) {
+
+        var index;
+        var button = $('#'+id_name), interval;
+        var fileType = "pic", fileNum = "one";
+        new AjaxUpload(button,{
+            action: url,
+            name: filename,
+            onSubmit : function(file, ext){
+                index = layer.load(1, {
+                    shade: [0.4,'#000000']
+                });
+                if(fileType == "pic") {
+                    if (ext && /^(jpg|png|gif|jpeg)$/.test(ext)){
+                        this.setData({
+                            'info': '上传类型为图片'
+                        });
+
+                    } else {
+                        alert('提示：您上传的是非图片类型！');
+                        layer.close(index);
+                        return false;
+                    }
+                }
+                $("#"+loadingid).show();
+                if(fileNum == 'one') this.disable();
+            },
+            onComplete: function(file, response){
+                layer.close(index);
+                var obj = jQuery.parseJSON(response);
+                if (obj['ok'] == 'ok') {
+
+                    addpic(obj['id'],obj['filename'],id_name ,type)
+
+                    uploadsasa(id_name,type);
+                } else {
+                    switch (response) {
+                        case '1':
+                            alert('提示：上传失败，图片不能大于100M');
+
+                            break;
+                        case '3':
+                            alert('提示：图片只有部分文件被上传，请重新上传！');
+
+                            break;
+                        case '4':
+                            alert('提示：没有任何文件被上传！');
+
+                            break;
+                        case '5':
+                            alert('提示：非图片类型，请上传jpg|png|gif图片！');
+
+                            break;
+                        default:
+                            alert('提示：上传失败，错误未知，请您及时联系网站客服人员！');
+
+                            break;
+                    }
+                }
+                $("#"+loadingid).hide();
+                window.clearInterval(interval);
+                this.enable();
+            }
+        });
+    }
+    function addpic(id,imgpath,target,type){
+        if(type==1){
+            $("input[name="+target+"]").val(id);
+            $("#"+target).attr('src',imgpath);
+        }else{
+            if(type==2){
+                var len=$('#imgcon').children().length;
+                if(len==3){
+                    alert("最多上传3张图片");return;
+                }
+            }else{
+                var len=$('#zmcon').children().length;
+                if(len==6){
+                    alert("最多上传6张图片");return;
+                }
+            }
+
+            var ids=$("input[name='"+target+"']").val();
+            if(ids != ''){
+                ids+=','+id;
+            }else{
+                ids=id;
+            }
+            $("input[name='"+target+"']").val(ids);
+            if(type==2){
+                var a='<img src="'+imgpath+'" style="display:inline-block"/>';
+
+                $("#imgcon").append(a);
+            }else{
+                var a='<dd class="img"  style="display:inline-block"><img src="'+imgpath+'" alt=""></dd>';
+
+                $("#zmcon").append(a);
+            }
+
+        }
+
+
+    }
+
+    // 类型选择
+    $(".kinds_name").click(function () {
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+    });
+    $(document).on('click','.fixed_select .select_content ul li',function(){
+        ajid=$(this).attr('data');
+        $(".kinds_name").text($(this).html());
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        },400);
+    });
+
+    //使用邀请抵扣
+    $(".checkbox").click(function () {
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+        }else {
+            $(this).addClass('active');
+        }
+    });
+
+</script>
+</html>

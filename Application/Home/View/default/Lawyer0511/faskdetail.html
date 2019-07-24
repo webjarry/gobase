@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style type="text/css">
+        .userName{
+            position: relative;
+            width: 100%!important;
+        }
+        .dashang{
+            position: absolute;
+            right: 0;
+            background: url("__IMG__/jinbi.png") left center no-repeat!important;
+            background-size: 0.3rem auto!important;
+            font-size: 0.26rem;
+            color: #f3a536!important;
+            padding-left: 0.45rem;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>咨询详情</h2>
+    <!--<a href="javascript:void (0);" class="share_btn"><img src="__IMG__/share_icon.png" alt=""></a>-->
+</header>
+<section class="ask_article">
+    <div class="userInfo">
+        <img src="" alt="" id='icon'>
+        <div class="userName">
+            <h6 id='phone'></h6>
+            <span  id='time'></span>
+            <em class="dashang">10元</em>
+        </div>
+    </div>
+    <div class="comment_info">
+        <p id='content'></p>
+    </div>
+</section>
+
+<section class="comment_section">
+    <div class="news_title">
+        <h2>律师回复</h2>
+    </div>
+    <div class="comment_list">
+        <ul id='con'>
+            
+            <!-- <li>
+                <div class="userInfo">
+                    <img src="__IMG__/userimg2.jpg" alt="">
+                    <div class="userName">
+                        <h6>方大同律师</h6>
+                        <span>2018-11-11  14:45</span>
+                    </div>
+                </div>
+                <div class="comment_info">
+                    <p>钱借给别人，但借条被担保人撕了，这钱还能要回来吗？近日法院审理了这样一起民事纠纷案件。</p>
+                </div>
+                <span class="active">已采纳</span>
+            </li> -->
+
+            
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_ask">
+    <a href="javascript:;"  class="ask_btn" onclick="fanswer()">我来回答</a>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    fdetial()
+    function fdetial() {
+        var p={id:para('id')}
+        $.post(webSiteUrl+'/app/public/faskdetail',p,function(ret){
+
+                if(ret.code==200){
+
+                    var tj=ret.data.uinfo;
+                    $('#icon').attr('src',tj.icon);
+                    $('#phone').html(tj.phone);
+                    
+
+                    var info=ret.data.info;
+                    $('#time').html(info.time);
+                    $('#content').html(info.content);
+
+                    if(ret.data.info.reward_price ==0){
+                        $(".dashang").hide();
+                    }else {
+                        $(".dashang").html(ret.data.info.reward_price+'元')
+                    }
+
+                    html = "";
+                    var tj=ret.data.list;
+                    if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+html+='<li><div class="userInfo"><img src="'+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].nickname+'律师</h6><span>'+tj[i].time+'</span></div></div><div class="comment_info"><p>'+tj[i].content+'</p></div>';
+    if(tj[i].choose==1){
+        html+='<span class="active">已采纳</span>';
+    }
+html+='</li>';
+                    }
+                        $('#con').html(html);
+                    }else{
+                        $('#con').html('<p style="text-align:center">暂无回复</p>');
+                    }
+
+                   
+                }
+            });
+
+
+       
+    };
+
+
+    function fanswer(){
+        location.href='/Home/lawyer/faskanswer?id='+para('id');
+       
+    }
+    
+</script>
+</html>

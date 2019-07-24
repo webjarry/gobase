@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>个人公示</h2>
+    <!--<a href="find_lawyers_edit.html" class="myAnswer_btn edit_btn">我的互助金</a>-->
+</header>
+<section class="personal_publicity" style="border-bottom: 0.3rem #f3f3f3 solid;">
+    <ul>
+        <li>
+            <div class="personal_user">
+                <div class="info">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div>
+                        <p style="font-size: 0.32rem;">张三</p>
+                        <span style="font-size: 0.26rem;">中青年法律互助计划</span>
+                    </div>
+                </div>
+                <a href="javascript:;" class="objection" onclick="yiyi()">我有异议</a>
+            </div>
+            <p>20000元互助金</p>
+            <span>加入互助100天，参与21次分摊，花费5.21元。</span>
+        </li>
+    </ul>
+</section>
+
+<section class="publicity_info">
+    <div class="info_list">
+        <div class="common_title">
+            <h6>公示内容</h6>
+        </div>
+        <div class="details">
+            <h6 style="font-size: 0.36rem;font-weight: normal;">律师费·10000元互助金</h6>
+            <span style="color: #999; margin-bottom: 0.3rem;">本期有54656746名会员参与互助金分摊 <br>
+                您会为会员分摊0.25元互助金</span>
+            <p>公示日期：2018.12.12~2018.12.18</p>
+            <p>划款日期：2018.12.20</p>
+            <p>加入日期：2018.12.20</p>
+            <p>生效日期：2018.12.20</p>
+        </div>
+    </div>
+    <div class="info_list">
+        <div class="common_title">
+            <h6>平台审核结果</h6>
+        </div>
+        <div class="details">
+            <p>根据《中青年法律互助计划条款》，会员张三可申请最高100000万元互助金。<br><br>
+                若有会员在公示期间有依据的对申请人资料提出异议， 平台将根据异议情况要求互助申请人解释说明或补充提 交材料，并再次进行审定。
+            </p>
+            <a href="##" class="objection">我有异议</a>
+        </div>
+    </div>
+    <div class="info_list">
+        <div class="common_title">
+            <h6>事件概况</h6>
+        </div>
+        <div class="details">
+            <p>会员张三因家里的地被他人霸占，于2018年12月12日 将强行占地的王某告上法庭，由于家庭贫困，菜地被占 没有收入来源，申请互助金帮助</p>
+        </div>
+    </div>
+    <div class="info_list">
+        <div class="common_title">
+            <h6>调查过程</h6>
+        </div>
+        <div class="details">
+            <p>
+                1、我平台派出专人走访受理法院，询问案情负责人，确 认张三情况属实。<br>
+                2、经调查人员面访张三本人，走访周边邻居，排查儿女 情况等，均未发现不予互助和不符合条件的情形。<br>
+                3、张三申请互助金情况符合条件，建议给予互助金 10000元。
+            </p>
+        </div>
+    </div>
+    <div class="info_list">
+        <div class="common_title">
+            <h6>相关材料</h6>
+        </div>
+        <div class="details">
+            <ul>
+                <li><img src="__IMG__/about_pic1.png" alt=""> <h6>加入凭证</h6></li>
+                <li><img src="__IMG__/about_pic2.png" alt=""> <h6>申请表</h6></li>
+                <li><img src="__IMG__/about_pic3.png" alt=""> <h6>授权委托书</h6></li>
+                <li><img src="__IMG__/about_pic4.png" alt=""> <h6>本人身份证</h6></li>
+                <li><img src="__IMG__/about_pic5.png" alt=""> <h6>亲属身份证</h6></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+    function yiyi() {
+        location.href='/home/user/yiyi?id='+para('id');
+    }
+
+   
+</script>
+</html>

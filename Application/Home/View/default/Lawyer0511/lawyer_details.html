@@ -1,0 +1,577 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style_user.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__JS__/lawyer.js"></script>
+    <style>
+        .lawyers_info_kinds ul li {
+            padding: 0 0.05rem;
+        }
+        .service_radio{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>律师详情</h2>
+    <!-- <a href="javascript:void (0);" class="share_btn"><img src="__IMG__/share_icon.png" alt=""></a> -->
+</header>
+
+<section class="lawyers">
+    <div class="lawyers_info">
+        <img id="lawyer_icon" src="" alt="">
+        <div class="info">
+            <div class="info_name">
+                <h6><em id="lawyer_nickname"></em> <i>LV.6</i> <span class="loc" id="lawyer_addr"></span></h6>
+                <span class="info_age">执业<em id="lawyer_year"></em>年</span>
+                <span class="info_addr" id="lawyer_depart"></span>
+            </div>
+            <div class="lawyers_info_kinds">
+                <ul id="label">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="userActive">
+        <ul>
+            <li>
+                <a href="javascript:;" onclick="aaplay('coupon_center','coupon_center.html')">优惠券</a>
+            </li>
+            <li>
+                <a href="javascript:;" class="xinyi">送心意</a>
+            </li>
+            <li>
+                <a href="javascript:;" id='col'>已关注</a>
+            </li>
+        </ul>
+    </div> -->
+</section>
+
+<section class="lawyers_information">
+    <div class="news_title" style="padding: 0.2rem 3%">
+        <h2>律师简介</h2>
+    </div>
+    <div class="information">
+        <p id="lawyer_info"></p>
+    </div>
+    <span class="open_btn on">展开</span>
+</section>
+
+<section class="lawyer_service" style="border-bottom: 0.25rem #f3f3f3 solid;">
+    <div class="news_title" style="padding: 0.2rem 3%">
+        <h2>律师服务</h2>
+    </div>
+    <div class="service">
+        <ul>
+            <li>
+                <div class="service_info">
+                    <p>图文咨询 <em id="tuwen">20元/次</em></p>
+                    <span>通过图文、语音与律师在线沟通</span>
+                </div>
+                <div class="service_radio">
+                    <input name="service" type="radio">
+                </div>
+            </li>
+            <li>
+                <div class="service_info">
+                    <p>电话咨询 <em id="tel">30元/小时</em></p>
+                    <span>专业律师给您回电解答</span>
+                </div>
+                <div class="service_radio">
+                    <input name="service" type="radio">
+                </div>
+            </li>
+            <li>
+                <div class="service_info">
+                    <p>见面咨询 <em id="face">100元/次</em></p>
+                    <span>约定时间、地点、与律师见面详谈</span>
+                </div>
+                <div class="service_radio">
+                    <input name="service" type="radio">
+                </div>
+            </li>
+            <li>
+                <div class="service_info">
+                    <p>代写文书 <em id="wenshu">500元/份</em></p>
+                    <span>找律师起草合同</span>
+                </div>
+                <div class="service_radio">
+                    <input name="service" type="radio">
+                </div>
+            </li>
+            <li>
+                <div class="service_info">
+                    <p>代写律师函 <em id="legal">3500元/份</em></p>
+                    <span>找律师发律师函</span>
+                </div>
+                <div class="service_radio">
+                    <input name="service" type="radio">
+                </div>
+            </li>
+            <li>
+                <div class="service_info">
+                    <p>支付律师费</p>
+                    <span>通过平台支付律师费，服务更有保障</span>
+                </div>
+                <div class="service_radio">
+                    <input name="service" type="radio">
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="lawyer_evaluate" style="border-bottom: 0.25rem #f3f3f3 solid;display: none">
+    <div class="news_title" style="padding: 0.2rem 3%">
+        <h2>律师评价(好评率100%)</h2>
+        <a href="javascript:;" onclick="aaplay('evaluate','evaluate.html')" class="news_more" id='plnum'>查看全部</a>
+    </div>
+    <div class="evaluate_kinds" style="padding-top: 0!important;">
+        <ul>
+            <!-- <li>讲解耐心(5)</li>
+            <li>回复及时(5)</li>
+            <li>分析到位(5)</li> -->
+        </ul>
+    </div>
+    <div class="evaluate_list">
+        <ul id='plcon'>
+            <!-- <li>
+                <div class="evaluate_user">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div class="info">
+                        <p>138****5815</p>
+                        <span>2018-11-11　14:45</span>
+                    </div>
+                </div>
+                <div class="evaluate_info">
+                    <p>非常不错，律师很耐心，也非常专业，完美解决了我的问题。</p>
+                </div>
+            </li> -->
+            
+        </ul>
+    </div>
+</section>
+
+<section class="lawyers" style="padding: 0 0 1rem !important;display: none">
+    <div class="news_title" style="padding: 0.2rem 3%">
+        <h2>律师动态(<em id="sum"></em>条)</h2>
+        <a href="javascript:;" onclick="lookAll()" class="news_more">查看全部</a>
+    </div>
+    <div class="lawyers_list">
+        <ul id="dt_con">
+
+        </ul>
+    </div>
+</section>
+
+<!-- <section class="fixed_btn">
+    <a href="javascript:;">确认支付</a>
+</section> -->
+
+<section class="fixed_xinyi">
+    <div class="xinyi_content">
+        <div class="lawyer_pic">
+            <img src="" id="icon1">
+            <p>感谢律师尽心尽责的帮助</p>
+        <input type="text" id="price" placeholder="输入金额" value="" onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')">
+            <div class="choose_price">
+                <ul>
+                    <li class="random">随机金额</li>
+                    <li>6.6元</li>
+                    <li>8.8元</li>
+                </ul>
+            </div>
+            <a href="javascript:;" class="sure_btn" onclick="givemind()">确定</a>
+        </div>
+    </div>
+</section>
+
+<div class="fixed_share">
+    <div class="fixed_content" style="height: 6.08rem!important;">
+        <div class="fixed_title">
+            <h6>分享</h6>
+        </div>
+        <div class="fixed_article">
+            <div class="share">
+                <ul>
+                    <li><a href="##"><img src="__IMG__/share1.png" alt=""><p>微信好友</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share2.png" alt=""><p>朋友圈</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share3.png" alt=""><p>QQ好友</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share4.png" alt=""><p>QQ空间</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share5.png" alt=""><p>新浪微博</p></a></li>
+                    <li><a href="##"><img src="__IMG__/share6.png" alt=""><p>复制链接</p></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+<script>
+
+    var page= 1;
+
+
+     iscol()
+
+
+    $('.service ul li').click(function () {
+        location.href="/home/lawyer/workbench_couponset"
+
+    })
+
+    $('#col').click(function () {
+        if($(this).hasClass('sc')){
+            alert('已关注')
+        }else{
+            var p={token:token,type:3,id:para('id')};
+            $.post(webSiteUrl+'/app/user/add_collection',p,function(ret){
+
+                if(ret.code==200){
+                    $('#col').html('已关注').addClass('sc');
+                }
+            });
+        }
+    })
+
+
+    function iscol(){
+        var p={token:token,type:3,id:para('id')};
+        $.post(webSiteUrl+'/app/user/is_col',p,function(ret){
+
+            if(ret.code==200){
+                $('#col').html('已关注').addClass('sc');
+            }
+
+            lawyer_info()
+        });
+    }
+    function lawyer_info(){
+        var p={id:para('id')};
+        $.post(webSiteUrl+'/app/public/lawyer_info',p,function(ret){
+
+            if(ret.code==200){
+                //alert(JSON.stringify(ret.data));
+
+                $('#lawyer_icon').attr('src', webSiteUrl+ret.data.icon);
+                $('#lawyer_nickname').html(ret.data.nickname+'律师');
+                $('#lawyer_addr').html(ret.data.addr);
+                $('#lawyer_year').html(ret.data.year);
+                $('#lawyer_depart').html(ret.data.depart);
+                $('#lawyer_info').html(ret.data.content);
+                $('#icon1').attr('src', webSiteUrl+ret.data.icon);
+
+
+                var str = '';
+                if(ret.data.label.length>0){
+                    for( var i=0;i<ret.data.label.length;i++){
+                        str+='<li>'+ret.data.label[i]+'</li>'
+                    }
+                    $("#label").html(str)
+                }
+            }else{
+                alert(ret.msg)
+            }
+
+            feept()
+        });
+    }
+    function feept() {
+        var p={model:'feept'};
+        $.post(webSiteUrl+'/app/home/lists',p,function(ret){
+            if(ret.code==200){
+                console.log(JSON.stringify(ret.data));
+                var tj=ret.data
+                $('#legal').html(tj[0].money+'元/份');
+                $('#wenshu').html(tj[1].money+'元/份');
+                $('#face').html(tj[2].money+'元/次');
+                $('#tel').html(tj[3].money+'元/次');
+                $('#tuwen').html(tj[4].money+'元/次');
+
+            }else{
+                alert(ret.msg)
+            }
+
+
+        });
+
+    }
+
+    function pl(){
+
+        var p= {uid:para.id,type:3};
+        //alert(JSON.stringify(p))
+        api.ajax({
+            url: webSiteUrl+'/app/public/pl',
+            method: 'post',
+            data: {
+                values: p
+            }
+        }, function(ret, err) {
+            api.hideProgress();
+            //alert(JSON.stringify(ret))
+            if(ret.code==200){
+                html = "";
+                var tj=ret.data.com;
+                if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+html+='<li><div class="evaluate_user"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="info"><p>'+tj[i].name+'</p><span>'+tj[i].time+'</span></div></div><div class="evaluate_info"><p>'+tj[i].content+'</p></div></li>';
+
+
+                    }
+
+                    $('#plnum').html('查看全部'+ret.data.plnum+'条评价');
+                }
+                $('#plcon').html(html);
+                
+            }else{
+                $('#plcon').html('<p style="text-align:center">暂无数据</p>');
+            }
+
+            toDoRequest()
+        })
+
+
+    }
+
+    
+    function toDoRequest(){
+
+        var p= {uid:para.id,utype:2};
+        //alert(JSON.stringify(p))
+        api.ajax({
+            url: webSiteUrl+'/app/public/dt',
+            method: 'post',
+            data: {
+                values: p
+            }
+        }, function(ret, err) {
+            api.hideProgress();
+            //alert(JSON.stringify(ret))
+            if(ret.code==200){
+                html = "";
+                var tj=ret.data.data;
+                if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+                        html+='<li><div class="userInfo"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].nickname+'律师 <i>LV.6</i></h6><span>'+tj[i].time+'</span></div></div><a href="javascript:;"><div class="comment_info" onclick="lawyerdynamic('+tj[i].id+')"><p>'+tj[i].content+'</p><dl>';
+                        if(tj[i].icons.length>0){
+                            for(var j=0;j<tj[i].icons.length;j++){
+                                html+='<dd><img src="'+webSiteUrl+tj[i].icons[j]+'" alt=""></dd>';
+                            }
+                        }
+                        html+='</dl></div></a><div class="lawyers_active"><dl><dd><a href="##" class="lawyer_share">'+tj[i].zf+'</a></dd><dd><a href="javscript:;"  onclick="lawyerdynamic('+tj[i].id+')" class="lawyer_info">'+tj[i].pl+'</a></dd><dd><a href="javascript:;" ';
+                        if(tj[i].is_col == 1){
+                            html+='class="lawyer_fabulous active"';
+                        }else{
+                            html+='class="lawyer_fabulous"';
+                        }
+                        html+=' data="'+tj[i].id+'">'+tj[i].dz+'</a></dd></dl></div></li>';
+
+                    }
+
+                    $('#sum').html(ret.data.total);
+                }
+                $('#dt_con').html(html);
+                
+            }else{
+               
+                $('#dt_con').html('<p style="text-align:center">暂无数据</p>');
+                
+
+            }
+            feept()
+        })
+
+
+    }
+
+
+    function lookAll(){
+        alldynamic(para('id'));
+    }
+
+    $('.fixed_btn').click(function () {
+        if(type==0){
+            alert('请选择服务类型');return;
+        }
+        if(type==1 || type==2 ){
+
+            api.openWin({
+                name: 'pay_service_cost',
+                url: './pay_service_cost.html',
+                pageParam: {
+                    id:para.id,
+                    type:type
+                }
+            });
+           
+        }else if(type==3 || type==4 || type==5){
+
+            api.openWin({
+                name: 'order_service',
+                url: './order_service.html',
+                pageParam: {
+                    id:para.id,
+                    type:type
+                }
+            });
+            
+        }else if(type==6){
+            location.href='/Home/User/pay_service_cost?id='+para.id+'&type='+type
+        }
+
+    })
+
+    //点赞
+    $(document).on('click','.lawyers_list dl dd .lawyer_fabulous',function(){
+        //console.log(parseInt($(this).text())+1)
+        if(!$(this).hasClass('active')){
+            $(this).addClass('active');
+            $(this).html(parseInt($(this).text())+1)
+            var id=$(this).attr('data');
+
+            var p={token:token,type:2,id:id}
+            $.post(webSiteUrl+'/app/user/add_dz',p,function(ret){
+
+
+            });
+
+        }
+    });
+
+    function givemind(){
+        var money=$('#price').val();
+        if(money==""){
+            alert('请输入金额');return;
+        }else if(money.indexOf('元')){
+
+            money=money.replace('元','');
+        }else if(!/^\d+$/.test(money)){
+            alert('金额必须是数字');return;
+        }
+        
+        mind_pay(para.id,money);return;
+
+        var p={token:token,id:para('id'),money:money};
+        $.post(webSiteUrl+'/app/user/givemind',p,function(ret){
+
+            if(ret.code==200){
+                alert(ret.msg)
+                
+            }else{
+                
+                
+                
+            }
+        });
+       
+    }
+
+
+
+    //送心意
+    $(".xinyi").click(function () {
+        $(".fixed_xinyi").fadeToggle();
+        $(".fixed_xinyi .xinyi_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+    });
+    $(".sure_btn").click(function () {
+        $(".fixed_xinyi").fadeToggle();
+        $(".fixed_xinyi .xinyi_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        },400);
+    });
+
+    $(".choose_price ul li").click(function () {
+        if($(this).index()!=0){
+            $(this).addClass('active').siblings('li').removeClass('active');
+            $("#price").val($(this).html());
+        }else {
+            var num = (Math.random()*10+1).toFixed(1)+'元';
+            $("#price").val(num);
+        }
+    });
+
+    //展开收起律师简介
+    $(".open_btn").click(function () {
+        if($(this).hasClass('on')){
+            $(this).removeClass('on').html('收起');
+            $(".information").css({
+                'height':'auto',
+                'overflow-y': 'auto'
+            })
+        }else {
+            $(this).addClass('on').html('展开');
+            $(".information").css({
+                'height':'1.44rem',
+                'overflow-y': 'hidden'
+            })
+        }
+    });
+
+    //打开分享
+    $(".share_btn").click(function () {
+        $(".fixed_share").fadeIn().find(".fixed_content").animate({
+            'top':'0',
+            'opacity':'1'
+        },400)
+    });
+    $(".fixed_content").click(function (e) {
+        e.stopPropagation();
+    });
+    $(".share ul li").click(function () {
+        $(".fixed_share").fadeOut().find(".fixed_content").animate({
+            'top':'4rem',
+            'opacity':'0'
+        },400)
+    });
+    //关闭分享
+    $(".fixed_share").click(function (e) {
+        e.stopPropagation();
+        $(".fixed_share").fadeOut().find(".fixed_content").animate({
+            'top':'4rem',
+            'opacity':'0'
+        },400)
+    });
+
+    //收藏
+    $('.collect_btn').click(function () {
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+            alert('已取消收藏')
+        }else {
+            $(this).addClass('active');
+            alert('已收藏')
+        }
+    });
+
+    //勾选服务
+    $(".service ul li").click(function () {
+        $(this).find('.service_radio').addClass('active').find('input').prop('checked',true);
+        $(this).siblings('li').find('.service_radio').removeClass('active').find('input').prop('checked',false);
+
+        type=parseInt($(this).index()+1)
+    });
+
+    
+
+
+
+</script>
+</html>

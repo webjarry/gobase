@@ -1,0 +1,91 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>查看众筹详情</h2>
+    </div>
+    <ul class="tab-nav nav">
+
+
+        <li class="current"><a href="javascript:void(0)">基本信息</a></li>
+
+
+    </ul>
+    
+    <form action="{:U()}" method="post" class="form-horizontal">
+    <input type="hidden" name="tid" value="{$vo[id]}">
+    <div class="tab-content">
+
+        <div class="form-item">
+            <label class="item-label">众筹用户<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large"  value="{$vo['uid']|modelField='usermember','nickname'}" disabled>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">众筹名称</label>
+            <div class="controls">
+                <input type="text" class="text input-large" value="{$vo[name]}" disabled>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">众筹详情</label>
+            <div class="controls">
+                <textarea class="input-large" cols="30" rows="10" >{$vo[detail]}</textarea>
+
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">相关图片</label>
+            <div class="controls">
+                <volist name="vo.icon" id="o">
+                    <img src="{$o|picture}" style="max-width:300px;margin-right:20px;">
+                </volist>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">相关证明材料</label>
+            <div class="controls">
+                <volist name="vo.file" id="o">
+                    <img src="{$o|picture}" style="max-width:300px;margin-right:20px;">
+                </volist>
+
+            </div>
+        </div>
+
+        
+
+        <div class="form-item">
+            <label class="item-label">身份证正面</label>
+            <div class="controls">
+                <img src="{$vo.iczm|picture}" style="width:400px;">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">身份证反面</label>
+            <div class="controls">
+                <img src="{$vo.icfm|picture}" style="width:400px;">
+            </div>
+        </div>
+
+
+
+
+        <div class="form-item">
+            <!--<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">回复</button>-->
+            <a href="{:U('index')}" class="btn btn-return">返 回</a>
+        </div>
+    </div>
+
+    </form>
+</block>
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Zc/index')}');
+
+    </script>
+</block>
+

@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style type="text/css">
+        .chargeset-tips{
+            font-size: 0.26rem;
+            line-height: 0.46rem;
+            color: #787878;
+            padding-top: 0.2rem;
+        }
+        .chargeset-tips h6{
+            font-size: 0.3rem;
+            color: #575757;
+            margin-bottom: 0.1rem;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>收费设置</h2>
+    <a href="javascript:void (0);" class="search_btn charge_btn">说明</a>
+</header>
+
+<section class="charge_section">
+    <div class="charge_list">
+        <ul>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge1.png" alt="">
+                    <div class="charge_name">
+                        <h6>图文咨询</h6>
+                        <p class="st1" id="tuwen">100.00元/张</p>
+                        <p class="st2" id="tuwenkg">已关闭</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch">关闭</a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge2.png" alt="">
+                    <div class="charge_name">
+                        <h6>电话咨询</h6>
+                        <p class="st1" id="tel">30.00元/15分钟</p>
+                        <p class="st2" id="telkg">已关闭</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch">关闭</a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge3.png" alt="">
+                    <div class="charge_name">
+                        <h6>见面咨询</h6>
+                        <p class="st1" id="face">300.00元/次</p>
+                        <p class="st2" id="facekg">已关闭</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch">关闭</a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge4.png" alt="">
+                    <div class="charge_name">
+                        <h6>代写文书</h6>
+                        <p class="st1" id="wenshu">100.00元/张</p>
+                        <p class="st2" id="wenshukg">已关闭</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch">关闭</a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge5.png" alt="">
+                    <div class="charge_name">
+                        <h6>律师函</h6>
+                        <p class="st1" id="han">100.00元/张</p>
+                        <p class="st2" id="hankg">已关闭</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch">关闭</a>
+            </li>
+        </ul>
+    </div>
+    <div class="chargeset-tips">
+        <h6>温馨提示：</h6>
+        <p>功能开启后将在律师主页显示，用户可直接下单，开启前请确认律师本人情况。 </p>
+    </div>
+</section>
+<section class="fixed_charge">
+    <div class="charge_notes">
+        <h6>平台服务费收取比例</h6>
+        <ul id="con">
+            <!--<li><span>项目</span><span>收取比例</span></li>
+            <li><span>图文咨询</span><span>35%</span></li>
+            <li><span>电话咨询</span><span>35%</span></li>
+            <li><span>预约面谈</span><span>35%</span></li>
+            <li><span>代写文书</span><span>35%</span></li>
+            <li><span>律师函</span><span>35%</span></li>
+            <li><span>采纳奖励</span><span>35%</span></li>
+            <li><span>送心意奖励</span><span>35%</span></li>
+            <li><span>支付律师费</span><span>8%</span></li>
+            <li><span>法律事务委托</span><span>8%</span></li>-->
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+
+    var tuwen,tel,face,wenshu,han
+
+    user()
+    function user() {
+        if(!loginCheck()){
+            return;
+        }
+        var p={token:token,infock:2};
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+            if(ret.code==200){
+
+                var tj=ret.data;console.log(tj.tuwen,tj.tel,tj.face,tj.book,tj.lawyer)
+
+                tuwen=tj.tuwen
+                $(".charge_list ul li .switch").eq(0).attr('data',tuwen)
+                tel=tj.tel
+                $(".charge_list ul li .switch").eq(1).attr('data',tel)
+                face=tj.face
+                $(".charge_list ul li .switch").eq(2).attr('data',face)
+                wenshu=tj.book
+                $(".charge_list ul li .switch").eq(3).attr('data',wenshu)
+                han=tj.lawyer
+                $(".charge_list ul li .switch").eq(4).attr('data',han)
+
+                if($(this).hasClass('off')){
+                    $(this).removeClass('off').html('关闭');
+                    $(this).parents('li').find(".st2").hide().siblings(".st1").show();
+                }else {
+                    $(this).addClass('off').html('开启');
+                    $(this).parents('li').find(".st1").hide().siblings(".st2").show();
+                }
+
+                if(tj.tuwen==0){
+                    $(".charge_list ul li .switch").eq(0).addClass('off').html('开启')
+                    $(".charge_list ul li").eq(0).find(".st1").hide().siblings(".st2").show()
+                }else{
+                    $(".charge_list ul li .switch").eq(0).removeClass('off').html('关闭')
+                    $(".charge_list ul li").eq(0).find(".st2").hide().siblings(".st1").show();
+                }
+                if(tj.tel==0){
+                    $(".charge_list ul li .switch").eq(1).addClass('off').html('开启')
+                    $(".charge_list ul li").eq(1).find(".st1").hide().siblings(".st2").show()
+                }else{
+                    $(".charge_list ul li .switch").eq(1).removeClass('off').html('关闭')
+                    $(".charge_list ul li").eq(1).find(".st2").hide().siblings(".st1").show();
+                }
+                if(tj.face==0){
+                    $(".charge_list ul li .switch").eq(2).addClass('off').html('开启')
+                    $(".charge_list ul li").eq(2).find(".st1").hide().siblings(".st2").show()
+                }else{
+                    $(".charge_list ul li .switch").eq(2).removeClass('off').html('关闭')
+                    $(".charge_list ul li").eq(2).find(".st2").hide().siblings(".st1").show();
+                }
+                if(tj.book==0){
+                    $(".charge_list ul li .switch").eq(3).addClass('off').html('开启')
+                    $(".charge_list ul li").eq(3).find(".st1").hide().siblings(".st2").show()
+                }else{
+                    $(".charge_list ul li .switch").eq(3).removeClass('off').html('关闭')
+                    $(".charge_list ul li").eq(3).find(".st2").hide().siblings(".st1").show();
+                }
+                if(tj.lawyer==0){
+                    $(".charge_list ul li .switch").eq(4).addClass('off').html('开启')
+                    $(".charge_list ul li").eq(4).find(".st1").hide().siblings(".st2").show()
+                }else{
+                    $(".charge_list ul li .switch").eq(4).removeClass('off').html('关闭')
+                    $(".charge_list ul li").eq(4).find(".st2").hide().siblings(".st1").show();
+                }
+
+
+
+
+            }
+            feept()
+
+        });
+
+    }
+    function feept() {
+        var p={model:'feept'};
+        $.post(webSiteUrl+'/app/home/lists',p,function(ret){
+            if(ret.code==200){
+                //console.log(JSON.stringify(ret.data));
+                var tj=ret.data
+                $('#han').html(tj[0].money+'元/份');
+                $('#wenshu').html(tj[1].money+'元/份');
+                $('#face').html(tj[2].money+'元/次');
+                $('#tel').html(tj[3].money+'元/次');
+                $('#tuwen').html(tj[4].money+'元/次');
+
+            }else{
+                alert(ret.msg)
+            }
+            bili()
+
+        });
+
+    }
+    function bili() {
+        var p={model:'feebili'};
+        $.post(webSiteUrl+'/app/home/lists',p,function(ret){
+            if(ret.code==200){
+
+                var html='<li><span>项目</span><span>收取比例</span></li>'
+                var tj=ret.data
+                for(var i=0;i<tj.length;i++){
+                    html+='<li><span>'+tj[i].name+'</span><span>'+tj[i].bili+'%</span></li>';
+                }
+                $('#con').html(html);
+
+
+            }else{
+                alert(ret.msg)
+            }
+
+
+        });
+
+    }
+    //打开说明
+    $(".charge_btn").click(function () {
+        $(".fixed_charge").fadeIn().find(".charge_notes").animate({
+            'top':'0',
+            'opacity':'1'
+        },400)
+    });
+    $(".set_kinds").click(function (e) {
+        e.stopPropagation();
+    });
+
+    //关闭说明
+    $(".fixed_charge").click(function (e) {
+        e.stopPropagation();
+        $(".fixed_charge").fadeOut().find(".charge_notes").animate({
+            'top':'-4rem',
+            'opacity':'0'
+        },400)
+    });
+
+    //开启应用
+    $(".charge_list ul li .switch").click(function () {
+        console.log($(this).attr('data'))
+        var index=parseInt($(this).parents('li').index()+1)
+        if($(this).attr('data')==1){
+            $(this).attr('data',0)
+        }else{
+            $(this).attr('data',1)
+        }
+        console.log($(this).attr('data'))
+        if($(this).hasClass('off')){
+
+            $(this).removeClass('off').html('关闭');
+            $(this).parents('li').find(".st2").hide().siblings(".st1").show();
+
+
+        }else {
+            $(this).addClass('off').html('开启');
+            $(this).parents('li').find(".st1").hide().siblings(".st2").show();
+        }
+        tijiao()
+    })
+    function tijiao() {
+            var tuwen=$(".charge_list ul li .switch").eq(0).attr('data');
+            var tel=$(".charge_list ul li .switch").eq(1).attr('data');
+            var face=$(".charge_list ul li .switch").eq(2).attr('data');
+            var wenshu=$(".charge_list ul li .switch").eq(3).attr('data');
+            var han=$(".charge_list ul li .switch").eq(4).attr('data');
+            var p={token:token,infock:2,tuwen:tuwen,tel:tel,face:face,book:wenshu,lawyer:han};console.log(p)
+            $.post(webSiteUrl+'/app/user/edit_user',p,function(ret){
+                alert(ret.msg)
+                if(ret.code==200){
+
+                }
+
+
+            });
+
+
+    }
+</script>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f9f9f9">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我的优惠券</h2>
+    <a href="javascript:void(0);" class="search_btn">使用说明</a>
+</header>
+
+<section class="coupon_list">
+    <div class="list">
+        <ul id="list">
+            
+           
+            <!-- <li class="bg2">
+                <div class="coupon_info">
+                    <div class="userInfo">
+                        <img src="__IMG__/userimg1.jpg" alt="">
+                        <div class="info">
+                            <h6>方大同律师优惠券</h6>
+                            <p>立减 <span>￥<b>15</b></span>咨询费</p>
+                        </div>
+                        <a href="##" class="share_btn">分享</a>
+                    </div>
+                    <div class="time">
+                        <span>仅限图文咨询</span>
+                        <span>有效期至：2018-12-18</span>
+                    </div>
+                </div>
+                <a href="##" class="getCoupon">立即<br>使用</a>
+            </li> -->
+            
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_note" style="display:none">
+    <div class="note">
+        <h6>优惠券使用说明:</h6>
+        <p>
+            1.优惠券是由法援宝律师平台发放给用户的，用户可在支付环节使用;<br><br>
+            2.单次下单，只可使用一个优惠券;<br><br>
+            3.优惠券注明有效期和使用条件，在有效期内并符合有条件的优惠券才可使用;<br><br>
+            4.优惠券在订单支付成功后即视为使用无法被退回，如发生退款行为，只退还实际支付金额，优惠券不予退还。
+        </p>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    $('.search_btn').click(function () {
+        $('.fixed_note').fadeIn();
+    });
+    $('.fixed_note').click(function () {
+        $(this).fadeOut();
+    });
+    var page = 1;
+
+    toDoRequest();
+
+    //优惠券
+    function toDoRequest(){
+        loginCheck()
+        var p = {token:token,page:page};
+          $.post(webSiteUrl+'/app/user/ucoupon',p,function(ret){
+              console.log(ret)
+            if (ret.code == 200) {
+                var list = ret.data;
+                var html = '';
+                if (list != null) {
+                    for (var i =0;i< list.length; i++) {
+                        if (list[i].guoqi == 0) {
+                            html += '<li class="bg2">';
+                        }else if (list[i].guoqi == 1) {
+                            html += '<li class="bg3">';
+                        }
+                        html += '<div class="coupon_info"><div class="userInfo"><img src="'+list[i].icon+'" alt=""><div class="info"><h6>'+list[i].name+'律师优惠券</h6><p>立减 <span>￥<b>'+list[i].money+'</b></span>咨询费</p></div></div><div class="time"><span>仅限';
+                        if(list[i].type==1){
+                            html+='图文咨询';
+                        }else if(list[i].type==2){
+                            html+='电话咨询';
+                        }else if(list[i].type==3){
+                            html+='见面咨询';
+                        }else if(list[i].type==4){
+                            html+='代写文书';
+                        }else if(list[i].type==5){
+                            html+='律师函';
+                        }
+                        html += '</span><span>有效期至：'+list[i].lasttime+'</span></div></div>';
+
+                        if (list[i].guoqi == 0) {
+                        html += '<a onclick="lawyer('+list[i].sid+')" class="getCoupon">立即<br>使用</a></li>';
+                        }else{
+                        html += '<a href="javascript:;" class="getCoupon">立即<br>使用</a></li>';
+                        }
+
+                    }
+
+                    $('#list').html(html);
+                }
+            }else{
+                $('#list').html('<p style="text-align:center">暂无数据</p>');
+            }
+        });       
+
+       
+    }
+
+    
+</script>
+</html>

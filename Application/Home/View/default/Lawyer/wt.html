@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>投标广场</h2>
+    <!--<a href="my_answer.html" class="myAnswer_btn">我的回答</a>-->
+</header>
+<section class="condition">
+    <ul>
+        <li>
+            <p>全国</p>
+            <div class="area_choose myarea">
+                <div class="choose">
+                    <div class="area">
+                        <dl id="cityf">
+                        </dl>
+                    </div>
+                    <div class="cities" id="cityson">
+
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <p>案件类型</p>
+            <div class="area_choose myaj">
+                <div class="choose">
+                    <div class="area">
+                        <dl id="f">
+
+                        </dl>
+                    </div>
+                    <div class="cities" id="son">
+                        <dl>
+                            <dd>全部</dd>
+                        </dl>
+                        <dl>
+                            <dd>万州区</dd>
+
+                        </dl>
+                        <dl>2</dl>
+                        <dl>3</dl>
+
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <p>智能排序</p>
+            <div class="area_choose">
+                <div class="sort" style="height:auto!important;">
+                    <dl>
+                        <dd data="1">智能排序</dd>
+                        <dd data="2">发布时间</dd>
+                        <dd data="3">竞标人数</dd>
+                        <dd data="4">保证金高低</dd>
+                        <dd data="5">招标中</dd>
+                        <dd data="6">已结束</dd>
+                        <dd data="7">众筹订单</dd>
+                        <dd data="8">互助订单</dd>
+                    </dl>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<section class="ask_square">
+    <div class="ask_list bid_list">
+        <ul id='con'>
+            
+            <!-- <li class="active1">
+                <a href="javascript:;" onclick="aaplay('index','bid_page_details.html')">
+                    <div class="userInfo">
+                        <img src="__IMG__/userimg2.jpg" alt="">
+                        <div class="userName">
+                            <h6>135****7574</h6>
+                            <span>重庆 重庆市 <em>2018-11-18  15:18</em></span>
+                        </div>
+                    </div>
+                    <div class="comment_info">
+                        <p>我打算和儿子他妈协议离婚，我给他两间房，但我想让她以后管儿子，管儿子结婚，上学，如果她同意，又怕她以后无法落实，我该怎么办？ </p>
+                    </div>
+                    <div class="ask_kinds">
+                        <span>离婚协议</span>
+                        <div class="ask_active">
+                            <i></i>
+                            <p>我要投标</p>
+                        </div>
+                    </div>
+                    <div class="bid_price">
+                        <p>委托报价:<i>3000-5000元</i></p>
+                        <span class="look_num">58人浏览</span>
+                        <span class="bid_num">4人竞标</span>
+                    </div>
+                </a>
+            </li> -->
+            
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    //打开和关闭列表
+    $(".condition ul li p").click(function (e) {
+        if($(this).hasClass('on')){
+            $(this).removeClass('on').siblings('.area_choose').slideUp();
+            $(this).parents('li').siblings('li').find('.area_choose').slideUp();
+        }else {
+            $(this).addClass('on').siblings('.area_choose').slideDown().find(".cities dl").eq(0).show().siblings('dl').hide();
+            $(this).parents('li').siblings('li').find('p').removeClass('on').siblings('.area_choose').slideUp();
+        }
+    });
+    //城市切换
+    $(document).on('click',".condition ul li .area_choose .area dl dd",function () {
+        $(this).addClass('active').siblings('dd').removeClass('active');
+        $(this).parents('.area').siblings(".cities").find('dl').eq($(this).index()).show().siblings('dl').hide();
+
+    });
+
+    $(document).on('click',".myarea .cities dl dd",function () {
+        var city = $(this).text();
+        $(this).parents('.area_choose').slideUp().siblings('p').text(city).removeClass('on');
+
+        page = 1;
+        addrid = $(this).attr('data');
+        toDoRequest()
+    });
+    $(document).on('click',".myaj .cities dl dd",function () {
+        var city = $(this).text();
+        $(this).parents('.area_choose').slideUp().siblings('p').text(city).removeClass('on');
+
+        page = 1;
+        ajid = $(this).attr('data');
+        toDoRequest()
+    });
+    //智能排序
+    $(".area_choose .sort dl dd").click(function () {
+        $(this).addClass('active').siblings('dd').removeClass('active');
+        $(this).parents('.area_choose').slideUp().siblings('p').text($(this).html()).removeClass('on');
+
+        page = 1;
+        sort = parseInt($(this).index()+1);
+        toDoRequest()
+    });
+    var page=1;
+    var addrid=0;
+    var ajid=0;
+    var sort=0;
+    
+    ajcate();
+
+   function toDoRequest(){
+        var p={addrid:addrid,ajid:ajid,sort:sort,page:page};console.log(p)
+        $.post(webSiteUrl+'/app/public/wt',p,function(ret){
+                if(ret.code==200){
+                   
+                    html = "";
+                    var tj=ret.data;
+                    if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+                        if(tj[i].over == 1){
+                            html+='<li  class="active1">';
+                        }else{
+                            html+='<li>';
+                        }
+                        var otype='';
+                        if(tj[i].type==0){
+                            html+='<a href="javascript:;"  onclick="wtdetail('+tj[i].id+')">';
+                        }else if(tj[i].type==1){
+                            html+='<a href="javascript:;"  onclick="hzwt('+tj[i].id+')">';
+                            otype='<span class="orderTips">互助订单</span>';
+                        }else if(tj[i].type==2){
+                            html+='<a href="javascript:;"  onclick="zcwt('+tj[i].id+')">';
+                            otype='<span class="orderTips">众筹订单</span>';
+                        }
+html+='<div class="userInfo"><img src="'+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].phone+'</h6><span>'+tj[i].addr+'<em>'+tj[i].time+'</em></span></div></div>';
+html+='<div class="comment_info"><p>'+otype+tj[i].content+'</p></div><div class="ask_kinds"><span>'+tj[i].ajtype+'</span><div class="ask_active"><i></i><p>我要投标</p></div></div><div class="bid_price"><p>委托报价:<i>'+tj[i].price+'元</i></p><span class="look_num">'+tj[i].view+'人浏览</span><span class="bid_num">'+tj[i].num+'人竞标</span></div></a></li>';
+
+                    }
+                    }
+                    if(page==1){
+                        $('#con').html(html);
+                    }else{
+                        $('#con').append(html);
+                    }
+                    page++;
+
+                }else{
+                    if(page==1){
+                        $('#con').html('<p style="text-align:center">暂无数据</p>');
+                    }
+                    
+                }
+            });
+       
+    }
+
+    function ajcate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        f+='<dd  style="cursor: pointer">'+tj[i].name+'</dd>';
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<dl style="cursor: pointer">';
+                            for(var j=0;j<son.length;j++){
+                                s+='<dd style="cursor: pointer" data="'+son[j].id+'">'+son[j].name+'</dd>';
+                            }
+                            s+='</dl>';
+                        }
+
+                    }
+                }
+                $('#f').html(f)
+                $('#son').html(s)
+
+                ajcity()
+
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+    function ajcity(){
+        $.post(webSiteUrl+'/app/public/region',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        f+='<dd  style="cursor: pointer">'+tj[i].name+'</dd>';
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<dl style="cursor: pointer">';
+                            for(var j=0;j<son.length;j++){
+                                s+='<dd style="cursor: pointer" data="'+son[j].id+'">'+son[j].name+'</dd>';
+                            }
+                            s+='</dl>';
+                        }
+
+                    }
+                }
+                $('#cityf').html(f)
+                $('#cityson').html(s)
+
+                toDoRequest()
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+
+    function wtdetail(id){
+        location.href='/Home/lawyer/wtdetail?id='+id;
+    }
+    function hzwt(id){
+        location.href='/Home/lawyer/mutualAid_details_bid?id='+id+'&type=1';
+    }
+    function zcwt(id){
+        location.href='/Home/lawyer/mutualAid_details_bid?id='+id+'&type=2';
+    }
+
+</script>
+</html>

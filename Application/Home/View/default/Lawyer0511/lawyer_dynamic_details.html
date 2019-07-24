@@ -1,0 +1,253 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/mobiscroll_002.css" >
+    <link rel="stylesheet" type="text/css" href="__CSS__/baguetteBox.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/baguetteBox.js"></script>
+    <script type="text/javascript" src="__JS__/highlight.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <script src="__JS__/mobiscroll_002.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_004.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_003.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_005.js" type="text/javascript"></script>
+
+    <style type="text/css">
+        .gallery{
+            display: flex;
+            margin-top: 0.2rem;
+        }
+        .gallery a{
+            width: 31%;
+            margin-right: 3%;
+        }
+        .gallery a img{
+            display: block;
+            width: 2.22rem;
+            height: 2.22rem;
+        }
+        .gallery a:last-child{
+            margin-right: 0;
+        }
+        .full-image img{
+            width:100%!important;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>动态详情</h2>
+    <!--<a href="javascript:;" class="tel_btn">保存</a>-->
+</header>
+<section class="lawyer_dynamic">
+    <div class="lawyers_list">
+        <ul>
+            <li>
+                <div class="userInfo">
+                    <img src=""  id="lawyer_tx">
+                    <div class="userName">
+                        <h6><em id="lawyer_nickname"></em> <i>LV.6</i></h6>
+                        <span id="lawyer_time"></span>
+                    </div>
+                </div>
+                <div class="comment_info">
+                    <p id="lawyer_info"></p>
+                    <dl id="label">
+                    </dl>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="dynamic_info">
+   <p class="dynamic_fabulous" id='dzname'></p>
+    <p class="dynamic_forward" id='zfname'></p>
+</section>
+<section class="comment_section">
+    <div class="news_title">
+        <h2>评论区(<em id="sum"></em>条)</h2>
+    </div>
+    <div class="comment_list">
+        <ul id="plCon">
+            <!--<li>
+                <div class="userInfo">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div class="userName">
+                        <h6>135****7574</h6>
+                        <span>2018-11-11  14:45</span>
+                    </div>
+                </div>
+                <div class="comment_info">
+                    <p>担保人还从中作梗，以后要睁大眼睛选担保人了。</p>
+                </div>
+            </li>-->
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_comment">
+    <ul>
+        <li><span class="collect_btn"></span></li>
+        <li><input id="comment_info" type="text" placeholder="我来说两句"></li>
+        <li><button class="comment_submit" type="button" >发送</button></li>
+    </ul>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+<script>
+    
+    var page= 1;
+    dongtai()
+    function dongtai() {
+        
+        var p={model:'dongtai',id:para('id')};
+        $.post(webSiteUrl+'/app/home/find',p,function(ret){
+  
+
+            if(ret.code==200){
+                //alert(JSON.stringify(ret.data));
+
+                $('#lawyer_tx').attr('src',ret.data.tx);
+                $('#lawyer_nickname').html(ret.data.name+'律师');
+                $('#lawyer_time').html(ret.data.time);
+                $('#lawyer_info').html(ret.data.content);
+                $('#dzname').html(ret.data.dz+'人觉得很赞');
+                $('#zfname').html(ret.data.zf+'人转发了动态');
+                console.log(ret.data.icon)
+
+                var str = '';
+                if(ret.data.icon.length>0){
+                    str+='<div class="baguetteBoxOne gallery">';
+                    for( var i=0;i<ret.data.icon.length;i++){
+                        str+='<dd><a href="'+webSiteUrl+ret.data.icon[i]+'" data-caption=""><img src='+webSiteUrl+ret.data.icon[i]+' alt=""></a></dd>'
+                    }
+                    str+='</div>';
+                    $("#label").html(str)
+                    baguetteBox.run('.baguetteBoxOne');
+                }
+                
+                iscol();
+            }else{
+                alert(ret.msg)
+            }
+        });
+
+    }
+    function iscol(){
+        var p={token:token,id:para('id'),type:2};
+        $.post(webSiteUrl+'/app/user/is_col',p,function(ret){
+       
+            if(ret.code==200){
+                $('.collect_btn').addClass('active');
+            }else{
+                $('.collect_btn').removeClass('active');
+            }
+            toDoRequest()
+        });
+    }
+
+    function toDoRequest(){
+
+        var p= {id:para('id'),type:2};
+        $.post(webSiteUrl+'/app/public/pl',p,function(ret){
+      
+            if(ret.code==200){
+
+                var html = "";
+                var pl=ret.data.com;
+                if(pl != null){
+                    //alert(JSON.stringify(ret));
+                    for( var j=0;j<pl.length;j++){
+                        html+='<li><div class="userInfo"><img src='+pl[j].icon+' alt=""><div class="userName"><h6>'+pl[j].phone +'</h6><span>'+pl[j].time +'</span></div></div><div class="comment_info"><p>'+pl[j].content +'</p></div></li>'
+                    }
+
+                    $("#sum").html(pl.length);
+
+                }
+                
+                $('#plCon').html(html);
+                
+
+
+            }else{
+                if(page==1){
+                    $('#plCon').html('<p style="text-align:center">暂无数据</p>');
+                }
+
+            }
+        })
+
+
+    }
+
+
+
+    
+    $('.collect_btn').click(function () {
+        
+        if($(this).hasClass('active')){
+            var p={token:token,id:para('id'),type:2}
+            $.post(webSiteUrl+'/app/user/del_collection',p,function(ret){
+          
+                if(ret.code==200){
+                    $('.collect_btn').removeClass('active');
+                    
+                }
+            });
+
+        }else {
+            var p={token:token,id:para('id'),type:2}
+            $.post(webSiteUrl+'/app/user/add_collection',p,function(ret){
+           
+                if(ret.code==200){
+                    $('.collect_btn').addClass('active');
+                    
+                }
+            });
+           
+        }
+    });
+    //fa评论
+    $('.comment_submit').click(function () {
+        var val = $("#comment_info").val();
+        if(val!=''){
+            var p={token:token,id:para('id'),type:2,content:val}
+            $.post(webSiteUrl+'/app/user/addpl',p,function(ret){
+         
+                
+                if(ret.code==200){
+                    //alert(JSON.stringify(ret))
+                    var tj=ret.data
+var html='<li><div class="userInfo"><img src="'+webSiteUrl+tj.icon+'" alt=""><div class="userName"><h6>'+tj.phone+'</h6><span>'+tj.time+'</span></div></div><div class="comment_info"><p>'+tj.content+'</p></div></li>';
+                if($(".comment_list ul li").length>0){
+                    $(".comment_list ul").prepend(html);
+                }else{
+                    $(".comment_list ul").html(html);
+                }
+               
+                $("#comment_info").val('')
+                    
+                }else{alert(ret.msg)}
+            });
+
+            
+            
+        }else {
+            alert('请输入评论内容')
+        }
+    })
+
+  
+</script>
+</html>

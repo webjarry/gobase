@@ -1,0 +1,186 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>商品列表</h2>
+	</div>
+	<div class="cf">
+		<div class="fl">
+            <a class="btn" href="{:U('Goods/add')}">新 增</a>
+            <!--<button class="btn ajax-post" url="{:U('Goods/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
+            <button class="btn ajax-post" url="{:U('Goods/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+            <button class="btn ajax-post confirm" url="foreverdel(0,'/Admin/Ad');" target-form="ids">删 除</button>-->
+        </div>
+
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<select name="cid" class="search-input">
+					<option value="0">请选择分类</option>
+					<volist name="cate" id="typelist">
+						<optgroup  label="{$typelist.name}">
+							<volist name="typelist[son]" id="son">
+								<option value="{$son.id}" <?php if($_GET['cid']==$son[id]){echo 'selected';}?> >{$son.name}</option>
+							</volist>
+						</optgroup>
+					</volist>
+				</select>
+				<select name="bid" class="search-input">
+					<option value="0">请选择品牌</option>
+					<volist name="brand" id="son">
+						<option value="{$son.id}" <?php if($_GET['bid']==$son[id]){echo 'selected';}?> >{$son.name}</option>
+					</volist>
+				</select>
+				<select name="sid" class="search-input">
+					<option value="0">请选择系列</option>
+					<volist name="sery" id="son">
+						<option value="{$son.id}"  <?php if($_GET['sid']==$son[id]){echo 'selected';}?> >{$son.name}</option>
+					</volist>
+				</select>
+				<input type="text" name="name" class="search-input" value="{:I('name')}" placeholder="请输入商品名称">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+			</div>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="row-selected row-selected" style="width: 2%"><input class="check-all" type="checkbox"/></th>
+		<th class="">编号</th>
+		<th class="">商品名称</th>
+		<th>商品类别</th>
+		<th class="">商品品牌</th>
+		<th class="">商品系列</th>
+
+		<th class="">商品图片</th>
+		<th class="">普通价格</th>
+		<th class="">会员价格</th>
+		<th class="">销量</th>
+		<th class="">商品设置</th>
+		<th class="">状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="list">
+		<volist name="list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			<td style="width:10%">{$vo.name}</td>
+
+			<td style="width:6%">{$vo[cid]|modelField='cate','name'}</td>
+			<td>{$vo[bid]|modelField='brand','name'}</td>
+			<if condition="$vo['sid'] eq 0"><td></td>
+				<else /><td>{$vo['sid']|modelField='sery','name'}系列</td></if>
+
+			<!--<td>{:get_cate($vo['typeid'])}</td>-->
+			<td><img src="{$vo.icon|picture}" style="max-width:100px;max-height:100px;"></td>
+			<td style="width:6%">{$vo.price}元</td>
+			<td style="width:6%">{$vo.vipprice}元</td>
+			<td>{$vo.salenum} 件</td>
+
+			<!--<td>{$vo.status|get_status_title}</td>-->
+			<td><eq name="vo.recommend" value="1">
+				<a href="{:U('Goods/recommend?id='.$vo['id'])}" class="ajax-get"><font color="red">取消推荐</font></a>
+				<else/>
+				<a href="{:U('Goods/recommend?id='.$vo['id'])}" class="ajax-get">人气推荐</a>
+			</eq>
+				<eq name="vo.cheap" value="1">
+					<a href="{:U('Goods/cheap?id='.$vo['id'])}" class="ajax-get"><font color="red">取消促销</font></a>
+					<else/>
+					<a href="{:U('Goods/cheap?id='.$vo['id'])}" class="ajax-get">设为促销</a>
+			</eq>
+
+			</td>
+			<td><eq name="vo.status" value="1">上架<else/>下架</eq></td>
+			<td>
+
+				<eq name="vo.status" value="1">
+				<a href="{:U('Goods/changeStatus?method=forbidUser&id='.$vo['id'])}" class="ajax-get">下架</a>
+				<else/>
+				<a href="{:U('Goods/changeStatus?method=resumeUser&id='.$vo['id'])}" class="ajax-get">上架</a>
+				</eq>
+				<a href="javascript:;" onclick="alatsLister({$vo[id]})" >图集</a>
+                <a href="{:U('Goods/edit?id='.$vo['id'])}">编辑</a>
+				<a href="{:U('Goods/foreverdelete?id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+                </td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+	<script type="text/javascript">
+		//搜索功能
+		$("#search").click(function(){
+			/*var url = $(this).attr('url');
+			 var query  = $('.search-form').find('input').serialize();
+			 query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+			 query = query.replace(/^&/g,'');
+			 if( url.indexOf('?')>0 ){
+			 url += '&' + query;
+			 }else{
+			 url += '?' + query;
+			 }
+			 window.location.href = url;*/
+			var name=$('input[name=name]').val();
+			var cid=$('select[name=cid]').val();
+			var bid=$('select[name=bid]').val();
+			var sid=$('select[name=sid]').val();
+			var date1=$('input[name=bid]').val();
+			var date2=$('input[name=date2]').val();
+			var state='{$state}'
+
+			window.location.href = '/Admin/Goods/index/name/'+name+'/cid/'+cid+'/bid/'+bid+'/sid/'+sid;
+		});
+		//回车搜索
+		$(".search-input").keyup(function(e){
+			if(e.keyCode === 13){
+				$("#search").click();
+				return false;
+			}
+		});
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			laydate.render({
+				elem: '#date1'
+			});
+		})
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			laydate.render({
+				elem: '#date2'
+			});
+		})
+		//导航高亮
+		highlight_subnav('{:U('Goods/index')}');
+
+		function alatsLister(id){
+			layer.open({
+				type: 2,
+				title: false,
+				shadeClose: true,
+				closeBtn: 0, //不显示关闭按钮
+				shade: 0.8,
+				area : ['900px', '700px'],
+				content: ['/Admin/Goods/alatsList?id='+id, 'no']
+			});
+		}
+	</script>
+</block>

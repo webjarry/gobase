@@ -1,0 +1,198 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="/Public/Home/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="/Public/Home/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/Public/Home/css/lawyer_user.css" />
+    <script type="text/javascript" src="/Public/Home/js/api.js"></script>
+    <script type="text/javascript" src="/Public/Home/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/Public/Home/js/mobile.js"></script><script type="text/javascript" src="/Public/layer/layer.js"></script><script type="text/javascript" src="/Public/Home/js/ajaxupload.3.5.js" ></script><script type="text/javascript" src="/Public/static/uploadify/jquery.uploadify.min.js"></script>
+    <style type="text/css">
+       .point{
+            display: none;
+            position: relative;
+            background: #f94c49;
+            border-radius: 0.18rem;
+            margin-left: 0.1rem;
+            top: -0.1rem;
+            font-size: 12px;
+            color: #fff;
+            width: 0.30rem;
+            line-height: 0.25rem;
+            height: 0.28rem;
+            padding: 0.06rem;
+			text-align: center; 
+        }
+		
+		
+    </style>
+</head>
+<body>
+<section class="personal_info">
+    <a href="javascript:void (0);" class="p_info" onclick="aaplay('personal_info.html')">
+        <img src="/Public/Home/img/user_tx.png" id="icon">
+        <div class="info">
+            <p id='name'>尚未登录</p>
+        </div>
+    </a>
+    <a href="javascript:;" onclick="aaplay('personal_setting_news_system.html')" class="personal_message" style="display: none"><img src="/Public/Home/img/pm1.png" alt=""></a>
+</section>
+<section class="money">
+    <ul>
+        <li><p><b id='balance'>0</b>元</p><span>账户余额</span></li>
+        <li><p><b id='reward'>0</b>元</p><span>邀请奖励</span></li>
+    </ul>
+</section>
+<section class="personal_list">
+    <ul>
+        <li><a href="javascript:void (0);" onclick="aaplay('personal_myorder.html')">我的订单 <em id="askNum" style="display: none;" class="point"></em></a></li>
+        <li><a href="javascript:void (0);" onclick="aaplay('personal_serviceorder.html');" >我的企业服务订单 <em id="qyNum" style="display: none;"  class="point"></em></a></li>
+        <li><a href="javascript:void (0);" onclick="aaplay('personal_myentrust.html')">我的委托 <em id="wtNum" style="display: none;"  class="point"></em></a></li>
+        <li><a href="javascript:void (0);" onclick="aaplay('personal_myask.html')">我的咨询 <em id="faskNum" style="display: none;"  class="point"></em></a></li>
+        <li><a href="javascript:void (0);" onclick="moneyUrl();">我的钱包</a></li>
+        <li><a href="javascript:void (0);" onclick="aaplay('coupon_center_mine.html')">我的券包</a></li>
+        <li><a href="javascript:void (0);" onclick="aaplay('personal_distribution.html')">分享奖励</a></li>
+        <li><a href="javascript:void (0);" onclick="aaplay('personal_mycrowd_funding.html')">我的众筹 <em id="zcNum" style="display: none;"  class="point"></em></a></li>
+        <li><a href="javascript:void (0);" onclick="aaplay('personal_mymutualaid.html')">我的互助金 <em id="famNum" style="display: none;"  class="point"></em></a></li>
+        <li><a href="javascript:void (0);" onclick="aaplay('personal_collect_article.html')">我的收藏</a></li>
+        <li><a href="javascript:void (0);" onclick="aaplay('personal_setting.html')">设置</a></li>
+    </ul>
+</section>
+
+
+<section class="navigation">
+    <ul>
+        <li class=""><a href="javascript:;" onclick="aaplay('index')"><h6 class="icon"></h6>首页</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('news')"><h6 class="icon"></h6>资讯</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('chatlist')"><h6 class="icon"></h6>即时消息</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('find')"><h6 class="icon"></h6>发现</a></li>
+        <li class="active"><a href="javascript:;" onclick="aaplay('personal')"><h6 class="icon"></h6>我的</a></li>
+    </ul>
+</section>
+
+</body><script>
+    var user="<?php echo ($user); ?>";
+    if(user != null && user != 'undefined'){
+        var token="<?php echo ($user["token"]); ?>";
+        var uid="<?php echo ($user["id"]); ?>";
+        var utype="<?php echo ($user["type"]); ?>";
+        var vip="<?php echo ($user["vip"]); ?>";
+        var islogin=1;
+        var loginphone="<?php echo ($user["phone"]); ?>";
+        var nickname="<?php echo ($user["nickname"]); ?>";
+        var uicon="<?php echo ($user["icon"]); ?>";
+        var balance="<?php echo ($user["balance"]); ?>";
+        var reward="<?php echo ($user["reward"]); ?>";
+        var xs="<?php echo ($user["xs"]); ?>";
+
+
+    }else{
+        var islogin=0;
+    }
+    function loginCheck() {
+       
+        if(token=='' || utype!=1){
+            alert('您尚未登录,请登录')
+            window.location.href = '/Home/Public/login_account';
+			return false;
+        }else{
+            return true;
+        }
+    }
+
+</script><script type="text/javascript" src="/Public/Home/js/lawyer_user.js"></script>
+<script>
+    if(token!=''){
+        user()
+        msgStatus()
+    }
+    function user(){
+        var p = {token:token};
+		//alert(webSiteUrl);
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+
+            if (ret.code == 200) {
+                var tj=ret.data
+                $('#icon').attr('src',tj.icon)
+                $('#name').html(tj.nickname);
+                $('#balance').html(tj.balance);
+                $('#reward').html(tj.hz);
+            }
+        });
+
+    }
+    function msgStatus(){
+        var p = {token:token};
+        $.post(webSiteUrl+'/app/staff/msgStatus',p,function(ret){
+            console.log(ret)
+            if (ret.code == 200) {
+
+                var data = ret.data;
+                if(data.askNum >0){
+                    $("#askNum").show().html(data.askNum);
+                }
+                if(data.famNum >0){
+                    $("#famNum").show().html(data.famNum)
+                }
+                if(data.faskNum >0){
+                    $("#faskNum").show().html(data.faskNum)
+                }
+                if(data.qyNum >0){
+                    $("#qyNum").show().html(data.qyNum)
+                }
+                if(data.wtNum >0){
+                    $("#wtNum").show().html(data.wtNum)
+                }
+                if(data.zcNum >0){
+                    $("#zcNum").show().html(data.zcNum)
+                }
+            }
+        });
+
+    }
+
+
+
+    function xinxi(){
+        var p = {token:token};
+        $.post(webSiteUrl+'/app/user/collection',p,function(ret){
+      
+            if (ret.code == 200) {
+
+            }
+        });
+        
+    }
+	
+	function moneyUrl(){
+      var p = {token:token};
+		
+		$.post(webSiteUrl+'/app/staff/userSwitch',p,function(ret){
+		
+			var data = ret.data;
+			if(data.lock == 1){
+			  aaplay('personal_mind0');
+			}else if(data.lock == 2){
+			  aaplay('personal_mind');
+			}else{
+			  aaplay('personal_mind_switch');
+			}
+		
+		});
+
+
+    }
+	
+	    
+
+
+
+    
+
+    
+</script>
+</html>

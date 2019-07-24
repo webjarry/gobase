@@ -1,0 +1,97 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>修改（{$vo.name}）支付宝接口</h2>
+    </div>
+    <ul class="tab-nav nav">
+
+
+        <li class="current"><a href="javascript:void(0)">基本信息</a></li>
+
+    </ul>
+    
+    <form action="{:U()}" method="post" class="form-horizontal">
+    <div class="tab-content">
+        <div class="form-item">
+            <label class="item-label">名称<span class="check-tips">（名称必须填写）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="name" value="{$vo.name}">
+                <input type="hidden" name="id" value="{$vo.id}"
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">商户ID<span class="check-tips">（商户ID必须填写）</span></label>
+            <div class="controls">
+				<input type="text" class="text input-large" name="partner_id" value="{$vo.partner_id}">
+			</div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">安全校检码<span class="check-tips">（校检码必须填写）</span></label>
+            <div class="controls">
+				<input type="text" class="text input-large" name="key" value="{$vo.key}">
+			</div>
+        </div>
+        
+        <div class="form-item">
+            <label class="item-label">标题<span class="check-tips">（标题必须填写）</span></label>
+            <div class="controls">
+				<input type="text" class="text input-large" name="title" value="{$vo.title}">
+			</div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">描述<span class="check-tips">（描述必须填写）</span></label>
+            <div class="controls">
+                <label class="textarea input-large">
+                    <textarea name="description">{$vo.description}</textarea>
+                </label>
+			</div>
+        </div>
+		<div class="form-item">
+            <label class="item-label">商家支付宝账号<span class="check-tips">（账号必须填写）</span></label>
+            <div class="controls">
+				<input type="text" class="text input-large" name="seller_email" value="{$vo.seller_email}">
+			</div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">服务器异步通知页面</label>
+            <div class="controls">
+				<input type="text" class="text input-large" name="notify_url" value="{$vo.notify_url}">
+			</div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">页面跳转同步通知页面</label>
+            <div class="controls">
+				<input type="text" class="text input-large" name="return_url" value="{$vo.return_url}">
+			</div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">操作中断返回地址页面</label>
+            <div class="controls">
+				<input type="text" class="text input-large" name="merchant_url" value="{$vo.merchant_url}">
+			</div>
+        </div>
+
+        
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </div>
+    
+    </form>
+</block>
+
+<block name="script">
+<include file="Public:datetime" />
+    <script type="text/javascript">
+	
+	
+        //导航高亮
+        highlight_subnav('{:U('alipay/index')}');
+		
+		
+
+    </script>
+</block>

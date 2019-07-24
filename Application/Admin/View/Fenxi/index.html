@@ -1,0 +1,151 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>律师分析报告列表</h2>
+	</div>
+	<div class="cf">
+		<!--<div class="fl">
+            <a class="btn" href="{:U('Fenxi/add')}">新 增</a>
+            <button class="btn ajax-post" url="{:U('Fenxi/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
+            <button class="btn ajax-post" url="{:U('Fenxi/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+            <button class="btn ajax-post confirm" url="{:U('Fenxi/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
+        </div>-->
+        <div class="fl">
+            <!--<a class="btn" href="{:U('Fenxi/index')}" <if condition="$_GET['state'] eq 1 || $_GET['state'] eq ''">style="background: #FF1A1E;"</if> >全部({$total})</a>-->
+            <a class="btn" href="{:U('Fenxi/index?status=1')}" <if condition="$_GET['status'] eq 1 || $_GET['status'] eq ''">style="background: #FF1A1E;"</if> >待发放({$d})</a>
+            <a class="btn" href="{:U('Fenxi/index?status=2')}" <if condition="$_GET['status'] eq 2">style="background: #FF1A1E;"</if>  >已发放({$c})</a>
+            <a class="btn" href="{:U('Fenxi/index?status=3')}" <if condition="$_GET['status'] eq 3">style="background: #FF1A1E;"</if>  >未发放({$s})</a>
+        </div>
+
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+
+				<input type="text" name="date1" id="date1" class="search-input" value="{:I('date1')}" placeholder="开始日期" >
+				<input type="text" name="date2" id="date2"  class="search-input" value="{:I('date2')}" placeholder="结束日期">
+				<input type="text" name="name" class="search-input" value="{:I('name')}" placeholder="请输入律师分析报告名称">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+			</div>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="row-selected row-selected" style="width: 2%"><input class="check-all" type="checkbox"/></th>
+		<th class="">编号</th>
+		<!--<th class="">订单号</th>-->
+
+		<th class="">用户电话</th>
+
+		<th class="">律师姓名</th>
+		<th class="">律师城市</th>
+		<th class="">律师律所</th>
+		<th class="">支付价格</th>
+		<th class="">申请时间</th>
+
+
+		<th class="">审核</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="list">
+		<volist name="list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			<!--<td>{$vo.orderno}</td>-->
+			<td>{$vo.phone}</td>
+			<td>{$vo.name}</td>
+
+			<td>{$vo.city}</td>
+
+
+			<td>{$vo.depart}</td>
+			<td>{$vo.pay_price}</td>
+
+			<td>{$vo.create_time|date='Y-m-d H:i',###}</td>
+
+           <td>
+                <if condition="$vo.status eq 1">
+                    <a href="{:U('state?status=2&id='.$vo['id'])}" class="confirm ajax-get">确认发放</a>
+                    <a href="{:U('state?status=3&id='.$vo['id'])}" class="confirm ajax-get">暂不发放</a>
+                    <elseif condition="$vo.status eq 2"/>
+                    <a href="javascript:;" style="color: #FF1A1E;">已发放</a>
+                    <elseif condition="$vo.status eq 3"/>
+                    <a href="javascript:;" style="color: #FF1A1E;">未发放</a>
+                </if>
+            </td>
+
+		<!--	<td>
+				<if condition="$vo.ok eq 0">未回复<else /><font color="red">已回复</font></if>
+
+			</td>-->
+			<td>
+           <a href="{:U('Fenxi/edit?id='.$vo['id'])}">查看资料</a>
+       
+				<a href="{:U('Fenxi/foreverdelete?id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+                </td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		/*var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;*/
+		var name=$('input[name=name]').val();
+		var date1=$('input[name=date1]').val();
+		var date2=$('input[name=date2]').val();
+var status='{$status}'
+		window.location.href = '/Admin/Fenxi/index/name/'+name+'/date1/'+date1+'/date2/'+date2+'/status/'+status;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date1'
+		});
+	})
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date2'
+		});
+	})
+    //导航高亮
+    highlight_subnav('{:U('Fenxi/index')}');
+	</script>
+</block>

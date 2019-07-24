@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+	<script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script>
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+
+<body>
+    <header class="header">
+        <a href="javascript:void(0);" onclick="comeBack()" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+        <h2>全部委托</h2>
+        <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+    </header>
+    <section class="ask_square">
+        <div class="ask_list">
+            <ul id="list">
+
+            </ul>
+        </div>
+    </section>
+
+</body>
+<include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    toDoRequest2();
+
+    //竞标中
+    function toDoRequest2() {
+        loginCheck()
+        var p = {
+            uid: uid,
+			type:5
+        };
+		
+		$.post(webSiteUrl + '/app/public/wt',p,function(ret){
+		
+			if (ret.code == 200) {
+
+                var list = ret.data;
+                var html = '';
+                if (list != null) {
+                    for (var i = 0; i < list.length; i++) {
+                        var tip = '';
+                        if (list[i].type == 1) {
+                            tip = '<span class="orderTips">互助订单</span>';
+                        } else if (list[i].type == 2) {
+                            tip = '<span class="orderTips">众筹订单</span>';
+                        }
+
+                        var u = ''
+                        if (list[i].guoqi == 0) { //未过期
+                            html += '<li><a href="javascript:;" onclick="xiangqi(' + list[i].uid + ',' + list[i].id + ',' + list[i].type + ')"><div class="userInfo"><img src="' + list[i].icon + '" alt=""><div class="userName"><h6>' + list[i]
+                                .phone + '</h6><span>' + list[i].addr + ' <em class="bid_status">' + list[i].num + '人竞标中</em></span></div></div><div class="comment_info"><p>' + tip + list[i].content +
+                                '</p></div></a><div class="ask_kinds"><p>到期时间：' + list[i].lasttime + '</p><div class="ask_active"><span class="choose">选择律师</span></div></div></li>';
+                        } else if (list[i].guoqi == 1) {
+
+                          if (list[i].payed == 0) {
+                            html += '<li><a href="javascript:;" onclick="xiangqi(' + list[i].uid + ',' + list[i].id + ',' + list[i].type + ')"><div class="userInfo"><img src="' + u + list[i].icon + '" alt=""><div class="userName"><h6>' + list[i]
+                                .phone + '</h6><span>' + list[i].addr + ' <em class="bid_status">待付款</em></span></div></div><div class="comment_info"><p>' + tip + list[i].content + '</p></div></a><div class="ask_kinds"><p>总计：<i>¥' + list[i].margin +
+                                '</i></p><div class="ask_active"><a href="##" class="choose" onclick="jixuone(' + list[i].orderno + ',' + list[i].margin + ')">继续支付</a></div></div></li>';
+                          }else if (list[i].status == 3 && list[i].payed == 1) {
+                            html += '<li><a href="javascript:;" onclick="xiangqi(' + list[i].uid + ',' + list[i].id + ',' + list[i].type + ')"><div class="userInfo"><img src="' + u + list[i].icon + '" alt=""><div class="userName"><h6>' + list[i]
+                                .phone + '</h6><span>' + list[i].addr + ' <em class="bid_status">已关闭</em></span></div></div><div class="comment_info"><p>' + tip + list[i].content +
+                                '</p></div></a><div class="ask_kinds"><p>该订单已经关闭</p></div></div></li>';
+                          }else if (list[i].status == 4 && list[i].payed == 1 && list[i].twopay == 1 && list[i].is_confirm == 1) {
+                            html += '<li onclick="xiangqi(' + list[i].uid + ',' + list[i].id + ',' + list[i].type + ')"><a href="javascript:;" ><div class="userInfo"><img src="' + u + list[i].icon + '" alt=""><div class="userName"><h6>' + list[i]
+                                .phone + '</h6><span>' + list[i].addr + ' <em class="bid_status">已完成</em></span></div></div><div class="comment_info"><p>' + tip + list[i].content +
+                                '</p></div></a><div class="ask_kinds"><p></p><div class="ask_active"><a href="##" class="look_order">查看订单</a></div></div></li>';
+                          } else if (list[i].num == 0) {
+                                html += '<li><a href="javascript:;" onclick="xiangqi(' + list[i].uid + ',' + list[i].id + ',' + list[i].type + ')"><div class="userInfo"><img src="' + webSiteUrl + list[i].icon +
+                                    '" alt=""><div class="userName"><h6>' + list[i].phone + '</h6><span>' + list[i].addr + ' <em class="bid_status">竞标中</em></span></div></div><div class="comment_info"><p>' + tip + list[i].content +
+                                    '</p></div></a><div class="ask_kinds"><p>暂无律师竞标，可关闭委托</p><div class="ask_active"><a href="##" class="choose" onclick="closewt(' + list[i].id + ')">关闭委托</a></div></div></li>';
+                          } else {
+                                if (list[i].choose == 1) {
+                                    if ((list[i].status == 2 && list[i].twopay == 1) || list[i].status > 2) {
+                                        html += '<li><a href="javascript:;" onclick="xiangqi(' + list[i].uid + ',' + list[i].id + ',' + list[i].type + ')"><div class="userInfo"><img src="' + webSiteUrl + list[i].icon +
+                                            '" alt=""><div class="userName"><h6>' + list[i].phone + '</h6><span>' + list[i].addr + ' <em class="bid_status">' + list[i].progress + '</em></span></div></div><div class="comment_info"><p>' + tip +
+                                            list[i].content + '</p></div></a><div class="ask_kinds"><p>已完成支付，等待委托结果</p><div class="ask_active"><a href="##" class="choose"  onclick="sure(' + list[i].id + ')">确认完成</a></div></div></li>';
+                                    } else {
+                                        html += '<li><a href="javascript:;" onclick="xiangqi(' + list[i].uid + ',' + list[i].id + ',' + list[i].type + ')"><div class="userInfo"><img src="' + webSiteUrl + list[i].icon +
+                                            '" alt=""><div class="userName"><h6>' + list[i].phone + '</h6><span>' + list[i].addr + ' <em class="bid_status">' + list[i].progress + '</em></span></div></div><div class="comment_info"><p>' + tip +
+                                            list[i].content + '</p></div></a><div class="ask_kinds"><p>竞标已完成，请您尽快完成支付</p><div class="ask_active"><a href="##" class="choose"  onclick="jixu(' + list[i].orderno + ',' + list[i].rest +
+                                            ')">支付律师费</a></div></div></li>';
+                                    }
+
+                                } else {
+                                    html += '<li><a href="javascript:;" onclick="xiangqi(' + list[i].uid + ',' + list[i].id + ',' + list[i].type + ')"><div class="userInfo"><img src="' + webSiteUrl + list[i].icon +
+                                        '" alt=""><div class="userName"><h6>' + list[i].phone + '</h6><span>' + list[i].addr + ' <em class="bid_status">' + list[i].num + '人竞标中</em></span></div></div><div class="comment_info"><p>' + tip +
+                                        list[i].content + '</p></div></a><div class="ask_kinds"><p>已有竞标，请选择律师</p><div class="ask_active"><a href="##" class="choose" onclick="xiangqi(' + list[i].uid + ',' + list[i].id + ',' + list[i].type +
+                                        ')">选择律师</a></div></div></li>';
+
+                                }
+
+                            }
+                        }
+
+                    }
+
+                    $('#list').html(html);
+                }
+            } else {
+                $('#list').html('<p style="text-align:center">暂无数据</p>');
+            }
+		
+		});
+		
+    }
+
+    //确认完成
+    function sure(wtid) {
+        var p = {
+            id: wtid
+        };
+        $.post(webSiteUrl + '/app/staff/wt_success', p, function(ret) {
+
+            if (ret.code == 200) {
+                alert(ret.msg)
+                location.reload();
+            }
+        });
+    }
+
+    function closewt(id) {
+        var p = {
+            token: token,
+            id: id
+        };
+        $.post(webSiteUrl + '/app/user/closewt', p, function(ret) {
+
+            if (ret.code == 200) {
+                alert('关闭委托成功')
+                aaplay('bidding_closed');
+
+            }
+        });
+    }
+
+    function jixuone(orderno, money) {
+	
+		window.location.href = '/Home/User/pay_bond?orderno='+orderno+'&money='+money;
+    }
+
+    function jixu(orderno, money) {
+	
+		window.location.href = '/Home/User/order_pay?type=23&orderno='+orderno+'&money='+money+'&jixu=1';
+       
+
+    }
+
+    function xiangqi(uid, id, type) {
+        if (type == 0) {
+		
+			window.location.href = '/Home/User/case_entrusted_details_originator?id='+id+'&uid='+uid;
+            
+
+        } else if (type == 1) {
+			window.location.href = '/Home/User/mutualAid_details_bid?id='+id+'&uid='+uid+'&type=1';
+           
+
+        } else {
+            window.location.href = '/Home/User/mutualAid_details_bid?id='+id+'&uid='+uid+'&type=2';
+
+        }
+
+    }
+</script>
+
+</html>

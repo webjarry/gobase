@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <!--<a href="javascript:history.back()" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>-->
+    <h2>发现</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="find_links">
+    <div class="links">
+        <ul>
+            <li><a href="javascript:;" onclick="aaplay('find_lawyers.html')">律师圈</a></li>
+            <li style="display: none"><a href="javascript:;" onclick="aaplay('find_nearby_lawyers.html')">附近律师</a></li>
+            <li><a href="javascript:;" onclick="aaplay('find_ranking.html')">排行榜</a></li>
+            <li><a href="javascript:;" onclick="aaplay('personal_mymutualaid.html')">互助金</a></li>
+        </ul>
+    </div>
+</section>
+<section class="find_tools">
+    <div class="news_title">
+        <h2>常用工具推荐</h2>
+    </div>
+    <div class="tool_list">
+        <ul>
+            <li>
+                <a href="javascript:;" onclick="aaplay('find_preservation.html')"><h6></h6><p>诉讼保全</p></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="aaplay('property_service.html')"><h6></h6><p>知识产权服务</p></a>
+            </li>
+            <li>
+                <a href="legal_notice?type=2"><h6></h6><p>律师分析报告</p></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="aaplay('cost_calc')"><h6></h6><p>费用计算</p></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="aaplay('personal_setting_question.html')"><h6></h6><p>常见问题</p></a>
+            </li>
+            <li>
+                <a href="javascript:;"  onclick="more(26,0)"><h6></h6><p>案件跟踪</p></a>
+            </li>
+            <li>
+                <a href="javascript:;"  onclick="more(27,0)"><h6></h6><p>奇闻异案</p></a>
+            </li>
+            <li>
+                <a href="javascript:;" ><h6></h6><p>尽情期待</p></a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="navigation">
+    <ul>
+        <li class=""><a href="javascript:;" onclick="aaplay('index')"><h6 class="icon"></h6>首页</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('news')"><h6 class="icon"></h6>资讯</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('chatlist')"><h6 class="icon"></h6>即时消息</a></li>
+        <li class="active"><a href="javascript:;" onclick="aaplay('find')"><h6 class="icon"></h6>发现</a></li>
+        <li class=""><a href="javascript:;" onclick="personal()"><h6 class="icon"></h6>我的</a></li>
+    </ul>
+</section>
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    function more(id,num){
+        if(id==26){
+            catename='热点案件追踪';
+        }else{
+            catename='奇闻异案';
+        }
+        location.href='/home/user/news_list.html?id='+id+'&newstype='+num+'&catename='+catename;
+
+    }
+
+    
+</script>
+</html>

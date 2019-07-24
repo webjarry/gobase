@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f9f9f9">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>成为会员</h2>
+    <!--<a href="javascript:void(0);" class="qiandao_btn">注册</a>-->
+</header>
+<section class="buy_order">
+    <div class="product">
+        <img src="__IMG__/fyb_img.png" alt="">
+        <div class="product_info">
+            <p>法援宝</p>
+            <span id="vip">企业会员基础版</span>
+        </div>
+    </div>
+    <div class="pay_price">
+        <p>支付金额</p>
+        <span>￥{$money}</span>
+    </div>
+    <div class="pay_kinds">
+        <h6>选择支付方式</h6>
+        <div class="pay_list">
+            <ul>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay1.png" alt="">
+                        <div class="pay_info">
+                            <p>支付宝</p>
+                            <span>绿色充值通道，安全便捷</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay2.png" alt="">
+                        <div class="pay_info">
+                            <p>微信</p>
+                            <span>绿色充值通道，安全便捷</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+                <!--<li>
+                    <div class="pay">
+                        <img src="__IMG__/pay3.png" alt="">
+                        <div class="pay_info">
+                            <p>账户余额</p>
+                            <span id="balance">可用金额￥0.00</span>
+                        </div>
+                    </div>
+                    <span class="tips">余额不足</span>
+                    &lt;!&ndash;<span class="checkbox"></span>&ndash;&gt;
+                </li>-->
+            </ul>
+        </div>
+    </div>
+    <div class="pay_coupon">
+        <p>选择优惠券</p>
+        <span>不可用优惠券</span>
+    </div>
+    <div class="reminder">
+        <h6>温馨提示：</h6>
+        <p>会员一经购买，不可退款</p>
+    </div>
+    <div class="pay-result">
+        <p>总金额：￥{$money}</p>
+        <button id="pay">确认支付</button>
+    </div>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+<script>
+    //$('#balance').html('可用金额￥'+balance);
+
+    var otype="{$Think.get.type}"
+    if(otype==1){
+        $('#vip').html('企业会员基础版')
+    }else{
+        $('#vip').html('企业会员高级版')
+    }
+    var type=0;
+
+    var money="{$money}"
+
+    $('#pay').click(function(){
+
+        if(type == 0){
+            alert('请选择支付方式！');return;
+        }
+
+
+        if(otype==1){
+            var ordertype=11
+        }else if(otype==2){
+            var ordertype=12
+        }
+
+        $.post("/Home/Ajax/order",{pay_type:type,type:ordertype,money:money},function(res){
+            var res=jQuery.parseJSON(res);
+            if(res.code == 200){
+                var orderno=res.msg
+                if(type==1){
+                    location.href = '/Home/Pay/testpay/orderno/' + orderno;
+                }else{
+                    location.href = '/Home/Pay/wxh5pay/orderno/' + orderno;
+                }
+
+
+            }else{
+                alert(res.msg);return false;
+
+            }
+
+        });
+
+    });
+
+    //选择支付方式
+    $(".pay_list li").click(function () {
+        if($(this).find('.checkbox').length>0){
+            $(this).addClass('active').siblings('li').removeClass('active');
+
+            type=parseInt($(this).index()+1)
+            console.log(type)
+        }
+    });
+
+    /*$(document).on("click","#pay",function () {
+
+
+        if (paytype == 0) {
+            layer.msg('请选择支付方式!');return false;
+        }
+        $.post("/Home/Ajax/insertorder",{'orderno':orderno,'name':name,'phone':phone,},function(da) {
+            var check = jQuery.parseJSON(da);
+            if (check.code == 200) {
+
+                $.post("/Home/Ajax/checkorder",{'orderno':orderno},function(da){
+                    var checkobj = jQuery.parseJSON(da);
+                    if(checkobj.code==200){
+                        layer.msg('此订单已支付完成');
+                    }else{
+                        //console.log(orderno,type);return;
+                        //余额支付
+                        if(paytype == 1){
+                            $.post("/Home/Pay/pay",{'orderno':orderno},function(da){
+                                var obj = jQuery.parseJSON(da);
+                                if(obj.code==200){
+                                    layer.msg(obj.msg,function () {
+                                        var shoptype="{$shoptype}";
+                                        if(shoptype==0){
+                                            location.href='/Wap/user/dingdan/state/'+2;
+                                        }else{
+                                            location.href='/Wap/mer/dingdan/isover/'+2;
+                                        }
+                                    });
+                                }else{
+                                    layer.msg(obj.msg);
+                                }
+                            });
+                        }else if(paytype == 2){
+                            location.href='/Home/Pay/testpay/orderno/'+orderno;return;
+                        }else if(paytype == 3){
+                            if(isWeiXin()){
+                                location.href = '/Wap/Pay/tel_wx_pay/orderno/' + orderno;return;
+                            }else{
+                                location.href = '/Wap/Pay/wxh5pay/orderno/' + orderno;return;
+                            }
+
+                        }
+
+                    }
+                });
+            }else{
+
+                layer.msg(check.msg);
+            }
+        })
+
+    })*/
+
+
+
+</script>
+</html>

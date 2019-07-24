@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html style="background: #FFFFFF;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	
+	<style type="text/css">
+		.money_sum_price{
+			display: inline-block;
+			width: 30%;
+			text-align: right;
+			font-family: Arial;
+		}
+		.money_sum_price span{
+			display: block;
+			font-size: 0.3rem;
+			color: #333333;
+		}
+	</style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" onclick="comeBack()" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>未到账</h2>
+    <a href="javascript:void (0);" class="search_btn charge_btn">说明</a>
+</header>
+<section class="statistics">
+    <div class="user_info">
+        <ul id="con">
+
+            <!--<li>
+                <a href="javascript:;">
+                    <img src="__IMG__/infoImg1.png" alt="">
+                    <div class="info">
+                        <p>138****8868</p>
+                        <span>图文咨询</span>
+                    </div>
+                    <div class="money_sum_price">
+                        <span>8.66元</span>
+                    </div>
+                </a>
+            </li>-->
+
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_charge">
+    <div class="charge_notes">
+        <h6>平台服务费收取比例</h6>
+        <ul id="cons">
+            <!--<li><span>项目</span><span>收取比例</span></li>
+            <li><span>图文咨询</span><span>35%</span></li>
+            <li><span>电话咨询</span><span>35%</span></li>
+            <li><span>预约面谈</span><span>35%</span></li>
+            <li><span>代写文书</span><span>35%</span></li>
+            <li><span>律师函</span><span>35%</span></li>
+            <li><span>采纳奖励</span><span>35%</span></li>
+            <li><span>送心意奖励</span><span>35%</span></li>
+            <li><span>支付律师费</span><span>8%</span></li>
+            <li><span>法律事务委托</span><span>8%</span></li>-->
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    loginCheck()
+    var page=0;
+
+    var state=1;
+    var type=1;
+    var sort=0;
+
+    toDoRequest();
+	bili();
+	
+	$(document).ready(function () {
+        $(window).scroll(function () {
+
+            if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+				toDoRequest();
+            }
+        });
+    });
+
+
+    function toDoRequest(){
+		page++;
+        var p= {token:token,sort:sort,page:page};
+        $.post(webSiteUrl+'/app/user/swdz',p,function(ret){
+            if(ret.code==200){
+
+                html = "";
+                var tj=ret.data;
+                if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+html+='<li><a href="javascript:;"><img src="'+tj[i].icon+'" alt=""><div class="info"><p>'+tj[i].name+'</p><span>'+tj[i].ordertype+'</span></div><div class="money_sum_price"><span>'+tj[i].money+'元</span></div></a></li>';
+
+
+                    }
+
+                }
+                if(page==1){
+                    $('#con').html(html);
+                }else{
+                    $('#con').append(html);
+                }
+                
+
+
+            }else{
+                //alert(ret.msg)
+                if(page==1){
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+
+            }
+        });
+
+    }
+
+function bili() {
+        var p={model:'feebili'};
+        $.post(webSiteUrl+'/app/home/lists',p,function(ret){
+            if(ret.code==200){
+
+                var html='<li><span>项目</span><span>收取比例</span></li>'
+                var tj=ret.data
+                for(var i=0;i<tj.length;i++){
+                    html+='<li><span>'+tj[i].name+'</span><span>'+tj[i].bili+'%</span></li>';
+                }
+                $('#cons').html(html);
+
+
+            }else{
+                alert(ret.msg)
+            }
+
+
+        });
+
+    }
+    //打开说明
+    $(".charge_btn").click(function () {
+        $(".fixed_charge").fadeIn().find(".charge_notes").animate({
+            'top':'0',
+            'opacity':'1'
+        },400)
+    });
+    $(".set_kinds").click(function (e) {
+        e.stopPropagation();
+    });
+
+    //关闭说明
+    $(".fixed_charge").click(function (e) {
+        e.stopPropagation();
+        $(".fixed_charge").fadeOut().find(".charge_notes").animate({
+            'top':'-4rem',
+            'opacity':'0'
+        },400)
+    });
+
+</script>
+</html>

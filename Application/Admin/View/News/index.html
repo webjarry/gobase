@@ -1,0 +1,159 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>资讯列表</h2>
+	</div>
+	<div class="cf">
+		<div class="fl">
+            <a class="btn" href="{:U('News/add')}">新 增</a>
+            <!--<button class="btn ajax-post" url="{:U('News/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
+            <button class="btn ajax-post" url="{:U('News/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+            <button class="btn ajax-post confirm" url="foreverdel(0,'/Admin/Ad');" target-form="ids">删 除</button>-->
+        </div>
+
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<select name="typeid" class="search-input">
+					<option value="0">请选择分类</option>
+					<volist name="cate" id="typelist">
+						<option value="{$typelist.id}" <?php if($_GET['typeid']==$typelist[id]){echo 'selected';}?> >{$typelist.title}</option>
+
+
+					</volist>
+				</select>
+
+				<input type="text" name="name" class="search-input" value="{:I('name')}" placeholder="请输入资讯名称">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+			</div>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="row-selected row-selected" style="width: 2%"><input class="check-all" type="checkbox"/></th>
+		<th class="">编号</th>
+		<th class="">资讯名称</th>
+		<th class="">资讯类别</th>
+
+
+		<th class="">资讯图片</th>
+
+		<th class="">浏览量</th>
+		<!--<th class="">资讯设置</th>-->
+		<th class="">状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="list">
+		<volist name="list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			<td style="width:30%">{$vo.name}</td>
+
+			<td style="">{$vo[typeid]|modelField='category','title'}</td>
+
+
+			<!--<td>{:get_cate($vo['typeid'])}</td>-->
+			<td><img src="{$vo.icon|picture}" style="max-width:100px;max-height:100px;"></td>
+
+			<td>{$vo.view} 次</td>
+
+			<td>{$vo.status|get_status_title}</td>
+			<!--<td><eq name="vo.recommend" value="1">
+				<a href="{:U('News/recommend?id='.$vo['id'])}" class="ajax-get"><font color="red">取消推荐</font></a>
+				<else/>
+				<a href="{:U('News/recommend?id='.$vo['id'])}" class="ajax-get">人气推荐</a>
+			</eq></td>-->
+
+			<td>
+
+				<eq name="vo.status" value="1">
+				<a href="{:U('News/changeStatus?method=forbidUser&id='.$vo['id'])}" class="ajax-get">禁用</a>
+				<else/>
+				<a href="{:U('News/changeStatus?method=resumeUser&id='.$vo['id'])}" class="ajax-get">启用</a>
+				</eq>
+				<!--<a href="javascript:;" onclick="alatsLister({$vo[id]})">图集</a>-->
+                <a href="{:U('News/edit?id='.$vo['id'])}">编辑</a>
+				<a href="{:U('News/foreverdelete?id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+                </td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+	<script type="text/javascript">
+		//搜索功能
+		$("#search").click(function(){
+			/*var url = $(this).attr('url');
+			 var query  = $('.search-form').find('input').serialize();
+			 query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+			 query = query.replace(/^&/g,'');
+			 if( url.indexOf('?')>0 ){
+			 url += '&' + query;
+			 }else{
+			 url += '?' + query;
+			 }
+			 window.location.href = url;*/
+			var name=$('input[name=name]').val();
+			var typeid=$('select[name=typeid]').val();
+
+			var date2=$('input[name=date2]').val();
+			var state='{$state}'
+
+			window.location.href = '/Admin/News/index/name/'+name+'/typeid/'+typeid;
+		});
+		//回车搜索
+		$(".search-input").keyup(function(e){
+			if(e.keyCode === 13){
+				$("#search").click();
+				return false;
+			}
+		});
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			laydate.render({
+				elem: '#date1'
+			});
+		})
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			laydate.render({
+				elem: '#date2'
+			});
+		})
+		//导航高亮
+		highlight_subnav('{:U('News/index')}');
+
+		function alatsLister(id){
+			layer.open({
+				type: 2,
+				title: false,
+				shadeClose: true,
+				closeBtn: 0, //不显示关闭按钮
+				shade: 0.8,
+				area : ['900px', '700px'],
+				content: ['/Admin/News/alatsList?id='+id, 'no']
+			});
+		}
+	</script>
+</block>

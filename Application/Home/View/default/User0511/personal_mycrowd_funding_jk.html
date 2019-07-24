@@ -1,0 +1,665 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/common.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript" src="__JS__/adaptive.js"></script>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>众筹详情</h2>
+    <!--<a href="javascript:void (0);" class="search_btn set_btn">设置</a>-->
+</header>
+<section class="crowd_details_img" id="buqi" style="display: none">
+
+    <img src=""  id="cover">
+    <div class="details_progress">
+        <div class="progress_time">
+            <span>众筹结束</span>
+            <span>7天内未补齐款项将自动取消该筹款项目</span>
+        </div>
+        <div class="bar">
+            <div class="progress_bar"></div>
+        </div>
+        <div class="details">
+            <ul>
+                <li>
+                    <span><b id="rest">1400.90</b>元 </span>
+                    <p>距目标金额还差</p>
+                </li>
+                <li>
+                    <span id="resttime"><b>3</b>天<b>20</b>小时<b>45</b>分</span>
+                    <p>剩余时间</p>
+                </li>
+                <li>
+                    <em class="bukuan_btn" onclick="buqi()">补齐款项</em>
+                </li>
+                <li style="display: none">
+                    <span><b class="percentage">30%</b></span>
+                    <p>筹款进度</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="crowd_title">
+        <h6>儿子工作致盲，被单位抛弃</h6>
+        <p>因操作不慎使一只眼睛完全看不清东西，却被单位狠心抛弃</p>
+    </div>
+</section>
+<section class="crowd_details_img" id="doing"  style="display: none">
+    <img src="__IMG__/crowd_details_img.png" id="cover1">
+    <div class="details_progress">
+        <div class="progress_time">
+            <span id="stime">2018-11-11开始</span>
+            <span id="etime">2018-12-11结束</span>
+        </div>
+        <div class="bar">
+            <div class="progress_bar"></div>
+        </div>
+        <div class="details">
+            <ul>
+                <li>
+                    <span><b id="price">1400.90</b>元 </span>
+                    <p>已收到</p>
+                </li>
+                <li>
+                    <span><b id="price_s">892.45</b>元 </span>
+                    <p>目标</p>
+                </li>
+                <li>
+                    <span><b class="percentage" id="jindu">30%</b></span>
+                    <p>筹款进度</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="crowd_title">
+        <h6 id="name">儿子工作致盲，被单位抛弃</h6>
+        <p id="content">因操作不慎使一只眼睛完全看不清东西，却被单位狠心抛弃</p>
+    </div>
+</section>
+<section class="crowd_details">
+    <div class="common_title">
+        <h6 style="font-weight: normal; font-size: 0.3rem;">众筹详情</h6>
+    </div>
+    <div class="content">
+        <p id="detail">
+           
+        </p>
+        <ul id="img">
+            <!-- <li><img src="__IMG__/applyh_pic1.png" alt=""></li>
+            <li><img src="__IMG__/applyh_pic2.png" alt=""></li>
+            <li><img src="__IMG__/applyh_pic3.png" alt=""></li> -->
+        </ul>
+    </div>
+</section>
+<!-- <section class="friends" style="border-top: 0.25rem #f3f3f3 solid; margin-top: 0.3rem">
+    <div class="common_title " style="display: flex; align-items: center; justify-content: space-between; padding: 0.2rem 3% 0;">
+        <h6 style="font-weight: normal; font-size: 0.3rem;">证明留言</h6>
+        <span class="click_fb" style="color: #999;" id="num"></span>
+    </div>
+    <ul id="zm">
+
+    </ul>
+</section> -->
+<!--<section class="crowd_details" style="padding-bottom: 1.1rem;">
+    <div class="common_title">
+        <h6 style="font-weight: normal; font-size: 0.3rem;">关联订单</h6>
+    </div>
+    <div class="order_list">
+        <ul>
+            <li>
+                <p>订单号：2524556842  </p>
+                <div class="order_info">
+                    <img src="__IMG__/userimg2.jpg" alt="">
+                    <div class="info">
+                        <h6>方大同律师</h6>
+                        <span>代写文书</span>
+                    </div>
+                </div>
+                <div class="order_active">
+                    <span>总计：<em>¥150.00</em></span>
+                    <div class="active_btn">
+
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>-->
+<section class="" style="padding: 0.3rem 3% 0;border-top: 0.25rem #f3f3f3 solid;margin-top:0.2rem;">
+    <div class="news_title">
+        <h2>竞标律师</h2>
+    </div>
+    <div class="comment_list">
+        <ul id="con" class="ls_list">
+			<!--<li>
+				<div class="order_number">订单号：2524556842</div>
+				<div class="ls_info">
+					<img src="" />
+					<div>
+						<div class="lsname">方大同律师</div>
+						<div class="tips">律师费</div>
+					</div>
+				</div>
+				<div class="order_price">总计：<span >￥1500.00</span></div>
+			
+			</li>-->
+        </ul>
+    </div>
+</section>
+<section class="friends" style="border-top: 0.25rem #f3f3f3 solid; padding-bottom: 0.3rem;">
+    <div class="common_title " style="display: flex; align-items: center; justify-content: space-between; padding: 0.2rem 3% 0;">
+        <h6 style="font-weight: normal; font-size: 0.3rem;">证明留言</h6>
+        <span class="click_fb zmcount" style="color: #999; font-size: .24rem">34人已证明</span>
+    </div>
+    <ul class="zmlist">
+        <li>
+            <div class="friend-info">
+                <img src="__IMG__/userimg1.jpg" alt="">
+                <div>
+                    <p>138****4681</p>
+                    <span>2018-11-11  14:45</span>
+                </div>
+            </div>
+            <div class="info">
+                <p>确实这有这么回事，家里也挺困难的，希望好心人看到后多帮帮忙。</p>
+            </div>
+        </li>
+    </ul>
+    <div class="friends_move_title">更多留言<span class="go_zm">我要证明</span></div>
+    <ul class="friends_move_list">
+        <!--<li class="on"><img src="__IMG__/infoImg1.png"/><div></div></li>
+        <li class="on"><img src="__IMG__/infoImg1.png"/><div></div></li>
+        <li class="on"><img src="__IMG__/infoImg1.png"/><div></div></li>
+        <li class="on"><img src="__IMG__/infoImg1.png"/><div></div></li>
+        <li class="friends_move"><img src="__IMG__/move_icon.png"/></li>-->
+    </ul>
+    <div class="friends_ly_content">
+        <div class="friends_name">欧阳夙</div>
+        <p>我的邻居，平常经常一起聊天，没想到遇到这样的事，平常经常一起聊天，真是太可怜了。</p>
+    </div>
+    <!-- <div class="ly_box">
+        <textarea placeholder="我也要留言"></textarea>
+        <div class="ly_submit">发表留言</div>
+    </div> -->
+</section>
+<section class="friends" style="border-top: 0.25rem #f3f3f3 solid;padding-bottom: 1.2rem;">
+    <div class="common_title " style="display: flex; align-items: center; justify-content: space-between; padding: 0.2rem 3% 0;">
+        <h6 style="font-weight: normal; font-size: 0.3rem;">爱心帮助记录</h6>
+        <span class="click_fb axcount" style="color: #999; font-size: .24rem">34人转发/712笔捐款</span>
+    </div>
+    <ul class="axlist">
+        <li>
+            <div class="friend-info">
+                <img src="__IMG__/userimg1.jpg" alt="">
+                <div>
+                    <p>138****4681</p>
+                    <span>2018-11-11  14:45</span>
+                </div>
+                <p class="juank">已捐赠<span class="price">10</span>元</p>
+            </div>
+            <div class="info">
+                <p>确实这有这么回事，家里也挺困难的，希望好心人看到后多帮帮忙。</p>
+            </div>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="fixed_btn" style="display: none" id="ddd">
+    <a href="javascript:;" onclick="donation()">我要捐款</a>
+</section>
+<section class="fixed_btn" style="display: none"  id="link">
+    <a href="javascript:;"  id="action" >复制链接</a>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+
+<script type="text/javascript" src="__JS__/jquery.zclip.js"></script>
+<script type="text/javascript" src="__JS__/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="__JS__/clipboard.min.js"></script>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+
+    var id = para('id');
+    var wtid
+    var rest=0;
+
+    $('#action').attr('data','http://www.test2.test/home/public/register?id='+id+'&fenxiang=1');
+
+    //shop();
+    function buqi() {
+        location.href='/home/user/order_pay?money='+rest+'&type=22';
+    }
+    function shop(){
+        var p = {id:id}
+        $.post(webSiteUrl+'/app/public/zcdetail',p,function(ret){
+            console.log(ret)
+            if (ret.code == 200) {
+                var list = ret.data;
+                if(list.isover==1){
+                    $('#buqi').show()
+                }else{
+                    $('#doing').show()
+                }
+                $('#cover').attr('src',webSiteUrl+list.cover);
+                $('#cover1').attr('src',webSiteUrl+list.cover);
+
+
+                var img = '';
+                for (var i = 0;i<list.icon.length;i++) {
+                    img += '<li><img src="'+webSiteUrl+list.icon[i]+'" alt=""></li>';
+                }
+                var zm = '';
+                var tj=list.zm
+                if(tj != null){
+                    for (var i = 0;i<tj.length;i++) {
+                        zm += '<li><div class="friend-info"><img src="'+tj[i].icon+'" alt=""><div><p>'+tj[i].phone+'</p><span>'+tj[i].time+'</span></div></div><div class="info"><p>'+tj[i].content+'</p></div></li>';
+                    }
+                }
+                $('#resttime').html(timeStamp(list.resttime));
+                $('#stime').html(list.stime);//开始时间
+                $('#etime').html(list.etime);//结束时间
+                $('#price').html(list.have);//已完成金额
+                $('#price_s').html(list.money);//目标金额
+                $('#rest').html(list.rest);rest=list.rest;
+                $('#jindu').html(list.bili+'%');//进度
+                $('#name').html(list.name);//标题
+                $('#content').html(list.content);//简介
+                $('#detail').html(list.detail);//详情
+                $('#img').html(img);  //图片
+
+                $('#zm').html(zm);
+                $('#num').html('已确认 '+list.num+'/5');
+
+                wtid=list.wtid
+                if(list.status != 2){
+                    $('#ddd').hide();
+                }else{
+                    $('#ddd').show();
+                }
+                if(uid==list.uid){
+                    $('#ddd').hide();
+                    $('#link').show();
+                    $(".go_zm").hide();
+                }
+
+                var _num = $('.percentage').text();
+                $('.progress_bar').animate({
+                    'width': _num
+                },1500);
+                
+            }else{
+                $('#list').html('<p style="text-align:center">暂无数据</p>');
+            }
+            toDoRequest();
+        });
+    }
+    function toDoRequest(){
+            var p={id:wtid}
+
+            $.post(webSiteUrl+'/app/public/wtdetail',p,function(ret){
+            if(ret.code==200){
+
+                html = "";
+                var tj=ret.data.list;
+                if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+                        var ps = '';
+                        for (var j =0;j< tj[i].label.length ;  j++) {
+                            ps += '<dd>'+tj[i].label[j]+'</dd>';
+                        }
+
+                        html += '<li><div class="userInfo" onclick="lawyer('+tj[i].uid+')"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].nickname+'律师 <i>LV.6</i></h6><span>服务次数 '+tj[i].num+'　综合评价100%</span></div></div><div class="service_kinds"><dl>'+ps+'</dl></div><div class="comment_active entrust_active"><span class="entrust_price">'+tj[i].money+'元</span></li>';
+                    }
+
+                    $('#con').html(html);
+                }else{
+                    $('#con').html('<p style="text-align:center">暂无竞标</p>');
+                }
+
+            }
+        });
+
+
+    }
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{$wxconfig[appId]}', // 必填，公众号的唯一标识
+        timestamp:'{$wxconfig[timestamp]}', // 必填，生成签名的时间戳
+        nonceStr: '{$wxconfig[nonceStr]}', // 必填，生成签名的随机串
+        signature: '{$wxconfig["signature"]}',// 必填，签名，见附录1
+        jsApiList: [
+            'onMenuShareTimeline',
+            'checkJsApi',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo'
+        ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+    wx.ready(function () {
+
+        wx.onMenuShareTimeline({
+            title:'{$news[title]}',
+            link:window.location.href,
+            imgUrl:'{$news[picture]}',
+            desc:'{$news[brief]}',
+            success: function () {
+                alert("分享成功");
+
+            },
+            //用户取消分享后执行的回调函数
+            cancel: function () {
+                alert("您取消了分享");
+            }
+        });
+
+        wx.checkJsApi({
+            title:'{$news[title]}',
+            link:window.location.href,
+            imgUrl:'{$news[picture]}',
+            desc:'{$news[brief]}',
+        });
+        wx.onMenuShareAppMessage({
+            title:'{$news[title]}',
+            link:window.location.href,
+            imgUrl:'{$news[picture]}',
+            desc:'{$news[brief]}',
+            success: function () {
+                alert("分享成功");
+
+            },
+            //用户取消分享后执行的回调函数
+            cancel: function () {
+                alert("您取消了分享");
+            }
+        });
+        wx.onMenuShareWeibo({
+            title:'{$news[title]}',
+            link:window.location.href,
+            imgUrl:'{$news[picture]}',
+            desc:'{$news[brief]}',
+        });
+    });
+
+    $(function(){
+        var clipboard = new ClipboardJS('#action', {
+            text: function() {
+                return $('#action').attr('data');
+            }
+        });
+
+        clipboard.on('success', function(e) {
+            alert('复制成功');
+            console.log(e);
+        });
+
+        clipboard.on('error', function(e) {
+            console.log(e);
+        });
+    });
+    function donation() {
+        if(token==''){
+            //aaplay('login_account');
+			window.location.href = 'http://www.test2.test/home/public/register?id='+id+'&fenxiang=1';
+        }else{
+            location.href='/home/user/donation.html?id='+id;
+        }
+    }
+    function timeStamp( second_time ){
+
+        var time = parseInt(second_time) + "秒";
+        if( parseInt(second_time )> 60){
+
+            var second = parseInt(second_time) % 60;
+            var min = parseInt(second_time / 60);
+            time = min + "分" + second + "秒";
+
+            if( min > 60 ){
+                min = parseInt(second_time / 60) % 60;
+                var hour = parseInt( parseInt(second_time / 60) /60 );
+                time = hour + "小时" + min + "分" + second + "秒";
+
+                if( hour > 24 ){
+                    hour = parseInt( parseInt(second_time / 60) /60 ) % 24;
+                    var day = parseInt( parseInt( parseInt(second_time / 60) /60 ) / 24 );
+                    //time = day + "天" + hour + "小时" + min + "分" + second + "秒";
+                    time = '<b>'+day +'</b>天<b>'+hour +'</b>小时<b>'+min +'</b>分';
+                }
+            }
+
+        }
+        return time;
+    }
+
+     $("body").on("click",".friends_move",function(){
+        
+    })
+    $(".go_zm").click(function(){
+        if(token==''){
+            aaplay('login_account');
+        }else{
+            location.href='/home/user/crowd_funding_prove.html?type=2&id='+id;
+        }
+        
+    })
+
+    $("body").on("click",".friends_move_list li",function(){
+        
+    })
+	
+	function oepnMove(){
+		if(token==''){
+            aaplay('login_account');
+        }else{
+            location.href='/home/user/crowd_funding_movely.html?id='+id;
+        }
+	}
+	
+	function chooselist(e){
+		$(".friends_move_list li").removeClass("on");
+        e.addClass("on");
+        var n = e.find(".names").html();
+        var c = e.find(".contents").html();
+        $(".friends_ly_content div").html(n);
+        $(".friends_ly_content p").html(c);
+	
+	}
+
+   function getLocalTime(nS) {     
+        var zz =/^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+        var date =  new Date(parseInt(nS) * 1000).toLocaleString().replace(zz);
+
+       return date.split(" ")[0];     
+    }
+
+
+    ready();
+    function ready(){
+        var p = {token:token,zc_id:id}
+        $.post(webSiteUrl+'/App/Zongcou/details',p,function(ret){
+            console.log(ret);
+            if (ret.code == 200) {
+                var data = ret.data.info;
+				var ls = ret.data.lvshi_info;
+                var counts = ret.data.counts;
+                $('#doing').show();
+                $("#cover1").attr("src",webSiteUrl+data.imgurl);
+                $("#price_s").html(data.money);
+                $("#price").html(counts.total_price);
+                // if(counts.total_price == 0){
+                //     $("#jindu").html("0%");
+                // }else{
+                //     var val = counts.total_price / data.money;
+                //     if(val < 1){
+                //         val = 1;
+                //     }else{
+                //         val =Math.floor(val);
+                //     }
+                //     $("#jindu").html(val+"%");
+                // }
+                $("#jindu").html(counts.scale);
+                $("#name").html(data.name);
+                $("#content").html(data.content);
+                $("#detail").html(data.detail);
+                $("#stime").html(getLocalTime(data.create_time) +"开始");
+                $("#etime").html(getLocalTime(data.lasttime) +"结束");
+                // if(list.status != 2){
+                //     $('#ddd').hide();
+                // }else{
+                //     $('#ddd').show();
+                // }
+				var img = '';
+                for (var i = 0;i<data.icon_arr.length;i++) {
+                    img += '<li><img src="'+webSiteUrl+data.icon_arr[i]+'" alt=""></li>';
+                }
+				$("#img").html(img);
+				var lshtm ="";
+				if(!ls){
+					$('#con').html('<p style="text-align:center">暂无竞标</p>');
+				}else{
+					lshtm +='<li onclick="lawyer('+ls.id+')"><div class="order_number">订单号：'+ls.oderno+'</div><div class="ls_info"><img src="'+webSiteUrl+ls.icon+'" /><div><div class="lsname">'+ls.nickname+'律师</div><div class="tips">律师费</div></div></div><div class="order_price">总计：<span >￥'+ls.money+'</span></div></li>';
+					$('#con').html(lshtm);
+				
+				}
+			
+                $('#ddd').show();
+                if(uid==data.uid){
+					
+                    $('#ddd').hide();
+                    $('#link').show();
+                    $(".go_zm").hide();
+                }
+            }
+        });
+    }
+
+
+    msg_list();
+    function msg_list(){
+        var p = {token:token,zc_id:id,page:1,num:1000}
+        $.post(webSiteUrl+'/App/Zongcou/msg_list',p,function(ret){
+            if (ret.code == 200) {
+                var data = ret.data;
+               $(".zmcount").html(data.listcount+"人已证明");
+               $(".zmlist").html("");
+               var html = "";
+			   $(".friends_ly_content").hide();
+			   if(ret.data.list != null){
+				   $.each(ret.data.list,function(i,item){
+				   
+						if(!isNaN(item.icon)){
+							
+							var head_img = webSiteUrl+item.head_img;
+						
+						}else{
+						
+							var head_img = item.head_img;
+						
+						}
+				   
+						html += '<li><div class="friend-info">'+
+								'<img src="'+head_img+'" alt="">'+
+								'<div>'+
+									'<p>'+item.username+'</p>'+
+									'<span>'+item.create_time+'</span>'+
+								'</div>'+
+							'</div>'+
+							'<div class="info">'+
+								'<p>'+item.content+'</p>'+
+							'</div>'+
+						'</li>';
+					});
+					$(".zmlist").html(html);
+					$(".friends_move_list").html("");
+					var html2 = "";
+					var maxcount = 4;
+					if(ret.data.list.length < 4){
+						maxcount = ret.data.list.length;
+					}
+					if(maxcount == 0){
+						$(".friends_ly_content").hide();
+					}else{
+						$(".friends_ly_content div").html(ret.data.list[0].username);
+						$(".friends_ly_content p").html(ret.data.list[0].content);
+						$(".friends_ly_content").show();
+					}
+					
+					for(var i =0; i<maxcount;i++){
+						var item = ret.data.list[i];
+						
+						if(!isNaN(item.icon)){
+							
+							var head_img = webSiteUrl+item.head_img;
+						
+						}else{
+						
+							var head_img = item.head_img;
+						
+						}
+						html2+='<li onclick="chooselist($(this))" class="on"><img src="'+head_img+'"/><div></div><div class="names" style="display:none">'+item.username+'</div><div class="contents" style="display:none;">'+item.content+'</div></li>';
+					}
+					html2+='<li onclick="oepnMove();" class="friends_move"><img src="__IMG__/move_icon.png"/></li>';
+					$(".friends_move_list").html(html2);
+				}
+            }
+        });
+    }
+    order_list();
+    function order_list(){
+        var p = {token:token,zc_id:id,page:1,num:1000}
+        $.post(webSiteUrl+'/App/Zongcou/order_list',p,function(ret){
+            console.log(ret);
+            if (ret.code == 200) {
+                var data = ret.data;
+                $(".axcount").html(data.listcount+"笔捐款");
+                $(".axlist").html("");
+                var html ="";
+                if(ret.data.list != null){
+                    $.each(ret.data.list,function(i,item){
+					
+						if(!isNaN(item.icon)){
+							
+							var head_img = webSiteUrl+item.head_img;
+						
+						}else{
+						
+							var head_img = item.head_img;
+						
+						}
+					
+                        html += '<li><div class="friend-info">'+
+                                '<img src="'+head_img+'" alt="">'+
+                                '<div>'+
+                                    '<p>'+item.nickname+'</p>'+
+                                    '<span>'+item.create_time+'</span>'+
+                                '</div>'+
+                                 '<p class="juank">已捐赠<span class="price">'+item.pay_price+'</span>元</p>'+
+                            '</div>'+
+                            '<div class="info">'+
+                                '<p>'+item.content+'</p>'+
+                            '</div>'+
+                        '</li>';
+                    });
+                    $(".axlist").html(html);
+                }
+
+            }
+        });
+    }
+</script>
+</html>

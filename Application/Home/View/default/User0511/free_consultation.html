@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css"/>
+
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/ajaxupload.3.5.js"></script>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style type="text/css">
+        .dashang {
+            background: url("__IMG__/jinbi.png") left center no-repeat !important;
+            background-size: 0.3rem auto !important;
+            font-size: 0.26rem;
+            color: #f3a536 !important;
+            margin-right: 0.3rem;
+        }
+    </style>
+</head>
+<body style="background: #f9f9f9">
+<header class="header">
+    <a href="javascript:void(0);" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>免费咨询区</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')" style=""><img src="__IMG__/shouye1.png"
+                                                                                             alt=""></a>
+    <!--<a href="javascript:void(0);" onclick="aaplay('index')" class="qiandao_btn" style="position: absolute;
+    right: 3%;
+    top: 0;
+    color: #fff;">首页</a>-->
+</header>
+<section class="user_askArea" style="padding-top: 0.2rem">
+    <div class="ask_list">
+        <ul id='con'>
+
+
+        </ul>
+    </div>
+</section>
+<section class="fixed_btn">
+    <a href="javascript:;" onclick="aaplay('want_consult_release.html')">我要咨询</a>
+</section>
+</body>
+<include file="Public/userfooter"/>
+<script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+
+<script>
+
+    var page = 1;
+    var typeid = 0;
+
+
+    typeid = para('typeid')
+
+    toDoRequest();
+
+    function toDoRequest() {
+
+        if (token != '') {
+
+            var p = {typeid: typeid, page: page, token: token};
+        } else {
+
+            var p = {typeid: typeid, page: page};
+        }
+
+
+        $.post(webSiteUrl + '/app/public/fask', p, function (ret) {
+            if (ret.code == 200) {
+
+                html = "";
+                var dashang = '';
+                var tj = ret.data;
+                if (tj != null) {
+
+                    for (var i = 0; i < tj.length; i++) {
+
+                        // if(tj[i].reward_price!=0){
+                        //     dashang = '<em class="dashang">'+tj[i].reward_price+'元</em>';
+                        // }else {
+                        //     dashang = ''
+                        // }
+                        dashang = '';
+                        if (tj[i].private == 1) {
+                            console.log(uid, tj[i].uid)
+
+                            if (uid == tj[i].uid) {
+                                html += '<li onclick="askdetail(' + tj[i].id + ')"><a href="javascript:;"><div class="userInfo"><img src="' + tj[i].icon + '" alt=""><div class="userName"><h6>' + tj[i].phone + '</h6><span><em style="top: 0;">' + tj[i].time + '</em></span></div></div><div class="comment_info"><p>' + tj[i].content + '</p></div><div class="ask_kinds"><span>' + tj[i].ajtype + '</span><div class="ask_active">'+dashang+'<em class="answer_num">' + tj[i].num + '人回答</em></div></div></a></li>';
+                            }
+                        } else {
+                            html += '<li onclick="askdetail(' + tj[i].id + ')"><a href="javascript:;"><div class="userInfo"><img src="' + tj[i].icon + '" alt=""><div class="userName"><h6>' + tj[i].phone + '</h6><span><em style="top: 0;">' + tj[i].time + '</em></span></div></div><div class="comment_info"><p>' + tj[i].content + '</p></div><div class="ask_kinds"><span>' + tj[i].ajtype + '</span><div class="ask_active">'+dashang+'<em class="answer_num">' + tj[i].num + '人回答</em></div></div></a></li>';
+                        }
+
+
+                    }
+                }
+                if (page == 1) {
+                    $('#con').html(html);
+                } else {
+                    $('#con').append(html);
+                }
+                page++;
+
+
+            } else {
+                if (page == 1) {
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+
+            }
+        });
+
+    }
+
+
+</script>
+</html>

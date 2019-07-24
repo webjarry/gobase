@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="Keywords" content="{:C('WEB_SITE_KEYWORD')}">
+    <meta name="description" content="{:C('WEB_SITE_DESCRIPTION')}">
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <title>{:C('WEB_SITE_TITLE')}-微信支付</title>
+</head>
+<body class="weixin_pay">
+
+ <input type="hidden" name="out_trade_no" value="{$orderinfo.order_number}" />
+ <input type="hidden" name="order_num" value="{$orderinfo.order_number}" />
+ <!-- 1微信下单，2微信支付 -->
+ <input type="hidden" name="type" value="{$param.type}" />
+ 
+</body>
+<script>
+    var usertype="{$usertype}";
+    var zc_id="{$orderinfo['zc_id']}";
+    //调用JS api支付
+    function jsApiCall(){
+
+        WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',
+                {$jsApiparamter},
+                function(res){
+                    WeixinJSBridge.log(res.err_msg);
+                    
+                    
+                    if(res.err_msg == 'get_brand_wcpay_request:ok'){
+                       // alert(usertype)
+					    alert('支付成功');
+                        window.location.href='http://www.test2.test/Home/user/personal_mycrowd_funding_jk.html?id='+zc_id;
+
+                    }else if(res.err_msg == 'get_brand_wcpay_request:cancel'){
+                        
+                    }else{
+                        alert(JSON.stringify(res));return;
+                        layer.msg(res.err_msg,{time:2000});
+                        setTimeout(function(){
+                            window.location.href='/Home/lawyer/personal';
+                        },2000);
+                    }
+                }
+        );
+
+    }
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+            }
+        }else{
+            jsApiCall();
+        }
+
+</script>
+
+</html>

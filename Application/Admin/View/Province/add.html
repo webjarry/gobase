@@ -1,0 +1,110 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>添加省份</h2>
+    </div>
+    <ul class="tab-nav nav">
+
+
+        <li class="current"><a href="javascript:void(0)">基本信息</a></li>
+
+    </ul>
+    
+    <form action="{:U()}" method="post" class="form-horizontal">
+    <div class="tab-content">
+        <div class="form-item">
+            <label class="item-label">省份标题<span class="check-tips">（标题必须填写）</span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="addr" value="{$vo.addr}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">检索码<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="check_nm" value="{$vo.check_nm}">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">类别<span class="check-tips">（类别必须选择）</span></label>
+            <div class="controls">
+				<select name="type" style="width:150px;">
+					<option value="">请选择类别</option>
+					<volist name="pro_type" id="typelist">
+						<option value="{$typelist.id}">{$typelist.title}</option>
+					</volist>
+				</select>
+			</div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">简称<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="short_name" value="{$vo.short_name}">
+            </div>
+        </div>
+		<div class="form-item">
+            <label class="item-label">排序<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="sort" value="{$vo.sort}">
+            </div>
+        </div>
+        
+        <div class="form-item">
+            <label class="item-label">邮编<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="zip_no" value="{$vo.zip_no}">
+            </div>
+        </div>
+        
+        <div class="form-item">
+            <label class="item-label">区号<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="area_no" value="{$vo.area_no}">
+            </div>
+        </div>
+        
+        <div class="form-item">
+            <label class="item-label">全拼<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="quan_pin" value="{$vo.quan_pin}">
+            </div>
+        </div>
+        
+        <div class="form-item">
+            <label class="item-label">简拼<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="jian_pin" value="{$vo.jian_pin}">
+            </div>
+        </div>
+        
+        <div class="form-item">
+            <label class="item-label">
+            是否显示<span class="check-tips">（该省份是否显示）</span>
+            </label>
+            <div class="controls">
+                <label class="inline radio"><input type="radio" name="status" value="1" checked>显示</label>
+                <label class="inline radio"><input type="radio" name="status" value="0">不显示</label>
+            </div>
+        </div>
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </div>
+   
+    </form>
+</block>
+
+<block name="script">
+<include file="Public:datetime" />
+    <script type="text/javascript">
+	
+		
+	
+        //导航高亮
+        highlight_subnav('{:U('province/index')}');
+		
+		
+    </script>
+</block>

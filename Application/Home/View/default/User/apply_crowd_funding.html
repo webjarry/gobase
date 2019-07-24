@@ -1,0 +1,517 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/mobiscroll_002.css" >
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    
+    <script src="__JS__/mobiscroll_002.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_004.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_003.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_005.js" type="text/javascript"></script>
+    <style type="text/css">
+        .dwwr{width: 6.8rem!important;}
+        .dww{width: 52px!important;min-width: 52px!important;}
+        .dwwl2{
+            display: block!important;
+        }
+        .android-ics .dwwl{margin: 0;}
+        .android-ics .dwc{padding: 30px 9px 1px!important;}
+        .android-ics .dwwl{
+            margin: 0 !important;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>申请众筹</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="apply_form">
+    <form action="">
+        <ul>
+            <li>
+                <div class="item">
+                    <p>选择案件类型</p>
+                    <span class="kinds_name"></span>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>众筹名称</p>
+                    <input type="text" placeholder="请填写众筹名称" id='name'>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>众筹简介</p>
+                    <input type="text" placeholder="简单介绍众筹内容" id='content'>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>众筹详情</p>
+                </div>
+                <textarea id="detail"  cols="30" rows="10" placeholder="请详细填写您众筹的原因，上传真实的照片，方便我们快速审核。"></textarea>
+                <div class="file_list">
+                    <div id='imgcon'></div>
+                    
+                    <input type="hidden" name='icon' value="">
+                    <div class="open_file" id="icon"></div>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>众筹金额</p>
+                    <div class="disflex">
+                        <input type="text" placeholder="请填写众筹金额" id='money'>
+                        <em class="disflex_notes"></em>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>众筹结束时间</p>
+                    <input value="请选择结束时间" class="" readonly="readonly" name="appDateTime" id="appDateTime" type="text">
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>请上传身份证照片</p>
+                </div>
+                <div class="photos" style="margin-top: 0.15rem">
+                    <dl>
+                        <dd id='iczm'><img src="__IMG__/user_upload3.png"  id='iczm1'>
+                            <input type="hidden" name='iczm' value=""></dd>
+                        <dd id='icfm'><img src="__IMG__/user_upload4.png"  id='icfm1'>
+                            <input type="hidden" name='icfm' value=""></dd>
+                    </dl>
+                </div>
+                <div class="item" style="margin-top: 0.15rem">
+                    <p>请上传其他相关证明材料</p>
+                </div>
+                <div class="photos" style="margin-top: 0.15rem">
+                    <dl id='zmcon'>
+                        <dd class="addPic_btn" id="file"><img src="__IMG__/user_upload5.png" alt=""></dd>
+                    </dl>
+                    <input type="hidden" name='file' value=''>
+                </div>
+
+            </li>
+			<li>
+                <div class="item">
+                    <p>联系方式</p>
+                    <input type="text" placeholder="请填写您的联系方式" id='mobile'>
+                </div>
+            </li>
+            <li onclick="fx()">
+                <a href="##" id="share">
+                    <div class="item">
+                        <p>点击分享给好友验证</p>
+                        <span>0/5</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="reminder" style="background: #fff;padding: 0.2rem 3%; border-bottom: 0.25rem #f3f3f3 solid;" >
+            <h6>申请要求：</h6>
+            <p id="zc_sqyq">
+                发布众筹信息的时候需要把信息链接发给5个好友，邀请他们 注册并点击确认这个众筹信息，此众筹信息才可以进入审核。
+            </p>
+        </div>
+        <div class="reminder" style="background: #fff; padding: 0.2rem 3%; border-bottom: 0.25rem #f3f3f3 solid;">
+            <h6>我承诺：</h6>
+            <p id="zc_wcn">
+                1.发起的项目类型为个人诉讼求助，所筹款项全部用于受助人的诉讼费以及律师费；<br>
+                2.提交的求助信息完整，真实，合理，不存在任何虚构，伪造和隐瞒的情况；<br>
+                3.积极配合赠与人及平台的要求，说明受助人案件情况，诉讼花费，家庭经济情况等，并提供相应的证明材料。<br>
+                <br>
+                若有违背，愿承担全部法律责任，并赔偿相关方所有损失 <br>
+            </p>
+        </div>
+		<div class="reminder xieyi" style="background: #fff; padding: 0.2rem 3% 1.2rem;">
+            <p><span></span>我已阅读并同意 <em style="color: #1c83ea; display: inline;"><font onclick="tiaokuan(5)">《法援筹个人求助信息发布条款》</font>和<font onclick="tiaokuan(6)">《隐私政策》</font></em></p>
+        </div>
+    </form>
+</section>
+
+<section class="fixed_btn">
+    <a href="##" onclick="tijiao()">提交信息</a>
+</section>
+
+<section class="fixed_case">
+    <div class="case_content">
+        <div class="case_kinds">
+            <ul id="f">
+                <li class="">民事类</li>
+
+            </ul>
+        </div>
+        <div class="kinds_list" id="son">
+            <ul>
+                <li>一般民事</li>
+                <li>合同纠纷</li>
+
+            </ul>
+        </div>
+    </div>
+</section>
+<div class="notes_fixed">
+    <div class="notes-section">
+        <div class="note_title">众筹金额说明</div>
+        <div class="info">
+            <div class="info-list1">
+                <p>案件类别</p>
+                <ul>
+                    <li>劳动纠纷</li>
+                    <li>婚姻、家庭、继承纠纷</li>
+                    <li>借贷、投资理财纠纷</li>
+                    <li>交通事故、医疗纠纷</li>
+                    <li>买卖、服务纠纷</li>
+                    <li>知识产权、加盟纠纷</li>
+                    <li>房屋买卖、租赁、拆迁纠纷</li>
+                    <li>刑事案件</li>
+                    <li>其他案件</li>
+                </ul>
+            </div>
+            <div class="info-list1">
+                <p>可获最高金额(元)</p>
+                <ul>
+                    <li>10000</li>
+                    <li>10000</li>
+                    <li>20000</li>
+                    <li>20000</li>
+                    <li>20000</li>
+                    <li>20000</li>
+                    <li>30000</li>
+                    <li>50000</li>
+                    <li>50000</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var ajid=0;
+    var ok=0;
+    var zcid
+
+    ajcate();
+	zcInfo();
+
+    $(".disflex_notes").click(function () {
+        $(".notes_fixed").show()
+    });
+    $(".notes_fixed").click(function () {
+        $(this).hide();
+    });
+
+    function tijiao() {
+        var result = loginCheck();
+        if(result == false){
+            return false;
+        }
+
+        var name=$("#name").val();
+        var content=$("#content").val();
+        var detail=$("#detail").val();
+        var money=$("#money").val();
+        var lasttime   =$("#appDateTime").val();
+       
+        if(lasttime=='请选择结束时间'){
+           alert("请选择结束时间！");return;
+        }
+
+        var icon=$("input[name=icon]").val();
+        
+        var iczm=$("input[name=iczm]").val();
+        var icfm=$("input[name=icfm]").val();
+        var file=$("input[name=file]").val();
+        if(ajid==0){
+            alert("请选择案件类型！");return;
+        }else if(name==''){
+            alert("请输入众筹名称！");return;
+        }else if(content==''){
+            alert("请输入众筹简介！");return;
+        }else if(detail==''){
+            alert("请输入众筹详情！");return;
+        }else if(money==''){
+            alert("请输入申请金额！");return;
+        }else if(!/^\d+$/.test(money)){
+            alert("金额必须是数字！");return;
+        }else if(iczm=='' || icfm==''){
+            alert("请上传证件图片！");return;
+        }else if(file==''){
+            alert("请上传证明材料！");return;
+        }
+        alert('发布众筹信息的时候需要把信息链接发给5个好友，邀请他们 注册并点击确认这个众筹信息，此众筹信息才可以进入审核。')
+        var p={token:token,model:'zc',ajid:ajid,name:name,content:content,money:money,detail:detail,lasttime:lasttime,icon:icon,iczm:iczm,icfm:icfm,file:file};
+        //alert(JSON.stringify(p));
+        $.post(webSiteUrl+'/app/user/apply',p,function(ret){
+            if(ret.code==200){
+                alert(ret.msg)
+                ok=1
+                zcid=ret.id
+
+                location.href='/home/user/crowd_funding_friends2?id='+zcid+'&type=1';
+
+
+            }else{alert(ret.msg)}
+        });
+    }
+	
+	function zcInfo(){
+	
+		$.post(webSiteUrl+'/app/zongcou/zcInfo',function(ret){
+		
+			if(ret.code==200){
+            console.log(JSON.stringify(ret));
+            $('#zc_sqyq').html(ret.data.sqyq);
+            $('#zc_wcn').html(ret.data.wcn);
+
+          }else{alert(ret.msg)}
+		});
+	
+      
+    }
+	
+	function tiaokuan (type) {
+	
+		window.location.href = '/Home/Public/yhxy?type='+type;
+       
+
+    }
+
+    function fx() {
+        if(ok==0){
+            alert('您的众筹信息尚未提交成功')
+        }else{
+            location.href='/home/user/crowd_funding_friends2?id='+zcid+'&type=1';
+        }
+    }
+    function ajcate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+        if(ret.code==200){
+
+            var tj=ret.data;
+
+            html='';
+            f = "";
+            s = "";
+            if(tj != null){
+                for(var i=0;i<tj.length;i++){
+                    f+='<li  style="">'+tj[i].name+'</li>';
+
+                    var son=tj[i].son
+                    if(son != null){
+                        s+='<ul style="cursor:pointer">';
+                        for(var j=0;j<son.length;j++){
+                            s+='<li style="cursor:pointer" data="'+son[j].id+'">'+son[j].name+'</li>';
+                        }
+                        s+='</ul>';
+                    }
+
+                }
+            }
+            $('#f').html(f)
+            $('#son').html(s)
+
+        }else{
+            alert(ret.msg);
+        }
+    });
+       
+    }
+
+    $(document).ready(function(){
+        uploadsasa('icon',2)
+        uploadsasa('iczm',1)
+        uploadsasa('icfm',1)
+        uploadsasa('file',3)
+
+    });
+    function uploadsasa(btn,type){
+        ajaxUploadicon(
+                btn, //上传的按钮id名称
+                1000000000,  //允许上传的文件大小（单位：kb）
+                '/Home/Public/upload?form_name=userfile&file_size=10000', //提交服务器端地址
+                'userfile', //提交服务器文件表单名称
+                "$(\".img_div\").show();$(\"#img_path\").attr('src', obj.filename);$(\"#is_upload\").val('1');", //上传成功后执行的 js callback
+                'loadimg' ,
+                type
+        );
+    }
+    function ajaxUploadicon(id_name, filesize, url, filename, callback, loadingid,type) {
+
+        var index;
+        var button = $('#'+id_name), interval;
+        var fileType = "pic", fileNum = "one";
+        new AjaxUpload(button,{
+            action: url,
+            name: filename,
+            onSubmit : function(file, ext){
+                index = layer.load(1, {
+                    shade: [0.4,'#000000']
+                });
+                if(fileType == "pic") {
+                    if (ext && /^(jpg|png|gif|jpeg)$/.test(ext)){
+                        this.setData({
+                            'info': '上传类型为图片'
+                        });
+
+                    } else {
+                        alert('提示：您上传的是非图片类型！');
+                        layer.close(index);
+                        return false;
+                    }
+                }
+                $("#"+loadingid).show();
+                if(fileNum == 'one') this.disable();
+            },
+            onComplete: function(file, response){
+                layer.close(index);
+                var obj = jQuery.parseJSON(response);
+                if (obj['ok'] == 'ok') {
+
+                    addpic(obj['id'],obj['filename'],id_name ,type)
+
+                    uploadsasa(id_name,type);
+                } else {
+                    switch (response) {
+                        case '1':
+                            alert('提示：上传失败，图片不能大于100M');
+
+                            break;
+                        case '3':
+                            alert('提示：图片只有部分文件被上传，请重新上传！');
+
+                            break;
+                        case '4':
+                            alert('提示：没有任何文件被上传！');
+
+                            break;
+                        case '5':
+                            alert('提示：非图片类型，请上传jpg|png|gif图片！');
+
+                            break;
+                        default:
+                            alert('提示：上传失败，错误未知，请您及时联系网站客服人员！');
+
+                            break;
+                    }
+                }
+                $("#"+loadingid).hide();
+                window.clearInterval(interval);
+                this.enable();
+            }
+        });
+    }
+    function addpic(id,imgpath,target,type){
+        if(type==1){
+            $("input[name="+target+"]").val(id);
+            $("#"+target).find('img').attr('src',imgpath);
+        }else{
+            if(type==2){
+                var len=$('#imgcon').children().length;
+                if(len==3){
+                    alert("最多上传3张图片");return;
+                }
+            }else{
+                var len=$('#zmcon').children().length;
+                if(len==6){
+                    alert("最多上传6张图片");return;
+                }
+            }
+
+            var ids=$("input[name='"+target+"']").val();
+            if(ids != ''){
+                ids+=','+id;
+            }else{
+                ids=id;
+            }
+            $("input[name='"+target+"']").val(ids);
+            if(type==2){
+                //alert(imgpath)
+                var a='<img src="'+webSiteUrl+imgpath+'" style="display:inline-block"/>';
+
+                $("#imgcon").append(a);
+            }else{
+                var a='<dd class="img"  style="display:inline-block"><img src="'+webSiteUrl+imgpath+'" alt=""></dd>';
+
+                $("#zmcon").append(a);
+            }
+
+        }
+
+    }
+
+    $(".userInfo_list ul li select").change(function () {
+        $(this).prev('input').val($(this).val());
+    });
+
+    //选择类型
+    $('.case_kinds ul li').eq(0).addClass('active');
+    $(".kinds_list ul").eq(0).show();
+    $(".kinds_name").click(function () {
+        $(".fixed_case").fadeIn().find('.case_content').animate({'top':0,'opacity':1},400);
+        $(".kinds_list ul").eq(0).show();
+    });
+    $(".fixed_case .case_content").click(function (e) {
+        e.stopPropagation();
+    });
+
+    $(".case_content").on("click",".case_kinds ul li",function () {
+        $(this).addClass('active').siblings('li').removeClass('active');
+        $(".kinds_list ul").eq($(this).index()).show().siblings('ul').hide();
+    });
+    var str = '';
+    $(".case_content").on('click',".kinds_list ul li",function () {
+
+        $(".kinds_list ul li").removeClass('active');
+        $(this).addClass('active');
+        var _str = $('.case_kinds ul li.active').html();
+        str = $(this).html();
+        $(".kinds_name").html(str);
+        $(".fixed_case").fadeOut().find('.case_content').animate({'top': '4rem','opacity':0},400);
+
+        ajid = $(this).attr('data');
+    });
+
+
+    //时间选择
+    var currYear = (new Date()).getFullYear();
+    var opt={};
+    opt.date = {preset : 'date'};
+    opt.datetime = {preset : 'datetime'};
+    opt.time = {preset : 'time'};
+    opt.default = {
+        theme: 'android-ics light', //皮肤样式
+        display: 'modal', //显示方式
+        mode: 'scroller', //日期选择模式
+        dateFormat: 'yyyy-mm-dd',
+        lang: 'zh',
+        showNow: true,
+        nowText: "今天",
+        startYear: currYear , //开始年份
+        endYear: currYear + 10 //结束年份
+    };
+
+    var optDateTime = $.extend(opt['datetime'], opt['default']);
+    $("#appDateTime").mobiscroll(optDateTime).datetime(optDateTime);
+
+    
+</script>
+</html>

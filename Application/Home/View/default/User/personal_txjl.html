@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" onclick="aaplay('personal')" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>提现记录</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index.html')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<div>
+   <section class="statistics">
+    <div class="budget_list">
+        <ul id="con">
+
+        </ul>
+    </div>
+   </section>
+</div>
+
+
+
+</body>
+<include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var date='';
+	user();
+    toDoRequest2();
+
+    function user(){
+        var p = {token:token};
+		
+		$.post(webSiteUrl+'/App/user/user',p,function(ret){
+		
+			if (ret.code == 200) {
+                var tj=ret.data
+
+
+                $('#balance').html(tj.balance);
+
+            }
+		
+		});
+
+    }
+
+
+    function toDoRequest2(){
+        var p= {token:token};
+		
+		$.post(webSiteUrl+'/app/zongcou/txlist',p,function(ret){
+			console.log(JSON.stringify(ret))
+            if(ret.code==200){
+
+                var html = "";
+                var list=ret.data;
+                //alert(tj.length);
+                if(list!='' && list!=null && typeof(list)!='undefined'){
+                  for(var i=0;i<list.length;i++){
+                    if(list[i].status==1){
+                      html += '<li><div class="income"><p style="color:#f3a536;">'+list[i].status_title+'</p><span>'+list[i].create_time+'</span></div><em class="add_money">'+list[i].money+'元</em></li>'
+                    }else if(list[i].status==2){
+                      html += '<li><div class="income"><p>'+list[i].status_title+'</p><span>'+list[i].create_time+'</span></div><em class="add_money" style="color:#333;>'+list[i].money+'元</em></li>'
+                    }else {
+                      html += '<li><div class="income"><p>'+list[i].status_title+'</p><span>'+list[i].create_time+'</span></div><em class="add_money" style="color:#333;>'+list[i].money+'元</em></li>'
+                    }
+
+                  }
+                  $('#con').html(html);
+
+                }else {
+                  $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+
+            }else{
+
+                $('#con').html('<p style="text-align:center">暂无数据</p>');
+
+
+            }
+		
+		});
+
+    }
+
+</script>
+</html>

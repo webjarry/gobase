@@ -1,0 +1,165 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>财务明细</h2>
+	</div>
+	<div class="cf">
+
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<select class="search-input" name="type">
+						<option value="">订单类型</option>
+						<option value="1" <if condition="$get['type'] eq 1">selected</if>>咨询费</option>
+						<option value="2" <if condition="$get['type'] eq 2">selected</if>>图文咨询</option>
+						<option value="3" <if condition="$get['type'] eq 3">selected</if>>电话咨询</option>
+						<option value="4" <if condition="$get['type'] eq 4">selected</if>>见面咨询</option>
+						<option value="5" <if condition="$get['type'] eq 5">selected</if>>代写文书</option>
+						<option value="6" <if condition="$get['type'] eq 6">selected</if>>律师函</option>
+						<option value="7" <if condition="$get['type'] eq 7">selected</if>>律师费</option>
+						<option value="8" <if condition="$get['type'] eq 8">selected</if>>案件委托</option>
+						<option value="9" <if condition="$get['type'] eq 9">selected</if>>余额充值</option>
+						<option value="10" <if condition="$get['type'] eq 10">selected</if>>送心意</option>
+						<option value="11" <if condition="$get['type'] eq 11">selected</if>>购买普通VIP</option>
+						<option value="12" <if condition="$get['type'] eq 12">selected</if>>购买高级VIP</option>
+						<option value="13" <if condition="$get['type'] eq 13">selected</if>>提现</option>
+						<option value="14" <if condition="$get['type'] eq 14">selected</if>>购买合同</option>
+						<option value="15" <if condition="$get['type'] eq 15">selected</if>>众筹捐款</option>
+						<option value="16" <if condition="$get['type'] eq 16">selected</if>>法律告知函</option>
+						<option value="18" <if condition="$get['type'] eq 18">selected</if>>律师分析报告</option>
+						<option value="20" <if condition="$get['type'] eq 20">selected</if>>互助订单</option>
+						<option value="21" <if condition="$get['type'] eq 21">selected</if>>众筹订单</option>
+						<option value="23" <if condition="$get['type'] eq 23">selected</if>>委托律师费</option>
+				</select>
+				<select class="search-input" name="status">
+						<option value="">订单状态</option>
+						<option value="0" <if condition="isset($get['status']) && $get['status'] eq 0">selected</if>>待支付</option>
+						<option value="1" <if condition="$get['status'] eq 1">selected</if>>已支付</option>
+						<option value="5" <if condition="$get['status'] eq 5">selected</if>>已退款</option>
+						<option value="-1" <if condition="$get['status'] eq -1">selected</if>>已取消</option>
+						
+				</select>
+				<select class="search-input" name="pay_type">
+						<option value="">支付方式</option>
+						<option value="1" <if condition="$get['pay_type'] eq 1">selected</if>>支付宝</option>
+						<option value="2" <if condition="$get['pay_type'] eq 2">selected</if>>微信</option>
+						<option value="3" <if condition="$get['pay_type'] eq 3">selected</if>>余额</option>
+						
+				</select>
+				<input type="text" name="date1" id="date1" class="search-input" value="{:I('date1')}" placeholder="开始日期" >
+				<input type="text" name="date2" id="date2"  class="search-input" value="{:I('date2')}" placeholder="结束日期">
+				<input type="text" name="staffname" class="search-input" value="{:I('staffname')}" placeholder="请输入律师昵称、手机号">
+				<input type="text" name="name" class="search-input" value="{:I('name')}" placeholder="请输入用户昵称、手机号">
+				<input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入订单编号">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+			</div>
+		</div>
+		<div class="search-form fr cf" style="width:100%; text-align:right; margin-top:15px;">
+		
+			<span>总金额:<font style="color:#f00; font-size:20px;">￥{$qb_total['total_price']}</font></span>
+		
+			<if condition="!isset($get['status']) or $get['status'] eq 1">
+			<span>支付总金额:<font style="color:#f00; font-size:20px;">￥{$total}</font></span>
+			</if>
+			<if condition="!isset($get['status']) or $get['status'] eq 5">
+			<span>退款订单数:<font style="color:#f00; font-size:20px;">￥{$total_num}</font></span>
+			<span>退款总金额:<font style="color:#f00; font-size:20px;">￥{$refund_price}</font></span>
+			</if>
+		
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="row-selected row-selected" style="width: 2%"><input class="check-all" type="checkbox"/></th>
+		<th class="">编号</th>
+		<th class="">订单号</th>
+		<th class="">下单人</th>
+		<th class="">联系方式</th>
+		<th class="">订单类型</th>
+		<th class="">关联律师</th>
+		<th class="">金额</th>
+		<th class="">订单状态</th>
+		<th class="">支付方式</th>
+		<th class="">来源</th>
+		<th class="">下单时间</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="list">
+		<volist name="list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			<td>{$vo.orderno}</td>
+			<td>{$vo.name}</td>
+			<td>{$vo.phone|default='无'}</td>
+			<td>{$vo.type|otype}</td>
+			<td>{$vo.staff|default='无关联'}</td>
+			<td>{$vo|askPayPrices}元</td>
+			<td>{$vo.type|orderInfoStatus=$vo['status'],$vo['orderno'],$vo['sid']}</td>
+			<td>{$vo.pay_type|pay_title}</td>
+			<td><if condition="$vo['source'] eq 0">APP<else />网页</if></td>
+			<td>{$vo.create_time|toDate='Y-m-d H:i'}</td>
+			
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+	<script type="text/javascript">
+	
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date1'
+		});
+	})
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date2'
+		});
+	})
+	
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('.search-input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+    //导航高亮
+    highlight_subnav('{:U('Finance/index')}');
+	</script>
+</block>

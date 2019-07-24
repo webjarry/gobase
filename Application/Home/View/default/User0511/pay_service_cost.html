@@ -1,0 +1,329 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f9f9f9">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>支付服务费</h2>
+    <!--<a href="javascript:void(0);" class="qiandao_btn">注册</a>-->
+</header>
+<section class="buy_order">
+    <div class="product">
+        <img src="" id="icon">
+        <div class="product_info">
+            <p id="nickname">张岳伦律师</p>
+            <span id="servertype">图文咨询服务费</span>
+        </div>
+    </div>
+    <div class="pay_price">
+        <p>支付金额</p>
+        <input type="text" placeholder="请输入支付费用" id="money" value="" style="color:#f3a536;font-size: .3rem"/>
+        <!--<span id="money"></span>-->
+    </div>
+    <div class="pay_kinds">
+        <h6>选择支付方式</h6>
+        <div class="pay_list">
+            <ul>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay1.png" alt="">
+                        <div class="pay_info">
+                            <p>支付宝</p>
+                            <span>绿色充值通道，安全便捷</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay2.png" alt="">
+                        <div class="pay_info">
+                            <p>微信</p>
+                            <span>绿色充值通道，安全便捷</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay3.png" alt="">
+                        <div class="pay_info">
+                            <p>账户余额</p>
+                            <span></span>
+                        </div>
+                    </div>
+                    <span class="tips"></span>
+                   <span class="checkbox"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="pay_coupon">
+        <p>选择优惠券</p>
+        <span id="pay_coupon" onclick="useCoupon()">选择优惠券</span>
+    </div>
+    <div class="pay_deduction">
+        <p>用邀请奖励余额抵扣</p>
+        <span class="checkbox"></span>
+    </div>
+    <div class="reminder">
+        <h6>温馨提示：</h6>
+        <p>
+            1、平台仅为双方提供信息对接和监督服务，所需发票由律师所在律所出具；<br>
+            2、当您对律师服务不满意或拒绝支付律师费时，平台有权依据律师工作记录决定是否支付律师费；<br>
+            3、若支付金额过大，无法使用支付宝，微信进行支付，建议采用分次充值至本地钱包，通过账户余额支付。
+        </p>
+    </div>
+    <div class="pay-result">
+        <p>总金额：￥<em class="donation_price">0</em></p>
+        <button id="pay">确认支付</button>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script type="text/javascript" src="__JS__/api.js"></script>
+<script>
+    var t=0;
+
+    var type=para('type');
+    var id=para('id');
+    var cid=para('cid');
+    var currmoney=para('currmoney');
+    console.log(type)
+
+    var money=0;
+    var cpmoney=0;
+    var ttt;
+
+    //使用优惠券
+    function useCoupon(){
+        var curr = $("#money").val();
+        location.href='/home/user/coupon_center_use?id='+id+'&type='+type+'&currmoney='+curr;
+    }
+
+    feept();
+
+    $(document).on('input','#money',function () {
+        var val = $(this).val();
+        $(".donation_price").html(val);
+    });
+
+    function feept() {
+        var p={model:'feept'};
+        $.post(webSiteUrl+'/app/home/lists',p,function(ret){
+            if(ret.code==200){
+                console.log(JSON.stringify(ret));
+                var tj=ret.data;
+
+                if(type==1){
+                    money=tj[4].money;
+                    ttt=2;
+                    $('#money').val('￥ '+money).attr('readonly','readonly');
+
+                }else if(type==2){
+                    money=tj[3].money;
+                    ttt=3;
+                    $('#money').val('￥ '+money).attr('readonly','readonly');
+                }else if(type==3){
+                    money=tj[2].money;
+                    ttt=4;
+                    $('#money').val('￥ '+money).attr('readonly','readonly');
+                }else if(type==4){
+                    money=tj[1].money;
+                    ttt=5;
+                    $('#money').val('￥ '+money).attr('readonly','readonly');
+                }else if(type==5){
+                    money=tj[0].money;
+                    ttt=6;
+                    $('#money').val('￥ '+money).attr('readonly','readonly');
+                }else{
+                    $('#money').val('');
+
+                }
+
+
+                if(currmoney&&type==6){
+                    $("#money").val(currmoney);
+                    $(".donation_price").html(currmoney);
+                }else {
+                    $('.donation_price').html(money);
+                }
+
+
+                if(cid){
+                    coupon(cid);
+                }else {
+                    $("#pay_coupon").html('选择优惠券');
+                }
+
+            }else{
+                alert(ret.msg)
+            }
+            lawyer_info()
+
+        });
+
+    }
+    function coupon(cid) {
+        var p = {token:token,sid:para('id'),type:type,coupon_id:cid};
+        $.post(webSiteUrl + '/app/user/usecp',p, function (ret) {
+            console.log(ret);
+            if (ret.code == 200) {
+                cpmoney=ret.data;
+                var str = '已使用'+cpmoney+'元优惠券'
+                $("#pay_coupon").html(str);
+                money=money-cpmoney;
+                console.log(money)
+                $('#money').val('￥'+money);
+                $('.donation_price').html(money);
+
+            }
+
+        })
+    }
+
+
+
+    function lawyer_info() {
+        var p={id:para('id')};
+        $.post(webSiteUrl+'/app/public/lawyer_info',p,function(ret){
+            if(ret.code==200){
+
+                $('#icon').attr('src', ret.data.icon);
+                $('#nickname').html(ret.data.nickname+'律师');
+
+
+                var stype='';
+                if(type==1){
+                    stype='图文咨询服务费'
+                }else if(type==2){
+                    stype='电话咨询服务费'
+                }else if(type==3){
+                    stype='见面咨询服务费'
+                }else if(type==4){
+                    stype='代写文书服务费'
+                }else if(type==5){
+                    stype='代写律师函服务费'
+                }else if(type==6){
+                    stype='律师费'
+                }
+                $('#servertype').html(stype);
+
+            }
+
+        });
+
+    }
+
+    $('#pay').click(function(){
+        
+        if(!loginCheck()){
+            return;
+        }
+        if(t == 0){
+            alert('请选择支付方式！');return;
+        }
+        var orderno=para('orderno');
+
+        if(orderno != null ){
+            if(para('have')==1){
+                $.post("/Home/Ajax/order",{sid:para('id'),pay_type:t,type:ttt,money:money,orderno:orderno,code_type:1},function(res){
+                    var res=jQuery.parseJSON(res);
+                    //alert('1111')
+                    if(res.code == 200){
+                        var orderno=res.msg;
+                        if(t==1){
+                            location.href = '/Home/Pay/testpay/orderno/' + orderno;
+                        }else if(t==2){
+                            if(isWeiXin()){
+                                location.href = '/Home/Pay/tel_wx_pay/orderno/' + orderno;
+                            }else{
+                                location.href = '/Home/Pay/wxh5pay/orderno/' + orderno;
+                            }
+                        }else{
+                            location.href = '/Home/user/yepay/orderno/' + orderno;
+                        }
+
+                    }else{
+                        alert(res.msg);return false;
+
+                    }
+
+                });
+            }else{
+
+                //alert(orderno)
+                if(t==1){
+                    location.href = '/Home/Pay/testpay/orderno/' + orderno;
+                }else if(t==2){
+                    if(isWeiXin()){
+                        location.href = '/Home/Pay/tel_wx_pay/orderno/' + orderno;
+                    }else{
+                        location.href = '/Home/Pay/wxh5pay/orderno/' + orderno;
+                    }
+                }else{
+                    location.href = '/Home/user/yepay/orderno/' + orderno;
+                }
+            }
+
+
+        }else {
+
+            var p = {sid:para('id'),pay_type:type,type:ttt,money:money};
+            $.post("/Home/Ajax/order",p,function(res){
+                var res=jQuery.parseJSON(res);
+                //alert(JSON.stringify(p));
+                if(res.code == 200){
+                    var orderno=res.msg;
+                    if(t==1){
+                        location.href = '/Home/Pay/testpay/orderno/' + orderno;
+                    }else if(t==2){
+                        if(isWeiXin()){
+                            location.href = '/Home/Pay/tel_wx_pay/orderno/' + orderno;
+                        }else{
+                            location.href = '/Home/Pay/wxh5pay/orderno/' + orderno;
+                        }
+                    }else{
+                        location.href = '/Home/user/yepay/orderno/' + orderno;
+                    }
+
+                }else{
+                    alert(res.msg);return false;
+
+                }
+
+            });
+        }
+
+
+    });
+    //选择支付方式
+    $(".pay_list li").click(function () {
+        if($(this).find('.checkbox').length>0){
+            $(this).addClass('active').siblings('li').removeClass('active');
+        }
+        t=parseInt($(this).index()+1)
+    });
+    //使用邀请抵扣
+    $(".pay_deduction span").click(function () {
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+        }else {
+            $(this).addClass('active');
+        }
+
+    })
+
+</script>
+</html>

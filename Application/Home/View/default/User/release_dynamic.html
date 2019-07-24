@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/mobiscroll_002.css" >
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <script src="__JS__/mobiscroll_002.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_004.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_003.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_005.js" type="text/javascript"></script>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>发布动态</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="dynamic_form">
+    <form action="">
+        <textarea name="" id="content" cols="30" rows="10" placeholder="请输入发布内容"></textarea>
+        <div class="file_list">
+            <div id='imgcon'>
+                        
+                    
+            </div>
+           
+            <!-- <a href="javascript:void(0);" class="open_camera"></a> -->
+            <div class="open_file" id="icon"></div>
+            <input type="hidden" name="icon"  value="">
+        </div>
+    </form>
+</section>
+<section class="fixed_btn">
+    <a href="##"  onclick="tijiao()">发布动态</a>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var id="{$Think.get.id}"
+    if(id>0){
+        dongtai()
+    }
+
+    function dongtai() {
+        var p={model:'dongtai',id:para('id')};
+        $.post(webSiteUrl+'/app/home/find',p,function(ret){
+            if(ret.code==200){
+                $("input[name=icon]").val(ret.data.icons);
+                $('#content').val(ret.data.content);
+
+                console.log(ret.data.icons)
+
+                var str = '';
+                if(ret.data.icon.length>0){
+                    for( var i=0;i<ret.data.icon.length;i++){
+                        str+='<img src='+webSiteUrl+ret.data.icon[i]+' style="display:inline-block">'
+                    }
+                    $("#imgcon").html(str)
+                }
+
+            }else{
+                alert(ret.msg)
+            }
+        });
+
+    }
+    function tijiao(){
+        if(!loginCheck()){
+            return;
+        }
+        var content=$('#content').val();
+
+        var icon=$("input[name=icon]").val();
+
+        if(content==''){
+            alert("请输入内容！");return;
+        }
+        var  p={token:token,icon:icon,content:content,id:para('id'),type:para('type')};
+        $.post(webSiteUrl+'/app/user/adddongtai',p,function(ret){
+            if(ret.code==200){
+                alert(ret.msg);
+                aaplay('find_lawyers')
+
+            }else{
+                alert(ret.msg)
+            }
+
+        });
+    }
+    
+
+
+    $(document).ready(function(){
+        uploadsasa('icon',2)
+    });
+    function uploadsasa(btn,type){
+        ajaxUploadicon(
+                btn, //上传的按钮id名称
+                1000000000,  //允许上传的文件大小（单位：kb）
+                '/Home/Public/upload?form_name=userfile&file_size=10000', //提交服务器端地址
+                'userfile', //提交服务器文件表单名称
+                "$(\".img_div\").show();$(\"#img_path\").attr('src', obj.filename);$(\"#is_upload\").val('1');", //上传成功后执行的 js callback
+                'loadimg' ,
+                type
+        );
+    }
+    function ajaxUploadicon(id_name, filesize, url, filename, callback, loadingid,type) {
+
+        var index;
+        var button = $('#'+id_name), interval;
+        var fileType = "pic", fileNum = "one";
+        new AjaxUpload(button,{
+            action: url,
+            name: filename,
+            onSubmit : function(file, ext){
+                index = layer.load(1, {
+                    shade: [0.4,'#000000']
+                });
+                if(fileType == "pic") {
+                    if (ext && /^(jpg|png|gif|jpeg)$/.test(ext)){
+                        this.setData({
+                            'info': '上传类型为图片'
+                        });
+
+                    } else {
+                        alert('提示：您上传的是非图片类型！');
+                        layer.close(index);
+                        return false;
+                    }
+                }
+                $("#"+loadingid).show();
+                if(fileNum == 'one') this.disable();
+            },
+            onComplete: function(file, response){
+                layer.close(index);
+                var obj = jQuery.parseJSON(response);
+                if (obj['ok'] == 'ok') {
+
+                    addpic(obj['id'],obj['filename'],id_name ,type)
+
+                    uploadsasa(id_name,type);
+                } else {
+                    switch (response) {
+                        case '1':
+                            alert('提示：上传失败，图片不能大于100M');
+
+                            break;
+                        case '3':
+                            alert('提示：图片只有部分文件被上传，请重新上传！');
+
+                            break;
+                        case '4':
+                            alert('提示：没有任何文件被上传！');
+
+                            break;
+                        case '5':
+                            alert('提示：非图片类型，请上传jpg|png|gif图片！');
+
+                            break;
+                        default:
+                            alert('提示：上传失败，错误未知，请您及时联系网站客服人员！');
+
+                            break;
+                    }
+                }
+                $("#"+loadingid).hide();
+                window.clearInterval(interval);
+                this.enable();
+            }
+        });
+    }
+    function addpic(id,imgpath,target,type){
+        if(type==1){
+            $("input[name='"+target+"']").val(id);
+            $("#"+target).attr('src',imgpath);
+        }else{
+            var len=$('#imgcon').children().length;
+            if(len==3){
+                alert("最多上传3张图片");return;
+            }
+            var ids=$("input[name='"+target+"']").val();
+            if(ids != ''){
+                ids+=','+id;
+            }else{
+                ids=id;
+            }
+            $("input[name='"+target+"']").val(ids);
+
+            var a='<img src="'+imgpath+'" style="display:inline-block"/>';
+
+            $("#imgcon").append(a);
+        }
+
+
+    }
+
+</script>
+</html>

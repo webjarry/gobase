@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/mobiscroll_002.css" >
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+    <script type="text/javascript" src="__JS__/clipboard.min.js"></script>
+
+    <script src="__JS__/mobiscroll_002.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_004.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_003.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_005.js" type="text/javascript"></script>
+    <style type="text/css">
+        .dwwr{width: 6.8rem!important;}
+        .dww{width: 52px!important;min-width: 52px!important;}
+        .dwc{float: left!important;}
+        .android-ics .dwwl{margin: 0;}
+        .android-ics .dwc{padding: 30px 9px 1px!important;}
+    </style>
+    <script>
+        $(function () {
+            window['adaptive'].desinWidth = 750;
+            window['adaptive'].baseFont = 28;
+            window['adaptive'].maxWidth = 750;
+            window['adaptive'].init();
+        });
+    </script>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>众筹确认</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="apply_form">
+    <form action="">
+        <ul>
+            <li>
+                <div class="item">
+                    <p>案件类型</p>
+                    <em style="color: #999;" id='ajtype'></em>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>众筹名称</p>
+                    <em style="color: #999;" id='name'></em>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>众筹简介</p>
+                    <em style="color: #999;" id='content'></em>
+                </div>
+            </li>
+            <li>
+                <div class="content-f">
+                    <p id="detail">
+                        
+                    </p>
+                    <dl id="img">
+                        <!-- <dd><img src="__IMG__/applyh_pic1.png" alt=""></dd>
+                        <dd><img src="__IMG__/applyh_pic2.png" alt=""></dd>
+                        <dd><img src="__IMG__/applyh_pic3.png" alt=""></dd> -->
+                    </dl>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>众筹金额</p>
+                    <em style="color: #999;" id="price_s"></em>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>众筹结束时间</p>
+                    <em style="color: #999;" id="etime"></em>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>相关材料</p>
+                </div>
+                <div class="about_img">
+                    <dl id='cailiao'>
+                        <!-- <dd>
+                            <img src="__IMG__/aaa.png" alt="">
+                            <p>加入凭证</p>
+                        </dd>
+                        <dd>
+                            <img src="__IMG__/aaa.png" alt="">
+                            <p>申请表</p>
+                        </dd>
+                        <dd>
+                            <img src="__IMG__/aaa.png" alt="">
+                            <p>授权委托书</p>
+                        </dd>
+                        <dd>
+                            <img src="__IMG__/aaa.png" alt="">
+                            <p>本人身份证</p>
+                        </dd>
+                        <dd>
+                            <img src="__IMG__/aaa.png" alt="">
+                            <p>亲属身份证</p>
+                        </dd> -->
+                    </dl>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>好友确认</p>
+                    <em style="color: #999;" id='num'></em>
+                </div>
+            </li>
+        </ul>
+    </form>
+</section>
+<section class="friends" style="padding-bottom: 1.2rem;">
+    <h6>证明留言</h6>
+    <ul id='zm'>
+        <!-- <li>
+            <div class="friend-info">
+                <img src="__IMG__/userimg1.jpg" alt="">
+                <div>
+                    <p>138****4681</p>
+                    <span>2018-11-11  14:45</span>
+                </div>
+            </div>
+            <div class="info">
+                <p>确实这有这么回事，家里也挺困难的，希望好心人看到后多帮帮忙。</p>
+            </div>
+        </li> -->
+       
+    </ul>
+    <h6>我的留言</h6>
+    <div class="my-message">
+        <textarea name="content" id="" cols="30" rows="10" placeholder="请输入您想说的话，该条信息将会公开展示在众筹信息中。"></textarea>
+    </div>
+</section>
+
+<section class="fixed_btn">
+    <a href="##" id="action">点击确认</a>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+<script>
+    var id = para('id')
+    var type  = para('type')
+
+    if(type==1){
+        $('#action').attr('data-href','http://www.test2.test/home/public/register?id='+id);
+        $('#action').html('复制分享链接');
+    }else{
+
+        $('#action').attr('onclick',"tijiao()");
+        $('#action').html('点击确认');
+    }
+
+    shop();
+
+    function shop(){
+        var p = {id:id}
+
+        $.post(webSiteUrl+'/app/public/zcdetail',p,function(ret){
+
+            if (ret.code == 200) {
+                var list = ret.data;console.log(list)
+
+                //$('#cover').attr('src',webSiteUrl+list.cover);
+
+                var img = '';
+                if(list.icon != null){
+                    for (var i = 0;i<list.icon.length;i++) {
+                        img += '<dd><img src="'+webSiteUrl+list.icon[i]+'" alt=""></dd>';
+                    }
+                }
+
+                var cailiao = '';
+                if(list.file != null){
+                    for (var i = 0;i<list.file.length;i++) {
+                        cailiao+='<dd><img src="'+webSiteUrl+list.file[i]+'" alt=""><p>证明材料</p></dd>'
+                    }
+                }
+
+                var zm = '';
+                var tj=list.zm
+                if(tj != null){
+                    for (var i = 0;i<tj.length;i++) {
+                        zm += '<li><div class="friend-info"><img src="'+tj[i].icon+'" alt=""><div><p>'+tj[i].phone+'</p><span>'+tj[i].time+'</span></div></div><div class="info"><p>'+tj[i].content+'</p></div></li>';
+                    }
+                }
+
+                $('#etime').html(list.etime);//结束时间
+
+                $('#price_s').html(list.money);//目标金额
+
+                $('#jindu').html(list.bili+'%');//进度
+                $('#name').html(list.name);//标题
+                $('#content').html(list.content);//简介
+                $('#detail').html(list.detail);//详情
+                $('#ajtype').html(list.ajtype);//详情
+                $('#img').html(img);  
+                $('#cailiao').html(cailiao);  
+                $('#zm').html(zm);  
+                $('#num').html(list.num+'/5');  
+
+                var _num = $('.percentage').text();
+                $('.progress_bar').animate({
+                    'width': _num
+                },1500);
+
+            }else{
+                $('#list').html('<p style="text-align:center">暂无数据</p>');
+            }
+            
+
+        });
+    }
+    
+
+    function tijiao() {
+
+        var result = loginCheck();
+        if(result == false){
+            return false;
+        }
+        var content=$('textarea[name=content]').val()
+        if(content==''){
+            alert('请输入留言信息');return;
+        }
+        var p = {token:token,id:id,content:content}
+
+        $.post(webSiteUrl+'/app/user/zcsure',p,function(ret){
+            alert(ret.msg)
+            if (ret.code == 200) {
+
+                location.href = '/home/user';
+            }
+        })
+
+    }
+
+    $(function(){
+        var clipboard = new ClipboardJS('#action', {
+            text: function() {
+                return $('#action').attr('data-href');
+            }
+        });
+
+        clipboard.on('success', function(e) {
+            alert('复制成功');
+            console.log(e);
+        });
+
+        clipboard.on('error', function(e) {
+            console.log(e);
+        });
+    });
+    function timeStamp( second_time ){
+        var time = parseInt(second_time) + "秒";
+        if( parseInt(second_time )> 60){
+
+            var second = parseInt(second_time) % 60;
+            var min = parseInt(second_time / 60);
+            time = min + "分" + second + "秒";
+
+            if( min > 60 ){
+                min = parseInt(second_time / 60) % 60;
+                var hour = parseInt( parseInt(second_time / 60) /60 );
+                time = hour + "小时" + min + "分" + second + "秒";
+
+                if( hour > 24 ){
+                    hour = parseInt( parseInt(second_time / 60) /60 ) % 24;
+                    var day = parseInt( parseInt( parseInt(second_time / 60) /60 ) / 24 );
+                    //time = day + "天" + hour + "小时" + min + "分" + second + "秒";
+                    time = '<b>'+day +'</b>天<b>'+hour +'</b>小时<b>'+min +'</b>分';
+                }
+            }
+
+        }
+
+        return time;
+    }
+
+    var _num = $('.percentage').text();
+    $('.progress_bar').animate({
+        'width': _num
+    },1500);
+
+
+    //打开新窗口
+    function aaplay(name,url){
+        api.openWin({
+            name: name,
+            url: url,
+            pageParam: {
+
+            }
+        });
+    }
+
+    //返回上一级
+    function comeBack(){
+        api.historyBack({
+        },function(ret,err){
+            if (!ret.status) {
+                api.closeWin();
+            }
+        });
+    }
+</script>
+</html>

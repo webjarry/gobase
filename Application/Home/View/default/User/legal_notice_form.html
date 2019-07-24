@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>填写信息</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="release_contract" style="padding-top: 0.2rem">
+    <div class="release_list">
+        <ul>
+            <li>
+                <div class="release_item" style="justify-content: start!important;">
+                    <p>电话：</p>
+                    <input style="text-align: left!important;" type="text" placeholder="请输入电话" name="phone">
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>问题概述：</p>
+                </div>
+                <textarea name="content" id="" cols="30" rows="10" placeholder="请输入您的需求描述"></textarea>
+                <!--<div class="mp3">
+                    <a href="javascript:void(0);" class="mp3_btn"><img src="__IMG__/MP3.png" alt=""></a>
+                    <span>限300字</span>
+                </div>-->
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="fixed_btn">
+    <a href="javascript:;" onclick="tijiao()">提交信息</a>
+</section>
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    $('input[name=phone]').val(loginphone)
+    var gznum=0
+    user()
+
+    function tijiao(){
+        if(!loginCheck()){
+            return;
+        }
+        var phone = $('input[name=phone]').val();
+        var content = $('textarea[name="content"]').val();
+         if(phone == ''){
+            alert('请填写联系电话!');return;
+        }else if(content == ''){
+            alert('请输入问题概述!');return;
+        }
+        var p = {token:token,model:'legalpaper',phone:phone,content:content};
+        $.post(webSiteUrl+'/app/user/apply',p,function(ret){
+            if(ret.code==200){
+                var orderno=ret.orderno;
+
+                if(vip>0){
+                    if(gznum==0){
+                        alert('免费次数已用完，请支付购买');
+                        location.href='/home/user/legal_pay?orderno='+ret.orderno;
+                    }else{
+                        alert(ret.msg);
+                        $.post("/Home/Ajax/order",{orderno:orderno,money:0,type:16,status:1,pay_type:0},function(da) {
+                            var checkobj = jQuery.parseJSON(da);
+                            if (checkobj.code == 200) {
+
+                            }else{
+
+                            }
+                        })
+                    }
+
+                }else{
+                    location.href='/home/user/legal_pay?orderno='+ret.orderno;
+                }
+
+            }else{
+                alert(ret.msg);
+            }
+        });
+    }
+    function user() {
+        var p={token:token}
+        $.post(webSiteUrl+'/app/user/user',p,function(ret) {
+            if (ret.code == 200) {
+
+                var tj = ret.data;
+                gznum=tj.gznum
+            }
+        })
+    }
+</script>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css"/>
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__JS__/ajaxupload.3.5.js"></script>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <style>
+
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" onclick="comeBack()" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>消息中心</h2>
+    <!--<a href="javascript:;" class="tel_btn readed_btn">标记为已读</a>-->
+</header>
+<section class="info_kinds">
+    <div class="info">
+        <ul>
+            <li class="active"><a href="javascript:;">我的消息</a></li>
+            <li class=""><a href="javascript:;">系统消息</a></li>
+        </ul>
+    </div>
+</section>
+
+<section class="user_info" id='bigcon'>
+    <ul id='con'>
+        <!-- <li class="active">
+            <a href="javascript:;" onclick="aaplay('index','##')">
+                <h6>系统消息</h6>
+                <p>钱借给别人，但借条被担保人撕了，这钱还能要回来吗？钱借 给别人，但借条被担保人撕了，这钱还能要回来吗？</p>
+                <div class="info_time">
+                    <span>2018-11-18  14:57</span>
+                    <span>点击查看</span>
+                </div>
+            </a>
+        </li>
+        
+        <li>
+            <a href="javascript:;" onclick="aaplay('index','##')">
+                <h6>系统消息</h6>
+                <p>钱借给别人，但借条被担保人撕了，这钱还能要回来吗？钱借 给别人，但借条被担保人撕了，这钱还能要回来吗？</p>
+                <div class="info_time">
+                    <span>2018-11-18  14:57</span>
+                    <span>点击查看</span>
+                </div>
+            </a>
+        </li> -->
+        <!-- <li class="active">
+            <a href="javascript:;" onclick="aaplay('index','personal_user_talk.html')">
+                <img src="__IMG__/infoImg1.png" alt="">
+                <div class="info">
+                    <p>138****8868</p>
+                    <span>张律师您好</span>
+                </div>
+                <em>2017-6-1 09:35</em>
+            </a>
+        </li>
+               
+        <li class="">
+            <a href="javascript:;" onclick="aaplay('index','personal_user_talk.html')">
+                <img src="__IMG__/infoImg4.png" alt="">
+                <div class="info">
+                    <p>138****8868</p>
+                    <span>我们可以面谈吗</span>
+                </div>
+                <em>2017-6-1 09:35</em>
+            </a>
+        </li> -->
+
+    </ul>
+</section>
+
+</body>
+<include file="Public/footer"/>
+<script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    loginCheck()
+    var page = 1;
+    var p = '';
+    var type = 1;
+
+    toDoRequest()
+
+    function toDoRequest() {
+        p = {token: token, type: type, page: page, infock: 2};
+        $.post(webSiteUrl + '/app/user/smsg', p, function (ret) {
+            console.log(ret.data)
+            if (ret.code == 200) {
+
+                html = "";
+                var tj = ret.data;
+                if (tj != null) {
+                    for (var i = 0; i < tj.length; i++) {
+                        if (type == 1) {
+
+                            if (tj[i].new == 1) {
+                                html += '<li class="active">';
+                            } else {
+                                html += '<li>';
+                            }
+//html+='<a href="javascript:;"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="info"><p>'+tj[i].phone+'</p><span>'+tj[i].content+'</span></div><em>'+tj[i].time+'</em></a></li>';
+                            if (tj[i].type == 1) {
+                                html += '<a href="javascript:;" onclick="myorder()"><img src="' + webSiteUrl + tj[i].icon + '" alt=""><div class="info"><p>' + tj[i].phone + '</p><span>您有新订单了，快去看看吧 ！</span></div><em>' + tj[i].time + '</em></a></li>';
+
+                            } else if (tj[i].type == 2) {
+                                html += '<a href="javascript:;" onclick="dtdetail(' + tj[i].tid + ')"><img src="' + webSiteUrl + tj[i].icon + '" alt=""><div class="info"><p>' + tj[i].phone + '</p><span>您发布的动态有人评价了 ！</span></div><em>' + tj[i].time + '</em></a></li>';
+
+                            }else if (tj[i].type == 3) {
+                                html += '<a href="javascript:;" onclick="mypl()"><img src="' + webSiteUrl + tj[i].icon + '" alt=""><div class="info"><p>' + tj[i].phone + '</p><span>您的订单有人评价了 ！</span></div><em>' + tj[i].time + '</em></a></li>';
+
+                            }else if (tj[i].type == 4) {
+                                html += '<a href="javascript:;" onclick="mymind()"><img src="' + webSiteUrl + tj[i].icon + '" alt=""><div class="info"><p>' + tj[i].phone + '</p><span>您有会员向您表示的心意，请立即查看 ！</span></div><em>' + tj[i].time + '</em></a></li>';
+
+                            }else if (tj[i].type == 5) {
+                                html += '<a href="/Home/Lawyer/fask"><img src="' + webSiteUrl + tj[i].icon + '" alt=""><div class="info"><p>' + tj[i].phone + '</p><span>您的意见已被用户采纳 ！</span></div><em>' + tj[i].time + '</em></a></li>';
+
+                            }else if (tj[i].type == 6) {
+                                html += '<a href="/Home/lawyer/viewmessage?id='+tj[i].ask_id+'"><img src="' + webSiteUrl + tj[i].icon + '" alt=""><div class="info"><p>' + tj[i].phone + '</p><span>您的图文咨询订单已有会员回复 ！</span></div><em>' + tj[i].time + '</em></a></li>';
+
+                            }
+
+                        } else {
+
+                            if (tj[i].new == 1) {
+                                html += '<li class="active">';
+                            } else {
+                                html += '<li>';
+                            }
+                            html += '<a href="javascript:;"><h6>系统消息</h6><p>' + tj[i].content + '</p><div class="info_time"><span>' + tj[i].time + '</span><span  onclick="sysmsg(' + tj[i].id + ')">点击查看</span></div></a></li>';
+
+
+                        }
+                    }
+                }
+                $('#con').html(html);
+                /*if(page==1){
+                    $('#con').html(html);
+                }else{
+                    $('#con').append(html);
+                }
+                page++;*/
+                know()
+
+            } else {
+                if (page == 1) {
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+
+            }
+        });
+
+    }
+
+    function know() {
+        p = {token: token};
+        $.post(webSiteUrl + '/app/user/know', p, function (ret) {
+            if (ret.code == 200) {
+
+            }
+        });
+    }
+
+    $('.info li').click(function () {
+        $(this).addClass('active').siblings().removeClass('active');
+
+        $('#bigcon ul').empty()
+        if ($(this).index() == 0) {
+            $('#bigcon').addClass('user_info').removeClass('system_info');
+        } else {
+            $('#bigcon').addClass('system_info').removeClass('user_info');
+        }
+
+        page = 1
+        type = parseInt($(this).index() + 1)
+        toDoRequest();
+    })
+
+    function myorder() {
+        location.href = '/home/lawyer/personal_myorder'
+    }
+	function mypl() {
+        location.href = '/home/lawyer/mypl'
+    }
+	function mymind() {
+        location.href = '/home/lawyer/personal_mind'
+    }
+
+    //点赞
+    $(document).on('click', '.lawyers_list dl dd .lawyers_fabulous', function () {
+
+        if (!$(this).hasClass('active')) {
+            $(this).addClass('active');
+            $(this).html(parseInt($(this).text()) + 1)
+        }
+    });
+
+
+    //标记为已读
+    $(".readed_btn").click(function () {
+        $('.system_info ul li').removeClass('active');
+        $('.user_info ul li').removeClass('active');
+    })
+
+</script>
+</html>

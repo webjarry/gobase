@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<style type="text/css">
+       .point{
+            display: none;
+            position: relative;
+            background: #f94c49;
+            border-radius: 0.18rem;
+            margin-left: 0.1rem;
+            top: -0.1rem;
+            font-size: 12px;
+            color: #fff;
+            width: 0.30rem;
+            line-height: 0.25rem;
+            height: 0.28rem;
+            padding: 0.06rem;
+			text-align: center; 
+        }
+		
+		
+    </style>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我的委托</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+
+<section class="order_kinds entrust_kinds">
+    <ul>
+		<li><a href="javascript:;" onclick="aaplay('bidding_all')">全部委托</a></li>
+        <li><a href="javascript:;" onclick="aaplay('bidding_payment')">待付款<em id="dfkNum" style="display: none;" class="point"></em></a></li>
+        <li><a href="javascript:;" onclick="aaplay('bidding')">竞标完成<em id="bidNum" style="display: none;" class="point"></em></a></li>
+        <li><a href="javascript:;" onclick="aaplay('bidding_ing')">正在进行<em id="bidIngNum" style="display: none;" class="point"></em></a></li>
+        <li><a href="javascript:;" onclick="aaplay('bidding_closed')">已关闭</a></li>
+        <li><a href="javascript:;" onclick="aaplay('bidding_completed')">已完成</a></li>
+    </ul>
+</section>
+
+<section class="fixed_btn">
+    <a onclick="aaplay('release_entrusted')">发起委托</a>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+wtNum(); 
+function wtNum(){
+
+	$.post(webSiteUrl + '/app/staff/wtNumList',{token:token},function(ret){
+	
+		if(ret.code == 200){
+			if(ret.data.dfkNum > 0){
+				$('#dfkNum').html(ret.data.dfkNum);
+				$('#dfkNum').show();
+			}
+			if(ret.data.bidNum > 0){
+				$('#bidNum').html(ret.data.bidNum);
+				$('#bidNum').show();
+			}
+			if(ret.data.bidIngNum > 0){
+				$('#bidIngNum').html(ret.data.bidIngNum);
+				$('#bidIngNum').show();
+			}
+		
+		}
+	
+	});
+
+}
+   
+</script>
+</html>

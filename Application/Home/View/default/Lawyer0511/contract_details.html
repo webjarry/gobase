@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/baguetteBox.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/baguetteBox.js"></script>
+    <script type="text/javascript" src="__JS__/highlight.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>合同详情</h2>
+    <a href="tel:{:C('WEB_SITE_MOBILE')}" class="tel_btn"><img src="__IMG__/tel.png" alt=""></a>
+</header>
+<section class="contract_img">
+    <div class="swiper-container baguetteBoxOne">
+        <ul class="swiper-wrapper" id='con'>
+
+
+        </ul>
+    </div>
+    <div class="swiper-pagination"></div>
+    <script>
+        baguetteBox.run('.baguetteBoxOne');
+        var mySwiper = new Swiper('.swiper-container', {
+            autoplay: 5000,//可选选项，自动滑动
+            slidesPerView: 2.8,
+            spaceBetween: 20,
+            pagination : '.contract_img .swiper-pagination',
+        })
+    </script>
+</section>
+
+<section class="contract_detail">
+    <div class="contract_name">
+        <h6 id='name'>房屋租赁合同</h6>
+        <p id='money'>￥52.99/份</p>
+    </div>
+    <div class="contract_name">
+
+        <p id='content' style="color:#000"></p>
+    </div>
+    <h2 class="service_title">服务流程</h2>
+    <div class="flow_list">
+        <ul>
+            <li><em>1</em><p>选择合同</p></li>
+            <li><em>2</em><p>支付购买</p></li>
+            <li><em>3</em><p>下载合同</p></li>
+            <li><em>4</em><p>打开或发送</p></li>
+        </ul>
+    </div>
+    <h2 class="service_title">服务说明</h2>
+    <div class="notes">
+        <p>
+            1、因合同模板特殊性，一旦购买成功，视为已享受服务，不予退款；<br>
+            2、如遇合同下载，打开等问题，请联系平台客服；<br>
+            3、注册下载APP即可免费下载3次，每推广一个用户注册或者下载APP就可以获得一个下载码，免费下载1次。
+
+        </p>
+    </div>
+</section>
+<div class="pay-links">
+    <p><span  onclick="free_contract()">会员免费</span></p>
+    <a href="javascript:void (0);" onclick="buy_contract()" class="link_btn" id="paymoney"></a>
+</div>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    var money=0;
+    var htnum
+
+    toDoRequest()
+    
+    function toDoRequest(){
+        p= {id:para('id')};
+        $.post(webSiteUrl+'/app/public/htdetail',p,function(ret){
+            if(ret.code==200){
+               
+                html = "";
+                var tj=ret.data;console.log(tj);
+                $('#name').html(tj.name);
+                $('#content').html(tj.content);
+                $('#money').html('￥'+tj.money+'/份');
+                $('#paymoney').html('确认支付： ￥'+tj.money);
+                money=tj.money
+
+                var tj=ret.data;
+                
+                if(tj.num >0){
+
+for(var i=0;i<tj.icons.length;i++){
+    //html+=' <li class="swiper-slide"><img src="'+tj.icons[i]+'" alt=""></li>';
+    html+=' <li class="swiper-slide"><a href="'+tj.icons[i]+'" data-caption="'+(i+1)+'" style="width:100%"><img src="'+tj.icons[i]+'" alt=""></a></li>';
+
+}
+                }
+                
+                $('#con').html(html);
+                baguetteBox.run('.baguetteBoxOne');
+                var mySwiper = new Swiper('.swiper-container', {
+                    autoplay: 5000,//可选选项，自动滑动
+                    slidesPerView: 2.8,
+                    spaceBetween: 20,
+                    pagination : '.contract_img .swiper-pagination',
+                })
+
+            }else{
+                if(page==1){
+                    $('#con').html(kong);
+                }
+                
+            }
+            user()
+        });
+       
+    }
+    function buy_contract() {
+        location.href='/home/lawyer/buy_contract?money='+money
+    }
+    function free_contract() {
+        if(vip>0){
+            if(htnum==0){
+                alert('免费次数已用完，请支付购买');return;
+            }
+            $.post("/Home/Ajax/freeorder",{id:para('id'),type:14},function(res){
+                var res=jQuery.parseJSON(res);
+                if(res.code == 200){
+                    var orderno=res.msg
+                    location.href = '/Home/lawyer/personal_mycontract'
+                }else{
+                    alert(res.msg);return false;
+
+                }
+
+            });
+
+        }else{
+            alert('您还未成为法援宝的会员，快去成为会员吧 ！');
+            location.href='/home/lawyer/service_package'
+        }
+    }
+    function user() {
+        var p={token:token,infock:2}
+        $.post(webSiteUrl+'/app/user/user',p,function(ret) {
+            if (ret.code == 200) {
+
+                var tj = ret.data;
+                htnum=tj.htnum
+            }
+        })
+    }
+</script>
+</html>

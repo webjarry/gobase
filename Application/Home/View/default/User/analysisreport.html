@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+	<link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/mobiscroll_002.css" >
+	<link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+	<script type="text/javascript" src="__JS__/api.js"></script>
+	<script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+	<style>
+		.ask_list ul li h5{
+				font-weight: normal;
+				height: 45px;
+				line-height: 45px;
+				border-bottom: 1px solid #E5E5E5;
+				 font-size: 16px;
+				 padding-left: 2px;
+			}
+			.ask_list ul li dl dd{
+				float: left;
+				width: 40%;
+				height: 40px;
+				line-height: 40px;
+				text-align: left;
+				padding-left: 10px;
+				border-bottom: 1px solid #E5E5E5;
+			}
+			.ask_list ul li dl dd:nth-last-of-type(1),.ask_list ul li dl dt:nth-last-of-type(1){
+				border-bottom:none;
+			}
+			.ask_list ul li dl dt{
+				float: left;
+				width: 53%;
+				height: 40px;
+				line-height: 40px;
+				text-align: right;
+				padding-right: 10px;
+				border-bottom: 1px solid #E5E5E5;
+				position: relative;
+			}
+			.ask_list ul li dl dt input{
+				text-align: right;
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				padding-right: 15px;
+			}
+			.ask_list ul li dl dt p{
+				text-align: right;
+				line-height: 40px;
+				padding-right: 15px;
+				height: 40px;
+				padding-right: 15px;
+			}
+			.ask_list ul li dl dt em{
+				    position: absolute;
+		width: 15px;
+		height: 40px;
+		top: 0px;
+		right: 0px;
+			}
+			.ask_list ul li dl dt em img{
+				display: block;
+				margin-top: 10px;
+				width: 10px;
+				height: 15px;
+				}
+				.ask_list ul li textarea{
+					width: 95%;
+    height: 120px;
+    padding: 10px;
+				}
+			
+	</style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>填写信息</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="flow_section">
+    <div class="flow_list">
+        <ul>
+            <li><em>1</em><p>达成要求</p></li>
+            <li><em>2</em><p>填写信息</p></li>
+            <li><em>3</em><p>审核通过</p></li>
+            <li><em>4</em><p>申请成功</p></li>
+        </ul>
+    </div>
+</section>
+
+<div class="ask_square">
+    <div class="ask_list">
+        <ul>
+            <li>
+                <h5>填写信息</h5>
+				<dl>
+					<dd>律师姓名</dd>
+					<dt><input type="text" placeholder="必填" id="name" /></dt>
+					<dd >所在城市</dd>
+					<dt><p class="area_choose"></p><em><img src="__IMG__/set-jt.png"/></em></dt>
+					<dd>职业律所</dd>
+					<dt><input type="text" placeholder="必填"  id="depart"/></dt>
+					<div style="clear: both;"></div>
+				</dl>
+            </li>
+			<li>
+			   <h5>需求概述</h5>
+			   <textarea placeholder="请输入需求概述,最多500字" id="content"></textarea>
+			</li>
+			<li>
+			    <h5>联系方式</h5>
+				<dl>
+					<dd>联系电话</dd>
+					<dt><input type="text" placeholder="必填" id="phone"/></dt>
+					<dd>邮箱地址</dd>
+					<dt><input type="text" placeholder="接收报告的邮箱地址" id="email"/></dt>
+					<div style="clear: both;"></div>
+				</dl>
+			</li>
+          
+        </ul>
+    </div>
+</div>
+<div style="height: 40px;"></div>
+<section class="fixed_btn">
+    <a href="##" onclick="tijiao()">提交信息</a>
+</section>
+<section class="fixed_select_area">
+    <div class="select_content">
+        <h6>请选择地区</h6>
+        <ul id="cityf">
+            <li>重庆市</li>
+            <li>北京市</li>
+            <li>上海市</li>
+        </ul>
+    </div>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+	var cityid=0;
+	var fxnum=0;
+	var money=0;
+
+	ajcity();
+
+
+	function tijiao(){
+		if(!loginCheck()){
+			return;
+		}
+
+		var name=$('#name').val();
+		var city=$('.area_choose').html();
+
+		var depart=$('#depart').val();
+		var content=$('#content').val();
+		var phone=$('#phone').val();
+		var email=$('#email').val();
+		if(name==''){
+			alert('请输入律师姓名！');return;
+		}else if(city==''){
+			alert('请选择地区！');return;
+		}else  if(depart==''){
+			alert('请输入职业律所！');return;
+		}else  if(content==''){
+			alert('请输入需求概述！');return;
+		}else  if(phone==''){
+			alert('请输入电话！');return;
+		}else  if(!/^1[345678]\d{9}$/.test(phone)){
+			alert('手机号格式错误！');return;
+		}else  if(email==''){
+			alert('请输入邮箱！');return;
+		}
+
+		var p={token:token,model:'fenxi',city:city,name:name,depart:depart,content:content,phone:phone,email:email};
+
+		$.post(webSiteUrl+'/app/user/apply',p,function(ret){
+
+			if(ret.code==200){
+				if(vip>0){
+					if(fxnum==0){
+						alert('免费次数已用完，请支付购买');
+						location.href='/home/user/order_pay?orderno='+ret.orderno+'&money='+199+'&type=18';
+					}else{
+						alert(ret.msg)
+					}
+				}else{
+					location.href='/home/user/order_pay?orderno='+ret.orderno+'&money='+199+'&type=18';
+				}
+
+
+			}
+		});
+
+
+
+	};
+	function ajcity(){
+		$.post(webSiteUrl+'/app/public/region',function(ret){
+			if(ret.code==200){
+
+				f = "";
+				s = "";
+				var tj=ret.data;
+				if(tj != null){
+					for(var i=0;i<tj.length;i++){
+
+							f+='<li style="cursor: pointer" data="'+tj[i].id+'">'+tj[i].name+'</li>';
+
+					}
+				}
+				$('#cityf').html(f)
+
+			}else{
+				alert(ret.msg);
+			}
+			user()
+		});
+
+	}
+	function user() {
+		var p={token:token}
+		$.post(webSiteUrl+'/app/user/user',p,function(ret) {
+			if (ret.code == 200) {
+
+				var tj = ret.data;
+				fxnum=tj.fxnum
+			}
+			feeserver()
+		})
+	}
+	function feeserver() {
+		var p={model:'feeserver',id:4};
+		$.post(webSiteUrl+'/app/home/find',p,function(ret){
+			if(ret.code==200){
+				money=ret.data.money
+	//alert(money)
+
+			}else{
+				alert(ret.msg)
+			}
+
+
+		});
+
+	}
+	// 地区选择
+	$(".area_choose").click(function () {
+	    $(".fixed_select_area").fadeToggle();
+	    $(".fixed_select_area .select_content").animate({
+	        'top': '0',
+	        'opacity': '1'
+	    },400);
+	});
+	$(document).on('click','.fixed_select_area .select_content ul li',function () {
+		$(".area_choose").text($(this).html());
+		$(".fixed_select_area").fadeToggle();
+		$(".fixed_select_area .select_content").animate({
+			'top': '-4rem',
+			'opacity': '0'
+		},400);
+	})
+
+
+</script>
+</html>

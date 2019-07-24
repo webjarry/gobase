@@ -1,0 +1,376 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css"/>
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__JS__/ajaxupload.3.5.js"></script>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <style>
+        html, body {
+            font-size: 14px;
+        }
+
+        input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+            text-align: right;
+        }
+
+        input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            text-align: right;
+        }
+
+        input::-moz-placeholder { /* Mozilla Firefox 19+ */
+            text-align: right;
+        }
+
+        input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            text-align: right;
+        }
+
+        .header {
+            height: 45px;
+        }
+
+        .header .back_btn {
+            position: absolute;
+            left: 3%;
+            height: 45px;
+            line-height: 45px;
+        }
+
+        .header .back_btn img {
+            width: 10px;
+            height: 15px;
+            vertical-align: middle;
+        }
+
+        .header h2 {
+            width: 100%;
+            text-align: center;
+            line-height: 45px;
+            font-size: 16px;
+            color: #ffffff;
+            font-weight: normal;
+        }
+
+        .header i {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 20px;
+
+        }
+
+        .ask_list ul li h5 {
+            font-weight: normal;
+            height: 45px;
+            line-height: 45px;
+            border-bottom: 1px solid #E5E5E5;
+            font-size: 16px;
+            padding-left: 2px;
+        }
+
+        .ask_list ul li dl dd {
+            float: left;
+            width: 40%;
+            height: 40px;
+            line-height: 40px;
+            text-align: left;
+            padding-left: 10px;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        .ask_list ul li dl dd:nth-last-of-type(1), .ask_list ul li dl dt:nth-last-of-type(1) {
+            border-bottom: none;
+        }
+
+        .ask_list ul li dl dt {
+            float: left;
+            width: 53%;
+            height: 40px;
+            line-height: 40px;
+            text-align: right;
+            padding-right: 10px;
+            border-bottom: 1px solid #E5E5E5;
+            position: relative;
+        }
+
+        .ask_list ul li dl dt input {
+            text-align: right;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            padding-right: 15px;
+        }
+
+        .ask_list ul li dl dt p {
+            text-align: right;
+            line-height: 40px;
+            height: 40px;
+            padding-right: 15px;
+        }
+
+        .ask_list ul li dl dt em {
+            position: absolute;
+            width: 15px;
+            height: 40px;
+            top: 0px;
+            right: 0px;
+        }
+
+        .ask_list ul li dl dt em img {
+            display: block;
+            margin-top: 10px;
+            width: 10px;
+            height: 15px;
+        }
+
+        .fixed_btn {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+            z-index: 888;
+        }
+
+        .fixed_btn a {
+            display: block;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background: #1c83ea;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .dlogwindow {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            background: rgba(153, 153, 153, 0.5);
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+
+        .dlogwindow .dlogwindowList {
+            background: #ffffff;
+            border-radius: 8px;
+            position: fixed;
+            z-index: 999999999;
+            bottom: 0;
+            left: 0;
+            width: 91%;
+            height: auto;
+            padding: 15px;
+
+        }
+
+        .dlogwindow .dlogwindowList h4 {
+            height: 45px;
+            line-height: 45px;
+        }
+
+        .dlogwindow .dlogwindowList p {
+            font-size: 13px;
+            color: #999;
+            height: 25px;
+            line-height: 25px;
+            margin-top: 10px;
+        }
+
+        .dlogwindow .dlogwindowList ul li {
+            float: left;
+            width: 31%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background: #EEEEEE;
+            margin: 1%;
+            font-size: 13px;
+        }
+
+        .comtabOn {
+            background: #1c83ea !important;
+            color: #FFFFFF !important;
+
+        }
+    </style>
+</head>
+<body>
+<!-- 弹出窗口关系选择板块 -->
+<div class="dlogwindow">
+    <div class="dlogwindowList" val="">
+        <h4>选择加入者与你的关系</h4>
+        <ul>
+            <li>本人</li>
+            <li>爱人</li>
+            <li>子女</li>
+            <li>本人父亲</li>
+            <li>本人母亲</li>
+            <li>爱人父亲</li>
+            <li>爱人母亲</li>
+            <li>(外)孙子女</li>
+            <li>(外)祖父母</li>
+            <li>兄弟姐妹</li>
+            <li>其他</li>
+        </ul>
+        <div style="clear: both;"></div>
+        <p>请正确填写关系，填写错误可能会影响后续申请</p>
+    </div>
+</div>
+<!-- 弹出窗口关系选择板块 -->
+<!-- 头部 -->
+<header class="header">
+    <a href="javascript:void(0);" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>填写信息</h2>
+    <i class="Addtemplate">+</i>
+</header>
+<!-- 头部 -->
+<!-- 内容板块 -->
+<div class="ask_square">
+    <div class="ask_list">
+        <ul>
+            <form action="" id="form"><input type="hidden" name="token"><input type="hidden" name="ttt" value="123">
+                <li id="oneLi">
+                    <h5>第1位加入者</h5>
+                    <dl>
+                        <dd>姓名</dd>
+                        <dt><input type="text" placeholder="填入加入者姓名" name="name[]"/></dt>
+                        <dd>关系</dd>
+                        <dt ids="1" class="addChoice" onclick="Choice(1)"><p></p><em><img
+                                src="__IMG__/set-jt.png"/></em></dt>
+                        <dd>身份证</dd>
+                        <dt><input type="text" placeholder="输入身份证号" name="iccard[]"/></dt>
+                        <dd>充值金额(元)</dd>
+                        <dt><input type="text" placeholder="填写充值金额" name="money[]" value="10" readonly="readonly"/></dt>
+                        <div style="clear: both;"></div>
+                        <input type="hidden" name="gx[]">
+
+                    </dl>
+                </li>
+
+            </form>
+
+        </ul>
+    </div>
+</div>
+<!-- 内容板块 -->
+<!-- 支付按钮 -->
+<div style="height: 40px;"></div>
+<div class="fixed_btn">
+    <a href="javascript:void (0);" onclick="tijiao()">确认支付</a>
+</div>
+<!-- 支付按钮 -->
+
+</body>
+<include file="Public/userfooter"/>
+<script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var ainum = 1;
+
+    var p = {uid: uid, model: 'family'};
+
+    $.post(webSiteUrl + '/app/home/lists', p, function (ret) {
+        if (ret.code == 200) {
+
+            ainum = parseInt(ret.count) + 1;
+
+            $('#oneLi h5').html('第' + ainum + '位加入者');
+
+        }
+    });
+
+    $('input[name=token]').val(token);
+    console.log(token)
+
+    function tijiao() {
+        loginCheck()
+        console.log($('#form').serialize());
+        //alert(JSON.stringify($('#form').serialize()))
+        $.post(webSiteUrl + '/app/user/family', $('#form').serialize(), function (ret) {
+            if (ret.code == 200) {
+                //console.log(ret);
+                var num = ret.data;
+                location.href = '/home/user/crowd_funding_learnmutual_pay.html?money=' + num * 10 + '&order_number=' + ret.order_number;
+            } else {
+                alert(ret.msg)
+            }
+
+        })
+    }
+
+    $(".Addtemplate").click(function () {
+        ainum++
+        var strhtml = '<li>'
+            + '<h5>第' + ainum + '位加入者</h5>'
+            + '<dl>'
+            + '<dd>姓名</dd>'
+            + '<dt><input type="text" placeholder="填入加入者姓名" name="name[]"/></dt>'
+            + '<dd>关系</dd>'
+            + '<dt ids=' + ainum + ' class="addChoice" onclick="Choice(' + ainum + ')"><p></p><em><img src="/Public/Home/img/set-jt.png"/></em></dt>'
+            + '<dd>身份证</dd>'
+            + '<dt><input type="text" placeholder="输入身份证号" name="iccard[]"/></dt>'
+            + '<dd>充值金额(元)</dd>'
+            + '<dt><input type="text" placeholder="填写充值金额" name="money[]" value="10" readonly="readonly"/></dt>'
+            + '<div style="clear: both;"></div>'
+            + '<input type="hidden" name="gx[]">'
+            + '</dl>'
+            + '</li>';
+        $(".ask_list ul form").append(strhtml);
+
+    })
+    $(".dlogwindowList ul li").click(function (event) {
+        var val = $(this).html();
+        $(this).addClass("comtabOn").siblings().removeClass("comtabOn");
+        $(".dlogwindowList").attr("val", val);
+    });
+
+    function Choice(id) {
+        $(".dlogwindow").show()
+        $(".dlogwindowList ul li").removeClass("comtabOn");
+        $(".dlogwindowList").attr("ids", id)
+    }
+
+    $(".dlogwindow").click(function () {
+        if ($(".dlogwindow").attr("style") == "display: block;") {
+            $(".dlogwindow").hide();
+            var arrUl = jQuery(".addChoice");
+            $.each(arrUl, function () {
+                if ($(this).attr("ids") == $(".dlogwindowList").attr("ids")) {
+                    $(this).find("p").html($(".dlogwindowList").attr("val"))
+                    $(this).siblings("input").val($(".dlogwindowList").attr("val"))
+                }
+            });
+        }
+    })
+
+
+    apiready = function () {
+        api.setStatusBarStyle({
+            color: '#1c83ea',//设置APP状态栏背景色
+            style: 'light'
+        });
+    }
+
+
+</script>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>查询律师费</h2>
+    <!--<a href="javascript:void (0);" class="search_btn set_btn">设置</a>-->
+</header>
+
+<section class="calc_section">
+    <div class="release_list">
+        <ul>
+            <li>
+                <div class="release_item">
+                    <p>选择地区</p>
+                    <span class="kinds_name" id="re"></span>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>案件类型</p>
+                    <span class="kinds_name" id="aj"></span>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>是否涉及财产</p>
+                    <div class="checkbox_box">
+                        <input type="checkbox">
+                    </div>
+                </div>
+            </li>
+            <li class="result">
+                <div class="release_item">
+                    <p>计算结果</p>
+                    <span id='money'>3000.00-5000.00元</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="reminder">
+    <h6>温馨提示：</h6>
+    <p>
+        1、律师费仅限阶段收费，报价仅供参考，最终以律师收费为准；<br>
+        2、此律师费参考北京地区收费标准，中西部地区可进行酌情减免10%-30%。
+    </p>
+</section>
+
+<section class="calc_btn">
+    <a href="javascript:void (0);" onclick="countfee(1)">计算结果</a>
+</section>
+
+<section class="fixed_select" id="ajsec">
+    <div class="select_content">
+        <h6>请选择案件类型</h6>
+        <ul id='cate'>
+            <li>民商事类</li>
+            <li>刑事类</li>
+            <li>行政类</li>
+        </ul>
+    </div>
+</section>
+<section class="fixed_select" id="resec">
+    <div class="select_content">
+        <h6>请选择地区</h6>
+        <ul id='reg'>
+            <li>民商事类</li>
+            <li>刑事类</li>
+            <li>行政类</li>
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    var ajid=0;
+    var addrid=0;
+    var type=0;
+
+    cate();
+    function countfee(feetype){
+        if(ajid==0){
+            alert('请选择案件类型！');return;
+        }else if(addrid==0){
+            alert('请选择地区！');return;
+        }
+
+        var p={ajid:ajid,addrid:addrid,type:feetype};
+        $.post(webSiteUrl+'/app/public/countfee',p,function(ret){
+            if(ret.code==200){
+                $('#money').html(ret.data+'元')
+                $(".result").show();
+            }else{
+                alert(ret.msg);
+            }
+        });
+       
+    };
+
+    $("#re").click(function () {
+        $("#resec").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+        type=1
+    });
+    $("#aj").click(function () {
+        $("#ajsec").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+        type=2
+    });
+
+    $(document).on('click','.select_content ul li',function(){
+        if(type==1){
+            addrid=$(this).attr('data');
+            $("#re").text($(this).html());
+        }else{
+            ajid=$(this).attr('data');
+            $("#aj").text($(this).html());
+        }
+
+        $(".fixed_select").fadeOut();
+        $(".fixed_select .select_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        },400);
+    })
+
+
+    //是否涉及财产勾选
+    $(".checkbox_box").click(function () {
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+        }else {
+            $(this).addClass('active')
+        }
+    });
+    //结果计算
+    /*$(".calc_btn a").click(function () {
+
+        $(".result").show();
+    })*/
+    function cate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+            if(ret.code==200){
+               
+                f = "";
+                s = "";
+                var tj=ret.data;
+                
+                html='';
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                           html+='<li style="cursor: pointer" data="'+tj[i].id+'">'+tj[i].name+'</li>';
+
+                        /*var son=tj[i].son
+                        if(son != null){
+                            
+                            for(var j=0;j<son.length;j++){
+                                html+='<option value="'+son[j].id+'">'+son[j].name+'</option>';
+                            }
+                            
+                        }*/
+                        
+                    }
+                }
+                $('#cate').html(html)
+                ajcity()
+            }
+        });
+       
+    };
+    function ajcity(){
+        $.post(webSiteUrl+'/app/public/region',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                 if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+
+                            f+='<li style="cursor: pointer" data="'+tj[i].id+'">'+tj[i].name+'</li>';
+
+                    }
+                }
+                $('#reg').html(f)
+
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+    
+</script>
+</html>

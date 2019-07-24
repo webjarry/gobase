@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2 id='catename'>资讯</h2>
+    
+</header>
+<section class="news_section">
+    
+    <div class="news_box">
+        
+        <div class="news_list" id='bigcon'>
+            <ul id='con'>
+               
+            </ul>
+        </div>
+    </div>
+    <div class="news_box" style="display: none">
+        
+        <div class="video_list">
+            <ul id='video'>
+                
+            </ul>
+        </div>
+    </div>
+
+</section>
+
+<section class="fixed_nav" style="display: none">
+    <ul>
+        <li><a href="workbench.html"><h6 class="icon"></h6>工作台</a></li>
+        <li class="active"><a href="##"><h6 class="icon"></h6>资讯</a></li>
+        <li><a href="find.html"><h6 class="icon"></h6>发现</a></li>
+        <li><a href="personal.html"><h6 class="icon"></h6>我的</a></li>
+    </ul>
+</section>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    
+    var page=1;
+    var p='';
+    
+    var cn="{$catename}"
+  
+
+    $('#catename').html(cn)
+    if(para('newstype') == 1){
+        $('#bigcon').removeClass('news_list').addClass('video_list');
+    }
+
+    toDoRequest();
+
+    function toDoRequest(){
+        p= {type:para('id'),newstype:para('newstype'),page:page};
+        $.post(webSiteUrl+'/app/public/news',p,function(ret){
+            if(ret.code==200){
+                   
+                    html = "";
+                    var tj=ret.data;
+                    if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+                        if(para('newstype')==0){
+html+='<li onclick="newsdetail('+tj[i].id+')"><a href="javascript:;"><img src="'+webSiteUrl+tj[i].icon+'"><div class="news_info"><h6>'+tj[i].name+'</h6><div class="news_times"><em>'+tj[i].time+'</em><span>'+tj[i].plnum+'</span></div></div></a></li>';
+                        }else{
+html+='<li  onclick="newsdetail('+tj[i].id+')"><a href="javascript:;"><div class="video_box"><img src="'+webSiteUrl+tj[i].icon+'"><div class="shade"></div></div><div class="news_info"><h6>'+tj[i].name+'</h6><div class="news_times"><em>'+tj[i].time+'</em><span>'+tj[i].plnum+'</span></div></div></a></li>';                            
+                        }
+
+                    }
+                    }
+                    if(page==1){
+                        $('#con').html(html);
+                    }else{
+                        $('#con').append(html);
+                    }
+                    page++;
+
+                }else{
+                    if(page==1){
+                        $('#con').html('<p style="text-align:center">暂无数据</p>');
+                    }
+                    
+                }
+            });
+       
+    }
+
+</script>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>常见问题</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="question_detail">
+    <div class="question_title">
+        <span>问题：</span>
+        <p id='que'>什么是委托保证金？</p>
+    </div>
+    <div class="question_title">
+        <span>回答：</span>
+        <p  id='ans'>委托保证金是为了保证案源的真实性，当选择律师 中标时保证金将计入律师费中。</p>
+    </div>
+</section>
+<section class="page_title">
+    <div class="news_title">
+        <h2>其他常见问题</h2>
+    </div>
+</section>
+<section class="list_analysis">
+    <div class="analysis_list">
+        <ul id='con'>
+            
+            
+        </ul>
+    </div>
+</section>
+<section class="other_operation">
+    <ul>
+        <li><a href="javascript:;" onclick="aaplay('personal_setting_suggestion.html')">意见反馈</a></li>
+        <li style="cursor: pointer"><a href="tel:{:C('WEB_SITE_MOBILE')}" >联系客服</a></li>
+    </ul>
+</section>
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    question()
+questions();
+    function questions() {
+       
+		var id = para('id');
+        
+        var p={model:'question',id:id};
+        $.post(webSiteUrl+'/app/home/find',p,function(ret){
+			
+            
+            if(ret.code==200){
+                
+                var tj=ret.data;
+                $('#que').html(tj.name);
+                $('#ans').html(tj.content);
+
+                question();
+
+            }else{
+                alert(ret.msg)
+            }
+        });
+
+       
+    };
+
+   
+
+    function question(){
+        var p={model:'question',page:1,pagesize:10};
+        $.post(webSiteUrl+'/app/home/lists',p,function(ret){
+        
+            
+            if(ret.code==200){
+                
+                var tj=ret.data;
+
+                html = "";
+                for(var i=0;i<tj.length;i++){
+
+                    html+='<li onclick="quedetail('+tj[i].id+')"><a href="javascript:void(0);">'+tj[i].name+'</a></li>';
+                }
+                $('#con').html(html);
+
+            }else{
+                alert(ret.msg)
+            }
+        });
+
+    }
+    function quedetail(id){
+            location.href='/home/user/personal_setting_question_details.html?id='+id;
+        
+    }
+    
+</script>
+</html>

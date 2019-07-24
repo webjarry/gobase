@@ -1,0 +1,346 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>个人资料</h2>
+    <a href="javascript:;" class="tel_btn" onclick="tijiao()" style="cursor: pointer">保存</a>
+</header>
+<section class="userInfo_list">
+    <ul>
+        <li>
+            <div class="info_item">
+                <p>修改头像</p>
+                <div class="tx_upload">
+                    <img src="__IMG__/user_tx.png" id="icon">
+                    <input type="hidden" name='icon' value=''>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>昵称</p>
+                <input type="text" placeholder="请输入昵称" id='nickname'>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>性别</p>
+                <input type="text" placeholder="请选择性别" id="sex">
+                <select name="sex" >
+                    <option value="">请选择性别</option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>地区</p>
+                <a href="javascript:void(0);" class="check_kinds" id='addr'>请选择地区</a>
+                <input type="hidden" name="addrid" >
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>支付宝账号</p>
+                <input type="text" placeholder="请填写支付宝账号" id='zfb'>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<section class="fixed_checked">
+    <div class="checked_section">
+        <div class="fixed_title">
+            <h6>请选择地区</h6>
+            <a href="javascript:void(0);" class="sure_btn">确定</a>
+        </div>
+        <div class="kinds_section">
+            <div class="check_box">
+                <ul id='f'>
+
+                </ul>
+            </div>
+            <div class="kinds_item" id='s'>
+                <!-- <ul>
+                    <li>东城区</li>
+
+                </ul> -->
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    loginCheck()
+    user()
+    function user() {
+        var p={token:token}
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+            console.log(ret.data)
+            if(ret.code==200){
+
+                    $('#icon').attr('src',ret.data.icon); //用户头像
+
+
+                $("#nickname").val(ret.data.nickname);
+        				//alert(ret.data.sex);
+        				if(ret.data.sex != 0){
+        				$("#sex").val(ret.data.sex);
+        				
+        				}
+
+                $("#addr").html(ret.data.addr);
+                $("input[name=addrid]").val(ret.data.addrid);
+                $("#zfb").val(ret.data.zfb);
+            }
+
+            region();
+        });
+
+    }
+
+    function tijiao() {
+        var icon=$("input[name=icon]").val();
+        var nickname=$("#nickname").val();
+        var sex=$("#sex").val();
+        var addr=$("#addr").html();
+        var addrid=$("input[name=addrid]").val();
+        var zfb=$("#zfb").val();
+
+        /*if(nickname==''){
+            alert("请输入昵称！");return;
+        }else if(sex==''){
+            alert("请选择性别！");return;
+        }else if(addr=='请选择地区'){
+            alert("请选择地址！");return;
+        }*/
+        var p={token:token,icon:icon,nickname:nickname,sex:sex,addr:addr,addrid:addrid,zfb:zfb};
+        $.post(webSiteUrl+'/app/user/edit_user',p,function(ret){
+            if(ret.code==200){
+                alert(ret.msg)
+                aaplay('personal_info')
+
+            }else{alert(ret.msg)}
+        });
+    }
+
+    function region(){
+        $.post(webSiteUrl+'/app/public/region',function(ret){
+        if(ret.code==200){
+
+            f = "";
+            s = "";
+            var tj=ret.data;
+            if(tj != null){
+                for(var i=0;i<tj.length;i++){
+                    if(i==0){
+                        f+='<li class="active" style="cursor:pointer">'+tj[i].name+'</li>';
+                    }else{
+                        f+='<li style="cursor:pointer">'+tj[i].name+'</li>';
+                    }
+                    var son=tj[i].son
+                    if(son != null){
+                        s+='<ul>';
+                        for(var j=0;j<son.length;j++){
+                            s+='<li style="cursor:pointer" data="'+son[j].id+'">'+son[j].name+'</li>';
+                        }
+                        s+='</ul>';
+                    }
+
+                }
+            }
+            $('#f').html(f)
+            $('#s').html(s)
+
+
+        }else{
+            alert(ret.msg);
+        }
+    });
+
+}
+
+
+    $(document).ready(function(){
+        uploadsasa('icon',1)
+
+    });
+    function uploadsasa(btn,type){
+        ajaxUploadicon(
+                btn, //上传的按钮id名称
+                1000000000,  //允许上传的文件大小（单位：kb）
+                '/Home/Public/upload?form_name=userfile&file_size=10000', //提交服务器端地址
+                'userfile', //提交服务器文件表单名称
+                "$(\".img_div\").show();$(\"#img_path\").attr('src', obj.filename);$(\"#is_upload\").val('1');", //上传成功后执行的 js callback
+                'loadimg' ,
+                type
+        );
+    }
+    function ajaxUploadicon(id_name, filesize, url, filename, callback, loadingid,type) {
+
+        var index;
+        var button = $('#'+id_name), interval;
+        var fileType = "pic", fileNum = "one";
+        new AjaxUpload(button,{
+            action: url,
+            name: filename,
+            onSubmit : function(file, ext){
+                index = layer.load(1, {
+                    shade: [0.4,'#000000']
+                });
+                if(fileType == "pic") {
+                    if (ext && /^(jpg|png|gif|jpeg)$/.test(ext)){
+                        this.setData({
+                            'info': '上传类型为图片'
+                        });
+
+                    } else {
+                        alert('提示：您上传的是非图片类型！');
+                        layer.close(index);
+                        return false;
+                    }
+                }
+                $("#"+loadingid).show();
+                if(fileNum == 'one') this.disable();
+            },
+            onComplete: function(file, response){
+                layer.close(index);
+                var obj = jQuery.parseJSON(response);
+                if (obj['ok'] == 'ok') {
+
+                    addpic(obj['id'],obj['filename'],id_name ,type)
+
+                    uploadsasa(id_name,type);
+                } else {
+                    switch (response) {
+                        case '1':
+                            alert('提示：上传失败，图片不能大于100M');
+
+                            break;
+                        case '3':
+                            alert('提示：图片只有部分文件被上传，请重新上传！');
+
+                            break;
+                        case '4':
+                            alert('提示：没有任何文件被上传！');
+
+                            break;
+                        case '5':
+                            alert('提示：非图片类型，请上传jpg|png|gif图片！');
+
+                            break;
+                        default:
+                            alert('提示：上传失败，错误未知，请您及时联系网站客服人员！');
+
+                            break;
+                    }
+                }
+                $("#"+loadingid).hide();
+                window.clearInterval(interval);
+                this.enable();
+            }
+        });
+    }
+    function addpic(id,imgpath,target,type){
+        if(type==1){
+            $("input[name="+target+"]").val(id);
+            $("#"+target).attr('src',imgpath);
+        }else{
+            var len=$('#imgcon').children().length;
+            if(len==3){
+                alert("最多上传3张图片");return;
+            }
+            var ids=$("input[name='"+target+"']").val();
+            if(ids != ''){
+                ids+=','+id;
+            }else{
+                ids=id;
+            }
+            $("input[name='"+target+"']").val(ids);
+
+            var a='<img src="'+imgpath+'" style="display:inline-block"/>';
+
+            $("#imgcon").append(a);
+        }
+
+
+    }
+
+
+    $(".userInfo_list ul li select").change(function () {
+        $(this).prev('input').val($(this).val());
+    });
+
+    //选择类型
+    $(".check_kinds").click(function () {
+        $(".fixed_checked").fadeIn().find('.checked_section').animate({
+            'top': 0,
+            'opacity': 1
+        },400);
+        $(".check_box ul li").eq(0).addClass('active').siblings('li').removeClass('active');
+        $(".kinds_item ul").eq(0).show().siblings('ul').hide();
+        $(".kinds_item ul").eq(0).find('li').eq(0).addClass('active').siblings('li').removeClass('active');
+    });
+
+    $(document).on('click',".check_box ul li",function () {
+        $(this).addClass('active').siblings('li').removeClass('active');
+        $(".kinds_item ul").eq($(this).index()).show().siblings('ul').hide();
+        $(".kinds_item ul").eq($(this).index()).show().find('li').eq(0).addClass('active').siblings('li').removeClass('active');
+    });
+    $(document).on('click',".kinds_item ul li",function () {
+        $(".kinds_item ul li").removeClass('active');
+        $(this).addClass('active').siblings('li').removeClass('active');
+    });
+
+    $(".sure_btn").click(function () {
+        if($('.kinds_item ul li.active').length==0){
+            alert('请选择地区');return;
+        }
+        var id=$('.kinds_item ul li.active').attr('data');
+        $('input[name=addrid]').val(id)
+
+        $(".fixed_checked").fadeOut().find('.checked_section').animate({
+            'top': '-4rem',
+            'opacity': 0
+        },400);
+        var str=$(".check_box ul li.active").html()+' '+$(".kinds_item ul li.active").html();
+        if(str!=''){
+            $(".check_kinds").html(str).css('color','#333');
+        }else {
+            $(".check_kinds").css('color','#999');
+        }
+
+    });
+
+    /*$(document).on('click',".checked_section",function (e) {
+
+       e.stopPropagation();
+    });
+    $(".fixed_checked").click(function () {
+        $(".fixed_checked").fadeOut().find('.checked_section').animate({
+            'top': '-4rem',
+            'opacity': 0
+        },400);
+    });*/
+
+
+</script>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/baguetteBox.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/baguetteBox.js"></script>
+    <script type="text/javascript" src="__JS__/highlight.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <style type="text/css">
+        .release_list ul li{
+            background: #ffffff;
+        }
+        .item_list{}
+        .item_list dl {}
+        .item_list dl dd{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 0.3rem;
+            height: 0.9rem;
+            border-top: 1px #f3f3f3 solid;
+        }
+        .item_list dl dd input{
+            width: 3rem;
+            height: 0.6rem;
+            font-size: 0.28rem;
+            text-align: right;
+        }
+        .item_list dl dd small{
+            color: #999999;
+        }
+
+    </style>
+</head>
+<body style="background: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>需求详情</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+
+</section>
+<section class="release_contract" style="padding-bottom: 1.1rem">
+    <div class="release_list">
+        <ul>
+            <div style="display: none" id="show">
+                <li style="border-bottom: 1px #f3f3f3 solid!important;">
+                    <div class="release_item">
+                        <p>委托报价</p>
+                        <div class="txt" id="price">3000.00-5000.00元</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="release_item">
+                        <p>委托保证金</p>
+                        <div class="txt" id="margin">100元</div>
+                    </div>
+                </li>
+                <li style="border-bottom: 1px #f3f3f3 solid!important;">
+                    <div class="release_item">
+                        <p>委托需求类型</p>
+                        <div class="txt" id="xq">普通代理</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="release_item">
+                        <p>案件类型</p>
+                        <div class="txt" id="aj">一般民事</div>
+                    </div>
+                </li>
+
+            </div>
+
+            <li>
+                <div class="main1 box"><!-- 普通代理-->
+                    <div class="release_item">
+                        <p>订单号</p>
+                        <em style="font-size: 0.28rem; color: #666666!important;" id="orderno">5486461654</em>
+                    </div>
+                    <div class="item_list">
+                        <dl>
+                            <dd><p>订单类型</p><small style="color: #666666!important;font-size: 0.28rem" id="otype">代写文书1</small></dd>
+                            <dd><p>订单状态</p><small style="color: #666666!important;font-size: 0.28rem" id="ostate">已接单</small></dd>
+                            <dd><p>下单时间</p><small style="color: #666666!important;font-size: 0.28rem" id="time">2019-02-07 14:53</small></dd>
+                            <dd id="atime" style="display: none"><p>预约时间</p><small style="color: #666666!important;font-size: 0.28rem" id="agreetime"></small></dd>
+                            <dd id="ajian" style="display: none"><p>案件类型</p><small style="color: #666666!important;font-size: 0.28rem" id="aj1"></small></dd>
+
+                        </dl>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="release_item" style="display: none;" id="aname">
+                    <p>联系人姓名</p>
+                    <div class="txt" style="color: #666666!important;font-size: 0.28rem" id="name">138****2144</div>
+                </div>
+                <div class="release_item">
+                    <p>联系人电话</p>
+                    <div class="txt" style="color: #666666!important;font-size: 0.28rem" id="phone">138****2144</div>
+                </div>
+            </li>
+			<li id="sqsh" style="display: none;">
+                <div class="release_item">
+                    <p>申请售后</p>
+                </div>
+                <div class="text" style="padding-bottom: 0.3rem;">
+                    <p id="reason"></p>
+                </div>
+            </li>
+			<li id="shcl" style="display: none;">
+                <div class="release_item">
+                    <p>售后处理</p>
+                </div>
+                <div class="text" style="padding-bottom: 0.3rem;">
+                    <p id="after_remark"></p>
+                </div>
+            </li>
+            <li id="des">
+                <div class="release_item">
+                    <p>问题概述</p>
+                </div>
+                <div class="text" style="padding-bottom: 0.3rem;">
+                    <p id="content"></p>
+                </div>
+            </li>
+	
+
+
+        </ul>
+        <div class="pl_btn" style="display: none;">
+
+        </div>
+    </div>
+</section>
+<style type="text/css">
+    .pl_btn{ margin-top: 0.5rem;}
+    .pl_btn a{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 90%;
+        height: 0.8rem;
+        border-radius: 3px;
+        background: #1c83ea;
+        color: #ffffff;
+        margin: 0 auto;
+    }
+</style>
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+<script>
+    var type="{$Think.get.type}";
+    var id="{$Think.get.id}";
+
+
+    toDoRequest2()
+
+    function toDoRequest2(){
+        loginCheck()
+        p= {token:token,id:para('id'),type:type,infock:2};
+        $.post(webSiteUrl+'/app/user/chakan',p,function(ret){
+            console.log(ret);
+            if(ret.code==200){
+
+                var tj=ret.data;
+                console.log(tj);
+                if(type==2){
+                    $('#price').html(tj.price);
+                    $('#margin').html(tj.margin);
+                    $('#xq').html(tj.xq);
+                    $('#aj').html(tj.aj);
+                    $('#show').hide()
+
+                }
+                if(tj.type==3 || tj.type==4 || tj.type==5){
+                    $('#name').html(tj.name);
+                    $('#aname').show()
+
+
+                }
+                if(tj.type==3){
+                    $('#agreetime').html(tj.agreetime);
+                    $('#atime').show()
+
+                    $('#aj1').html(tj.aj);
+                    $('#ajian').show()
+
+                    $('#des').hide()
+
+                }
+                if(tj.state == 3){
+                    var plbtn = '<a href="javascript:;" onclick="pingjia('+id+')">去评价</a>'
+                    $(".pl_btn").html(plbtn).show();
+
+                }
+               /* if(tj.status == 7){
+                    $("#ostate").html('已退款')
+
+                }*/
+				if(tj.reason != '' && tj.reason != null){
+					$('#sqsh').show();$('#reason').html(tj.reason);
+				}
+				if(tj.after_remark != '' && tj.after_remark != null){
+					$('#shcl').show();$('#after_remark').html(tj.after_remark);
+				}
+
+                $('#orderno').html(tj.orderno);
+                $('#otype').html(tj.otype);
+
+                $('#ostate').html(tj.ostate);
+                $('#time').html(tj.time);
+                $('#phone').html(tj.phone);
+                if(tj.content != '' && tj.content != null && typeof(tj.content) != "undefined"){
+                  $('#content').html(tj.content);
+                }else{
+                  $('#des').hide();
+                }
+                if(tj.after_remark != '' && tj.after_remark != null && typeof(tj.after_remark) != "undefined"){
+                  $('#shcl_content').html(tj.after_remark);
+                }else{
+                  $('#shcl').hide();
+                }
+
+               
+
+            }else{
+                alert(ret.msg)
+            }
+        });
+
+    }
+
+    //评价
+    function pingjia(id){
+        location.href='/home/user/personal_myOrder_evaluate_edit.html?id='+id+'&type=3'
+    }
+
+</script>
+</html>

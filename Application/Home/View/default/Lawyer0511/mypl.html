@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css"/>
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__JS__/ajaxupload.3.5.js"></script>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style type="text/css">
+        .reply_input {
+            display: none;
+            text-align: right;
+            margin-top: 0.2rem;
+        }
+
+        .reply_input input {
+            width: 100%;
+            line-height: 0.5rem;
+            height: 0.5rem;
+            border-radius: 3px;
+            font-size: 0.26rem;
+            border: 1px #dddddd solid;
+            padding: 0 0.1rem;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .reply_input .subBtn {
+            margin-top: 0.2rem;
+            color: #1c83ea;
+        }
+
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我的评价</h2>
+    <!--<a href="javascript:;" class="tel_btn">保存</a>-->
+</header>
+<section class="evaluate_kinds">
+    <ul>
+        <!-- <li>全部(20)</li>
+        <li>讲解耐心(5)</li>
+        <li>回复及时(5)</li>
+        <li>分析到位(5)</li>
+        <li>服务热情(5)</li> -->
+    </ul>
+</section>
+<section class="evaluate_list">
+    <ul id='con'>
+
+        <!-- <li>
+            <div class="evaluate_user">
+                <img src="__IMG__/infoImg1.png" alt="">
+                <div class="info">
+                    <p>138****5815</p>
+                    <span>服务方式：电话咨询</span>
+                </div>
+                <em>2018-04-25</em>
+            </div>
+            <div class="evaluate_info">
+                <p>非常不错，律师很耐心，也非常专业，完美解决了我的问题。</p>
+            </div>
+            <div class="reply_section">
+                <div class="reply_content">
+                    <p>作者回复: <span class="reply_detail"></span></p>
+                </div>
+                <div class="reply_input">
+                    <input type="text" placeholder="请输入回复内容">
+                    <button class="subBtn">提交</button>
+                </div>
+                <div class="reply_btn">
+                    <a href="javascript:void (0);" class="huifuBtn">回复</a>
+                </div>
+            </div>
+        </li> -->
+
+    </ul>
+</section>
+
+</body>
+<include file="Public/footer"/>
+<script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    loginCheck()
+    var page = 1;
+    var ajid = 0;
+    var choose = 1;
+    var sort = 0;
+
+
+    toDoRequest();
+
+
+    function toDoRequest() {
+        var p = {token: token, page: page};
+        console.log(p);
+        $.post(webSiteUrl + '/app/user/spl', p, function (ret) {
+            console.log(ret);
+            if (ret.code == 200) {
+
+                html = "";
+                var tj = ret.data;
+                if (tj != null) {
+
+                    for (var i = 0; i < tj.length; i++) {
+
+                        html += '<li><div class="evaluate_user"><img src="' + webSiteUrl + tj[i].icon + '" alt=""><div class="info"><p>' + tj[i].phone + '</p><span>服务方式：' + tj[i].ordertype + '</span></div><em>' + tj[i].time + '</em></div><div class="evaluate_info" style="margin-top: 0.1rem;"><p>' + tj[i].content + '</p></div><div class="reply_section" id="' + tj[i].id + '">';
+                        if (tj[i].reply == null) {
+                            html += '<div class="reply_input">\n' +
+                                '                    <input type="text" placeholder="请输入回复内容">\n' +
+                                '                    <button class="subBtn" onclick="replypl(' + tj[i].id + ',this)">提交</button>\n' +
+                                '                </div><div class="reply_btn"><a href="javascript:void (0);" class="huifuBtn" >回复</a></div>';
+                        } else {
+                            html += '<div class="reply_content"><p>作者回复: <span class="reply_detail">' + tj[i].reply + '</span></p></div>';
+                        }
+                        html += '</div></li>';
+
+                    }
+                }
+                if (page == 1) {
+                    $('#con').html(html);
+                } else {
+                    $('#con').append(html);
+                }
+                page++;
+
+
+            } else {
+
+                if (page == 1) {
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+
+            }
+        });
+
+    }
+
+    $(document).on("click",'.huifuBtn',function () {
+        $(this).hide();
+        $(this).parents('.reply_btn').siblings('.reply_input').show();
+    });
+
+
+    // $(document).on("click",'.subBtn',function () {
+    //
+    //     var str = $(this).siblings('input').val();
+    //     //$(this).parents('.reply_input').hide().siblings('.reply_content').show().find('.reply_detail').html(str);
+    //
+    // });
+
+    function replypl(id,obj) {
+        var reply = $(obj).siblings('input').val();
+
+        console.log(reply)
+        if (reply == '') {
+            alert('请输入回复内容');
+            return;
+        }
+        var p = {token: token, reply: reply, id: id}
+        $.post(webSiteUrl + '/app/user/replypl', p, function (ret) {
+
+            if (ret.code == 200) {
+                location.reload();
+
+            }
+        });
+    }
+
+
+</script>
+</html>

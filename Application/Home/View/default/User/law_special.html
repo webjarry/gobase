@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>法律专题</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+
+<section class="cost_calc">
+    <div class="calc_list" style="padding-top: 0.3rem!important;">
+        <ul id="ztCon">
+            <!--<li>
+                <a href="javascript:;" onclick="aaplay('special','law_special_details.html')">
+                    <img src="__IMG__/special1.png" alt="">
+                    <div class="cost_name">
+                        <h6>婚姻专题</h6>
+                        <p>财产分割子女抚养问题汇总解答</p>
+                    </div>
+                </a>
+            </li>-->
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+    var page = 1;
+
+    zhuanti()
+    function zhuanti() {
+
+        var p={model:'zhuanti'};
+        $.post(webSiteUrl+'/app/home/lists',p,function(ret){
+            if(ret.code==200){
+                //alert(JSON.stringify(ret.data));
+
+                html = "";
+                var zt=ret.data;
+                if(zt != null){
+
+                    for(var i=0;i<zt.length;i++) {
+
+                        html += '<li ><a href="javascript:;" id="'+zt[i].id+'" data-id="'+zt[i].typeid+'"  data-name="'+zt[i].name+'" data-catename="'+zt[i].catename+'" onclick="special('+zt[i].id+')"><img src='+zt[i].icon+' alt=""><div class="cost_name"><h6>'+zt[i].name+'</h6><p>'+zt[i].content+'</p></div></a></li>';
+
+                    }
+
+                    $("#ztCon").html(html);
+
+                }else {
+                    if(page==1){
+                        $('#ztCon').html('<p style="text-align:center">暂无数据</p>');
+                    }
+                }
+
+            }else{alert(ret.msg)}
+        });
+    }
+
+    function special(id){
+        var catename = $('#'+id).attr('data-catename');
+        var name = $('#'+id).attr('data-name');
+        var typeid = $('#'+id).attr('data-id');
+        lawSpecial(catename,name,typeid)
+    }
+
+    //提示关闭
+    $(".fixed_tips").click(function () {
+        $(this).fadeOut();
+    });
+
+
+</script>
+</html>

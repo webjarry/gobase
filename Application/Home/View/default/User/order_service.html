@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/mobiscroll_002.css" >
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <script src="__JS__/mobiscroll_002.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_004.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_003.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_005.js" type="text/javascript"></script>
+    <style type="text/css">
+        .dwwr{width: 6.8rem!important;}
+        .dww{width: 52px!important;min-width: 52px!important;}
+        .dwwl2{
+            display: block!important;
+        }
+        .android-ics .dwwl{margin: 0;}
+        .android-ics .dwc{padding: 30px 9px 1px!important;}
+        .android-ics .dwwl{
+            margin: 0 !important;
+        }
+    </style>
+</head>
+<body style="background: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>支付服务费</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+
+<section class="service_provider buy_order">
+    <div class="provider">
+        <img src=""  id="icon">
+        <div class="provider_info" style="width: 3.0rem;">
+            <p id="nickname">张岳伦律师</p>
+            <span id="servertype">见面咨询服务费</span>
+        </div>
+        <div class="price" id="money">100元/次</div>
+    </div>
+</section>
+
+
+    <section class="fill_info">
+        <ul>
+            <li>
+                <div class="release_item">
+                    <p>姓名：</p>
+                    <input type="text" placeholder="请填写姓名" id="name">
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>电话：</p>
+                    <input type="text" placeholder="请填写联系电话" id="phone">
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section class="release_contract" style="padding-top: 0.2rem;display:none" id="xuqiu">
+        <div class="release_list">
+            <ul>
+
+                <li>
+                    <div class="release_item">
+                        <p>需求描述：</p>
+                    </div>
+                    <textarea id="content"  cols="30" rows="10" placeholder="请输入您的需求描述"></textarea>
+                    <!--<div class="mp3">
+                        <a href="javascript:void(0);" class="mp3_btn"><img src="__IMG__/MP3.png" alt=""></a>
+                        <span>限300字</span>
+                    </div>-->
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="release_list" id="ajinfo">
+        <ul>
+            <li>
+                <div class="release_item">
+                    <p>请选择案件类型</p>
+                    <span class="kinds_name"></span>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>请选择预约时间</p>
+                    <input value=""  readonly="readonly" name="appDateTime" id="appDateTime" type="text">
+                </div>
+            </li>
+        </ul>
+    </section>
+
+
+<section class="reminder">
+    <h6>温馨提示：</h6>
+    <p>
+        1、平台仅为双方提供信息对接和监督服务，所需发票由律师所在律所出具；<br>
+        2、当您对律师服务不满意或拒绝支付律师费时，平台有权依据律师工作记录决定是否支付律师费；<br>
+        3、若支付金额过大，无法使用支付宝，微信进行支付，建议采用分次充值至本地钱包，通过账户余额支付。
+    </p>
+</section>
+
+<section class="fixed_btn">
+    <a href="javascript:;" onclick="agree()">确认预约</a>
+</section>
+
+<section class="fixed_case">
+    <div class="case_content">
+        <div class="case_kinds">
+            <ul id="f">
+                <li class="">民事类</li>
+
+            </ul>
+        </div>
+        <div class="kinds_list" id="son">
+            <ul>
+                <li>一般民事</li>
+                <li>合同纠纷</li>
+
+            </ul>
+        </div>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var type=para('type');
+    var id=para('id');
+    var money;
+	var service_title = "<?php echo $get['service_title']?>";
+
+    if(type != 3){
+        $('#ajinfo').hide()
+    }
+    if(type == 4 || type == 5){
+        $('#xuqiu').show()
+    }
+    feept()
+
+    function feept() {
+        var p={model:'feept',sort:1};
+        $.post(webSiteUrl+'/app/home/lists',p,function(ret){
+            if(ret.code==200){
+
+                console.log(JSON.stringify(ret.data));
+                var tj=ret.data
+
+                for(var i=0;i<tj.length;i++){
+                  if(para('service_id') == tj[i].id){
+                    money = tj[i].money;
+                  }
+                }
+
+            }else{
+                alert(ret.msg)
+            }
+            $('#money').html(money+'元/次')
+            
+            lawyer_info()
+        });
+
+    }
+
+
+
+    var ajid=0;
+
+    lawyer_info()
+    function lawyer_info() {
+        var p={id:para('id')};
+        $.post(webSiteUrl+'/app/public/lawyer_info',p,function(ret){
+            if(ret.code==200){
+
+                $('#icon').attr('src', webSiteUrl+ret.data.icon);
+                $('#nickname').html(ret.data.nickname+'律师');
+
+                var t=para('type')
+                var stype='';
+		
+                $('#servertype').html(service_title+'服务费');
+
+            }
+
+            ajcate()
+        });
+
+    }
+
+    function agree(){
+        if(!loginCheck()){
+            return;
+        }
+        var name=$('#name').val();
+        var phone=$('#phone').val();
+        var agreetime=$('#appDateTime').val();
+
+
+        if(name==''){
+            alert('请输入您的姓名！');return;
+        }else if(phone==''){
+            alert('请输入您的电话！');return;
+        }else if(!/^1[345678]\d{9}$/.test(phone)){
+            alert('手机号格式错误！');return;
+        }
+        if(type==3){
+            if(ajid==0){
+                alert('请选择案件类型！');return;
+            }else if(agreetime==''){
+                alert('请选择预约时间！');return;
+            }
+        }
+        if(type == 4 || type == 5){
+            var content=$('#content').val()
+            if(content==''){
+                alert('请输入需求描述！');return;
+            }
+        }
+        var p={token:token,sid:id,model:'ask',type:type,ajid:ajid,money:money,name:name,phone:phone,agreetime:agreetime,content:content,service_id:para('service_id')};
+        //console.log(p);return;
+        $.post(webSiteUrl+'/app/user/apply',p,function(ret){
+            if(ret.code==200){
+                alert(ret.msg)
+                var orderno=ret.data.orderno;
+                var money=ret.data.money;
+
+                location.href='/Home/User/pay_service_cost?id='+id+'&type='+type+'&orderno='+orderno+'&money='+money+'&have='+1+'&service_title='+service_title+'&service_id='+para('service_id');
+            }else {
+                alert(ret.msg)
+            }
+        });
+
+    };
+
+    function ajcate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        f+='<li  style="">'+tj[i].name+'</li>';
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<ul style="cursor:pointer">';
+                            for(var j=0;j<son.length;j++){
+                                s+='<li style="cursor:pointer" data="'+son[j].id+'">'+son[j].name+'</li>';
+                            }
+                            s+='</ul>';
+                        }
+
+                    }
+                }
+                $('#f').html(f)
+                $('#son').html(s)
+
+
+
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+
+    //选择类型
+    $('.case_kinds ul li').eq(0).addClass('active');
+    $(".kinds_list ul").eq(0).show();
+    $(".kinds_name").click(function () {
+        $(".fixed_case").fadeIn().find('.case_content').animate({'top':0,'opacity':1},400);
+        $(".kinds_list ul").eq(0).show();
+    });
+    $(".fixed_case .case_content").click(function (e) {
+        e.stopPropagation();
+    });
+
+    $(".case_content").on("click",".case_kinds ul li",function () {
+        $(this).addClass('active').siblings('li').removeClass('active');
+        $(".kinds_list ul").eq($(this).index()).show().siblings('ul').hide();
+    });
+    var str = '';
+    $(".case_content").on('click',".kinds_list ul li",function () {
+
+        $(".kinds_list ul li").removeClass('active');
+        $(this).addClass('active');
+        var _str = $('.case_kinds ul li.active').html();
+        str = $(this).html();
+        $(".kinds_name").html(str);
+        $(".fixed_case").fadeOut().find('.case_content').animate({'top': '4rem','opacity':0},400);
+
+        ajid = $(this).attr('data');
+    });
+
+    //关闭弹窗
+    $(".fixed_case").click(function (e) {
+        $(".fixed_case").fadeOut().find('.case_content').animate({'top': '4rem','opacity':0},400);
+    });
+
+    //时间选择
+    var currYear = (new Date()).getFullYear();
+    var opt={};
+    opt.date = {preset : 'date'};
+    opt.datetime = {preset : 'datetime'};
+    opt.time = {preset : 'time'};
+    opt.default = {
+        theme: 'android-ics light', //皮肤样式
+        display: 'modal', //显示方式
+        mode: 'scroller', //日期选择模式
+        dateFormat: 'yyyy-mm-dd',
+        lang: 'zh',
+        showNow: true,
+        nowText: "今天",
+        startYear: currYear , //开始年份
+        endYear: currYear + 10 //结束年份
+    };
+
+    var optDateTime = $.extend(opt['datetime'], opt['default']);
+    $("#appDateTime").mobiscroll(optDateTime).datetime(optDateTime);
+
+</script>
+</html>

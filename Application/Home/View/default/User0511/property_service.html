@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>知识产权服务</h2>
+    <!--<a href="javascript:void(0);" class="qiandao_btn">注册</a>-->
+</header>
+
+<section class="cost_calc" style="background: #fff!important;">
+    <div class="calc_list">
+        <h6 class="cost_title">选择服务方式</h6>
+        <ul>
+            <li>
+                <a href="javascript:;" onclick="zhishi(1)">
+                    <img src="__IMG__/ps1.png" alt="">
+                    <div class="cost_name">
+                        <h6>商标申请</h6>
+                        <p>商标异议，商标撤销</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="zhishi(2)">
+                    <img src="__IMG__/ps2.png" alt="">
+                    <div class="cost_name">
+                        <h6>专利业务申请</h6>
+                        <p>专利驳回复审</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="zhishi(3)">
+                    <img src="__IMG__/ps3.png" alt="">
+                    <div class="cost_name">
+                        <h6>软件著作权申请</h6>
+                        <p>版权更正，补正，转让</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+    //提示关闭
+    $(".fixed_tips").click(function () {
+        $(this).fadeOut();
+    });
+
+
+    function zhishi(type){
+        location.href='/home/user/property_service_apply?type='+type;
+        
+    }
+
+
+    
+</script>
+</html>

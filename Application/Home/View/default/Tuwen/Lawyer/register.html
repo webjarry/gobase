@@ -1,0 +1,307 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <!--<a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>-->
+    <h2>注册</h2>
+    <a href="javascript:void(0);" onclick="aaplay('login')" class="qiandao_btn" style="position: absolute;  right: 3%; top: 0; color: #fff;">直接登录</a>
+</header>
+<section class="login_section">
+    <div class="fyb_logo"><img src="__IMG__/fyb_logo.png" alt=""></div>
+    <div class="login_box">
+        <ul>
+            <li class="username"><input type="text" placeholder="请输入手机号" id='phone' name="phone"></li>
+            <li class="tel_code"><input type="text" placeholder="请输入验证码" id='yzm' name="yzm"><span id="regyzm">获取验证码</span></li>
+            <li class="tel_code"><input type="password" placeholder="请设置密码"  id='password'></li>
+            <li class="user_code"><input type="text" placeholder="请输入推荐人邀请码(选填)"  id='idno' value=""></li>
+        </ul>
+        <p class="agree">成功登录即表示您同意<a href="##"  onclick="aaplay('yhxy')">《用户协议》</a></p>
+        <button class="login_submit" type="submit" onclick="reg()">进入法援宝</button>
+    </div>
+    <div class="login_kinds" style="display: none">
+        <h6><span>第三方登录</span></h6>
+        <ul>
+            <li><a href="javascript:;" onclick="sanfang_qq()"><img src="__IMG__/ologin1.png" alt=""></a></li>
+            <li><a href="javascript:;" onclick="initWXBind()"><img src="__IMG__/ologin2.png" alt=""></a></li>
+            <li><a href="javascript:;" onclick="initWBBind()"><img src="__IMG__/ologin3.png" alt=""></a></li>
+        </ul>
+    </div>
+</section>
+<aside class="download">
+    <a href="##" class="user_download">普通用户点击下载【法援宝】</a>
+</aside>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+
+    function reg(){
+        var phone=$("#phone").val();
+        var password=$("#password").val();
+        var yzm=$("#yzm").val();
+        var idno=$("#idno").val();
+        if(phone==''){
+            alert("请输入手机号！");return;
+        }else if(!/^1[345678]\d{9}$/.test(phone)){
+            alert("手机号格式错误！");return;
+        }else if(yzm==''){
+            alert("请输入验证码！");return;
+        }else if(password==''){
+            alert("请输入密码");return;
+        }else if(!/^(\w){6,20}$/.test(password)){
+            alert("密码必须是6-20个字母、数字、下划线！");return;
+        }
+        var no="{$Think.get.uniqueid}"
+        if(no != null && no != 'undefined'){
+            idno=no;
+        }
+        var p={phone:phone,password:password,yzm:yzm,idno:idno,type:2};
+        $.post("{:U('Public/wapreg')}",p,function(ret){
+            var ret=jQuery.parseJSON(ret);
+            if(ret.code==200){
+                alert(ret.msg);
+                location.href='/home/lawyer/workbench';
+                
+            }else{alert(ret.msg)}
+        });
+
+    }
+
+    $('#regyzm').click(function () {
+        if($(this).hasClass('regyzm')==false){
+            var phone=$('input[name=phone]').val();
+            if(phone==''){
+                alert("请输入手机号！");return;
+            }else if(!/^1[345678]\d{9}$/.test(phone)){
+                alert("手机号格式错误！");return;
+            }
+
+            var p={phone:phone,type:2};
+            $.post(webSiteUrl+'/app/public/yzm',p,function(ret){
+                if(ret.code==200){
+
+                    $('#regyzm').addClass('regyzm');
+                    var num=60;
+                    timer=setInterval(function(){
+                        $('#regyzm').html(num+'秒');
+                        num--;
+                        if(num==0){
+                            clearInterval(timer);
+                            timer=null;
+                            $('#regyzm').html('重新获取');
+                            $('#regyzm').removeClass('regyzm');
+                        }
+                    },1000)
+
+                    alert(ret.msg)
+
+                }else{alert(ret.msg)}
+            });
+            
+        }
+    })
+
+        //qq登录
+        function sanfang_qq(){
+            var qq = api.require('qq');
+            var openId = '';
+            qq.installed(function(ret, err) {
+                if (!ret.status) {
+                    api.alert({ msg: "当前设备未安装QQ客户端" });
+                } else {
+                    qq.login(function(ret, err) {
+                        if (ret.status) {
+                            openId = ret.openId;
+                            qq.getUserInfo(function(ret, err) {
+                                if (ret.status) {
+                                    QQbindAccount(openId,ret.info.nickname,ret.info.figureurl_qq_1);
+                                } else {
+                                    api.alert({ msg: err.msg });
+                                }
+                            });
+                        }
+                    });
+                }
+            }); 
+        }
+           
+
+
+        //qq登录传值 
+        function QQbindAccount(openid,nickname,imurl){ 
+
+            var d = {openid:openid,type:1,'username':nickname,icon:imgurl};
+            api.ajax({ 
+                url: webSiteUrl+'/App/public/three',
+                method: 'post', 
+                data: { 
+                    values: d   
+                } 
+            }, function(ret, err) { 
+                if (ret.code == 200) { 
+
+                    $api.setStorage("user",ret.data);
+                    location.href='index.html';
+                    
+                    // //发送监听 
+                    // api.sendEvent({ 
+                    //     name:'loginEvent' 
+                    // }); 
+                
+                }else{ 
+                    alert(ret.msg); 
+                   
+                } 
+            }); 
+        }
+
+
+
+        //微信登录
+        function initWXBind() {
+    
+            var wx = api.require('wx');
+            var code = '';
+            wx.isInstalled(function(ret, err) {
+                if (!ret.installed) {
+                    alert("当前设备未安装微信客户端");
+                } else {
+                    wx.auth({
+                        apiKey: 'wx4dc49bc6ce410719'
+                    }, function(ret, err) {
+                        if (ret.status) {
+                            wx.getToken({
+                                apiKey: 'wx4dc49bc6ce410719',
+                                apiSecret: '8c22083560ad2c3b607a5b47bcc09a71',
+                                code: ret.code
+                            }, function(ret, err) {
+                                if (ret.status) {
+                                     api.showProgress({
+                                        style: 'default',
+                                        animationType: 'fade',
+                                        title: '授权成功',
+                                        text: '绑定处理中...',
+                                        modal: true
+                                    });
+                                     wx.getUserInfo({
+                                        accessToken: ret.accessToken,
+                                        openId: ret.openId
+                                    }, function(ret, err) {
+
+                                        if (ret.status) {
+                                            // 绑定成功 
+                   
+                                            WXbindAccount(ret.openid,ret.nickname,ret.headimgurl);
+                                            api.hideProgress();
+                                            
+                                           
+                                        }
+                                    }); 
+                                } else {
+                                    alert(err.code);
+                                }
+                            });
+                    } 
+                    });
+                }
+            });
+        }  
+      
+        //微信传值
+        function WXbindAccount(openid,nickname,imgurl) {  
+
+            var s = {openid:openid,type:2,'username':nickname,icon:imgurl};
+
+            api.ajax({
+                url: webSiteUrl+'/App/public/three',
+                method: 'post',
+                data: {
+                    values: s
+                }
+            }, function(ret, err) { 
+                if (ret.code == 200) { 
+
+                    $api.setStorage("user",ret.data);
+
+                    location.href='index.html';
+                    // //发送监听 
+                    // api.sendEvent({ 
+                    //     name:'loginEvent' 
+                    // }); 
+                
+            
+                }else{ 
+                    alert(ret.msg);
+                   
+                } 
+            });
+        }
+
+
+
+        //微博登录
+         function initWBBind() {
+            var weibo = api.require('weibo');
+            weibo.isInstalled(function(ret) {
+                if (!ret.status) {
+                    alert('未安装新浪微博客户端');
+                } else {
+                    weibo.auth(function(ret, err) {
+                        if (ret.status) {
+                            weibo.getUserInfo({
+                                token: ret.token,
+                                userId: ret.userId
+                            }, function(ret, err) {
+                                if (ret.status) {
+
+                                    WBbindAccount(ret.userInfo.id,ret.userInfo.screen_name,ret.userInfo.profile_image_url);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        
+        //微博传值
+        function WBbindAccount(openid,nickname,imgurl) {  
+            var s = {openid:openid,type:3,'username':nickname,icon:profile_image_url};
+            
+            api.ajax({
+                url: webSiteUrl+'/App/public/three',
+                method: 'post',
+                data: {
+                    values: s
+                }
+            }, function(ret, err) { 
+            
+                if (ret.code == 200) { 
+
+                    $api.setStorage("user",ret.data); 
+                   location.href='index.html';
+                   
+            
+                }else{ 
+                    alert(ret.msg); 
+                   
+                } 
+            });
+        }
+    
+</script>
+</html>

@@ -1,0 +1,77 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>查看合同详情</h2>
+    </div>
+    <ul class="tab-nav nav">
+
+
+        <li class="current"><a href="javascript:void(0)">基本信息</a></li>
+
+
+    </ul>
+    
+    <form action="{:U()}" method="post" class="form-horizontal">
+    <input type="hidden" name="tid" value="{$vo[id]}">
+    <div class="tab-content">
+
+
+            <div class="form-item">
+                <label class="item-label">合同标题<span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="name" value="{$vo.name}">
+                    <input type="hidden" name="id" value="{$vo.id}" />
+                </div>
+            </div>
+
+
+
+            <div class="form-item">
+                <label class="item-label">合同类别<span class="check-tips">（类别必须选择）</span></label>
+                <div class="controls">
+                    <select name="type" style="width:390px;">
+                        <option value="">请选择类别</option>
+                        <volist name="typelist" id="typelists">
+                            <option value="{$typelists.id}" <if condition="$vo.type eq $typelists['id']">selected="selected"</if>>{$typelists.html}{$typelists.title}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">合同价格<span class="check-tips">（元）</span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="money" value="{$vo.money}">
+
+                </div>
+            </div>
+
+
+        <!--<div class="form-item">
+            <label class="item-label">相关证明材料</label>
+            <div class="controls">
+                <volist name="vo['file']" id="f"><a href="{$f|fileurl}" download="{$f|fileurl}"></a></volist>
+
+            </div>
+        </div>-->
+
+
+
+        <div class="form-item">
+            <!--<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">回复</button>-->
+            <a href="{:U('index')}" class="btn btn-return">返 回</a>
+        </div>
+    </div>
+
+    </form>
+</block>
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Hetonglawyer/index')}');
+
+    </script>
+</block>
+

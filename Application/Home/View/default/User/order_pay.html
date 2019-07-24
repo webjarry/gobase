@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2 id="title">支付服务费</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="buy_order">
+
+    <div class="product">
+        <img src="__IMG__/fyb_img.png" alt="">
+        <div class="product_info">
+            <p>法援宝</p>
+            <span id="servertype">法律告知函</span>
+        </div>
+    </div>
+    <div class="pay_price">
+        <p>需支付金额(元)</p>
+        <input type="text" name="money" id="money" disabled  value="￥ 199">
+    </div>
+    <div class="pay_kinds">
+        <h6>选择支付方式</h6>
+        <div class="pay_list">
+            <ul>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay1.png" alt="">
+                        <div class="pay_info">
+                            <p>支付宝</p>
+                            <span>绿色充值通道，安全便捷</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay2.png" alt="">
+                        <div class="pay_info">
+                            <p>微信</p>
+                            <span>绿色充值通道，安全便捷</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay4.png" alt="">
+                        <div class="pay_info">
+                            <p>余额支付</p>
+                            <span>余额支付</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="fixed_btn">
+    <a href="javascript:void (0);">确认支付</a>
+</section>
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var type=para('type');
+    var money=para('money')
+
+    var ttt
+    if(type==8){
+        ttt='委托订单';
+    }else if(type==17){
+        ttt='升级刑事互助';
+    }else if(type==18){
+        ttt='律师分析报告';
+    }else if(type==19){
+        ttt='家庭互助计划';
+    }else if(type==22){
+        ttt='补齐众筹差额';
+    }else if(type==23){
+        ttt='委托律师费';
+    }
+    $('#servertype').html(ttt)
+    $('#money').val('￥ '+money)
+
+    var t=0;
+    $('.fixed_btn').click(function(){
+        if(!loginCheck()){
+            return;
+        }
+        if(t == 0){
+            alert('请选择支付方式！');return;
+        }
+        var orderno=para('orderno');
+        if(orderno != null){
+            if(para('jixu')==1){
+
+                payorder(orderno)
+            }else{
+                if(money>0){
+                    $.post("/Home/Ajax/order",{orderno:orderno,pay_type:t,type:para('type'),money:para('money')},function(res){
+                        var res=jQuery.parseJSON(res);
+                        if(res.code == 200){
+                            var orderno=res.msg
+                            payorder(orderno)
+                        }else{
+                            alert(res.msg);
+                        }
+                    });
+                }else{
+                    payorder(orderno)
+                }
+            }
+
+        }else{
+            $.post("/Home/Ajax/order",{pay_type:t,type:para('type'),money:para('money')},function(res){
+                var res=jQuery.parseJSON(res);
+                if(res.code == 200){
+                    var orderno=res.msg
+                    payorder(orderno)
+                }else{
+                    alert(res.msg);
+                }
+            });
+
+        }
+
+    });
+    function payorder(orderno) {
+        if(t==1){
+            location.href = '/Home/Pay/testpay/orderno/' + orderno;
+        }else if(t==2){
+            if(isWeiXin()){
+                location.href = '/Home/Pay/tel_wx_pay/orderno/' + orderno;
+            }else{
+                location.href = '/Home/Pay/wxh5pay/orderno/' + orderno;
+            }
+        }else{
+            location.href = '/Home/user/yepay/orderno/' + orderno;
+        }
+    }
+    //选择支付方式
+    $(".pay_list li").click(function () {
+        if($(this).find('.checkbox').length>0){
+            $(this).addClass('active').siblings('li').removeClass('active');
+
+            t=parseInt($(this).index()+1)
+        }
+    });
+
+</script>
+</html>

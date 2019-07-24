@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" onclick=comeBack() class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>充值</h2>
+    <!--<a href="javascript:void (0);" class="search_btn set_btn">设置</a>-->
+</header>
+<section class="buy_order">
+    <div class="product">
+        <img src="__IMG__/fyb_img.png" alt="">
+        <div class="product_info">
+            <p>法援宝</p>
+            <span>账户充值</span>
+        </div>
+    </div>
+    <div class="pay_price">
+        <p>充值金额(元)</p>
+        <input type="text" placeholder="请输入金额" name="money">
+    </div>
+    <div class="pay_kinds">
+        <h6>选择支付方式</h6>
+        <div class="pay_list">
+            <ul>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay1.png" alt="">
+                        <div class="pay_info">
+                            <p>支付宝</p>
+                            <span>绿色充值通道，安全便捷</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+                <li>
+                    <div class="pay">
+                        <img src="__IMG__/pay2.png" alt="">
+                        <div class="pay_info">
+                            <p>微信</p>
+                            <span>绿色充值通道，安全便捷</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+                <li style="display: none">
+                    <div class="pay">
+                        <img src="__IMG__/pay4.png" alt="">
+                        <div class="pay_info">
+                            <p>银行卡</p>
+                            <span>绿色充值通道，安全便捷</span>
+                        </div>
+                    </div>
+                    <span class="checkbox"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="calc_btn">
+    <a href="javascript:void (0);" >确认充值</a>
+</section>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+
+    var type=0;
+
+    $('.calc_btn').click(function(){
+
+        var money = $('input[name=money]').val();
+        if(type == 0){
+            alert('请选择支付方式！');return;
+        }
+        if(money == ''){
+            alert('请输入金额！');return;
+        }else if(!/^\d+$/.test(money)){
+            alert('金额必须是数字！');return;
+        }
+
+        $.post("/Home/Ajax/order",{pay_type:type,type:9,money:money},function(res){
+            var res=jQuery.parseJSON(res);
+            if(res.code == 200){
+                var orderno=res.msg
+                if(type==1){
+                    location.href = '/Home/Pay/testpay/orderno/' + orderno;
+                }else{
+                    location.href = '/Home/Pay/wxh5pay/orderno/' + orderno;
+                }
+
+
+            }else{
+                alert(res.msg);return false;
+
+            }
+
+        });
+
+    });
+
+    //选择支付方式
+    $(".pay_list li").click(function () {
+        if($(this).find('.checkbox').length>0){
+            $(this).addClass('active').siblings('li').removeClass('active');
+
+            type=parseInt($(this).index()+1)
+            console.log(type)
+        }
+    });
+
+</script>
+</html>

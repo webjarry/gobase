@@ -1,0 +1,464 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE HTML>
+<html style="background: #f8f8f8;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="/Public/Home/css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="/Public/Home/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/Public/Home/css/swiper.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/Public/Home/css/lawyer_user.css"/>
+    <script type="text/javascript" src="/Public/Home/js/api.js"></script>
+    <script type="text/javascript" src="/Public/Home/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/Public/Home/js/jquerysession.js"></script>
+    <script type="text/javascript" src="/Public/Home/js/mobile.js"></script>
+    <script type="text/javascript" src="/Public/layer/layer.js"></script>
+    <script type="text/javascript" src="/Public/Home/js/ajaxupload.3.5.js"></script>
+    <script type="text/javascript" src="/Public/static/uploadify/jquery.uploadify.min.js"></script>
+
+    <script type="text/javascript" src="/Public/Home/js/swiper.min.js"></script>
+
+    <style type="text/css">
+        .point {
+            position: absolute;
+            top: 0.25rem;
+            right: -0.05rem;
+            width: 0.15rem;
+            height: 0.15rem;
+            border-radius: 50%;
+            background: #ff0000;
+        }
+
+        .dashang {
+            background: url("/Public/Home/img/jinbi.png") left center no-repeat !important;
+            background-size: 0.3rem auto !important;
+            font-size: 0.26rem;
+            color: #f3a536 !important;
+            margin-right: 0.3rem;
+        }
+    </style>
+</head>
+<body style="background: #f8f8f8;">
+<header class="header">
+    <a href="javascript:;" class="index_tel_btn"><img src="/Public/Home/img/tel.png" alt=""></a>
+    <h2><img src="/Public/Home/img/fyb.png" alt=""></h2>
+    <a href="/home/user/coupon_center.html" class="yhj_btn"><img src="/Public/Home/img/yhj.png" alt=""></a>
+    <a href="javascript:void(0);" class="pm1_btn" onclick="aaplay('personal_setting_news_system.html')">
+        <img src="/Public/Home/img/pm1.png">
+        <em class="point" style="display: none"></em>
+    </a>
+</header>
+<section class="search_section">
+    <a href="/home/user/search_contractOrLawyer.html" class="search_links">搜索律师或合同</a>
+</section>
+<section class="index_function">
+    <ul>
+        <li>
+            <a href="/home/user/want_consult.html">
+                <img src="/Public/Home/img/index1.png" alt="">
+                <p>我要咨询</p>
+                <span>急速解决问题</span>
+            </a>
+        </li>
+        <li>
+            <a href="/home/user/case_entrusted.html">
+                <img src="/Public/Home/img/index2.png" alt="">
+                <p>案件委托</p>
+                <span>委托律师代理案件</span>
+            </a>
+        </li>
+        <li>
+            <a href="javascript:;" onclick="hz()">
+                <img src="/Public/Home/img/index3.png" alt="">
+                <p>法律互助</p>
+                <span>互助金援助</span>
+            </a>
+        </li>
+        <li>
+            <a href="/home/user/crowd_funding.html">
+                <img src="/Public/Home/img/index4.png" alt="">
+                <p>众筹打官司</p>
+                <span>众筹公益援助</span>
+            </a>
+        </li>
+    </ul>
+</section>
+
+<section class="tool_section">
+    <div class="tool_list">
+        <ul>
+            <li>
+                <a href="/home/user/lawyers.html"><h6></h6>
+                    <p>找律师</p><i class="tips">急速</i></a>
+            </li>
+            <li>
+                <a href="/home/user/contract.html"><h6></h6>
+                    <p>法律文书</p></a>
+            </li>
+            <li>
+                <a href="/home/user/legal_notice?type=1"><h6></h6>
+                    <p>法律告知函</p><i class="tips">新</i></a>
+            </li>
+            <li>
+                <a href="/home/user/break_the_law.html"><h6></h6>
+                    <p>我犯法了吗</p></a>
+            </li>
+            <li>
+                <a href="/home/user/law_special.html"><h6></h6>
+                    <p>法律专题</p></a>
+            </li>
+            <li>
+                <a href="javascript:;" onclick="feecount()"><h6></h6>
+                    <p>费用计算</p></a>
+            </li>
+            <li>
+                <a href="/home/user/service_package.html"><h6></h6>
+                    <p>企业服务包</p><i class="tips">惠</i></a>
+            </li>
+            <li>
+                <a href="<?php echo U('lawyer/workbench');?>"><h6></h6>
+                    <p>律师加盟</p></a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="message_notify">
+    <div class="notify swiper-container">
+        <ul class="swiper-wrapper" id='gonggao'>
+            <!--<li class="swiper-slide">方大同律师 热情敬业，收到 <em>2.66元</em> 心意</li>
+            <li class="swiper-slide">方大同律师 热情敬业，收到 <em>3.66元</em> 心意</li>
+            <li class="swiper-slide">方大同律师 热情敬业，收到 <em>4.66元</em> 心意</li>-->
+        </ul>
+    </div>
+    <script>
+        var mySwiper = new Swiper('.notify', {
+            slidesPerView: 1,
+            autoplay: 3000,
+            loop: true,
+            onlyExternal: true
+        })
+    </script>
+</section>
+
+<section class="banner">
+    <div class="banner_scroll swiper-container">
+        <ul class="swiper-wrapper" id='banner'>
+            <!--<li class="swiper-slide"><img src="/Public/Home/img/banner.jpg" alt=""></li>
+            <li class="swiper-slide"><img src="/Public/Home/img/banner.jpg" alt=""></li>
+            <li class="swiper-slide"><img src="/Public/Home/img/banner.jpg" alt=""></li>-->
+        </ul>
+        <div class="swiper-pagination"></div>
+    </div>
+    <script>
+        var mySwiper1 = new Swiper('.banner_scroll', {
+            slidesPerView: 1,
+            autoplay: 4000,
+            loop: true,
+            pagination: '.swiper-pagination',
+        })
+    </script>
+</section>
+
+<section class="ask_workbench">
+    <a href="javascript:;" onclick="aaplay('free_consultation.html')"><img src="/Public/Home/img/zixuntai.png" alt=""></a>
+</section>
+
+<section class="user_askArea">
+    <div class="common_title">
+        <h6>用户咨询区</h6>
+        <a href="##" class="click_fb" onclick="aaplay('want_consult_release.html')"><img src="/Public/Home/img/click_fb.png"
+                                                                                         alt=""></a>
+        <!--<a href="##" class="more" onclick="aaplay('free_consultation.html')">更多></a>-->
+    </div>
+    <div class="ask_list">
+        <ul id='con'>
+
+
+        </ul>
+    </div>
+</section>
+
+<section class="navigation">
+    <ul>
+        <li class="active"><a href="javascript:;" onclick="aaplay('index')"><h6 class="icon"></h6>首页</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('news')"><h6 class="icon"></h6>资讯</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('chatlist')"><h6 class="icon"></h6>即时消息</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('find')"><h6 class="icon"></h6>发现</a></li>
+        <li class=""><a href="javascript:;" onclick="personal()"><h6 class="icon"></h6>我的</a></li>
+    </ul>
+</section>
+
+<section class="fixed_tips">
+    <div class="tips_article">
+        <p>申请成为平台认证律师，请下载律师端！</p>
+        <div class="btn_box">
+            <a href="javascript:;" class="cancel_btn">取消</a>
+            <a href="##" class="download_btn">下载</a>
+        </div>
+    </div>
+</section>
+<section class="fixed-tel">
+    <div class="tel-section">
+        <div class="tel-title">温馨提示</div>
+        <div class="tel-info">
+            <p>联系客服</p>
+            <p><?php echo C('WEB_SITE_MOBILE');?></p>
+            <p><?php echo C('WEB_WORKDAY');?></p>
+            <p>微信客服：<?php echo C('WEB_WX_KEFU');?></p>
+        </div>
+        <div class="btn_box">
+            <a href="javascript:;" class="call_cancel_btn">取消</a>
+            <a href="tel:<?php echo C('WEB_SITE_MOBILE');?>" class="call_btn">确定</a>
+        </div>
+    </div>
+</section>
+
+</body>
+<script>
+    var user="<?php echo ($user); ?>";
+    if(user != null && user != 'undefined'){
+        var token="<?php echo ($user["token"]); ?>";
+        var uid="<?php echo ($user["id"]); ?>";
+        var utype="<?php echo ($user["type"]); ?>";
+        var vip="<?php echo ($user["vip"]); ?>";
+        var islogin=1;
+        var loginphone="<?php echo ($user["phone"]); ?>";
+        var nickname="<?php echo ($user["nickname"]); ?>";
+        var uicon="<?php echo ($user["icon"]); ?>";
+        var balance="<?php echo ($user["balance"]); ?>";
+        var reward="<?php echo ($user["reward"]); ?>";
+        var xs="<?php echo ($user["xs"]); ?>";
+
+
+    }else{
+        var islogin=0;
+    }
+    function loginCheck() {
+       
+        if(token=='' || utype!=1){
+            alert('您尚未登录,请登录')
+            window.location.href = '/Home/Public/login_account';
+			return false;
+        }else{
+            return true;
+        }
+    }
+
+</script>
+<script type="text/javascript" src="/Public/Home/js/lawyer_user.js"></script>
+<script>
+
+	
+
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            // if ($(document).scrollTop()<=0){
+            //   alert("滚动条已经到达顶部为0");
+            // }
+            if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                //layer.msg('已经到底啦！');
+				toDoRequest2();
+            }
+        });
+    });
+
+    var a = "<?php echo ($aaa); ?>";
+    console.log(a)
+
+    function copy() {
+        var Url2 = document.getElementById("biao1").innerText;
+        var oInput = document.createElement('input');
+        oInput.value = Url2;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        oInput.className = 'oInput';
+        oInput.style.display = 'none';
+        alert('复制成功');
+    }
+
+    $(".index_tel_btn").click(function () {
+        $(".fixed-tel").fadeIn();
+    });
+    $(".call_cancel_btn").click(function () {
+        $(".fixed-tel").fadeOut();
+    });
+    console.log(token)
+    var page = 0;
+
+    function hz() {
+        var result = loginCheck();
+        if (result == false) {
+
+            return false;
+
+        }
+        aaplay('personal_mymutualaid.html')
+    }
+
+    function feecount() {
+        var result = loginCheck();
+        if (result == false) {
+
+            return false;
+
+        }
+        aaplay('cost_calc.html')
+    }
+
+    gonggao();
+
+    function gonggao() {
+        $.post(webSiteUrl + '/app/public/gonggao', function (ret) {
+            if (ret.code == 200) {
+                html = "";
+                var tj = ret.data;
+                if (tj != null) {
+
+                    for (var i = 0; i < tj.length; i++) {
+                        html += '<li  class="swiper-slide" onclick="mindgonggao()">' + tj[i].name + '律师 热情敬业，收到 <em>' + tj[i].money + '元</em> 心意</li>';
+                    }
+                }
+
+                $('#gonggao').html(html);
+
+                var mySwiper = new Swiper('.notify', {
+                    slidesPerView: 1,
+                    autoplay: 3000,
+                    loop: true,
+                    onlyExternal: true
+                })
+
+
+            }
+            banner();
+        });
+
+    }
+
+    function banner() {
+        var p = {type: 1};
+        $.post(webSiteUrl + '/app/public/ad', p, function (ret) {
+
+            if (ret.code == 200) {
+                html = "";
+                var tj = ret.data;
+                if (tj != null) {
+
+                    for (var i = 0; i < tj.length; i++) {
+
+                        html += '<li  class="swiper-slide" data="' + tj[i].url + '" onclick="jump(' + tj[i].id + ')" id="ad_' + tj[i].id + '"><img src="' + webSiteUrl + tj[i].icon + '"></li>';
+                    }
+                }
+
+                $('#banner').html(html);
+
+                var mySwiper = new Swiper('.banner_scroll', {
+                    slidesPerView: 1,
+                    autoplay: 3000,
+                    loop: true,
+                    onlyExternal: true
+                })
+
+
+            }
+            toDoRequest2();
+        });
+
+    }
+
+    function toDoRequest2() {
+		page++;
+        if (token != '') {
+            var p = {page: page, token: token};
+        } else {
+            var p = {page: page};
+        }
+
+        $.post(webSiteUrl + '/app/public/fask', p, function (ret) {
+
+            if (ret.code == 200) {
+
+                html = "";
+                var dashang = '';
+                var tj = ret.data;
+
+                if (tj.length > 0) {
+
+                    for (var i = 0; i < tj.length; i++) {
+                         if(tj[i].reward_price!=0){
+                             dashang = '<em class="dashang">'+tj[i].reward_price+'元</em>';
+                         }else {
+                             dashang = ''
+                         }
+                        //dashang = '';
+                        if (tj[i].private == 1) {
+                            console.log(uid, tj[i].uid)
+                            if (uid == tj[i].uid) {
+                                html += '<li onclick="askdetail(' + tj[i].id + ')"><a href="javascript:;"><div class="userInfo"><img src="' + tj[i].icon + '" alt=""><div class="userName"><h6>' + tj[i].phone + '</h6><span><em style="top: 0;">' + tj[i].time + '</em></span></div></div><div class="comment_info"><p>' + tj[i].content + '</p></div><div class="ask_kinds"><span>' + tj[i].ajtype + '</span><div class="ask_active">'+dashang+'<em class="answer_num">' + tj[i].num + '人回答</em></div></div></a></li>';
+
+                            }
+                        } else {
+                            html += '<li onclick="askdetail(' + tj[i].id + ')"><a href="javascript:;"><div class="userInfo"><img src="' + tj[i].icon + '" alt=""><div class="userName"><h6>' + tj[i].phone + '</h6><span><em style="top: 0;">' + tj[i].time + '</em></span></div></div><div class="comment_info"><p>' + tj[i].content + '</p></div><div class="ask_kinds"><span>' + tj[i].ajtype + '</span><div class="ask_active">'+dashang+'<em class="answer_num">' + tj[i].num + '人回答</em></div></div></a></li>';
+
+                        }
+
+                    }
+                }
+
+                if(page==1){
+                  $('#con').html(html);
+                }else {
+                  $('#con').append(html);
+                }
+
+            } else {
+
+                $('#con').html('<p style="text-align:center">暂无数据</p>');
+
+            }
+            notice()
+        });
+
+    }
+
+    function notice() {
+
+        if (token == '') {
+            return;
+        }
+        p = {token: token};
+        $.post(webSiteUrl + '/app/user/notice', p, function (ret) {
+
+            console.log(ret)
+            if (ret.code == 200) {
+                $('.point').show()
+
+            } else {
+                $('.point').hide()
+
+            }
+        });
+    }
+
+    function mindgonggao() {
+        location.href = '/home/user/notice';
+    }
+
+    function jump(id) {
+        var url = $('#ad_' + id).attr('data');
+        location.href = url;
+    }
+
+    //提示关闭
+    $(".fixed_tips .cancel_btn").click(function () {
+        $('.fixed_tips').fadeOut();
+    });
+    $('.fixed_tips').hide();
+
+
+</script>
+</html>

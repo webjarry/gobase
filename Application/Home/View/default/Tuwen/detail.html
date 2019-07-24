@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <meta name="Keywords" content="Keywords">
+    <meta name="description" content="description">
+    <title>{:C('WEB_SITE_TITLE')}</title>
+
+    <link type="text/css" href="__CSS__/reset.css" rel="stylesheet"  />
+    <link type="text/css" href="__CSS__/setphone.css" rel="stylesheet"  />
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/adaptive.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript">
+        window['adaptive'].desinWidth = 750;
+        window['adaptive'].baseFont = 28;
+        window['adaptive'].maxWidth = 750;
+        window['adaptive'].init();
+    </script>
+</head>
+<body>
+
+    <div class="newstit" style="font-weight: bold;">{:C('WEB_SITE_TITLE')}</div>
+
+    <div class="newsimg"><img src="{$vo.icon|picture}" style="width:7.1rem"></div>
+    <div class="newstxt" style="font-weight: bold;">{$vo.name}</div>
+    <div class="newstxt" style="">{$vo.content}</div>
+
+    <volist name="vo['icons']"  id="vv">
+         <div class="newsimg"><img src="{$vv|picture}" style="width:7.1rem"></div>
+    </volist>
+
+
+
+</body>
+
+
+</html>

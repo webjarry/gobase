@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<section class="personal_info">
+    <a href="javascript:void (0);" onclick="aaplay('personal_info')">
+        <img src="__IMG__/user_tx.png"  id='icon'>
+        <div class="info">
+            <p id='name'></p>
+            <span id="pass">未认证</span>
+        </div>
+    </a>
+    <a href="javascript:;" onclick="aaplay('personal_setting_news_user.html')"
+       class="personal_message" style="position: absolute;top: 0.3rem; right: 3%;background: none;">
+        <img src="__IMG__/pm1.png" style="width:auto;height: .34rem;margin-right: 0;border-radius: 0;"></a>
+</section>
+<section class="money">
+    <ul>
+        <li><p><b id='balance'>0.00</b>元</p><span>账户余额</span></li>
+        <li><p><b id='reward'>0.00</b>元</p><span>邀请奖励</span></li>
+    </ul>
+</section>
+<section class="personal_list">
+    <ul>
+        <li><a href="javascript:;" onclick="aaplay('personal_myorder.html')">我的订单</a></li>
+        <li><a href="javascript:;" onclick="aaplay('personal_mycontract.html')">合同文书</a></li>
+        <li><a href="javascript:;" onclick="aaplay('personal_money.html')">我的钱包</a></li>
+        <li><a href="javascript:;" onclick="aaplay('personal_distribution.html')">分享奖励</a></li>
+        <li><a href="javascript:;" onclick="aaplay('personal_mind.html')">收到的心意</a></li>
+        <li><a href="javascript:;" onclick="aaplay('mycollection.html')">我的收藏</a></li>
+        <li><a href="javascript:;" onclick="aaplay('mypl.html')">我的评价</a></li>
+        <li><a href="javascript:;" onclick="aaplay('personal_setting.html')">设置</a></li>
+    </ul>
+</section>
+
+
+<section class="fixed_nav">
+    <ul>
+        <li class=""><a href="javascript:;"  onclick="aaplay('workbench.html')"><h6 class="icon"></h6>工作台</a></li>
+        <li class=""><a href="javascript:;"  onclick="aaplay('news.html')"><h6 class="icon"></h6>资讯</a></li>
+        <li class=""><a href="javascript:;"  onclick="aaplay('find.html')"><h6 class="icon"></h6>发现</a></li>
+        <li class="active"><a href="javascript:;"  onclick=""><h6 class="icon"></h6>我的</a></li>
+    </ul>
+</section>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    $('#name').html(nickname);
+    $('#icon').attr('src',uicon);
+    $('#balance').html(balance);
+    $('#reward').html(reward);
+
+    user()
+
+    function user() {
+        var p={token:token,infock:2};
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+            //alert(JSON.stringify(token))
+
+            if(ret.code==200){
+
+                $('#icon').attr("src",webSiteUrl+ret.data.icon);
+                if(ret.data.pass==1){
+                    $('#pass').html('已认证')
+                }else{
+                    $('#pass').html('未认证')
+                }
+            }
+        });
+
+    }
+
+</script>
+</html>

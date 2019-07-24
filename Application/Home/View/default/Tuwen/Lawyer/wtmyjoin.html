@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>竞标详情</h2>
+    <!--<a href="javascript:void (0);" class="share_btn"><img src="__IMG__/share_icon.png" alt=""></a>-->
+</header>
+
+<section class="bid_time">
+    <p id='lasttime'>投标截止时间：2018-11-18  14:45</p>
+</section>
+<section class="ask_article">
+    <div class="userInfo">
+        <img src="__IMG__/userimg1.jpg" alt="" id='icon'>
+        <div class="userName">
+            <h6 id='phone'>135****7574</h6>
+            <span id='time'>2018-11-25  18:51</span>
+        </div>
+    </div>
+    <div class="comment_info">
+        <p id='content'>租房子签了一年合同，但是销售人员说住不够可以提前一个月联系他，他帮我找下家，现在没住够一年我搬走了，他们完全不管了，我该怎么办？</p>
+    </div>
+</section>
+
+<section class="entrust_list">
+    <ul>
+        <li>
+            <div class="entrust">
+                <p>委托报价</p>
+                <p id='price'>3000.00-5000.00元</p>
+            </div>
+            <div class="entrust">
+                <p>委托保证金</p>
+                <p id='margin'>100元</p>
+            </div>
+        </li>
+        <li>
+            <div class="entrust">
+                <p>委托需求类型</p>
+                <p>普通代理</p>
+            </div>
+            <div class="entrust">
+                <p>案件类型</p>
+                <p>一般民事</p>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<section class="comment_section">
+    <div class="news_title">
+        <h2>我的投标信息</h2>
+    </div>
+    <div class="my_bidInfo">
+        <div class="my_info">
+            <div class="userInfo">
+                <img src="__IMG__/userimg1.jpg" alt=""  id='icon1'>
+                <div class="userName">
+                    <h6 id='name1'>张岳伦律师 <i>LV.6</i></h6>
+                    <span  id='time1'>2018-11-11  14:45</span>
+                </div>
+            </div>
+            <div class="service_kinds">
+                <dl id='label'>
+                    
+                </dl>
+            </div>
+        </div>
+        <div class="withdraw">
+            <p id='price1'>3000元</p>
+            <span class="withdraw_btn" onclick='cancelwt()'>撤标</span>
+        </div>
+    </div>
+    <div class="news_title">
+        <h2>竞标律师</h2>
+    </div>
+    <div class="comment_list">
+        <ul id='con'>
+            
+            
+        </ul>
+    </div>
+</section>
+
+
+
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+   wtdetail()
+
+    function wtdetail() {
+        
+
+        var p={uid:uid,id:para('id')}
+        $.post(webSiteUrl+'/app/public/wtdetail',p,function(ret){
+        
+                if(ret.code==200){
+                   
+                    
+                    var tj=ret.data.uinfo;
+                    $('#icon').attr('src',webSiteUrl+tj.icon);
+                    $('#phone').html(tj.phone);
+                    
+
+                    var info=ret.data.info;
+                    $('#lasttime').html('投标截止时间：'+info.lasttime);
+                    $('#time').html(info.time);
+                    $('#content').html(info.content);
+                    $('#price').html(info.price+'元');
+                    $('#margin').html(info.margin+'元');
+
+                    
+                    var info=ret.data.me;
+                    $('#icon1').attr('src',webSiteUrl+info.icon);
+                    $('#name1').html(info.nickname);
+                    $('#time1').html(info.time);
+                    $('#price1').html(info.price+'元');
+                    var label="";
+                    for(var i=0;i<info.label.length;i++){
+                        label+=' <dd>'+info.label[i]+'</dd>'; 
+                    }
+                    $('#label').html(label);
+
+                    
+
+                    html = "";
+                    var tj=ret.data.list;
+                    if(tj != null){
+
+for(var i=0;i<tj.length;i++){
+html+='<li><div class="userInfo"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].nickname+'律师 <i>LV.6</i></h6><span>'+tj[i].time+'</span></div></div><div class="service_kinds"><dl>';
+
+    if(tj[i].label.length>0){
+        for(var j=0;j<tj[i].label.length;j++){ 
+            html+='<dd>'+tj[i].label[j]+'</dd>';
+        }
+    }
+html+='</dl></div></li>';
+}
+                        $('#con').html(html);
+                    }else{
+                        $('#con').html('<p style="text-align:center">暂无竞标</p>');
+                    }
+                    
+                    
+                   
+                }
+            });
+
+    };
+
+   
+
+    
+    function cancelwt(){
+        if(window.confirm('确认撤标吗？')){
+            var p={token:token,id:para('id')};
+            $.post(webSiteUrl+'/app/user/cancelwt',p,function(ret){
+            
+                if(ret.code==200){
+                    alert(ret.msg);
+                }
+            });
+        }
+        
+    }
+    
+    
+   
+</script>
+</html>

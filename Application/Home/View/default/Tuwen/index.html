@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+	<meta name="Keywords" content="Keywords">
+	<meta name="description" content="description">
+	<title>{:C('WEB_SITE_TITLE')}</title>
+
+	<link type="text/css" href="__CSS__/reset.css" rel="stylesheet"  />
+	<link type="text/css" href="__CSS__/setphone.css" rel="stylesheet"  />
+	<script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="__JS__/adaptive.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+	<script type="text/javascript">
+        window['adaptive'].desinWidth = 750;
+        window['adaptive'].baseFont = 28;
+        window['adaptive'].maxWidth = 750;
+        window['adaptive'].init();
+	</script>
+	<style>
+		.main span{ display:inline-block;width:1.4rem}
+	</style>
+</head>
+<body>
+<div class="percnt" style="margin-bottom: 0rem">
+	<div class="pertit pad30" style="color:#e54141;font-size: .4rem"><a href="javascript:;"></a>精准概率注册</div>
+</div>
+<div class="main">
+
+	<notempty name="get['unique_id']">
+
+		<div class="list">
+			<span>推荐人ID：</span><input maxlength="11" class="_input" type="text" name="pid" id="pid" value="{$get['unique_id']}" readonly>
+		</div>
+
+	</notempty>
+
+	<div class="list">
+		<span>手机号：</span><input maxlength="11" class="_input" type="text" placeholder="请输入手机号" name="username" id="username">
+	</div>
+	<div class="list">
+		<span>密 &nbsp; 码：</span><input maxlength="30" class="_input" type="password" placeholder="请输入密码" name="password" id="password">
+	</div>
+	<div class="list">
+		<span>确认密码：</span><input maxlength="30" class="_input" type="password" placeholder="请再次输入密码" name="repassword" id="repassword">
+	</div>
+	<div class="list">
+		<span>验证码：</span><input class="_input" type="text" placeholder="验证码" name="code"><button class="getver">获取验证码</button>
+	</div>
+</div>
+<div class="btns">
+	<button class="reg">立即注册</button>
+</div>
+<!--
+    <div class="btn">
+        <button>下一步</button>
+    </div>
+ -->
+</body>
+<script>
+
+	$('.getver').click(function(){
+	
+		var val = $(this).html();
+		
+		if(val == '获取验证码' || val == '重新发送'){
+			
+			var phone = $('input[name=username]').val();
+			
+			if(phone == ''){
+			
+				layer.tips('请输入手机号!', '#username', {
+					tips: [1, '#3595CC'],
+					time: 4000
+				});return false;
+			
+			}
+			
+			var obj = $(this);
+			$.post('/Home/Public/yzm',{phone:phone,type:1},function(data){
+				
+				var num = 60;
+				var interval = setInterval(function() { 
+					num--;
+					if(num == 0){
+						obj.html('重新发送');
+						clearInterval(interval);
+					
+					}else{
+					
+						obj.html(num+'s');
+					
+					}
+					
+				},1000)
+			
+			});
+		
+		}
+	
+	});
+
+	$('.reg').click(function(){
+		var idno=$('input[name=idno]').val();
+		var username=$('input[name=username]').val();
+		var password=$('input[name=password]').val();
+		var repassword=$('input[name=repassword]').val();
+
+		/*if(idno==''){
+		 idno=0;
+		 }*/
+		if(username==''){
+			layer.tips('请输入手机号!', '#username', {
+				tips: [1, '#3595CC'],
+				time: 4000
+			});return false;
+		}else if( !/^[\w]{6,16}$/.test(username)){
+			layer.tips('用户名必须是6到16位数字字母或下划线!', '#username', {
+				tips: [1, '#3595CC'],
+				time: 4000
+			});return false;
+		}
+
+		if(password==''){
+			layer.tips('请输入密码!', '#password', {
+				tips: [1, '#3595CC'],
+				time: 4000
+			});return false;
+		}else if( !/^[\w]{6,30}$/.test(password)){
+			layer.tips('密码必须是6到30位数字字母或下划线!', '#password', {
+				tips: [1, '#3595CC'],
+				time: 4000
+			});return false;
+		}else if(password != repassword){
+			layer.tips('两次密码不一致!', '#repassword', {
+				tips: [1, '#3595CC'],
+				time: 4000
+			});return false;
+		}
+
+
+		var id="{$Think.get.id}";
+		var idno="{$Think.get.unique_id}";
+
+		var nickname="{$nickname}";
+		var openid="{$openid}";
+		var avatar="{$avatar}";
+		//console.log(id,name,icon);return;
+
+		$.post("/Home/Tuwen/index",{ 'username':username,  'password':password ,'idno':idno ,'nickname':nickname, 'openid':openid, 'avatar':avatar,'code':$('input[name=code]').val()},function(da){
+			var obj = jQuery.parseJSON(da);
+			if(obj.code==200){
+				layer.alert(obj.msg,{icon:1},function(){
+				
+					window.location.href="/Home/Tuwen/download";
+				
+				});
+			}else{
+				layer.msg(obj.msg);
+
+			}
+		});
+	})
+</script>
+</html>

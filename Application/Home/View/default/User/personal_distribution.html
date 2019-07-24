@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style>
+        .contentBox,.contentBox span{
+            -webkit-user-select:text;
+            -moz-user-select:text;
+            -ms-user-select:text;
+            user-select:text;
+        }
+        .contentBox,.contentBox em{
+            -webkit-user-select:text;
+            -moz-user-select:text;
+            -ms-user-select:text;
+            user-select:text;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>分享奖励</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="money_section">
+    <div class="profit">
+        <div class="myAward">
+            <p>我的奖励金(元)</p>
+            <h6 id="reward">0.00</h6>
+            <div class="my_code">
+                <span class="contentBox">我的邀请码<em id="idno">35sdf</em></span>
+                <!--<a href="personal_money_cash.html" class="cash_btn">提现</a>-->
+            </div>
+        </div>
+    </div>
+</section>
+<section class="other_operation">
+    <ul>
+        <li style="display: none"><a href="javascript:;" >邀请律师好友使用法援宝 <span>点击分享</span></a></li>
+        <li><a href="javascript:;" >我的二维码 <span><img src="__IMG__/ewm_code.png" id="ewm"></span></a></li>
+        <li><a href="javascript:;" class="contentBox">我的邀请码 <span id="idno1"style="-webkit-touch-callout:default;user-select: auto;">35sdf</span></a></li>
+    </ul>
+</section>
+<section class="code" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;">
+    <div class="codeImg" style="position: absolute; left: 0; top: 0; right: 0;
+     bottom: 0; margin: auto; width: 5rem; height: 5rem; background: #ffffff;">
+        <img src="__IMG__/ewm_code.png" width="100%" height="100%" id="ewm1"  style="-webkit-touch-callout:default;">
+    </div>
+</section>
+<script>
+    $(".code").hide()
+    $("#ewm").click(function () {
+        $(".code").show()
+    })
+    $(".code").click(function () {
+        $(this).hide();
+    })
+    function copyArticle(event) {
+        const range = document.createRange();
+        range.selectNode(document.getElementById('idno1'));
+
+        const selection = window.getSelection();
+        if(selection.rangeCount > 0) selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand('copy');
+        alert("复制成功！");
+    }
+
+    document.getElementById('idno1').addEventListener('click', copyArticle, false);
+</script>
+<section class="other_operation">
+    <ul>
+        <!--<li><a href="javascript:;" onclick="aaplay('personal_distribution_profit')">收益明细</a></li>-->
+        <li><a href="javascript:;" onclick="aaplay('personal_distribution_invite')">邀请统计</a></li>
+    </ul>
+</section>
+<section class="reminder">
+    <h6>活动详情：</h6>
+    <p>
+        1、点击下载二维码，复制邀请码，邀请好友注册使用app，好友消费后即可获得该单平台服务费的20%作为奖励；<br>
+        2、邀请律师好友入驻平台，律师认证成功后我与被邀请的律师都可获得现金奖励。
+    </p>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+
+<script>
+    loginCheck()
+    user()
+
+    function user() {
+        var p={token:token,infock:2};
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+            if(ret.code==200){
+                $("#reward").html(ret.data.hz);
+                $("#idno").html(ret.data.idno);
+                $("#idno1").html(ret.data.idno);
+
+                $("#ewm1").attr('src',ret.data.ewm);
+
+            }else{alert(ret.msg)}
+        });
+
+    }
+
+
+</script>
+</html>

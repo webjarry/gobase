@@ -1,0 +1,88 @@
+<script>
+    var user="{$user}";
+    if(user != null && user != 'undefined'){
+        var token="{$user.token}";
+        var uid="{$user.id}";
+        var utype="{$user.type}";
+        var vip="{$user.vip}";
+        var islogin=1;
+        var loginphone="{$user.phone}";
+        var nickname="{$user.nickname}";
+        var uicon="{$user.icon}";
+        var balance="{$user.balance}";
+        var reward="{$user.reward}";
+        var pass="{$user.pass}";
+        var idno="{$user.idno}";
+
+    }else{
+        var islogin=0;
+    }
+    function loginCheck() {
+        //alert(token)
+        if(token==''){
+		
+			if(utype == 1){
+				alert('您尚未登录,请登录')
+				aaplay('login_account')
+			}else{
+			
+				alert('您尚未登录,请登录')
+				aaplay('login')
+			
+			}
+		
+            
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    function getScrollTop(){
+        var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+        if(document.body){
+            bodyScrollTop = document.body.scrollTop;
+        }
+        if(document.documentElement){
+            documentScrollTop = document.documentElement.scrollTop;
+        }
+        scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+        return scrollTop;
+    }
+    //文档的总高度
+    function getScrollHeight(){
+        var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+        if(document.body){
+            bodyScrollHeight = document.body.scrollHeight;
+        }
+        if(document.documentElement){
+            documentScrollHeight = document.documentElement.scrollHeight;
+        }
+        scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+        return scrollHeight;
+    }
+    //浏览器视口的高度
+    function getWindowHeight(){
+        var windowHeight = 0;
+        if(document.compatMode == "CSS1Compat"){
+            windowHeight = document.documentElement.clientHeight;
+        }else{
+            windowHeight = document.body.clientHeight;
+        }
+        return windowHeight;
+    }
+    window.onscroll = function(){
+        if(getScrollTop() + getWindowHeight() + 100 >= getScrollHeight() && getScrollTop() + getWindowHeight() + 100 < getScrollHeight()+20){
+            try {
+                if(typeof toDoRequest === "function") { //是函数    其中 FunName 为函数名称
+                    toDoRequest();
+                } else { //不是函数
+
+                }
+            } catch(e) {}
+            //alert('scrolling')
+            console.log("getScrollTop:"+getScrollTop()+"**getWindowHeight:"+getWindowHeight()+"**getScrollHeight:"+getScrollHeight())
+        }
+    };
+
+</script>

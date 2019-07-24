@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我犯法了吗</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="release_contract" style="padding-top: 0.2rem">
+    <div class="release_list">
+        <ul>
+            <li>
+                <div class="release_item">
+                    <p>选择案件类型</p>
+                    <span class="kinds_name"></span>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>问题概述</p>
+                </div>
+                <textarea name="" id="question" cols="30" rows="10" placeholder="请输入您的问题"></textarea>
+               <!-- <div class="mp3">
+                    <a href="javascript:void(0);" class="mp3_btn"><img src="__IMG__/MP3.png" alt=""></a>
+                    <span>限500字</span>
+                </div>-->
+            </li>
+        </ul>
+    </div>
+    <div class="reminder">
+        <h6>温馨提示：</h6>
+        <p>输入您遇到的问题，我们会找到与您有相同经历的咨询； </p>
+    </div>
+</section>
+<section class="fixed_btn">
+    <a href="javascript:;" onclick="submit()">搜索问题</a>
+</section>
+<section class="fixed_select">
+    <div class="select_content">
+        <h6 style="font-size: 0.26rem;">选择案件类型</h6>
+        <ul style="text-align: center;" id='cate'>
+
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var ajid=0;
+	loginCheck();
+
+    cate()
+    function  submit() {
+        var html = $("#question").val();
+        if(ajid==0){
+            alert('请选择案件类型！');return;
+        }else if(html==''){
+            alert('请输入您的问题');return;
+        }
+        location.href='/home/user/search_details.html?key='+html+'&ajid='+ajid;
+        
+    }
+    //我要咨询 类型选择
+    $(".kinds_name").click(function () {
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+    });
+    $(document).on('click',".select_content ul li",function () {
+        ajid=$(this).attr('data');
+        $(".kinds_name").text($(this).html());
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        },400);
+    })
+    function cate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+            if(ret.code==200){
+
+                var tj=ret.data;
+
+                html='';
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+
+
+                        var son=tj[i].son
+                        if(son != null){
+
+                            for(var j=0;j<son.length;j++){
+                                html+='<li style="cursor: pointer"  data="'+son[j].id+'">'+son[j].name+'</li>';
+                            }
+
+                        }
+
+                    }
+                }
+                $('#cate').html(html)
+            }
+        });
+
+    };
+</script>
+</html>

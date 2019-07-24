@@ -1,0 +1,303 @@
+<extend name="Public/base"/>
+
+<style>
+        .btn{
+                width: 130px;
+                height: 30px;
+                line-height:30px;
+                font-size:0.26rem;
+                display: block;
+                text-align: center;
+                background-color:#09A826;
+                color:#FFFFFF;
+                cursor: pointer;
+        }
+        .upload-img-boxs{
+            width: 100%;
+            height:auto;
+            overflow: hidden;
+        }
+        .upload-pre-item{
+            width: 124px;
+            height:84px;
+            display:block;
+            float:left;
+        } 
+        .upload-pre-item img{
+            width:100%;
+            height: 100%;
+            display:block;
+        }
+    </style>
+
+<block name="body">
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>修改（{$vo.shopname}）商品</h2>
+    </div>
+    <ul class="tab-nav nav">
+
+        <li class="current"><a href="javascript:void(0)">商品信息</a></li>
+
+    </ul>
+
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <div class="tab-content">
+            <div class="form-item">
+                <label class="item-label">商品名称<span class="check-tips">（必须填写）</span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="shopname" value="{$vo.shopname}">
+                    <input type="hidden" class="text input-large" name="id" value="{$vo.id}">
+                </div>
+            </div>
+
+            <input type="hidden" value="{$id}" name="ids" />
+            <div class="form-item">
+                <label class="item-label">商品类别<span class="check-tips">（必须选择）</span></label>
+                <div class="controls">
+                    <select name="classify_id" style="width:390px;">
+                        <option value="">请选择类别</option>
+                        <volist name="list" id="list">
+                            <option value="{$list.id}" <?php if($vo[classify_id]==$list[id]){echo 'selected';} ?> >{$list.html}{$list.title}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-item">
+                <label class="item-label">选择城市<span class="check-tips">（必须选择）</span></label>
+                <div class="controls">
+                    <select name="city_id" style="width:390px;">
+                        <volist name="city" id="list">
+                            <option value="{$list.id}" <?php if($vo[city_id]==$list[id]){echo 'selected';} ?> >{$list.city}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">排序</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="sort" value="{$vo.sort}">
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">首页推荐设置（需要商品顶级分类为首页推荐才会在首页展示该商品）</label>
+                <div class="controls">
+                    
+                    <input type='checkbox' name='jx_shop'  value='jx_shop' <?php if($vo['jx_shop']==1){ echo 'checked';} ?>>首页精选商品 
+                    
+                    <input type='checkbox' name='hot'  value='hot' <?php if($vo['hot']==1){ echo 'checked';} ?>>首页热销商品 
+                    
+                    <input type='checkbox' name='hot_gd'  value='hot_gd' <?php if($vo['hot_gd']==1){ echo 'checked';} ?>>首页热销固定位 
+                    
+                    <input type='checkbox' name='bk'  value='bk' <?php if($vo['bk']==1){ echo 'checked';} ?> >首页爆款商品 
+                    
+                    <input type='checkbox' name='bk_gd'  value='bk_gd' <?php if($vo['bk_gd']==1){ echo 'checked';} ?> >首页爆款固定位 
+                    
+                    <input type='checkbox' name='div'  value='div' <?php if($vo['div']==1){ echo 'checked';} ?> >首页底部商品 
+                    
+                    <input type='checkbox' name='div_gd'  value='div_gd' <?php if($vo['div_gd']==1){ echo 'checked';} ?> >首页底部固定位 
+
+                </div>
+            </div>
+
+
+            <div class="form-item">
+                <label class="item-label">商品单价</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="money" value="{$vo.money}">
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">商品数量</label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="nums" value="{$vo.nums}">
+                </div>
+            </div>
+
+            <div class="form-item">
+                <div class="Box" id="box">
+                    <label class="item-label">商品参数</label>
+                    <div class="hade" id="hade">
+                        <div class="box">
+                            <?php $nums=1; if(!empty($shoptype)){ ?>
+                            <?php foreach($shoptype as $type){ ?>
+                            <div id="Con" class="Con"><input type='hidden' name='attrsid_<?php echo $nums; ?>[]' value="<?php echo $type['id']; ?>"><input type="text" name="attrsname_<?php echo $nums; ?>[]" value='{$type.title}' placeholder="请输入参数名"  /><?php  foreach($type['z_attrs'] as $v){ ?>&nbsp;<input type="text" class="lastInput" name="attrstype_<?php echo $nums; ?>[]" value="<?php echo $v['title']; ?>"  placeholder="请输入参数值"  /><?php } ?></div>
+                                
+                            <?php $nums = $nums+1; } ?>
+                            <?php }else{ ?>
+                                <div id="Con" class="Con"><input type="text" name="attrsname_<?php echo $nums; ?>[]" value='' placeholder="请输入参数名" />&nbsp;<input type="text" class="lastInput" name="attrstype_<?php echo $nums; ?>[]" value='' placeholder="请输入参数值" /></div>
+                                
+                            <?php } ?>
+                        </div>
+                        <span id="buttons" class="btn" >点击添加</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <div class="controls">
+                    <label class="item-label">商品缩略图</label>
+                    <input type="file" id="upload_picture">
+                    <input type="hidden" name="icon" id="icon" value="{$vo['icon']|default=''}"/>
+                    <div class="upload-img-box">
+                        <notempty name="vo['icon']">
+                            <div class="upload-pre-item"><img src="__ROOT__{$vo.icon|get_cover='path'}"/></div>
+                        </notempty>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    //上传图片
+                    /* 初始化上传插件 */
+                    $("#upload_picture").uploadify({
+                        "height": 30,
+                        "swf": "__STATIC__/uploadify/uploadify.swf",
+                        "fileObjName": "download",
+                        "buttonText": "上传图片",
+                        "uploader": "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+                        "width": 120,
+                        'removeTimeout': 1,
+                        'fileTypeExts': '*.jpg; *.png; *.gif;',
+                        "onUploadSuccess": uploadPicture,
+                        'onFallback': function () {
+                            alert('未检测到兼容版本的Flash.');
+                        }
+                    });
+                    function uploadPicture(file, data) {
+                        var data = $.parseJSON(data);
+                        var src = '';
+                        if (data.status) {
+                            $("#icon").val(data.id);
+                            src = data.url || '__ROOT__' + data.path;
+                            $("#icon").parent().find('.upload-img-box').html(
+                                    '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                                    );
+                        } else {
+                            updateAlert(data.info);
+                            setTimeout(function () {
+                                $('#top-alert').find('button').click();
+                                $(that).removeClass('disabled').prop('disabled', false);
+                            }, 1500);
+                        }
+                    }
+                </script>
+            </div>
+
+            <div class="form-item">
+                <label class="item-label">商品简介</label>
+                <div class="controls">
+                    <label class="textarea input-large">
+                        <textarea name="profile">{$vo.profile}</textarea>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-item">
+                
+                <div class="controls">
+                    <label class="item-label">商品详情图（请按照顺序上传详情图，避免位置错乱）</label>
+                    <input type="file" id="upload_pictures">
+                    <input type="hidden" name="icons" id="icons" value=""/>
+                    <div class="upload-img-boxs" style="">
+                        <notempty name="vo['icons']">
+                            <div class="upload-pre-item" style="width:124px;height:84px;float:left;"><img style="width:100%;height:100%;display: block;" src="__ROOT__{$vo.icons|get_cover='path'}"/></div>
+                        </notempty>
+                    </div>
+                </div>
+                
+                    
+                    
+                    <script type="text/javascript">
+                    //上传图片
+                    /* 初始化上传插件 */
+                    $("#upload_pictures").uploadify({
+                        "height": 30,
+                        "swf": "__STATIC__/uploadify/uploadify.swf",
+                        "fileObjName": "download",
+                        "buttonText": "上传图片",
+                        "uploader": "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+                        "width": 120,
+                        'removeTimeout': 1,
+                        'fileTypeExts': '*.jpg; *.png; *.gif;',
+                        "onUploadSuccess": uploadPicture,
+                        'onFallback': function () {
+                            alert('未检测到兼容版本的Flash.');
+                        }
+                    });
+                    function uploadPicture(file, data) {
+                        var data = $.parseJSON(data);
+                        var src = '';
+                        if (data.status) {
+                            var icons = $("#icons").val();
+                            if(icons==''){
+                                $("#icons").val(data.id);
+                            }else{
+                                var nicon = icons+","+data.id;
+                                $("#icons").val(nicon);
+                            }
+                            
+                            src = data.url || '__ROOT__' + data.path;
+                            var hs = $(".upload-img-boxs").html();
+                            $("#icons").parent().find('.upload-img-boxs').html(
+                                    hs+'<div class="upload-pre-item" style="width:120px;height:80px;border: 1px solid #ccc;transition: all .3s linear;"><img style="width:100%;height:100%;display: block;" src="' + src + '"/></div>'
+                                    );
+                        } else {
+                            updateAlert(data.info);
+                            setTimeout(function () {
+                                $('#top-alert').find('button').click();
+                                $(that).removeClass('disabled').prop('disabled', false);
+                            }, 1500);
+                        }
+                    }
+                </script>
+
+                
+                
+            </div>
+
+
+            <div class="form-item">
+                <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+                <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+            </div>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('ad / index')}');
+    </script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            var nums = <?php echo $nums; ?>;
+            var html = '';
+            var divbx = '';
+            function addin() {
+                $(".hade #buttons").on('click', function () {
+                    nums += 1;
+                    divbx = '<div class="con"><input type="text" name="attrsname_' + nums + "[]" + '"  placeholder="请输入参数名" />&nbsp;<input type="text" class="lastInput" name="attrstype_' + nums + "[]" + '"  placeholder="请输入参数值" /></div>';
+                    $(".box div:last-child").after(divbx);
+                    return nums;
+                });
+            }
+            function addbs() {
+                addin();
+                $(".hade div").on("blur", "input:last-child", function () {
+                    var bsco = $(this).attr('name').slice(10, 11);
+//                    html = '&nbsp;<input type=\"text\" class="lastInput" name="attrstype_' + bsco + '[]"  placeholder="请输入参数值" >'
+//                    console.log(bsco);
+//                    $(this).after(html);
+                })
+            }
+            addbs();
+        });
+    </script>
+
+</block>

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>消息中心</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="info_kinds">
+    <div class="info">
+        <ul>
+            <li class="active"><a href="javascript:;" onclick="aaplay('message','personal_setting_news_user.html')">我的消息</a></li>
+            <li class=""><a href="javascript:;" onclick="aaplay('message','personal_setting_news_system.html')">系统消息</a></li>
+        </ul>
+    </div>
+</section>
+<section class="user_notice">
+    <ul id='con'>
+        <!-- <li class="new">
+            <a href="##">
+                <div class="info_title">
+                    <p>通知</p>
+                    <span>2017-6-1 09:35</span>
+                </div>
+                <p class="info">您发布的咨询已经有律师解答了，快去看看吧！</p>
+            </a>
+        </li> -->
+        
+    </ul>
+</section>
+
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+
+    //标记为已读
+    $(".readed_btn").click(function () {
+        $('.system_info ul li').removeClass('active');
+        $('.user_info ul li').removeClass('active');
+    });
+
+
+    
+</script>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <style type="text/css">
+        input{readonly:readonly!important;}
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>互助信息确认</h2>
+
+</header>
+<section class="flow_section">
+    <div class="flow_list">
+        <ul>
+            <li><em>1</em><p>达成要求</p></li>
+            <li><em>2</em><p>填写信息</p></li>
+            <li><em>3</em><p>审核通过</p></li>
+            <li><em>4</em><p>申请成功</p></li>
+        </ul>
+    </div>
+</section>
+
+<section class="apply_form">
+    <form action="">
+        <ul>
+
+            <li>
+                <div class="item">
+                    <p>案件类型</p>
+                    <span class="kinds_name">{$vo.ajid}</span>
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>申请标题</p>
+                    <input type="text" placeholder="" id='name'  value="{$vo.name}">
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>申请原因</p>
+                </div>
+                <textarea  cols="30" rows="10" placeholder="" id='content'>{$vo.detail}</textarea>
+                <div class="file_list">
+                    <div id='imgcon'>
+                        <volist name="vo.icon" id="s">
+                            <img src="{$s}" style="display:inline-block">
+                        </volist>
+                    </div>
+                    
+                    <input type="hidden" name='icon' value="">
+
+                </div>
+            </li>
+            <li>
+                <div class="item">
+                    <p>申请金额</p>
+                    <div class="disflex">
+                        <input type="text" placeholder=""  id='money'  value="{$vo.money}">
+
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="item">
+                    <p>身份证照片</p>
+                </div>
+                <div class="photos" style="margin-top: 0.15rem">
+                    <dl>
+                        <dd><img src="{$vo.iczm}"   id='iczm'>
+                            <input type="hidden" name='iczm' value=""></dd>
+                        <dd><img src="{$vo.icfm}"   id='icfm'>
+                            <input type="hidden" name='icfm' value=""></dd>
+                    </dl>
+                </div>
+                <div class="item" style="margin-top: 0.15rem">
+                    <p>其他相关证明材料</p>
+                </div>
+                <div class="photos" style="margin-top: 0.15rem">
+                    <dl id='zmcon'>
+                        <volist name="vo.file" id="f">
+                            <dd class="img"  style="display:inline-block"><img src="{$f}" alt=""></dd>
+                        </volist>
+                    </dl>
+                    <input type="hidden" name='file'  value=''>
+                </div>
+                
+            </li>
+            <!--<li>
+                <a href="##" id="share">
+                    <div class="item">
+                        <p>点击分享给好友验证</p>
+                        <span>0/5</span>
+                    </div>
+                </a>
+            </li>-->
+        </ul>
+        <div class="reminder">
+            <h6>申请要求：</h6>
+            <p>
+                1、第一次充值至今的时间超过180天；<br>
+                2、上次申请互助金并再次充值后，至今时间超过180天；<br>
+                3、互助金账户没有连续超过7天账户为零；<br>
+                4、发布互助金信息的时候需要把信息链接发给5个好友，邀请他们注册并点击确认这个互助信息，此互助信息才可以进入审核。
+            </p>
+        </div>
+    </form>
+</section>
+
+<section class="fixed_btn">
+    <a href="javascript:;" onclick="tijiao()">提交申请</a>
+</section>
+<div class="notes_fixed">
+    <div class="notes-section">
+        <div class="note_title">互助金金额说明</div>
+        <div class="info">
+            <div class="info-list1">
+                <p>案件类别</p>
+                <ul>
+                    <li>劳动纠纷</li>
+                    <li>婚姻、家庭、继承纠纷</li>
+                    <li>借贷、投资理财纠纷</li>
+                    <li>交通事故、医疗纠纷</li>
+                    <li>买卖、服务纠纷</li>
+                    <li>知识产权、加盟纠纷</li>
+                    <li>房屋买卖、租赁、拆迁纠纷</li>
+                    <li>刑事案件</li>
+                    <li>其他案件</li>
+                </ul>
+            </div>
+            <div class="info-list1">
+                <p>可获最高金额(元)</p>
+                <ul>
+                    <li>10000</li>
+                    <li>10000</li>
+                    <li>20000</li>
+                    <li>20000</li>
+                    <li>20000</li>
+                    <li>20000</li>
+                    <li>30000</li>
+                    <li>50000</li>
+                    <li>50000</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="fixed_select">
+    <div class="select_content">
+        <h6>请选择案件类型</h6>
+        <ul id='cate'>
+
+        </ul>
+    </div>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+    function addpic(id,imgpath,target,type){
+        if(type==1){
+            $("input[name="+target+"]").val(id);
+            $("#"+target).attr('src',imgpath);
+        }else{
+            if(type==2){
+                var len=$('#imgcon').children().length;
+                if(len==3){
+                    alert("最多上传3张图片");return;
+                }
+            }else{
+                var len=$('#zmcon').children().length;
+                if(len==6){
+                    alert("最多上传6张图片");return;
+                }
+            }
+
+            var ids=$("input[name='"+target+"']").val();
+            if(ids != ''){
+                ids+=','+id;
+            }else{
+                ids=id;
+            }
+            $("input[name='"+target+"']").val(ids);
+            if(type==2){
+                var a='<img src="'+imgpath+'" style="display:inline-block"/>';
+
+                $("#imgcon").append(a);
+            }else{
+                var a='<dd class="img"  style="display:inline-block"><img src="'+imgpath+'" alt=""></dd>';
+
+                $("#zmcon").append(a);
+            }
+
+        }
+
+
+    }
+
+
+
+</script>
+</html>

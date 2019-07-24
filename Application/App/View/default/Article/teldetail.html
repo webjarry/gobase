@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{$vo.title}</title>
+<script type="text/javascript" src="/Public/mobile.js"></script>
+<style>
+    body,*{margin:0; padding:0;}
+.widthall{width:100%; float: left;}
+.width690{width:9rem; margin:0 auto; }
+.main{ border-top:0.4rem solid #e0e0d8;}
+.main .title {color:#383057; font-weight: bold; font-size:0.5rem; margin:0.3rem 0;}
+.main .content {color:#3e3e40; font-size:0.4rem;}
+    .telimg{margin-top:0.3rem;}
+</style>
+</head>
+
+<body>
+<div class="widthall main">
+    <div class="width690">
+        <div class="title widthall">電話占いって何？</div>
+        <div class="content widthall">{$vo.content1}</div>
+        <div class="telimg widthall" style="margin-bottom: 0.3rem;" ><img src="/Public/Home/images/tel.jpg"></div>
+    </div>
+</div>
+<!--
+<div class="widthall main" style="margin-bottom: 0.3rem;">
+    <div class="width690">
+        <div class="title widthall">電話占いの仕組み</div>
+        <div class="content widthall">{$vo.content2}</div>
+    </div>
+</div>
+-->
+
+</body>
+</html>

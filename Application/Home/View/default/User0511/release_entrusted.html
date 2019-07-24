@@ -1,0 +1,568 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/mobiscroll_002.css" >
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style>
+        html,body{height: 100%;}
+        .fixed{display: none;position: fixed;top: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.4);z-index: 999;}
+        .fixed .content{position: absolute;left: 0;right: 0;top: -4rem;bottom: 0;margin: auto;opacity: 1;width: 80%;height: 6rem;background: #ffffff;border-radius: 4px; overflow: hidden;}
+        .content .title{display: flex; justify-content: space-between;}
+        .content .title h6{width: 100%;height: 0.99rem;line-height: 0.99rem;text-align: center;font-size: 0.32rem;font-weight: normal;border-bottom: 0.01rem #f3f3f3 solid;}
+
+        .choose{display: flex;justify-content: space-between;font-size: 0.26rem;}
+        .choose ul{width: 35%;height: 5rem;overflow-y: scroll;}
+        .choose ul li,.choose ol li span{height: 0.99rem;border-bottom: 0.01rem #f3f3f3 solid;display: flex;justify-content: center;align-items: center;}
+        .choose ul li.active{color: #fd8e32;}
+        .choose ol{width: 65%;height: 5rem;list-style: none;background: #f3f3f3;overflow-y: scroll;}
+        .choose ol li span{border-bottom: 0.01rem #e1e1e1 solid;}
+        .choose ol li span input[type=checkbox]{display: none;}
+        .choose ol li span.on{ color: #fd8e32;}
+    </style>
+
+    <script src="__JS__/mobiscroll_002.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_004.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_003.js" type="text/javascript"></script>
+    <script src="__JS__/mobiscroll_005.js" type="text/javascript"></script>
+    <style type="text/css">
+        .dwwr{width: 6.8rem!important;}
+        .dww{width: 52px!important;min-width: 52px!important;}
+        .dwwl2{
+            display: block!important;
+        }
+        .android-ics .dwwl{margin: 0;}
+        .android-ics .dwc{padding: 30px 9px 1px!important;}
+        .android-ics .dwwl{
+            margin: 0 !important;
+        }
+    </style>
+</head>
+<body style="background: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>发布委托</h2>
+    <!--<a href="javascript:void(0);" class="search_btn"><img src="__IMG__/search.png" alt=""></a>-->
+</header>
+
+<section class="flow_section">
+    <div class="flow_list">
+        <ul>
+            <li><em>1</em><p>填写信息</p></li>
+            <li><em>2</em><p>支付定金</p></li>
+            <li><em>3</em><p>律师竞标</p></li>
+            <li><em>4</em><p>支付律师费托管至平台</p></li>
+            <li><em>5</em><p>律师签约</p></li>
+            <li><em>6</em><p>律师费转至律师</p></li>
+            <li><em>7</em><p>评价</p></li>
+        </ul>
+    </div>
+</section>
+<section class="release_contract" style="padding-bottom: 1.1rem">
+    <div class="release_list">
+        <ul>
+            <li>
+                <div class="release_item">
+                    <p>选择需求</p>
+                    <span class="kinds_name"></span>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>选择案件类型</p>
+                    <span class="kinds_child_name"></span>
+                </div>
+            </li>
+            <li>
+                <div class="main1 box"><!-- 普通代理-->
+                    <div class="release_item">
+                        <p>委托报价<i>(仅限一阶段服务费)</i></p>
+                        <em onclick="aaplay('cost_calc_lawyer')" style="cursor: pointer">费用计算</em>
+                    </div>
+                    <div class="item_list">
+                        <dl>
+                            <dd><p>最低报价</p><input type="text" placeholder="请输入价格" id="minprice"></dd>
+                            <dd><p>最高报价</p><input type="text" placeholder="请输入价格" id="maxprice"></dd>
+                            <dd><p>委托保证金<i>(可抵扣律师费)</i></p><small>50元</small></dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="main2 box" style="display: none;"><!-- 专项代理-->
+                    <div class="release_item">
+                        <p>平台统一价格</p>
+                        <small>699.00元</small>
+                    </div>
+                    <div class="item_info">
+                        <p>诉讼及其他材料由委托人准备，律师仅负责相关立案手续，代为缴纳费用。</p>
+                    </div>
+                </div>
+                <div class="main3 box" style="display: none;"><!-- 风险代理-->
+                    <div class="release_item">
+                        <p>基础律师费</p>
+                        <small>所有阶段的基础(前期)律师费</small>
+                    </div>
+                    <div class="item_list">
+                        <dl>
+                            <dd><p>最低报价</p><input type="text" placeholder="请输入价格"></dd>
+                            <dd><p>最高报价</p><input type="text" placeholder="请输入价格"></dd>
+                            <dd><p>后期律师费回款金额比例</p><input type="text" placeholder="请输入比例(8%-30%)"></dd>
+                            <dd><p>委托保证金<i>(可抵扣律师费)</i></p><small>100元</small></dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="main4 box" style="display: none;"><!-- 招聘法务人员-->
+                    <div class="release_item">
+                        <p>招聘薪酬</p>
+                        <small>岗位年薪，单位：万元</small>
+                    </div>
+                    <div class="item_list">
+                        <dl>
+                            <dd><p>最低年薪</p><input type="text" placeholder="请输入价格"></dd>
+                            <dd><p>最高年薪</p><input type="text" placeholder="请输入价格"></dd>
+                            <dd><p>后期律师费回款金额比例</p><input type="text" placeholder="请输入比例(8%-30%)"></dd>
+                            <dd><p>发布费用</p><small>200元</small></dd>
+                        </dl>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>问题概述</p>
+                </div>
+                <textarea name="" id="content" cols="30" rows="10" placeholder="请输入您要咨询的问题：如案情经过、证据情况、以便 律师更好的为您解答。"></textarea>
+                <!--<div class="mp3">
+                    <a href="javascript:void(0);" class="mp3_btn"><img src="__IMG__/MP3.png" alt=""></a>
+                    <span>限500字</span>
+                </div>-->
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>添加定位</p>
+                    <span class="kinds_choose1"></span>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>投标截至时间</p>
+                    <input value="" readonly="readonly" name="appDateTime" id="appDateTime" type="text">
+                </div>
+            </li>
+            <li>
+                <div class="pay_deduction" style="padding: 0;border-bottom: none!important;">
+                    <p style="font-size: 0.3rem!important;">请平台为我推荐律师</p>
+                    <span class="checkbox"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <button class="release_submit release_btn" type="submit" onclick="tijiao()">提交信息</button>
+</section>
+<section class="fixed_checked">
+    <div class="checked_section">
+        <div class="fixed_title">
+            <h6>请选择类型</h6>
+            <a href="javascript:void(0);" class="sure_btn">确定</a>
+        </div>
+        <div class="kinds_section">
+            <div class="check_box">
+                <ul id="xqf">
+                    <li>普通代理</li>
+                    <li>专项委托</li>
+
+                </ul>
+            </div>
+            <div class="kinds_item"  id="xqs">
+                <ul>
+                    <li>代为立案 <i class="tips"></i></li>
+                    <li>代为开庭 <i class="tips"></i></li>
+                    <li>工商档案查询 <i class="tips"></i></li>
+
+                </ul>
+                <ul>
+                    <li>工商档案查询 <i class="tips"></i></li>
+                    <li>代为立案 <i class="tips"></i></li>
+
+                </ul>
+                <ul>
+                    <li>起草合同(代写文书) <i class="tips"></i></li>
+                    <li>刑事会见 <i class="tips"></i></li>
+
+                </ul>
+                <ul>4</ul>
+                <ul>5</ul>
+            </div>
+        </div>
+
+    </div>
+</section>
+<div class="fixed">
+    <div class="content">
+        <div class="title">
+            <h6>请选择地区</h6>
+
+        </div>
+        <div class="choose">
+            <ul id="cityf">
+
+            </ul>
+            <ol id="citys">
+                <li>
+
+                </li>
+
+                <li>4</li>
+
+            </ol>
+        </div>
+    </div>
+</div>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+
+    var act=1;
+
+    var xqid=0;
+    var ajid=0;
+    var addrid=0;
+    var cityid=0;
+
+    ajcity()
+
+    function ajcate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        f+='<li style="cursor: pointer">'+tj[i].name+'</li>';
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<ul>';
+                            for(var j=0;j<son.length;j++){
+                                s+='<li  style="cursor: pointer" data="'+son[j].id+'">'+son[j].name+'</li>';
+                            }
+                            s+='</ul>';
+                        }
+
+                    }
+                }
+                $('#ajf').html(f)
+                $('#ajs').html(s)
+
+                xqcate()
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+    function xqcate(){
+        var p={type:1}
+        $.post(webSiteUrl+'/app/public/cate',p,function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        f+='<li style="cursor: pointer">'+tj[i].title+'</li>';
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<ul>';
+                            for(var j=0;j<son.length;j++){
+                                s+='<li  style="cursor: pointer" data="'+son[j].id+'">'+son[j].title+'</li>';
+                            }
+                            s+='</ul>';
+                        }
+
+                    }
+                }
+                $('#xqf').html(f)
+                $('#xqs').html(s)
+
+
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+    function ajcity(){
+        $.post(webSiteUrl+'/app/public/region',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        if(i==0){
+                            f+='<li class="active" style="cursor:pointer" data="'+tj[i].id+'">'+tj[i].name+'</li>';
+                        }else{
+                            f+='<li style="cursor:pointer" data="'+tj[i].id+'">'+tj[i].name+'</li>';
+                        }
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<li>';
+                            for(var j=0;j<son.length;j++){
+                                s+='<span style="cursor:pointer" data="'+son[j].id+'">'+son[j].name+'</span>';
+                            }
+                            s+='</li>';
+                        }
+
+                    }
+                }
+                $('#cityf').html(f)
+                $('#citys').html(s)
+            }else{
+                alert(ret.msg);
+            }
+            ajcate()
+        });
+
+    }
+
+    function tijiao() {
+        if(!loginCheck()){
+            return;
+        }
+        var minprice=$('#minprice').val();
+        var maxprice=$('#maxprice').val();
+        var margin = 50;
+        var content=$('#content').val();
+        var last_time=$('#appDateTime').val();
+        if(xqid == 0){
+            alert('请选择需求类型！');return;
+        }else if(ajid == 0){
+            alert('请选择案件类型！');return;
+        }else if(addrid == 0){
+            alert('请选择地区！');return;
+        }else if(minprice == '' || maxprice == ''){
+            alert('请输入报价金额！');return;
+        }else if(!/^\d+$/.test(minprice) || !/^\d+$/.test(maxprice)){
+            alert('金额必须是数字！');return;
+        }else if(last_time == ''){
+            alert('请选择投标截至时间！');return;
+        }
+        var p={token:token,model:'wt',minprice:minprice,maxprice:maxprice,margin:margin,xqid:xqid,ajid:ajid,cityid:cityid,addrid:addrid,last_time:last_time,content:content};
+        console.log(p);
+        $.post(webSiteUrl+"/app/user/apply",p,function(res){
+
+            if(res.code == 200){
+                alert(res.msg)
+                var orderno=res.data.orderno;
+                var money=res.data.money;
+
+                location.href='/Home/User/pay_bond?orderno='+orderno+'&money='+50;
+                //location.href='/home/user/order_pay?type=8&money='+50;
+
+            }else{
+                alert(res.msg);return false;
+
+            }
+
+        });
+    }
+
+
+    //选择类型
+    $(".kinds_name,.kinds_child_name").click(function () {
+
+        act=parseInt($(this).parents('li').index()+1)
+        if(act==1){
+            url='/app/public/cate';
+        }else{
+            url='/app/public/ajcate';
+        }
+        var p={type:1}
+        $.post(webSiteUrl+url,p,function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        if(act==1){
+                            f+='<li style="cursor: pointer">'+tj[i].title+'</li>';
+                        }else{
+                            f+='<li style="cursor: pointer">'+tj[i].name+'</li>';
+                        }
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<ul>';
+                            for(var j=0;j<son.length;j++){
+                                if(act==1){
+                                    s+='<li  style="cursor: pointer" data="'+son[j].id+'">'+son[j].title+'</li>';
+                                }else{
+                                    s+='<li  style="cursor: pointer" data="'+son[j].id+'">'+son[j].name+'</li>';
+                                }
+
+                            }
+                            s+='</ul>';
+                        }
+
+                    }
+                }
+                $('#xqf').html(f)
+                $('#xqs').html(s)
+
+                $(".fixed_checked").fadeIn().find('.checked_section').animate({
+                    'top': 0,
+                    'opacity': 1
+                },400);
+                var active_index = $(".check_box ul li.active").index();
+                if(active_index>=0){
+                    $(".check_box ul li").eq(active_index).addClass('active').siblings('li').removeClass('active');
+                    $(".kinds_item ul").eq(active_index).show().siblings('ul').hide();
+                }else {
+
+                    $(".check_box ul li").eq(0).addClass('active').siblings('li').removeClass('active');
+                    $(".kinds_item ul").eq(0).show().siblings('ul').hide();
+                }
+
+
+            }
+
+        });
+
+    });
+    $('.fixed_checked').on('click','.check_box ul li',function () {
+        $(this).addClass('active').siblings('li').removeClass('active');
+        $(".kinds_item ul").eq($(this).index()).show().siblings('ul').hide();
+    })
+
+    $('.fixed_checked').on('click','.kinds_item ul li',function () {
+        $(".kinds_item ul li").removeClass('active');
+        $(this).addClass('active');
+    });
+    $(".kinds_choose1").click(function () {
+        $(".fixed").fadeIn().find('.content').animate({
+            'top': '0',
+            'opacity': 1
+        });
+        $(".choose ul li").eq(0).addClass('active').siblings('li').removeClass();
+        $('.choose ol li').eq(0).show().siblings('li').hide();
+    });
+
+    $(document).on('click',".choose ul li",function () {
+        $(this).addClass('active').siblings('li').removeClass();
+        $('.choose ol li').eq($(this).index()).show().siblings('li').hide();
+    });
+    $(document).on('click',".choose ol li span",function () {
+        var name=$(this).html()
+        var pname=$('.choose ul li.active').html();
+        cityid=$('.choose ul li.active').attr('data');
+
+        $('.kinds_choose1').html(pname+' '+name)
+        var id=$(this).attr('data')
+        $('input[name=addrid]').val(id)
+        addrid=id;
+        $(".fixed").fadeOut().find('.content').animate({
+            'top': '-5rem',
+            'opacity': 0
+        })
+    });
+
+    $(".sure_btn").click(function () {
+        $(".fixed_checked").fadeOut().find('.checked_section').animate({
+            'top': '-4rem',
+            'opacity': 0
+        },400);
+
+        var str1='';
+        var str2='';
+        $(".kinds_item ul li").each(function () {
+            if($(this).hasClass('active')){
+                str1 =$(this).text();
+                var id=$(this).attr('data');
+                if(act==1){
+                    xqid=id
+                    $(".kinds_name").text(str1);
+                }else{
+                    ajid=id
+                    $(".kinds_child_name").text(str1);
+                }
+
+            }
+        });
+        return false;
+        var _index='';
+        $(".check_box ul li").each(function () {
+            if($(this).hasClass('active')){
+                _index = $(this).index();
+                str2 =$(this).html();
+                $(".kinds_name").text(str2);
+                if(!$(".kinds_item ul").eq(_index).find('li').hasClass('active')){
+                    if(act==1){
+                        $(".kinds_name").text($(".kinds_item ul").eq(_index).find('li').eq(0).addClass('active').text());
+                    }else{
+                        $(".kinds_child_name").text($(".kinds_item ul").eq(_index).find('li').eq(0).addClass('active').text());
+                    }
+
+                }else {
+
+                }
+
+            }
+        });
+        switch (_index){
+            case 1: $('.main2').show().siblings('.box').hide();
+                break;
+            case 2: $('.main3').show().siblings('.box').hide();
+                break;
+            case 3: $('.main4').show().siblings('.box').hide();
+                break;
+            default:
+                $('.main1').show().siblings('.box').hide();
+        }
+    });
+
+    //使用邀请抵扣
+    $(".pay_deduction span").click(function () {
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+        }else {
+            $(this).addClass('active');
+        }
+    })
+    //时间选择
+    var currYear = (new Date()).getFullYear();
+    var opt={};
+    opt.date = {preset : 'date'};
+    opt.datetime = {preset : 'datetime'};
+    opt.time = {preset : 'time'};
+    opt.default = {
+        theme: 'android-ics light', //皮肤样式
+        display: 'modal', //显示方式
+        mode: 'scroller', //日期选择模式
+        dateFormat: 'yyyy-mm-dd',
+        lang: 'zh',
+        showNow: true,
+        nowText: "今天",
+        startYear: currYear , //开始年份
+        endYear: currYear + 10 //结束年份
+    };
+
+    var optDateTime = $.extend(opt['datetime'], opt['default']);
+    $("#appDateTime").mobiscroll(optDateTime).datetime(optDateTime);
+</script>
+</html>

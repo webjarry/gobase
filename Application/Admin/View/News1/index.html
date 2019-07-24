@@ -1,0 +1,133 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>内容列表</h2>
+	</div>
+	<div class="cf">
+		<div class="fl">
+			<if condition="$_GET['typeid'] neq ''">
+            <a class="btn" href="{:U('News/add?typeid='.$_GET['typeid'])}">新 增</a>
+			<else />
+			<a class="btn" href="{:U('News/add')}">新 增</a>
+			</if>
+            <button class="btn ajax-post" url="{:U('News/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
+            <button class="btn ajax-post" url="{:U('News/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+            <button class="btn ajax-post confirm" url="{:U('News/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
+        </div>
+
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<form action="/admin/news/index" id="form1" method="get">
+				<div class="sleft">
+					<!--<input type="text" name="typeid" class="search-input" value="" placeholder="文件分类">-->
+					<select class="search-input" name="typeid">
+						<option value="0">请选择分类</option>
+
+						<volist name="lists" id="typelist">
+							<option value="{$typelist.id}" <?php if($_GET['typeid']==$typelist[id]){echo 'selected';} ?>>{$typelist.html}{$typelist.title}</option>
+						</volist>
+					</select>
+					<input type="text" name="title" class="search-input" value="{$get[title]}" placeholder="标题">
+					<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+				</div>
+			</form>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+		<th class="">编号</th>
+		<th class="">内容标题</th>
+		<th class="">内容分类</th>
+		<th class="">最后更新</th>
+			<if condition="$_GET[typeid] neq 28">
+		       <th class="">浏览量</th>
+			</if>
+		<th class="">状态</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="list">
+		<volist name="list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			
+			<td>{$vo.title}</td>
+			
+			<td>{:get_cate($vo['typeid'])}</td>
+			<td>{$vo.update_time|time_format}</td>
+			<if condition="$_GET[typeid] neq 28">
+			<td><span>{$vo.view}次</span></td>
+            </if>
+			<td>{$vo.status|get_status_title}</td>
+			<td><eq name="vo.status" value="1">
+				<a href="{:U('News/changeStatus?method=forbidUser&id='.$vo['id'])}" class="ajax-get">禁用</a>
+				<else/>
+				<a href="{:U('News/changeStatus?method=resumeUser&id='.$vo['id'])}" class="ajax-get">启用</a>
+				</eq>
+                <a href="{:U('News/edit?id='.$vo['id'].'&typeid='.$_GET['typeid'])}">编辑</a>
+				<a href="{:U('News/del?id='.$vo['id'].'&typeid='.$_GET['typeid'].'&fjid='.$_GET['fjid'])}" class="confirm ajax-get">删除</a>
+                </td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+	<script type="text/javascript">
+	//搜索功能
+	/*$("#search").click(function(){
+		
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+		
+	});*/
+
+	$("#search").click(function(){
+
+
+		var typeid = $("select[name=typeid]").val();
+		var title  = $('input[name=title]').val();
+		$("#form1").submit();
+
+
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			
+			$("#search").click();
+			return false;
+			
+		}
+	});
+	
+    //导航高亮
+    highlight_subnav('{:U('News/index')}');
+	</script>
+</block>

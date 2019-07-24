@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style type="text/css">
+        .zd_price{
+            padding: 0.6rem 0.3rem 0.4rem;
+            background: #fff;
+            margin-bottom: 0.25rem;
+            text-align: center;
+            font-size: 0.3rem;
+            color: #333333;
+            line-height: 0.48rem;
+        }
+        .zd_price .userImg{
+            display: block;
+            width: 1.5rem;
+            height: 1.5rem;
+            margin: 0 auto 0.25rem;
+            border-radius: 50%;
+        }
+        .zd_price span{
+            font-weight: bold;
+            color: #f3a538;
+            font-size: 0.36rem;
+            font-family: Arial;
+        }
+        .zd_info{
+            background: #FFFFFF;
+            padding: 0.2rem 0;
+        }
+        .zd_info ul li{
+            padding: 0 0.3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 0.8rem;
+            font-size: 0.28rem;
+            color: #333333;
+        }
+        .zd_info ul li p{
+            color: #8f8f8f;
+        }
+    </style>
+</head>
+
+<body style="background: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);" onclick="comeBack()" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>账单详情</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+
+<div class="zhangdan">
+    <div class="zd_price">
+        <img class="userImg" id='userImg' src="../image/user_tx.png" alt="">
+        <p id="form">图文咨询费用-来自 138****5632</p>
+        <span id="money">+230.00</span>
+    </div>
+    <div class="zd_info">
+        <ul>
+            <li><p>费用类型</p><span id="kinds">图文咨询</span></li>
+            <li id="dfName"><p>对方名称</p><span id="tel">138****5632</span></li>
+            <li><p>转账时间</p><span id="time">2018-12-15 12:55</span></li>
+            <li class="order_num"><p>交易单号</p><span id="order_num">536558431346463</span></li>
+        </ul>
+    </div>
+</div>
+
+
+</body>
+<include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var id = para('id');
+    toDoRequest();
+
+    function toDoRequest() {
+        var p = {
+            token:token,
+            id: id
+        }
+		
+		$.post(webSiteUrl + '/app/staff/waterDetail',p,function(ret){
+		
+			if (ret.code == 200) {
+              var info = ret.data;
+
+              if(info!=''||info!=null||typeof(info)!=undefined){
+
+                if(info.user!=''){
+                  $("#userImg").attr('src',webSiteUrl+info.user.icon);
+                  var tel = info.user.phone;
+                  tel = tel.substr(0, 3) + '****' + tel.substring(7, 11);
+                  $("#tel").html(tel);
+
+                  if(info.type == 2){
+                    $("#form").html('向'+tel+'支付费用')
+                  }else {
+                    $("#form").html(info.water_title);
+                  }
+
+
+                }else{
+                  $("#form").html(info.water_title);
+                  $("#dfName").hide();
+                  $("#userImg").attr('src',webSiteUrl+'/Public/Home/img/user_tx.png');
+                }
+
+
+                $("#kinds").html(info.water_title);
+                $("#time").html(info.create_time);
+                if(info.order_number ==''||info.order_number ==null){
+                  $(".order_num").hide();
+                }else {
+                  $("#order_num").html(info.order_number);
+                }
+
+
+                if(info.type == 2){
+                  $("#money").html('-'+info.new_price);
+                }else {
+                  $("#money").html('+'+info.new_price);
+                }
+              }
+
+            } else {
+
+            }
+		
+		});
+		
+        
+
+    }
+</script>
+
+</html>

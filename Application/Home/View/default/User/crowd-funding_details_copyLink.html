@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <script>
+        $(function () {
+            window['adaptive'].desinWidth = 750;
+            window['adaptive'].baseFont = 28;
+            window['adaptive'].maxWidth = 750;
+            window['adaptive'].init();
+        });
+    </script>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" onclick="api.closeWin()" class="back_btn"><img src="../image/head-fanhui.png" alt=""></a>
+    <h2>众筹详情</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="crowd_details_img">
+    <img src="../image/crowd_details_img.png" alt="">
+    <div class="details_progress">
+        <div class="progress_time">
+            <span>结束时间：2018-12-11</span>
+        </div>
+        <div class="bar">
+            <div class="progress_bar"></div>
+        </div>
+        <div class="details">
+            <ul>
+                <li>
+                    <span><b>892.45</b>元 </span>
+                    <p>目标</p>
+                </li>
+                <li style="display:none;">
+                    <span><b class="percentage">30%</b></span>
+                    <p>筹款进度</p>
+                </li>
+                <li>
+                    <div style="font-size: 0.28rem;color: #333;margin-top: 0.3rem">民事类-人身损害</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="crowd_title">
+        <h6>儿子工作致盲，被单位抛弃</h6>
+        <p>因操作不慎使一只眼睛完全看不清东西，却被单位狠心抛弃</p>
+    </div>
+</section>
+<section class="crowd_details" style="margin-bottom: 1.2rem">
+    <div class="common_title">
+        <h6 style="font-weight: normal; font-size: 0.3rem;">众筹详情</h6>
+    </div>
+    <div class="content">
+        <p>
+            病痛突来，前路未知。<br>
+            蕲水县农民喜大叔，今年69岁，儿子出事前，夫妻俩除了务农，还经常外出打工，准备年底过个好年。谁知这一场突如其来的意外，彻底改变了这个家庭的命运。<br>
+            儿子在工作中因操作不慎使一只眼睛成为了盲眼，这个家庭不仅花光了所有存款还负债累累，沉重的治疗费用已经压垮了这个家庭。<br>
+            儿子出事后，大叔老两口一夜之间变得特别沧桑，大娘也以为着急住了几天院，只有大叔一人还在撑着。<br>
+            如今儿子单位在儿子出事后不管不问，一分治疗钱都没有出，大叔已经没有办法，只好在这里请求帮助，让好心人出一份力，帮助他们讨个说法。<br>
+        </p>
+        <ul>
+            <li><img src="../image/applyh_pic1.png" alt=""></li>
+            <li><img src="../image/applyh_pic2.png" alt=""></li>
+            <li><img src="../image/applyh_pic3.png" alt=""></li>
+        </ul>
+    </div>
+</section>
+
+<section class="fixed_btn">
+    <a href="##">复制分享链接</a>
+</section>
+
+</body>
+<script>
+
+    var _num = $('.percentage').text();
+    $('.progress_bar').animate({
+        'width': _num
+    },1500);
+
+
+    //打开新窗口
+    function aaplay(name,url){
+        api.openWin({
+            name: name,
+            url: url,
+            pageParam: {
+
+            }
+        });
+    }
+
+    //返回上一级
+    function comeBack(){
+        api.historyBack({
+        },function(ret,err){
+            if (!ret.status) {
+                api.closeWin();
+            }
+        });
+    }
+</script>
+</html>

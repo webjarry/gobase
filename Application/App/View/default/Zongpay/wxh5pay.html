@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>微信支付</title>
+
+    <style type="text/css">
+        body{
+            font-family: "Microsoft YaHei";
+        }
+        .pay-box{
+            position: absolute;
+            top: 50%;
+            margin-top: -516px;
+            left: 50%;
+            margin-left: -320px;
+        }
+        .ico{
+            width: 240px;
+            height: 240px;
+            border-radius: 120px;
+            background: #3FB837;
+            color: #fff;
+            display: inline-block;
+            font-size: 160px;
+            line-height: 240px;
+        }
+        .txt{
+            font-size: 42px;
+            padding-top: 30px;
+            color: #333;
+        }
+        .val{
+            font-size: 80px;
+            font-weight: bold;
+        }
+        .pay{
+            width: 640px;
+            height: 100px;
+            margin-top: 100px;
+            padding: 20px;
+            border-radius: 10px;
+            font-size:42px;
+            color: #fff;
+            background: #07BF05;
+            border: 0px;
+            text-align: center;
+        }
+        a{
+            color: #fff;
+            background: transparent !important;
+        }
+    </style>
+    <style>
+        .header{    height: 3rem;
+            position: relative;
+            line-height: 0.9rem;
+            background: #1c83ea;
+        }
+        .header h2{
+            width: 100%;
+            text-align: center;
+            line-height: 0.9rem;
+            font-size: 0.36rem;
+            color: #ffffff;
+            font-weight: normal;
+        }
+        .header .back_btn{
+            position: absolute;
+            left: 3%;
+            height: 0.9rem;
+            line-height: 0.9rem;
+        }
+        .header .back_btn img {
+            width: 0.23rem;
+            height: 0.34rem;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<!--<header class="header" style="">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>申请众筹</h2>
+    &lt;!&ndash;<a href="find_lawyers_edit.html" class="myAnswer_btn edit_btn">我的互助金</a>&ndash;&gt;
+</header>-->
+<div class="pay-box" style="text-align: center;">
+    <div class="ico">
+        ￥
+    </div>
+    <div class="txt">
+        支付金额
+    </div>
+    <div class="val">
+        ￥<span>{$money}</span>
+        <!-- 这里使用原生PHP echo输出需要支付的价格 -->
+    </div>
+    <a class="pay" href="{$objectxml.mweb_url}"><button class="pay">确认支付</button></a>
+    <!-- 这里点击调起微信支付页面 mweb_url  -->
+</div>
+</body>
+<script type="text/javascript" src="/Public/Home/js/jquery-1.9.1.min.js"></script>
+<script>
+
+
+    var orderno ="{$order['order_number']}";
+    var zc_id  ="{$order['zc_id']}";
+    var s=setInterval("ordercheck()", 2000);
+
+    function ordercheck() {
+
+        $.post("/App/Zongpay/checkorder",{orderno:orderno},function(da) {
+          
+            var checkobj = jQuery.parseJSON(da);
+           console.log(checkobj);
+            if (checkobj.code == 200) {
+			  alert('支付成功');
+                clearInterval(s);
+                window.location.href='http://www.test2.test/Home/user/personal_mycrowd_funding_jk.html?id='+zc_id;
+
+            }else{
+                //alert(num)
+            }
+        })
+    }
+
+</script>
+</html>

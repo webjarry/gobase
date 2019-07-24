@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html style="background: #FFFFFF;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+
+	<link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+
+	<link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+	<script type="text/javascript" src="__JS__/api.js"></script>
+	<script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	
+	<style type="text/css">
+		.fyb_logo_about{display: block;background-color: #F3F3F3;box-sizing: border-box;padding: 1rem 4%;}
+		.fyb_logo_about img{display: block;	width: 2.88rem;	height: 0.89rem;margin:0 auto;}
+		.about_fyb_con{display: block;box-sizing: border-box;padding: 0rem 4%;}
+		.ab_fyb_tit{display: block;text-align: center;font-size: 0.36rem;color: #333333;font-weight: bold;margin-top: 0.60rem;}
+		.ab_fyb_about{display: block;margin-top: 1.20rem;}
+		.ab_fyb_about div p{text-align: center;line-height: 0.40rem; font-size: 0.30rem;color: #333333;font-weight: bold;}
+		.ab_fyb_about > p{margin-top:0.30rem;font-size: 0.28rem;color: #666666;box-sizing: border-box;padding-left: 1.40rem;}
+		.ab_fyb_btm{display: block;margin-top: 1.60rem;}
+		.ab_btm_tit{display: block;}
+		.ab_btm_tit p{font-size: 0.30rem;color: #1580f3;font-weight: bold;text-align: center;}
+		.ab_fyb_btm > p{font-size: 0.28rem;color: #666666;text-align: center;margin-top: 0.15rem;}
+		.ab_fyb_btm > p:first-child{margin-top: 0.40rem;}
+	</style>
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>关于我们</h2>
+    <!--<a href="javascript:void (0);" class="search_btn set_btn">设置</a>-->
+</header>
+<section class="statistics">
+	<div class="fyb_logo_about"><img src="__IMG__/fyb_logo.png" alt=""></div>
+	<div class="about_fyb_con">
+		<p class="ab_fyb_tit">领先的互联网法律服务电商平台</p>
+		<div class="ab_fyb_about">
+			<div class="ab_ab_tit"><p>联系我们</p></div>
+			<p>官方网址：{:C('WEB_SITE_URL')}</p>
+			<p>官方邮箱：{:C('WEB_SITE_EMAIL')}</p>
+			<p>合作电话：{:C('WEB_SITE_MOBILE')}</p>
+		</div>
+		<div class="ab_fyb_btm">
+			<div class="ab_btm_tit"  onclick="aaplay('yhxy.html')"><p>用户协议</p></div>
+			<p>版权所有  {:C('WEB_BANQUAN_AUTH')}</p>
+			<p>Copyright   {:C('WEB_SITE_ICP')}</p>
+		</div>
+	</div>
+</section>
+	</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+</html>

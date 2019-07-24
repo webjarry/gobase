@@ -1,0 +1,581 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style>
+         html,body{height: 100%;}
+        .fixed{display: none;position: fixed;top: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.4);z-index: 999;}
+        .fixed .content{position: absolute;left: 0;right: 0;top: -4rem;bottom: 0;margin: auto;opacity: 1;width: 80%;height: 6rem;background: #ffffff;border-radius: 4px; overflow: hidden;}
+        .content .title{display: flex; justify-content: space-between;}
+        .content .title h6{width: 100%;height: 0.99rem;line-height: 0.99rem;text-align: center;font-size: 0.32rem;font-weight: normal;border-bottom: 0.01rem #f3f3f3 solid;}
+
+        .choose{display: flex;justify-content: space-between;font-size: 0.26rem;}
+        .choose ul{width: 35%;height: 5rem;overflow-y: scroll;}
+        .choose ul li,.choose ol li span{height: 0.99rem;border-bottom: 0.01rem #f3f3f3 solid;display: flex;justify-content: center;align-items: center;}
+        .choose ul li.active{color: #fd8e32;}
+        .choose ol{width: 65%;height: 5rem;list-style: none;background: #f3f3f3;overflow-y: scroll;}
+        .choose ol li span{border-bottom: 0.01rem #e1e1e1 solid;}
+        .choose ol li span input[type=checkbox]{display: none;}
+        .choose ol li span.on{ color: #fd8e32;}
+    </style>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>个人资料</h2>
+    <a href="javascript:;" class="tel_btn" onclick="tijiao()">保存</a>
+</header>
+<section class="userInfo_list" style="margin-bottom: 0!important;">
+    <ul>
+        <li>
+            <div class="info_item">
+                <p>修改头像</p>
+                <div class="tx_upload">
+                    <img src="__IMG__/user_tx.png" alt=""  id='icon'>
+                    <input type="hidden" name='icon' value=''>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>姓名</p>
+                <input type="text" placeholder="请输入真实姓名" name='nickname'>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>性别</p>
+                <input type="text" placeholder="请选择性别" name='sex'>
+                <select name="" id="">
+                    <option value="">请选择性别</option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>地区</p>
+                <input type="text" placeholder="请选择地区" name='addr'  class="kinds_choose">
+                <input type="hidden"  name='addrid' >
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>专长类型</p>
+                <a href="javascript:void(0);" class="check_kinds">请选择专长类型</a>
+                 <input type="hidden"  name='label' value="">
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>律所</p>
+                <input type="text" placeholder="请输入律所名称"  name='depart'>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>执业证号</p>
+                <input type="text" placeholder="请输入执业证号"  name='ipno'>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>身份证号</p>
+                <input type="text" placeholder="请输入身份证号" name='icno'>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>简介</p>
+                <input type="text" placeholder="请输入个人简介" name='content'>
+            </div>
+        </li>
+       <!--  <li>
+           <div class="info_item">
+               <p>手机号</p>
+               <input type="text" placeholder="请输入手机号" >
+           </div>
+       </li> -->
+        <li>
+            <div class="info_item">
+            <p>绑定银行卡</p>
+            <a href="javascript:;" onclick="aaplay('personal_info_bankcard')" id="cardno">绑定银行卡号</a>
+            </div>
+        </li>
+        <li style="border-bottom:none!important;">
+            <div class="info_item">
+                <p>上传执业证照片</p>
+            </div>
+            <div class="photos">
+                <dl>
+                    <dd><img src="__IMG__/user_upload1.png" alt="" id='ipzm'></dd>
+                    <dd><img src="__IMG__/user_upload2.png" alt="" id='ipfm'></dd>
+                    <input type="hidden" name='ipzm' value=''>
+                    <input type="hidden" name='ipfm' value=''>
+                </dl>
+            </div>
+        </li>
+        <li>
+            <div class="info_item">
+                <p>上传身份证照片</p>
+            </div>
+            <div class="photos">
+                <dl>
+                    <dd><img src="__IMG__/user_upload3.png" alt=""   id='iczm'></dd>
+                    <dd><img src="__IMG__/user_upload4.png" alt=""   id='icfm'></dd>
+                    <input type="hidden" name='iczm' value='' >
+                    <input type="hidden" name='icfm' value='' >
+                </dl>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<section class="fixed_checked">
+    <div class="checked_section">
+        <div class="fixed_title">
+            <h6>请选择类型</h6>
+            <a href="javascript:void(0);" class="sure_btn">确定</a>
+        </div>
+        <div class="kinds_section">
+            <div class="check_box">
+                <ul id='f'>
+                   
+                </ul>
+            </div>
+            <div class="kinds_item" id='son'>
+                <ul>
+                    <li>一般民事</li>
+                   
+                </ul>
+                <ul>2</ul>
+                <ul>3</ul>
+                <ul>4</ul>
+                <ul>5</ul>
+                <ul>6</ul>
+                <ul>7</ul>
+            </div>
+        </div>
+
+    </div>
+</section>
+<div class="fixed">
+    <div class="content">
+        <div class="title">
+            <h6>请选择地区</h6>
+
+        </div>
+        <div class="choose">
+            <ul id="cityf">
+
+            </ul>
+            <ol id="citys">
+                <li>
+
+                </li>
+
+
+                <li>7</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    ajcate();
+
+
+    function user() {
+        var p={token:token,infock:2};
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+            if(ret.code==200){
+                //alert(JSON.stringify(ret.data));
+                
+                $('#icon').attr("src",webSiteUrl+ret.data.icon);
+                $("input[name=icon]").val(ret.data.iconid);
+                if(ret.data.n1id >0){
+                    $('#ipzm').attr("src",webSiteUrl+ret.data.ipzm);
+                    $("input[name=ipzm]").val(ret.data.n1id);
+                }
+                if(ret.data.n2id  >0){
+                    $('#ipfm').attr("src",webSiteUrl+ret.data.ipfm);
+                    $("input[name=ipfm]").val(ret.data.n2id);
+                }
+                if(ret.data.n3id  >0){
+                    $('#iczm').attr("src",webSiteUrl+ret.data.iczm);
+                    $("input[name=iczm]").val(ret.data.n3id);
+                }
+                if(ret.data.n4id  >0){
+                    $('#icfm').attr("src",webSiteUrl+ret.data.icfm);
+                    $("input[name=icfm]").val(ret.data.n4id);
+                }
+
+                
+                $("input[name=nickname]").val(ret.data.nickname);
+                //$('#phone').val(ret.data.phone);
+                $("input[name=sex]").val(ret.data.sex);
+                if(ret.data.addr != null){
+                    $("input[name=addr]").val(ret.data.addr);
+                }
+
+                $("input[name=addrid]").val(ret.data.addrid);
+                 if(ret.data.label!=null){
+                    $("input[name=label]").val(ret.data.label);
+                    $('.check_kinds').html(ret.data.labelstr)
+                 }
+
+                if(ret.data.cardno.length>0){
+                    $("#cardno").html('已绑定');
+                }
+                
+                $("input[name=depart]").val(ret.data.depart);
+                $("input[name=ipno]").val(ret.data.ipno);
+                $("input[name=icno]").val(ret.data.icno);
+                $("input[name=content]").val(ret.data.content);
+            }else{alert(ret.msg)}
+
+
+        });
+
+    }
+
+    function tijiao() {
+
+        var nickname=$("input[name=nickname]").val();
+        //var phone=$("input[name=phone]").val();
+        var sex=$("input[name=sex]").val();
+        var addr=$("input[name=addr]").val();
+        var addrid=$("input[name=addrid]").val();
+        var label=$("input[name=label]").val();
+        var depart=$("input[name=depart]").val();
+        var ipno=$("input[name=ipno]").val();
+        var icno=$("input[name=icno]").val();
+        var content=$("input[name=content]").val();
+        
+        var icon=$("input[name=icon]").val();
+        var ipzm=$("input[name=ipzm]").val();
+        var ipfm=$("input[name=ipfm]").val();
+        var iczm=$("input[name=iczm]").val();
+        var icfm=$("input[name=icfm]").val();
+        if(nickname==''){
+            alert("请输入昵称！");return;
+        }else if(sex==''){
+            alert("请选择性别！");return;
+        }else if(addrid==0){
+            alert("请选择地区！");return;
+        }else if(label==''){
+            alert("请选择专长类型！");return;
+        }else if(depart==''){
+            alert("请输入律所！");return;
+        }else if(ipno==''){
+            alert("请输入执业证号码！");return;
+        }else if(icno==''){
+            alert("请输入身份证号码！");return;
+        }else if(!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(icno)){
+            alert("身份证号码格式错误！");return;
+        }else if(content==''){
+            alert("请输入个人简介！");return;
+        }else if(icon==0 || ipzm==0 || ipfm==0 || iczm==0 || icfm==0){
+            alert("请上传证件图片！");return;
+        }
+
+var p={token:token,infock:2,nickname:nickname,sex:sex,addr:addr,addrid:addrid,label:label,depart:depart,ipno:ipno,icno:icno,content:content,icon:icon,ipzm:ipzm,ipfm:ipfm,iczm:iczm,icfm:icfm};
+        //alert(JSON.stringify(p));
+        $.post(webSiteUrl+'/app/user/edit_user',p,function(ret){
+            if(ret.code==200){
+                alert(ret.msg)
+                location.href='/Home/lawyer/personal_info';
+
+            }else{alert(ret.msg)}
+        });
+    }
+
+    function ajcate(){
+        $.post(webSiteUrl+'/app/public/ajcate',function(ret){
+
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                //alert(JSON.stringify(ret.data))
+
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        f+='<li style="cursor: pointer">'+tj[i].name+'</li>';
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<ul>';
+                            for(var j=0;j<son.length;j++){
+                                s+='<li  style="cursor: pointer" data="'+son[j].id+'">'+son[j].name+'</li>';
+                            }
+                            s+='</ul>';
+                        }
+
+                    }
+                }
+                $('#f').html(f)
+                $('#son').html(s)
+
+                ajcity()
+            }else{
+                alert(ret.msg);
+            }
+        });
+
+    }
+    function ajcity(){
+        $.post(webSiteUrl+'/app/public/region',function(ret){
+            if(ret.code==200){
+
+                f = "";
+                s = "";
+                var tj=ret.data;
+                //alert(JSON.stringify(ret.data))
+
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        if(i==0){
+                            f+='<li class="active">'+tj[i].name+'</li>';
+                        }else{
+                            f+='<li>'+tj[i].name+'</li>';
+                        }
+
+                        var son=tj[i].son
+                        if(son != null){
+                            s+='<li>';
+                            for(var j=0;j<son.length;j++){
+                                s+='<span style="cursor:pointer" data="'+son[j].id+'">'+son[j].name+'</span>';
+                            }
+                            s+='</li>';
+                        }
+
+                    }
+                }
+                $('#cityf').html(f)
+                $('#citys').html(s)
+
+
+            }else{
+                alert(ret.msg);
+            }
+
+            user()
+        });
+
+    }
+    
+    function logout(){
+        location.href='/Home/lawyer/login';
+    
+    }
+    $(document).ready(function(){
+        uploadsasa('icon',1)
+        uploadsasa('iczm',1)
+        uploadsasa('icfm',1)
+        uploadsasa('ipzm',1)
+        uploadsasa('ipfm',1)
+    });
+    function uploadsasa(btn,type){
+        ajaxUploadicon(
+                btn, //上传的按钮id名称
+                1000000000,  //允许上传的文件大小（单位：kb）
+                '/Home/Public/upload?form_name=userfile&file_size=10000', //提交服务器端地址
+                'userfile', //提交服务器文件表单名称
+                "$(\".img_div\").show();$(\"#img_path\").attr('src', obj.filename);$(\"#is_upload\").val('1');", //上传成功后执行的 js callback
+                'loadimg' ,
+                type
+        );
+    }
+    function ajaxUploadicon(id_name, filesize, url, filename, callback, loadingid,type) {
+
+        var index;
+        var button = $('#'+id_name), interval;
+        var fileType = "pic", fileNum = "one";
+        new AjaxUpload(button,{
+            action: url,
+            name: filename,
+            onSubmit : function(file, ext){
+                index = layer.load(1, {
+                    shade: [0.4,'#000000']
+                });
+                if(fileType == "pic") {
+                    if (ext && /^(jpg|png|gif|jpeg)$/.test(ext)){
+                        this.setData({
+                            'info': '上传类型为图片'
+                        });
+
+                    } else {
+                        alert('提示：您上传的是非图片类型！');
+                        layer.close(index);
+                        return false;
+                    }
+                }
+                $("#"+loadingid).show();
+                if(fileNum == 'one') this.disable();
+            },
+            onComplete: function(file, response){
+                layer.close(index);
+                var obj = jQuery.parseJSON(response);
+                if (obj['ok'] == 'ok') {
+
+                    addpic(obj['id'],obj['filename'],id_name ,type)
+
+                    uploadsasa(id_name,type);
+                } else {
+                    switch (response) {
+                        case '1':
+                            alert('提示：上传失败，图片不能大于100M');
+
+                            break;
+                        case '3':
+                            alert('提示：图片只有部分文件被上传，请重新上传！');
+
+                            break;
+                        case '4':
+                            alert('提示：没有任何文件被上传！');
+
+                            break;
+                        case '5':
+                            alert('提示：非图片类型，请上传jpg|png|gif图片！');
+
+                            break;
+                        default:
+                            alert('提示：上传失败，错误未知，请您及时联系网站客服人员！');
+
+                            break;
+                    }
+                }
+                $("#"+loadingid).hide();
+                window.clearInterval(interval);
+                this.enable();
+            }
+        });
+    }
+    function addpic(id,imgpath,target,type){
+        if(type==1){
+            $("input[name="+target+"]").val(id);
+            $("#"+target).attr('src',imgpath);
+        }else{
+            var len=$('#imgcon').children().length;
+            if(len==3){
+                alert("最多上传3张图片");return;
+            }
+            var ids=$("input[name='"+target+"']").val();
+            if(ids != ''){
+                ids+=','+id;
+            }else{
+                ids=id;
+            }
+            $("input[name='"+target+"']").val(ids);
+
+            var a='<img src="'+imgpath+'" style="display:inline-block"/>';
+
+            $("#imgcon").append(a);
+        }
+
+
+    }
+
+    $(".userInfo_list ul li select").change(function () {
+        $(this).prev('input').val($(this).val());
+    });
+
+    //选择类型
+    $(".check_kinds").click(function () {
+        $(".fixed_checked").fadeIn().find('.checked_section').animate({
+            'top': 0,
+            'opacity': 1
+        },400);
+        $(".check_box ul li").eq(0).addClass('active').siblings('li').removeClass('active');
+        $(".kinds_item ul").eq(0).show().siblings('ul').hide();
+    });
+
+
+    $(document).on('click','.check_box ul li',function(){
+        $(this).addClass('active').siblings('li').removeClass('active');
+        $(".kinds_item ul").eq($(this).index()).show().siblings('ul').hide();
+    })
+   
+    $(document).on('click','.kinds_item ul li',function(){
+        if($(this).hasClass('active')){
+            $(this).removeClass('active')
+        }else {
+            $(this).addClass('active')
+        }
+    });
+    $(".kinds_choose").click(function () {
+        $(".fixed").fadeIn().find('.content').animate({
+            'top': '0',
+            'opacity': 1
+        });
+        $(".choose ul li").eq(0).addClass('active').siblings('li').removeClass();
+        $('.choose ol li').eq(0).show().siblings('li').hide();
+    });
+    $(document).on('click',".choose ul li",function () {
+        $(this).addClass('active').siblings('li').removeClass();
+        $('.choose ol li').eq($(this).index()).show().siblings('li').hide();
+    });
+    $(document).on('click',".choose ol li span",function () {
+        var name=$(this).html()
+        var pname=$('.choose ul li.active').html();
+
+        $('input[name=addr]').val(pname+' '+name)
+        var id=$(this).attr('data')
+        $('input[name=addrid]').val(id)
+
+        $(".fixed").fadeOut().find('.content').animate({
+            'top': '-5rem',
+            'opacity': 0
+        })
+    });
+
+    $(".sure_btn").click(function () {
+        var str='';
+        var label=''
+        $(".kinds_item ul li").each(function () {
+
+            if($(this).hasClass('active')){
+                str = str+$(this).html()+' ';
+
+                var id=$(this).attr('data')
+                if(label==''){
+                    label=id;
+                }else{
+                    label+=','+id;
+                }
+            }
+            
+        })
+        if(label!=''){
+            $('input[name=label]').val(label);
+        }
+        if(str!=''){
+            $(".check_kinds").html(str);
+            $(".fixed_checked").fadeOut().find('.checked_section').animate({
+                'top': '-4rem',
+                'opacity': 0
+            },400);
+        }else{
+            alert('请选择专长类型!')
+        }
+        
+    })
+
+
+</script>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <style>
+		.fwb-nick{display: block;text-align: center;font-size: 0.36rem;color: #333333;font-weight: bold;margin: 0.60rem auto;}
+        .ipt-box-nick {width:80%;position: relative;	box-sizing: border-box;	padding: 0rem 4%;margin:0 auto;}
+        .ipt-box-nick .ipt-real-nick {position: absolute;top: 0;left: 0;width: 100%;height: 0.80rem;line-height: 0.80rem;opacity: 0;z-index: 3; }
+        .ipt-box-nick .ipts-box-nick {position: absolute;top: 0;left: 0;z-index: 1; width: 100%;height: 0.80rem;line-height: 0.80rem;overflow: hidden; }
+        .ipt-box-nick .ipts-box-nick .ipt-fake-box {height: 0.80rem;line-height: 0.80rem;display: flex;justify-content: space-between; }
+        .ipt-box-nick .ipts-box-nick .ipt-fake-box input {width: 0.60rem;height: 0.76rem;border: 1px solid #D7D7D7;color: #810213;font-weight: bold;font-size: 0.30rem;text-align: center;padding: 0;border-radius:2px;}
+        .ipt-box-nick .ipt-active-nick {width: 0.60rem;height: 0.80rem;line-height: 0.80rem;text-align: center;position: absolute;top: 0;left: 0;z-index: 2;-webkit-box-shadow: 0 0 0.05rem 0 #57a4fa;-moz-box-shadow: 0 0 0.05rem 0 #57a4fa;box-shadow: 0 0 0.05rem 0 #57a4fa;display: none;}
+        .ipt-box-nick .ipt-active-nick img {vertical-align: middle; }
+    </style>
+</head>
+<body>
+<header class="header">
+	<a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+	<h2>设置支付密码</h2>
+	<a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<div class="lh40-nick h40-nick fwb-nick">请设置六位数支付密码</div>
+<div class="ipt-box-nick mb15-nick">
+    <input type="tel" maxlength="6" class="ipt-real-nick"/>
+    <div class="ipts-box-nick">
+        <div class="ipt-fake-box">
+            <input type="password" >
+            <input type="password" >
+            <input type="password" >
+            <input type="password" >
+            <input type="password" >
+            <input type="password" >
+        </div>
+    </div>
+    <div class="ipt-active-nick"></div>
+    <!--<div class="ipt-active-nick"><img src="images/password-blink.gif"></div>-->
+</div>
+
+<script>
+    $(".ipt-real-nick").click(function () {
+        $(".ipt-active-nick").show();
+    })
+    $(".ipt-real-nick").on("input", function() {
+        var $input = $(".ipt-fake-box input");
+        if(!$(this).val()){
+            $('.ipt-active-nick').css('left',0);
+        }
+
+        if( /^[0-9]*$/g.test($(this).val()) ){
+            var pwd = $(this).val().trim();
+            console.log(pwd);
+            for (var i = 0, len = pwd.length; i < len; i++) {
+                $input.eq(i).val(pwd[i]);
+                if($input.eq(i).next().length){
+                    $('.ipt-active-nick').css('left',($input.eq(i+1).offset().left-parseInt($('.ipt-box-nick').parent().css('padding-left'))-30)+'px');
+                }
+            }
+            $input.each(function() {
+                var index = $(this).index();
+                if (index >= len) {
+                    $(this).val("");
+                }
+            });
+            if (len == 6) {
+
+                tijiao(pwd)
+            }
+        }else{
+            var arr=$(this).val().match(/\d/g);
+            $(this).val($(this).val().slice(0,$(this).val().lastIndexOf(arr[arr.length-1])+1));
+        }
+    });
+    //user()
+
+    function user() {
+        var p={token:token};
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+            if(ret.code==200){
+               $("input[name=depart]").val(ret.data.depart);
+
+            }else{alert(ret.msg)}
+        });
+
+    }
+
+    function tijiao(pwd) {
+        loginCheck()
+        var p={token:token,zfpwd:pwd};
+        //alert(JSON.stringify(p));
+        $.post(webSiteUrl+'/app/user/edit_user',p,function(ret){
+            if(ret.code==200){
+                alert('设置成功')
+                location.href='/Home/user/personal';
+
+            }else{alert(ret.msg)}
+        });
+    }
+</script>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>收费设置</h2>
+    <a href="javascript:void (0);" class="search_btn charge_btn">说明</a>
+</header>
+
+<section class="charge_section">
+    <div class="charge_list">
+        <ul>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge1.png" alt="">
+                    <div class="charge_name">
+                        <h6>图文咨询</h6>
+                        <p class="st1">100.00元/次</p>
+                        <p class="st2">已关闭</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch">关闭</a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge2.png" alt="">
+                    <div class="charge_name">
+                        <h6>电话咨询</h6>
+                        <p class="st1">30.00元/次</p>
+                        <p class="st2">已关闭</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch">关闭</a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge3.png" alt="">
+                    <div class="charge_name">
+                        <h6>见面咨询</h6>
+                        <p class="st1">300.00元/次</p>
+                        <p class="st2">已关闭</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch">关闭</a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge4.png" alt="">
+                    <div class="charge_name">
+                        <h6>代写文书</h6>
+                        <p class="st1">100.00元/张</p>
+                        <p class="st2">已关闭</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch">关闭</a>
+            </li>
+            <li>
+                <div class="charge_info">
+                    <img src="__IMG__/charge5.png" alt="">
+                    <div class="charge_name">
+                        <h6>律师函</h6>
+                        <p class="st1">100.00元/张</p>
+                        <p class="st2">已关闭</p>
+                    </div>
+                </div>
+                <a href="javascript:void (0);" class="switch">关闭</a>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="fixed_charge">
+    <div class="charge_notes">
+        <h6>平台服务费收取比例</h6>
+        <ul>
+            <li><span>项目</span><span>收取比例</span></li>
+            <li><span>图文咨询</span><span>35%</span></li>
+            <li><span>电话咨询</span><span>35%</span></li>
+            <li><span>预约面谈</span><span>35%</span></li>
+            <li><span>代写文书</span><span>35%</span></li>
+            <li><span>律师函</span><span>35%</span></li>
+            <li><span>采纳奖励</span><span>35%</span></li>
+            <li><span>送心意奖励</span><span>35%</span></li>
+            <li><span>支付律师费</span><span>8%</span></li>
+            <li><span>法律事务委托</span><span>8%</span></li>
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+    
+    //打开说明
+    $(".charge_btn").click(function () {
+        $(".fixed_charge").fadeIn().find(".charge_notes").animate({
+            'top':'0',
+            'opacity':'1'
+        },400)
+    });
+    $(".set_kinds").click(function (e) {
+        e.stopPropagation();
+    });
+
+    //关闭说明
+    $(".fixed_charge").click(function (e) {
+        e.stopPropagation();
+        $(".fixed_charge").fadeOut().find(".charge_notes").animate({
+            'top':'-4rem',
+            'opacity':'0'
+        },400)
+    });
+
+    //开启应用
+    $(".charge_list ul li .switch").click(function () {
+        if($(this).hasClass('off')){
+            $(this).removeClass('off').html('关闭');
+            $(this).parents('li').find(".st2").hide().siblings(".st1").show();
+        }else {
+            $(this).addClass('off').html('开启');
+            $(this).parents('li').find(".st1").hide().siblings(".st2").show();
+        }
+
+    })
+</script>
+</html>

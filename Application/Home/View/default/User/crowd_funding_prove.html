@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+<head style="background-color: #f3f3f3">
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+     <link rel="stylesheet" type="text/css" href="__CSS__/common.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript" src="__JS__/adaptive.js"></script>
+    <script>
+        $(function () {
+            window['adaptive'].desinWidth = 750;
+            window['adaptive'].baseFont = 28;
+            window['adaptive'].maxWidth = 750;
+            window['adaptive'].init();
+        });
+    </script>
+</head>
+<body style="background-color: #f3f3f3">
+<header class="header">
+    <a href="javascript:void(0);" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>我要证明</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="provePage">
+    <div class="prove_box kinds_name">
+        <span>请选择您和筹款人关系</span>
+        <i class=""></i>
+    </div>
+    <div class="prove_box">
+        <span>您的姓名</span>
+        <input placeholder="请填写真实姓名" />
+    </div>
+    <div class="prove_box2">
+        <div>证明内容</div>
+        <textarea placeholder="请写下您和筹款人的关系，您了解到的情况..."></textarea>
+    </div>
+    <div class="prove_box">
+        <span>实名认证</span>
+        <input id="idcard" placeholder="请填写身份证" />
+    </div>
+    <div style="padding:0 3% 3% 0.2rem ;color:#999;font-size: .24rem">请填写真实身份，真实情况，这将为受助人赢得更多信任，同时提醒您，您要对证实内容的真实性负责，如有不实，需承担相应法律责任。</div>
+</section>
+
+<section class="fixed_btn">
+    <a href="##">提交信息</a>
+</section>
+
+<section class="fixed_select">
+    <div class="select_content">
+        <h6>请选择您和筹款人的关系</h6>
+        <ul id='cate'>
+            
+        </ul>
+    </div>
+</section>
+</body>
+<include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+
+<script type="text/javascript" src="__JS__/jquery.zclip.js"></script>
+<script type="text/javascript" src="__JS__/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="__JS__/clipboard.min.js"></script>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+    var id = para('id');
+	var type = para('type');
+    var ajid;
+
+    // 类型选择
+    $(".kinds_name").click(function () {
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+    });
+    $(document).on('click','.fixed_select .select_content ul li',function(){
+        ajid=$(this).attr('data');
+        $(".kinds_name span").text($(this).html());
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        },400);
+    });
+
+    msg_list();
+    function msg_list(){
+        var p = {token:token}
+        $.post(webSiteUrl+'/App/Zongcou/person_type',p,function(ret){
+            console.log(ret);
+            if (ret.code == 200) {
+               $.each(ret.data,function(i,item){
+
+                    $("#cate").append('<li style="cursor: pointer;text-align:center" data="'+item.id+'">'+item.title+'</li>');
+               })
+
+            }
+        });
+    }
+
+    $(".fixed_btn").click(function(){
+         var layers = "";
+            var isnull = false;
+            $(".provePage input").each(function(i,item){
+                var val = $(item).val();
+                if(val == "" && !isnull){
+                    switch(i){
+                        case 0:
+                        layers = "请填写真实姓名";
+                        isnull = true;
+                        break;
+                        case 1:
+                        layers = "请填写身份证";
+                        isnull = true;
+                        break;
+                    }
+                }
+            });
+            if((ajid == "" || ajid == null)&&!isnull){
+                isnull=true;
+                layers="请选择亲属";
+            }
+            if(isnull){
+                console.log(layers);
+                alert(layers);//用的什么弹窗 到时候自己改一下
+                return;
+            }
+            var username = $(".provePage input:eq(0)").val();
+           
+			
+            var content = $(".provePage textarea").val();
+            if(content == ""){
+                alert("请输入证明内容");//用的什么弹窗 到时候自己改一下
+                return;
+            }
+			
+			
+			var code = $(".provePage input:eq(1)").val();
+			console.log(code);
+			console.log(isIdCard(code));
+			if(!isIdCard(code)){
+				alert("请填写正确的身份证");
+				return;
+			}
+            var p = {zc_id:id,relation_id:ajid,token:token,uid:uid,username:username,content:content,code:code}
+            console.log(p);
+            $.post(webSiteUrl+'/App/Zongcou/add_msg',p,function(ret){
+                console.log(ret);
+                if (ret.code == 200) {
+					if(type == 2){
+						location.href='/home/user/personal_mycrowd_funding_jk?id='+id;
+					}else{
+						location.href='/home/user/personal_myCrowd_funding_details?id='+id;
+					}
+                   
+                  
+
+                }
+            });
+    })
+
+    var _num = $('.percentage').text();
+    $('.progress_bar').animate({
+        'width': _num
+    },1500);
+	
+	function isIdCard(idc){
+        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        return reg.test(idc);
+    }
+
+
+    //打开新窗口
+    function aaplay(name,url){
+        api.openWin({
+            name: name,
+            url: url,
+            pageParam: {
+
+            }
+        });
+    }
+
+    //返回上一级
+    function comeBack(){
+        api.historyBack({
+        },function(ret,err){
+            if (!ret.status) {
+                api.closeWin();
+            }
+        });
+    }
+</script>
+</html>

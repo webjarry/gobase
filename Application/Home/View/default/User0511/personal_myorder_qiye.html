@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2 id="title">法律告知函</h2>
+    <!--<a href="ask_page_myAnswer.html" class="myAnswer_btn">我的回答</a>-->
+</header>
+<section class="order_section">
+    <div class="order_list">
+        <ul id="con">
+            <!--<li>
+                <p>订单号：2524556842  <span class="fr" style="color: #333;">待收货</span></p>
+                <div class="order_info">
+                    <img src="__IMG__/userimg3.png" alt="">
+                    <div class="info">
+                        <h6>法援宝服务平台</h6>
+                        <span>法律告知函</span>
+                    </div>
+                    <div class="look_demand" onclick="chakan('+list[i].id+')">查看文件</div>
+                </div>
+                <div class="order_active">
+                    <span>总计：<em>¥150.00</em></span>
+                    <div class="active_btn">
+                        <a href="##" class="yes_btn">确认收货</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <p>订单号：2524556842  <span class="fr" style="color: #333;">已完成</span></p>
+                <div class="order_info">
+                    <img src="__IMG__/userimg3.png" alt="">
+                    <div class="info">
+                        <h6>法援宝服务平台</h6>
+                        <span>法律告知函</span>
+                    </div>
+                </div>
+                <div class="order_active">
+                    <span>总计：<em>¥150.00</em></span>
+                    <div class="active_btn">
+
+                    </div>
+                </div>
+            </li>
+            <li>
+                <p>订单号：2524556842  <span class="fr" style="color: #333;">待收货</span></p>
+                <div class="order_info">
+                    <img src="__IMG__/userimg3.png" alt="">
+                    <div class="info">
+                        <h6>法援宝服务平台</h6>
+                        <span>法律告知函</span>
+                    </div>
+                </div>
+                <div class="order_active">
+                    <span>总计：<em>¥150.00</em></span>
+                    <div class="active_btn">
+                        <a href="##" class="yes_btn">确认收货</a>
+                    </div>
+                </div>
+            </li>-->
+
+        </ul>
+    </div>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    loginCheck()
+    var page=1;
+    var type=1;
+    var p='';
+
+    var ttt=para('type')
+    var ordertype
+    var ordertxt
+    if(ttt==1){
+        ordertype=16
+        ordertxt='法律告知函';
+        $('#title').html(ordertxt);
+
+    }else if(ttt==2){
+        ordertype=18
+        ordertxt='律师分析报告';
+        $('#title').html(ordertxt);
+
+    }
+
+    toDoRequest()
+    function toDoRequest(){
+        p= {token:token,type:ordertype};
+        $.post(webSiteUrl+'/app/user/qiyeorder',p,function(ret){
+            if(ret.code==200){
+
+                html = "";
+                var tj=ret.data;
+                if(tj != null){
+                    for(var i=0;i<tj.length;i++){
+                        if(tj[i].order_status==1){
+                            html+='<li><p>订单号：'+tj[i].orderno+'  <span class="fr" style="color: #333;">未处理</span></p>';
+                        }else{
+                            if(tj[i].state==2){
+                                html+='<li><p>订单号：'+tj[i].orderno+'  <span class="fr" style="color: #333;">订单已完成</span></p>';
+                            }else{
+                                html+='<li><p>订单号：'+tj[i].orderno+'  <span class="fr" style="color: #333;">已处理</span></p>';
+                            }
+
+                        }
+html+='<div class="order_info"><img src="/Public/Home/img/fyb_img.png" alt=""><div class="info"><h6>法援宝服务平台</h6><span>'+ordertxt+'</span></div>';
+                        if(ordertype==16){
+                            html+='<div class="look_demand" onclick="fxdetail('+tj[i].tid+','+1+')">查看详情</div>';
+                        }else{
+                            html+='<div class="look_demand" onclick="fxdetail('+tj[i].tid+','+2+')">查看详情</div>';
+                        }
+
+                        html+='</div><div class="order_active"><span>总计：<em>¥'+tj[i].money+'</em></span><div class="active_btn">';
+                        if(tj[i].order_status==2 && tj[i].state==1){
+                            html+='<a href="##" class="yes_btn" onclick="aaa('+tj[i].tid+','+ttt+')" style="cursor: pointer">确认收货</a>';
+                        }
+
+
+                        html+='</div></div></li>';
+
+                    }
+                }
+                if(page==1){
+                    $('#con').html(html);
+                }else{
+                    $('#con').append(html);
+                }
+                page++;
+
+
+            }else{
+                if(page==1){
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+            }
+        });
+
+    }
+    function aaa(id,type) {
+        p= {token:token,id:id,type:type};
+
+        $.post(webSiteUrl+'/app/user/qiyesure',p,function(ret){
+            if(ret.code==200) {
+                alert('确认收货成功')
+                location.reload()
+            }else{
+                alert(ret.msg)
+            }
+        })
+
+    }
+
+    function qxorder(orderno) {
+        if(window.confirm('确定取消吗？')){
+            var p={model:'ask',orderno:orderno}
+            $.post(webSiteUrl+'/app/user/qxorder',p,function(ret) {
+                if (ret.code == 200) {
+                    alert(ret.msg)
+                    location.reload()
+                }
+            })
+        }
+    }
+
+
+    function fxdetail(id,type){
+        location.href='/home/user/fxdetail?id='+id+'&type='+type;
+    }
+</script>
+</html>

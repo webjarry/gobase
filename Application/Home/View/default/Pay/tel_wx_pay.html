@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="Keywords" content="{:C('WEB_SITE_KEYWORD')}">
+    <meta name="description" content="{:C('WEB_SITE_DESCRIPTION')}">
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <title>{:C('WEB_SITE_TITLE')}-微信支付</title>
+</head>
+<body class="weixin_pay">
+
+ <input type="hidden" name="out_trade_no" value="{$param.out_trade_no}" />
+ <input type="hidden" name="order_num" value="{$param.order_number}" />
+ <!-- 1微信下单，2微信支付 -->
+ <input type="hidden" name="type" value="{$param.type}" />
+ 
+</body>
+<script>
+    var usertype="{$usertype}"
+    //调用JS api支付
+    function jsApiCall(){
+
+        WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',
+                {$jsApiparamter},
+                function(res){
+                    WeixinJSBridge.log(res.err_msg);
+                    
+                    var type = $('input[name="type"]').val();
+                    var order_number = "{$orderinfo['orderno']}";
+                    if(res.err_msg == 'get_brand_wcpay_request:ok'){
+                       // alert(usertype)
+					   alert('支付成功');
+                        if(usertype=='user'){
+                            window.location.href='/Home/user/personal';
+                        }else{
+                            window.location.href='/Home/lawyer/personal';
+                        }
+
+                        /*$.post('/Home/Pay/wx_check_order',{order_number:order_number},function (data){
+
+                            if(data.code == 200){
+                                window.location.href='/Home/Member/orders';
+                            }else{
+                                layer.msg(data.msg,{time:2000});
+                                setTimeout(function(){
+                                    window.location.href='/Home/Userinfo/order';
+                                },2000);
+                            }
+
+                        });*/
+
+                    }else if(res.err_msg == 'get_brand_wcpay_request:cancel'){
+                        if(usertype=='user'){
+                            window.location.href='/Home/user/personal';
+                        }else{
+                            window.location.href='/Home/lawyer/personal';
+                        }
+                    }else{
+                        alert(JSON.stringify(res));return;
+                        layer.msg(res.err_msg,{time:2000});
+                        setTimeout(function(){
+                            window.location.href='/Home/lawyer/personal';
+                        },2000);
+                    }
+                }
+        );
+
+    }
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+            }
+        }else{
+            jsApiCall();
+        }
+
+</script>
+
+</html>

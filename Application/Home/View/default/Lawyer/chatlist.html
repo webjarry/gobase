@@ -1,0 +1,770 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝-即时聊天</title>
+    <link rel="stylesheet" type="text/css" href="/Public/webim/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/Public/webim/css/chat.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css"/>
+    <script type="text/javascript" src="/Public/webim/script/api.js"></script>
+    <script type="text/javascript" src="/Public/webim/script/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/Public/webim/script/mobile.js"></script>
+    <script src="/Public/webim/chat/demo/javascript/dist/webim.config.js"></script>
+    <script src="/Public/webim/chat/sdk/dist/strophe-1.2.8.min.js"></script>
+    <script src="/Public/webim/chat/sdk/dist/webimSDK-1.4.13.js"></script>
+    <script src="/Public/webim/chat/webrtc/dist/adapter.js"></script>
+    <script src="/Public/webim/chat/webrtc/dist/webrtc-1.4.12.js"></script>
+
+    <!-- fix: ie8 upload -->
+    <script type='text/javascript' src='/Public/webim/chat/ie8/swfupload/uploadShim.js'></script>
+    <script>
+        $(function () {
+            window['adaptive'].desinWidth = 750;
+            window['adaptive'].baseFont = 28;
+            window['adaptive'].maxWidth = 750;
+            window['adaptive'].init();
+        });
+    </script>
+</head>
+<body>
+<div id="secHeader">
+    <header class="header">
+        <!--<a href="javascript:void(0);" onclick='comeBack()' class="back_btn"><img src="/Public/webim/image/head-fanhui.png" alt=""></a>-->
+        <h2>即时聊天</h2>
+        <!--<a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="/Public/webim/image/shouye1.png" alt=""></a>-->
+    </header>
+</div>
+<section class="chatlist">
+    <ul class="top-list">
+        <!--<li>-->
+            <!--<div class="msg-info">-->
+                <!--<img src="/Public/webim/image/ask02.png" alt="">-->
+            <!--</div>-->
+            <!--<div class="info fr">-->
+                <!--<div class="info-name"><span class="name">13641984916</span> <span class="info-time">7月16日 14时44分</span>-->
+                <!--</div>-->
+                <!--<div class="info-info">-->
+                    <!--<p>你好</p>-->
+                    <!--<span class="notice-badge">11</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</li>-->
+    </ul>
+</section>
+
+<section class="fixed_nav">
+    <ul>
+        <li class=""><a href="javascript:;" onclick="aaplay('workbench')"><h6 class="icon"></h6>工作台</a></li>
+        <li class="active"><a href="javascript:;" onclick="aaplay('chatlist')"><h6 class="icon"></h6>即时消息</a></li>
+        <li class=""><a href="javascript:;" onclick="aaplay('news')"><h6 class="icon"></h6>资讯</a></li>
+        <li><a href="javascript:;" onclick="aaplay('find')"><h6 class="icon"></h6>发现</a></li>
+        <li><a href="javascript:;" onclick="personal()"><h6 class="icon"></h6>我的</a></li>
+    </ul>
+</section>
+
+
+</body>
+<include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+<script>
+    /**
+     * Created by clock on 16-11-25.
+     */
+    var conn = {};
+    conn = new WebIM.connection({
+        isMultiLoginSessions: WebIM.config.isMultiLoginSessions,
+        https: typeof WebIM.config.https === 'boolean' ? WebIM.config.https : location.protocol === 'https:',
+        url: WebIM.config.xmppURL,
+        isAutoLogin: true,
+        heartBeatWait: WebIM.config.heartBeatWait,
+        autoReconnectNumMax: WebIM.config.autoReconnectNumMax,
+        autoReconnectInterval: WebIM.config.autoReconnectInterval,
+        apiUrl: WebIM.config.apiURL
+    });
+
+    // tips: ie8 support  fileInputId should match with the file in the document
+    WebIM.flashUpload = UploadShim({fileInputId: 'image'}, conn).flashUpload;
+
+
+    // listern，添加回调函数
+    conn.listen({
+        onOpened: function (message) {          //连接成功回调，连接成功后才可以发送消息
+            //如果isAutoLogin设置为false，那么必须手动设置上线，否则无法收消息
+            // 手动上线指的是调用conn.setPresence(); 在本例中，conn初始化时已将isAutoLogin设置为true
+            // 所以无需调用conn.setPresence();
+            console.log("%c [opened] 连接已成功建立", "color: green")
+        },
+        onTextMessage: function (message) {
+            // 在此接收和处理消息，根据message.type区分消息来源，私聊或群组或聊天室
+            console.log(message);
+            console.log('收到' + message.from + '发送的消息：' + message.data);
+            setTimeout(function () {
+                //这一步或许有人会问为什么要加setTimeout，在这里解释一下，是为了同步执行下去
+                // var str = message.ext.chatIcon;
+                // if(str.indexOf("http")>=0){
+                //     str = str.slice(32);
+                // }
+                // else{
+                //     str = message.ext.chatIcon;
+                // }
+                //这一步是因为ios和安卓发送消息时，人物头像连接一个是http开头地址  一个是不带本域名的地址，所有要做判断
+                var getUserItem = localStorage.getItem('user_id');//这个user_id 是ios和安卓的conversation_id 这个id是在我们人才详情页面，点击立即沟通时，存储到用户的id
+                //然后进入聊天界面，然后模拟点击显示与此用户的界面
+
+                if (message.from == getUserItem) {
+                    var timestamp3 = getNowFormatDate();//时间函数
+                    console.log(timestamp3)
+                    showChatMessage(timestamp3, str, message.data, message.id);//此函数为展示消息函数
+                    //这里执行这一步，是判断如果收到的消息是当前用户，就直接显示在本聊天界面
+                    detailMessage(timestamp3, message.data, message.from, 'text', '', message.id, message.from, '', '', '', 'has_read', '');//此函数为存储消息函数
+                    //为了显示消息，这里是对所有收到的消息都做了存储，下文会介绍消息函数各个参数。
+                } else {
+                    //收到的消息不是当前用户
+                    var timestamp3 = getNowFormatDate();//时间函数
+                    console.log(timestamp3)
+                    detailMessage(timestamp3, message.data, message.from, 'text', '', message.id, message.from, '', '', '', 'no_read', '');//存储消息
+                    var w = localStorage[message.from];//获取本地所有存储用户的消息列表
+                    var getList = JSON.parse(localStorage[message.from]);//转换成json数组
+                    for (var i = 0; i < getList.length; i++) {
+                        var reserve = getList[i].message[0].reserve;//此处是为存储的消息设置的已读、未读状态（上文的has_read,no_read）
+                        if (reserve == 'no_read') {
+                            var listNumber = Number(getList.length) - Number(i);//这是获取的未读消息的数量
+                            getList[0].message[0].number = listNumber;//此处是把未读消息的数量存储到 该用户第一条消息的number里面
+                            $('.top-list li.' + message.from + '').find('span.notice-badge').show();
+                            $('.top-list li.' + message.from + '').find('span.notice-badge').text(listNumber);
+                            //此处是显示未读消息的数量，该li的class是收到消息用户的id
+                            localStorage[message.from] = JSON.stringify(getList);
+                            console.log(localStorage[message.from])
+                            datashow(true);
+                            return false;//然后把消息的未读已读状态更改保存回本地
+                        }
+                    }
+                }
+            }, 0)
+        },  //收到文本消息
+        onEmojiMessage: function (message) {
+            // 当为WebIM添加了Emoji属性后，若发送的消息含WebIM.Emoji里特定的字符串，connection就会自动将
+            // 这些字符串和其它文字按顺序组合成一个数组，每一个数组元素的结构为{type: 'emoji(或者txt)', data:''}
+            // 当type='emoji'时，data表示表情图像的路径，当type='txt'时，data表示文本消息
+            console.log('Emoji');
+            var data = message.data;
+            for (var i = 0, l = data.length; i < l; i++) {
+                console.log(data[i]);
+            }
+        },   //收到表情消息
+        onPictureMessage: function (message) {
+            console.log('Picture');
+
+            var options = {url: message.url};
+            options.onFileDownloadComplete = function () {
+                // 图片下载成功
+                console.log('Image download complete!');
+            };
+            options.onFileDownloadError = function () {
+                // 图片下载失败
+                console.log('Image download failed!');
+            };
+            WebIM.utils.download.call(conn, options);       // 意义待查
+
+        }, //收到图片消息
+        onCmdMessage: function (message) {
+            console.log('CMD');
+        },     //收到命令消息
+        onAudioMessage: function (message) {
+            console.log("Audio");
+        },   //收到音频消息
+        onLocationMessage: function (message) {
+            console.log("Location");
+        },//收到位置消息
+        onFileMessage: function (message) {
+            console.log("File");
+        },    //收到文件消息
+        onVideoMessage: function (message) {
+            var node = document.getElementById('privateVideo');
+            var option = {
+                url: message.url,
+                headers: {
+                    'Accept': 'audio/mp4'
+                },
+                onFileDownloadComplete: function (response) {
+                    var objectURL = WebIM.utils.parseDownloadResponse.call(conn, response);
+                    node.src = objectURL;
+                },
+                onFileDownloadError: function () {
+                    console.log('File down load error.')
+                }
+            };
+            WebIM.utils.download.call(conn, option);
+        },   //收到视频消息
+        onPresence: function (message) {
+            switch (message.type) {
+                case 'subscribe':                           // 对方请求添加好友
+                    // 同意对方添加好友
+                    document.getElementById('agreeFriends').onclick = function (message) {
+                        conn.subscribed({
+                            to: 'asdfghj',
+                            message: "[resp:true]"
+                        });
+                    };
+                    // 拒绝对方添加好友
+                    document.getElementById('rejectFriends').onclick = function (message) {
+                        conn.unsubscribed({
+                            to: message.from,
+                            message: "rejectAddFriend"                  // 拒绝添加好友回复信息
+                        });
+                    };
+
+                    break;
+                case 'subscribed':                          // 对方同意添加好友，已方同意添加好友
+                    break;
+                case 'unsubscribe':                         // 对方删除好友
+                    break;
+                case 'unsubscribed':                        // 被拒绝添加好友，或被对方删除好友成功
+                    break;
+                case 'memberJoinPublicGroupSuccess':                 // 成功加入聊天室
+                    console.log('join chat room success');
+                    break;
+                case 'joinChatRoomFaild':                   // 加入聊天室失败
+                    console.log('join chat room faild');
+                    break;
+                case 'joinPublicGroupSuccess':              // 意义待查
+                    console.log('join public group success', message.from);
+                    break;
+                case 'createGroupACK':
+                    conn.createGroupAsync({
+                        from: message.from,
+                        success: function (option) {
+                            console.log('Create Group Succeed');
+                        }
+                    });
+                    break;
+            }
+        },       //收到联系人订阅请求（加好友）、处理群组、聊天室被踢解散等消息
+        onRoster: function (message) {
+            console.log('Roster');
+        },         //处理好友申请
+        onInviteMessage: function (message) {
+            console.log('Invite');
+        },  //处理群组邀请
+        onOnline: function () {
+            console.log('onLine');
+        },                  //本机网络连接成功
+        onOffline: function () {
+            console.log('offline');
+        },                 //本机网络掉线
+        onError: function (message) {
+            console.log('Error');
+            console.log(message);
+            if (message && message.type == 1) {
+                console.warn('连接建立失败！请确认您的登录账号是否和appKey匹配。')
+            }
+        },           //失败回调
+        onBlacklistUpdate: function (list) {
+            // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
+            console.log(list);
+        }     // 黑名单变动
+    });
+    // 初始化WebRTC Call
+    var rtcCall = null
+    if (WebIM.WebRTC) {
+        rtcCall = new WebIM.WebRTC.Call({
+            connection: conn,
+
+            mediaStreamConstaints: {
+                audio: true,
+                video: true
+            },
+
+            listener: {
+                onAcceptCall: function (from, options) {
+                    console.log('onAcceptCall::', 'from: ', from, 'options: ', options);
+                },
+                onGotRemoteStream: function (stream, streamType) {
+                    console.log('onGotRemoteStream::', 'stream: ', stream, 'streamType: ', streamType);
+                    var video = document.getElementById('video');
+                    video.srcObject = stream;
+                },
+                onGotLocalStream: function (stream, streamType) {
+                    console.log('onGotLocalStream::', 'stream:', stream, 'streamType: ', streamType);
+                    var video = document.getElementById('localVideo');
+                    video.srcObject = stream;
+                },
+                onRinging: function (caller) {
+                    console.log('onRinging::', 'caller:', caller);
+                },
+                onTermCall: function (reason) {
+                    console.log('onTermCall::');
+                    console.log('reason:', reason);
+                },
+                onIceConnectionStateChange: function (iceState) {
+                    console.log('onIceConnectionStateChange::', 'iceState:', iceState);
+                },
+                onError: function (e) {
+                    console.log(e);
+                }
+            }
+        });
+    } else {
+        console.warn('不能进行视频通话！您的浏览器不支持webrtc或者协议不是https。')
+    }
+
+
+    //时间函数
+    function getNowFormatDate() {
+        var timestamp1 = new Date().getTime();//获取时间戳此方法准确
+        var timestamp2 = new Date(timestamp1);
+        return timestamp2.toLocaleDateString().replace(/\//g, "-") + " " + timestamp2.toTimeString().substr(0, 8);
+    }
+
+    //展示消息  根据个人项目需求，正式版本会使用tpl模板
+    function showChatMessage(timestamp3, str, data, id) {
+        $("#recordchat-main").append(
+            '<li class="item-time"><span class="time">' + timestamp3 + '</span></li>'
+            + '<li class="item-friend" id=' + id + '>'
+            + '<div class="figure"><img src="http://beta.app.first-job-1.com' + str + '"></div>'
+            + '<div class="text">' + data + '</div>'
+            + '</li>');
+    }
+
+    //绑定数据模板
+    function detailMessage(timestamp3, data, from, type, id, mid, chatId, chatIcon, status, filename, reserve, number) {
+        var localContent = new Array();
+        if (localStorage[chatId]) {
+            localContent = JSON.parse(localStorage[chatId]);
+        }
+        localContent[localContent.length] = {
+            'message': [{
+                'time': timestamp3,
+                'data': data,//数据
+                'from': from,//谁发的
+                'type': type,//文本类型 text,file,picture
+                'id': id,//消息id
+                'mid': mid,
+                'chatId': chatId,
+                'chatIcon': chatIcon,
+                'status': status,//状态
+                'filename': filename, //文件名字
+                'reserve': reserve,//已读未读
+                'number': number,//未读数量
+            }]
+        };
+        localStorage[chatId] = JSON.stringify(localContent);//存储本地；
+        //console.log(JSON.parse(localStorage[chatId]))
+
+    }
+
+    //根据每一条消息的id存储本地 存储未读已读状态
+    function statusRead(status, mid, id, reserve) {
+        var localStatusContent = new Array();
+        if (localStatusContent[id]) {
+            localStatusContent = JSON.parse(localStorage[id]);
+
+        }
+        localStatusContent[localStatusContent.length] = {
+            'status': status,
+            'mid': mid,
+            'id': id,
+            'reserve': reserve
+        };
+        localStorage[id] = JSON.stringify(localStatusContent);
+        //console.log(localStorage[id])
+    }
+
+    //把缓存数据渲染到页面
+    function datashow(type) {
+        var localData_len = localStorage.length;
+        //console.log(localStorage);
+        if(localData_len!=0){
+            if(type){
+                $(".top-list").html('');
+                $.each(localStorage, function(index,val) {
+                    if(index.length==11){
+                        var obj = JSON.parse(localStorage[index]);
+
+                        if(obj[0]['message'][0].number>0){
+                            var badge = '<span class="notice-badge">'+obj[0]['message'][0].number+'</span>';
+                        }else {
+                            var badge = '';
+                        }
+
+                        var html = '<li onclick="intoChatroom('+index+')">\n' +
+                            '            <div class="msg-info">\n' +
+                            '                <img src="/Public/webim/image/ask02.png" alt="">\n' +
+                            '            </div>\n' +
+                            '            <div class="info fr">\n' +
+                            '                <div class="info-name"><span class="name">'+index+'</span> <span class="info-time">'+obj[(obj.length)-1]['message'][0].time+'</span>\n' +
+                            '                </div>\n' +
+                            '                <div class="info-info">\n' +
+                            '                    <p>'+obj[(obj.length)-1]['message'][0].data+'</p>'+badge+'</div>\n' +
+                            '            </div>\n' +
+                            '        </li>';
+
+                        $(".top-list").append(html);
+                    }
+                });
+            }else {
+                $.each(localStorage, function(index,val) {
+                    if(index.length==11){
+                        var obj = JSON.parse(localStorage[index]);
+
+                        if(obj[0]['message'][0].number>0){
+                            var badge = '<span class="notice-badge">'+obj[0]['message'][0].number+'</span>';
+                        }else {
+                            var badge = '';
+                        }
+
+                        var html = '<li onclick="intoChatroom('+index+')">\n' +
+                            '            <div class="msg-info">\n' +
+                            '                <img src="/Public/webim/image/ask02.png" alt="">\n' +
+                            '            </div>\n' +
+                            '            <div class="info fr">\n' +
+                            '                <div class="info-name"><span class="name">'+index+'</span> <span class="info-time">'+obj[(obj.length)-1]['message'][0].time+'</span>\n' +
+                            '                </div>\n' +
+                            '                <div class="info-info">\n' +
+                            '                    <p>'+obj[(obj.length)-1]['message'][0].data+'</p>'+badge+'</div>\n' +
+                            '            </div>\n' +
+                            '        </li>';
+
+                        $(".top-list").append(html);
+                    }
+                });
+            }
+
+        }else {
+            $(".top-list").append('<p class="t_center mt60 c_999">暂无会话列表</p>');
+        }
+
+    }
+
+</script>
+<script>
+    /**
+     * Created by clock on 16-11-30.
+     */
+        // open，登录
+    var options = {
+            apiUrl: WebIM.config.apiURL,
+            user: "mengyuanyuan",
+            pwd: "123456",
+            appKey: WebIM.config.appkey
+        };
+
+
+    var register = function () {
+        var option = {
+            username: 'bossffffsasdfasgrewgeg',
+            password: 'a',
+            nickname: 'clock',
+            appKey: WebIM.config.appkey,
+            success: function () {
+                console.log('regist success!');
+            },
+            error: function () {
+                console.log('regist error');
+            },
+            apiUrl: WebIM.config.apiURL
+        };
+        conn.signup(option);
+    };
+
+    // 私聊发送文本消息，发送表情同发送文本消息，只是会在对方客户端将表情文本进行解析成图片
+    var sendPrivateText = function () {
+        var id = conn.getUniqueId();
+        console.log(id);
+        var msg = new WebIM.message('txt', id);
+        msg.set({
+            msg: 'scarecrow',                       // 消息内容
+            to: '17708311033',                          // 接收消息对象
+            roomType: false,
+            success: function (id, serverMsgId) {
+                console.log("send private text Success");
+            }
+        });
+        msg.body.chatType = 'singleChat';
+        conn.send(msg.body);
+    };
+
+    // 私聊发送命令消息
+    var sendPrivateCmd = function () {
+        var id = conn.getUniqueId();
+        var msg = new WebIM.message('cmd', id);
+        msg.set({
+            msg: '你好',
+            to: '13641984916',
+            roomType: false,
+            success: function (id, serverMsgId) {
+                console.log('CMD Success');
+            }
+        });
+        msg.body.chatType = 'singleChat';
+        conn.send(msg.body);
+    };
+
+    // 私聊发送图片消息
+    var sendPrivateImg = function () {
+        var id = conn.getUniqueId();
+        var msg = new WebIM.message('img', id);
+        var input = document.getElementById('image');               // 选择图片的input
+        var file = WebIM.utils.getFileUrl(input);                   // 将图片转化为二进制文件
+        var allowType = {
+            'jpg': true,
+            'gif': true,
+            'png': true,
+            'bmp': true
+        };
+
+        var option = {
+            apiUrl: WebIM.config.apiURL,
+            file: file,
+            to: 'asdfghj',
+            roomType: false,
+            chatType: 'singleChat',
+            onFileUploadError: function () {
+                console.log('onFileUploadError');
+            },
+            onFileUploadComplete: function () {
+                console.log('onFileUploadComplete');
+            },
+            success: function () {
+                console.log('Success');
+            },
+        };
+        // for ie8
+        try {
+            if (!file.filetype.toLowerCase() in allowType) {
+                console.log('file type error')
+                return
+            }
+        } catch (e) {
+            option.flashUpload = WebIM.flashUpload
+        }
+        msg.set(option);
+        conn.send(msg.body);
+    };
+
+    // 获取好友列表
+    var getRoasters = function () {
+        var option = {
+            success: function (roster) {
+                // roster是所有好友，格式为：
+                /*
+                 [
+                 {
+                 jid:"easemob#chatdemoui_test1@easemob.com",
+                 name:"test1",
+                 subscription: "both"
+                 // subscription的值的集合是{both, to, from, none},
+                 // both表示互相在对方的好友列表中，
+                 // to 和 from意义待定
+                 // 如果添加对方为好友被拒绝则为none
+                 }
+                 ]
+                 */
+                for (var o in roster) {
+                    console.log("jid: ", roster[o].jid);
+                    console.log("name: ", roster[o].name);
+                    console.log("subscription: ", roster[o].subscription);
+                }
+            }
+        };
+        conn.getRoster(option);
+    };
+
+    // 添加好友
+    var addFriends = function () {
+        conn.subscribe({
+            to: "asdfghj",
+            message: "Hello World!"                   // Demo里面接收方没有展现出来这个message，在status字段里面
+        });
+    };
+
+    // 删除好友
+    var removeFriends = function () {
+        conn.removeRoster({
+            to: 'asdfghj',
+            success: function () {
+                conn.unsubscribed({
+                    to: 'asdfghj'
+                });
+            },
+            error: function () {
+            }
+        });
+    };
+
+    // 拉黑好友，对方好友列表依然可以看到已方，但无法向已方发送消息
+    // list的结构为{username_1: {}, username_2: {}...}，拉黑好友需要将拉黑后的黑名单里的好友信息全部传入，
+    // 如黑名单此时已有A，B两位好友，现想将C也拉进黑名单，正确的操作是同时将ABC的信息都传入接口中。
+    /*
+     var list = {
+     username_1:{
+     jid: 'appKey_'+username_1+'@easemob.com',
+     name: username_1,
+     subscription: 'both',
+     order: 2
+     },
+     username_2:{
+     jid: 'appKey_'+username_2+'@easemob.com',
+     name: username_2,
+     subscription: 'both',
+     order: 3,
+     type: 'jid'
+     },
+     username_3:{
+     jid: 'appKey_'+username_3+'@easemob.com',
+     name: username_3,
+     subscription: 'both',
+     order: 4,
+     type: 'jid'
+     }
+     }
+     jid, username, subscription均在获取好友列表时已获取到，用户可根据好友列表动态获取这些参数，
+     order不重复即可
+     */
+    var addToBlackList = function () {
+        var list = {
+            // user_1
+            asdfghj: {
+                jid: "easemob-demo#chatdemoui_asdfghj@easemob.com",
+                name: "asdfghj",
+                subscription: 'both',
+                order: 2,
+                type: 'jid'
+            },
+            // user_2
+            wjy6: {
+                jid: "easemob-demo#chatdemoui_wjy6@easemob.com",
+                name: "wjy6",
+                subscription: 'both',
+                order: 3,
+                type: 'jid'
+            }
+        };
+        conn.addToBlackList({
+            list: list,
+            type: 'jid',
+            success: function () {
+                console.log('Add friend to black list success');
+            },
+            error: function () {
+                console.log('Add friend to black list error');
+            }
+        });
+    }
+
+    // 获取好友黑名单，调用这个函数会回调conn.listen里的onBlacklistUpdate函数，具体细节请参照test.js
+    var getBlackList = function () {
+        conn.getBlacklist();
+    };
+
+    // 将好友从黑名单拉出来
+    var removeBlackList = function () {
+        var list = {};
+        conn.removeFromBlackList({
+            list: list,
+            type: 'jid',
+            success: function () {
+                console.log('Remove from black list success.');
+            },
+            error: function () {
+                console.log('Remove from black list error.')
+            }
+        });
+    };
+
+
+    // 将好友从黑名单移除
+    var removeFromGroupBlackList = function () {
+        var option = {
+            roomId: '1480841456167',
+            to: 'wjy6',
+            success: function () {
+                console.log('Remove from black list success!');
+            }
+        };
+        conn.removeGroupMemberFromBlacklist(option);
+    };
+
+    // 查询群组成员，此方法亦可查询聊天室成员
+    // 查询出来的member的结构为{affiliation: 'member', jid: "easemob-demo#chatdemoui_wjy6@easemob.com"}
+    // 注意，这里的jid格式，成员的用户名是chatdemoui_之后，@easemob.com之前的字符串，如本例的wjy6是用户名
+    var queryRoomMember = function () {
+        var member = '';
+        conn.queryRoomMember({
+            roomId: '114715680632209992',
+            success: function (members) {
+                for (var o in members) {
+                    member = members[o];
+                    console.log(member);
+                }
+            }
+        });
+    };
+
+    /*
+     * WebRTC
+     */
+
+    var logout = function () {
+//        conn.clear();
+        conn.close('logout');
+        conn.errorType = WebIM.statusCode.WEBIM_CONNCTION_CLIENT_LOGOUT;
+
+
+    }
+
+    var reConn = function () {
+        //appkey： easemob-demo#vip5
+        //xmppURL: 'im-api-vip5.easemob.com',
+        //apiURL: (location.protocol === 'https:' ? 'https:' : 'h
+        // ttp:') + '//a1-vip5.easemob.com',
+        //账号：10vip5/123456 ,11vip5/123456
+        options = {
+            xmppURL: 'im-api-vip5.easemob.com',
+            apiUrl: (location.protocol === 'https:' ? 'https:' : 'http:') + '//a1-vip5.easemob.com',
+            appKey: "easemob-demo#vip5",
+            user: "10vip5",
+            pwd: "123456"
+        };
+        conn.open(options)
+
+    }
+</script>
+<script>
+    /**
+     * Created by clock on 16-11-30.
+     */
+    window.onload = function () {
+
+        var options = {
+            apiUrl: WebIM.config.apiURL,
+            user: "13641984916",
+            pwd: "123456",
+            appKey: WebIM.config.appkey
+        };
+        conn.open(options);
+
+
+        //数据渲染到页面
+        datashow();
+
+
+
+        //alert(WebIM.config.appkey);
+    };
+
+
+    //进入聊天页面
+    function intoChatroom(tel) {
+
+        window.location.href = './chatroom.html?tel='+tel
+
+    }
+
+
+</script>
+
+
+</html>

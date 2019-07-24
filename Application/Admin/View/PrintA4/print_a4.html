@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{:C('WEB_SITE_TITLE')}</title>
+
+    </head>
+    <body>
+
+    <div class="print_a4">
+        <script type="text/javascript" src="__JS__/jquery-1.4.4.min.js"></script>
+        <script type="text/javascript" src="__JS__/jquery-barcode.js"></script>
+        <script type="text/javascript" src="__JS__/jquery.jqprint-0.3.js"></script>
+        <style type="text/css">
+
+            *{ margin:0; padding:0; }
+            p{ margin:0; padding:0; }
+            table{ border-collapse:collapse;border-spacing:0;}
+            th{ font-weight:normal;}
+            fieldset,a img{ border:0;}
+            iframe{ display:block;}
+            ol,ul,li{ list-style:none; margin:0; padding:0;}
+            del{ text-decoration:line-through; }
+            h1,h2,h3,h4,h5,h6 { font-size:100%; font-weight:bolder; }
+            q:before,q:after {content:'';}
+            sub,sup {font-size: 14px; line-height: 0; position: relative; vertical-align: baseline;}
+            sup {top: -0.5em;}
+            sub {bottom: -0.25em;}
+            a,textarea,input,button,input:focus,input:hover{ outline:none;}
+            ins,a{ text-decoration:none;}
+            textarea{ resize:none;  overflow-y:auto;}
+            em,i{ font-style:normal;}
+            .kuaiyun-table{
+                width: 800px;
+                margin: 0 auto;
+                padding-top: 50px;
+            }
+            .kuaiyun-table table{
+                border: 1px #333333 solid;
+                table-layout: fixed;
+            }
+            .kuaiyun-table table td{
+                padding: 7px 5px;
+                border: 1px #333333 solid;
+                color: #333333;
+                font-size: 12px;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                text-align: left;
+                vertical-align: top;
+            }
+            .kuaiyun-table table td span{
+                display: inline-block;
+                color: #666;
+                margin-right: 5px;
+            }
+            .num{
+                text-align: center;
+                margin: 0 auto;
+            }
+            .pd15{
+                padding: 15px 5px!important;
+            }
+        </style>
+
+        <div class="kuaiyun-table">
+            <table>
+                <tr>
+                    <td style="width: 100%;" colspan="12">
+                        <div style="float: left">
+                            <h2 style="font-size: 30px;">法援宝</h2>
+                            <p style="font-size: 24px; margin-top: 10px;">订单号：{$vo.orderno}</p>
+                        </div>
+                        <div style="float: right; padding-top: 10px;">
+                            <div class="num"></div>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td style="width: 200px;" colspan="3"><span>发件人/FROM：</span> 法援宝</td>
+                    <td style="width: 200px;" colspan="3"><span>电话/PHONE：</span>{:C('WEB_SITE_MOBILE')} </td>
+                    <td style="width: 200px;" colspan="3"><span>收件人/TO：</span> {$vo['nickname']}</td>
+                    <td style="width: 200px;" colspan="3"><span>电话/PHONE：</span>{$vo['phone']}</td>
+                </tr>
+                <tr>
+                    <td style="width: 200px;" colspan="6" rowspan="4">
+
+                        <span>货物名称/CONTENTS：</span>
+                        {$vo.name}
+                        <!--{loop $list['goodsList'] $key $value}
+                        {$value['brand']}&nbsp;{$value['name']}*{$value['num']}个、&nbsp;
+                        {/loop}-->
+                    </td>
+                    <td style="width: 200px;" colspan="6"><span>地址/ADDRESS：</span> {$vo['addr']}</td>
+                </tr>
+                <tr>
+                    <td style="width: 200px;" colspan="3"><span>金额/TOTAL：</span>{$vo['money']} </td>
+                    <td style="width: 200px;" colspan="3"><span>单价/PRICE：</span>{$vo['price']} </td>
+                </tr>
+                <tr>
+                    <td style="width: 200px;" colspan="3"><span>数量/NUM：</span> {$vo.num}</td>
+                    <td style="width: 200px;" colspan="3"><span>颜色/COLOR：{$vo.color}</span> </td>
+                </tr>
+                <tr>
+                    <td style="width: 200px;" colspan="6"><span>备注/NOTE：</span> {$list['orders']['message']}</td>
+                </tr>
+                <tr>
+                    <td style="width: 100%;" colspan="12">
+                        <div>
+                            我保证上述内容的真实性以及本快件内未夹寄禁寄和危险品，如有伪报瞒报必须承担法律责任。I ASSURE THE TRUTH OF THE ABOVE DECLARATION To THE CUSTOMS AND I GUARANTEE THAT THE SHIPMENT DOES NOT CONTAIN ANY DANGEROUS AND PROHIBITED GOODS I SHALL BEAR ALL LEAGAL RESPONSIBILITY FOR ANY CONCEALED OR UNAUTHORIZED CONTENTS
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td style="width: 400px;" colspan="6"><span>寄件人签名/SENDER'S SIGNATURE：法援宝</span> </td>
+                    <td style="width: 400px;" colspan="6"><span>日期/DATE：{$vo.time}</span> </td>
+                </tr>
+                <tr>
+                    <td style="width: 400px;" class="pd15" colspan="6">
+                        <div class="num"></div>
+                    </td>
+                    <td style="width: 400px;" class="pd15" colspan="6">
+                        <div class="num"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <input type="hidden" name="order_sn" value="{$list['logistics']['order_sn']}" />
+        <script>
+            $(".num").barcode($('input[name=order_sn]').val(),"code93",{
+                barWidth:2,
+                barHeight:50,
+                showHRI:true,
+                format: "CODE39",//选择要使用的条形码类型
+                displayValue:true,//是否在条形码下方显示文字
+                fontOptions:"bold italic",//使文字加粗体或变斜体
+                font:"fantasy",//设置文本的字体
+                textAlign:"left",//设置文本的水平对齐方式
+                textPosition:"top",//设置文本的垂直位置
+                textMargin:5,//设置条形码和文本之间的间距
+                fontSize:14,//设置文本的大小
+                background:"#eee",//设置条形码的背景
+                lineColor:"#2196f3",//设置条和文本的颜色。
+                margin:15//设置条形码周围的空白边距
+            });
+        </script>
+    </div>
+    <div class="prints" style="width: 800px; margin: 0 auto; margin-top: 20px;">
+        <input type="button" value="立即打印" class="print_btn" style="width: 100px; height: 30px;"  />
+    </div>
+    <script>
+
+        $('.print_btn').click(function(){
+
+            $(".print_a4").jqprint();
+
+        });
+
+    </script>
+    </body>
+</html>

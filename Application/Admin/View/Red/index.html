@@ -1,0 +1,131 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>分红记录列表</h2>
+	</div>
+	<div class="cf">
+		<!--<div class="fl">
+            <a class="btn" href="{:U('Red/add')}">新 增</a>
+            <button class="btn ajax-post" url="{:U('Red/changeStatus',array('method'=>'resumeUser'))}" target-form="ids">启 用</button>
+            <button class="btn ajax-post" url="{:U('Red/changeStatus',array('method'=>'forbidUser'))}" target-form="ids">禁 用</button>
+            <button class="btn ajax-post confirm" url="{:U('Red/changeStatus',array('method'=>'deleteUser'))}" target-form="ids">删 除</button>
+        </div>-->
+        <div class="fl">
+            <!--<a class="btn" href="{:U('Red/index')}" <if condition="$_GET['state'] eq 1 || $_GET['state'] eq ''">style="background: #FF1A1E;"</if> >全部({$total})</a>
+            <a class="btn" href="{:U('Red/index?state=1')}" <if condition="$_GET['state'] eq 1 || $_GET['state'] eq ''">style="background: #FF1A1E;"</if> >待审核({$d})</a>
+            <a class="btn" href="{:U('Red/index?state=2')}" <if condition="$_GET['state'] eq 2">style="background: #FF1A1E;"</if>  >审核成功({$c})</a>
+            <a class="btn" href="{:U('Red/index?state=3')}" <if condition="$_GET['state'] eq 3">style="background: #FF1A1E;"</if>  >审核失败({$s})</a>-->
+        </div>
+
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<input type="text" name="date1" id="date1" class="search-input" value="{:I('date1')}" placeholder="开始日期" >
+				<input type="text" name="date2" id="date2"  class="search-input" value="{:I('date2')}" placeholder="结束日期">
+				<!--<input type="text" name="name" class="search-input" value="{:I('name')}" placeholder="请输入商品名称">-->
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+			</div>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<th class="row-selected row-selected" style="width: 2%"><input class="check-all" type="checkbox"/></th>
+		<th class="">编号</th>
+
+			<th class="">推荐人昵称</th>
+			<th class="">注册人昵称</th>
+
+
+			<th class="">分红金额</th>
+            <th class="">注册时间</th>
+
+
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="list">
+		<volist name="list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			<td>{$vo.pid|modelField='usermember','nickname'}</td>
+			<td>{$vo.uid|modelField='usermember','nickname'}</td>
+
+
+			<td>{$vo.money} 元</td>
+
+			<td>{$vo.create_time|date='Y-m-d H:i',###}</td>
+
+
+
+
+			<td>
+
+                <!--<a href="{:U('Red/edit?id='.$vo['id'])}">编辑</a>-->
+				<a href="{:U('Red/foreverdelete?id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+                </td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+		/*var name=$('input[name=name]').val();
+		var date1=$('input[name=date1]').val();
+		var date2=$('input[name=date2]').val();
+		var state='{$state}'
+		window.location.href = '/Admin/Red/index/name/'+name+'/date1/'+date1+'/date2/'+date2+'/state/'+state;*/
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date1'
+		});
+	})
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#date2'
+		});
+	})
+    //导航高亮
+    highlight_subnav('{:U('Red/index')}');
+	</script>
+</block>

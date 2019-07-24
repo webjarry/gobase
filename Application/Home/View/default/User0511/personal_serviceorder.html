@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html >
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>企业服务订单</h2>
+    <!--<a href="ask_page_myAnswer.html" class="myAnswer_btn">我的回答</a>-->
+</header>
+<section class="service_order">
+    <ul>
+        <li id="one" style="display: none"><a href="javascript:;" onclick="aaplay('service_package.html')"><span>企业会员</span> <span class="be">成为会员</span></a></li>
+        <li id="two" style="display: none"><a href="##"><span>企业会员</span> <span class="be_time">有效期至2019-11-11</span></a></li>
+
+        <li><a href="javascript:;" onclick="qiyeorder(1)"><span>法律告知函</span></a></li>
+        <li><a href="javascript:;"  onclick="qiyeorder(2)"><span>律师分析报告</span></a></li>
+        <li><a href="javascript:;" onclick="aaplay('personal_mycontract')"><span>合同下载</span></a></li>
+        <li><a href="javascript:;" onclick="aaplay('apply_intellectualProperty')"><span>知识产权</span></a></li>
+    </ul>
+</section>
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    loginCheck()
+    user()
+    function user() {
+        var p={token:token}
+        $.post(webSiteUrl+'/app/user/user',p,function(ret){
+            console.log(ret.data)
+            if(ret.code==200){
+                if(ret.data.vip==0){
+                    $('#one').show()
+
+                }else{
+
+                    $('#two').show()
+                    $('.be_time').html('有效期至'+ret.data.user_time)
+                }
+            }
+        });
+
+    }
+    function qiyeorder(type) {
+        location.href='/Home/User/personal_myorder_qiye?type='+type;
+    }
+</script>
+</html>

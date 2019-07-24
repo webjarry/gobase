@@ -1,0 +1,77 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title">
+        <h2>查看订单详情</h2>
+    </div>
+    <ul class="tab-nav nav">
+
+
+        <li class="current"><a href="javascript:void(0)">基本信息</a></li>
+
+
+    </ul>
+    
+    <form action="{:U()}" method="post" class="form-horizontal">
+    <input type="hidden" name="tid" value="{$vo[id]}">
+    <div class="tab-content">
+
+        <div class="form-item">
+            <label class="item-label">下单用户<span class="check-tips"></span></label>
+            <div class="controls">
+                <input type="text" class="text input-large"  value="{$vo['name']}" disabled>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">下单时间</label>
+            <div class="controls">
+                <input type="text" class="text input-large" value="{$vo['create_time']|date='Y-m-d H:i:s',###}" disabled>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">商品名称</label>
+            <div class="controls">
+                <input type="text" class="text input-large" value="{$vo[goodsname]}" disabled>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">选择颜色</label>
+            <div class="controls">
+                <input type="text" class="text input-large" value="{$vo[color]}" disabled>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">购买数量</label>
+            <div class="controls">
+                <input type="text" class="text input-large" value="{$vo[num]}" disabled>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">收货地址</label>
+            <div class="controls">
+                <input type="text" class="text input-large" value="{$addr}" disabled>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="form-item">
+            <!--<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">回复</button>-->
+            <a href="{:U('index')}" class="btn btn-return">返 回</a>
+        </div>
+    </div>
+
+    </form>
+</block>
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Order/index')}');
+
+    </script>
+</block>
+

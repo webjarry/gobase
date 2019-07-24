@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html style="background: #f3f3f3">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>律师协作</h2>
+    <!--<a href="javascript:;" class="tel_btn release_btn">发布</a>-->
+</header>
+
+<section class="cooperation">
+    <div class="flow_list">
+        <ul>
+            <li><em>1</em><p>填写信息</p></li>
+            <li><em>2</em><p>支付定金</p></li>
+            <li><em>3</em><p>律师竞标</p></li>
+            <li><em>4</em><p>律师服务</p></li>
+        </ul>
+    </div>
+</section>
+<section class="release_contract">
+    <div class="release_list">
+        <ul>
+            <li>
+                <div class="release_item">
+                    <p>选择需求</p>
+                    <span class="kinds_name"></span>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>问题概述</p>
+                </div>
+                <textarea name="" id="" cols="30" rows="10" placeholder="请输入任务委托(需包含时间、地点、案件、现状、诉求 等)"></textarea>
+                <div class="mp3">
+                    <a href="javascript:void(0);" class="mp3_btn"><img src="__IMG__/MP3.png" alt=""></a>
+                    <span>限500字</span>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>添加定位</p>
+                    <span>重庆市  南岸区</span>
+                </div>
+            </li>
+            <li>
+                <div class="release_item">
+                    <p>平台统一价</p>
+                    <span class="release_price">966.00元</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="release_tips">
+        <h6>温馨提示：</h6>
+        <p>
+            1、诉状及其他材料由委托人或委托律师准备，协作律师仅负责相关立案手续，代为缴纳诉讼费用；<br>
+            2、费用966.00元仅为协助立案律师费，不包括其他服务，其他服务请另行协商；<br>
+            3、平台统一价格。
+        </p>
+    </div>
+
+    <button class="release_btn" type="submit">确认发布</button>
+</section>
+<section class="fixed_select">
+    <div class="select_content">
+        <h6 style="font-size: 0.26rem;">请选择目前案件所处阶段或您的需求</h6>
+        <ul style="text-align: center;">
+            <li>代为立案</li>
+            <li>代为开庭</li>
+            <li>工商档案查询</li>
+            <li>户籍身份查询</li>
+            <li>调查取证</li>
+            <li>刑事会见</li>
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+   
+
+    //发布合同 类型选择
+    $(".kinds_name").click(function () {
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '0',
+            'opacity': '1'
+        },400);
+    });
+    $(".select_content ul li").click(function () {
+        $(".kinds_name").text($(this).html());
+        $(".fixed_select").fadeToggle();
+        $(".fixed_select .select_content").animate({
+            'top': '-4rem',
+            'opacity': '0'
+        },400);
+    })
+</script>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html style="background: #f9f9f9">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body style="background: #f9f9f9">
+<header class="header">
+    <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>法律专题</h2>
+    <!--<a href="javascript:void(0);" class="qiandao_btn">注册</a>-->
+</header>
+
+<section class="about_info">
+    <div class="common_title">
+        <h6 id="ztName"></h6>
+        <a href="##" class="more" onclick="askmore()">更多></a>
+    </div>
+    <div class="ask_list">
+        <ul id="askCon">
+            <!-- <li>
+                <a href="##">
+                    <div class="userInfo">
+                        <img src="__IMG__/userimg1.jpg" alt="">
+                        <div class="userName">
+                            <h6>135****7574</h6>
+                            <span>重庆 重庆市 <em>5小时前</em></span>
+                        </div>
+                    </div>
+                    <div class="comment_info">
+                        <p>我转租了一个门面，签合同的时候说明里面东西都归我，要求我归还，我是不是可以不给他？</p>
+                    </div>
+                    <div class="ask_kinds">
+                        <span>合同纠纷</span>
+                        <div class="ask_active">
+                            <em class="answer_num">4人回答</em>
+                        </div>
+                    </div>
+                </a>
+            </li> -->
+        </ul>
+    </div>
+</section>
+
+<section class="about_info">
+    <div class="common_title">
+        <h6>推荐律师</h6>
+        <a href="##" class="more"  onclick="lawyermore()">更多></a>
+    </div>
+    <div class="recommend_lawyer">
+        <ul id="con">
+            <!--<li>
+                <a href="##">
+                    <img src="__IMG__/userimg1.jpg" alt="">
+                    <div class="lawyers_info">
+                        <h6>方大同律师 <em>执业1年</em></h6>
+                        <p class="location">重庆市 南岸区</p>
+                        <p class="addr">重庆市程建律师事务所</p>
+                        <dl>
+                            <dd>遗产纠纷</dd>
+                            <dd>劳动仲裁</dd>
+                            <dd>人身损害</dd>
+                        </dl>
+                    </div>
+                </a>
+            </li>-->
+        </ul>
+    </div>
+</section>
+
+</body><include file="Public/userfooter" /><script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    var page = 1;
+    var typename
+
+    var n="{$name}"
+    $("#ztName").html(n);
+
+    aj()
+    function aj() {
+        var p={model:'ajcate',id:para('typeid')};
+        $.post(webSiteUrl+'/app/home/find',p,function(ret){
+            if(ret.code==200){
+                typename=ret.data.name;
+            }
+
+            ask()
+        });
+
+    }
+    
+    function ask(){
+        var p={typeid:para('typeid')};
+        $.post(webSiteUrl+'/app/public/fask',p,function(ret){
+  
+            if(ret.code==200){
+
+                html = "";
+                var tj=ret.data;
+                if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+
+                        html+='<li><a href="javascript:;"><div class="userInfo"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="userName"><h6>'+tj[i].phone+'</h6><span>'+tj[i].addr+'<em>'+tj[i].time+'</em></span></div></div><div class="comment_info" onclick="askdetail('+tj[i].id+')"><p>'+tj[i].content+'</p></div><div class="ask_kinds"><span>'+tj[i].ajtype+'</span><div class="ask_active"><em class="answer_num">'+tj[i].num+'人回答</em></div></div></a></li>';
+
+
+                    }
+                }
+
+                $('#askCon').html(html);
+
+
+            }else{
+
+                $('#askCon').html('<p style="text-align:center">暂无数据</p>');
+            }
+
+            toDoRequest()
+        });
+
+    }
+
+
+    function toDoRequest(){
+
+        var p= {token:token,key:typename,page:1,type:2};
+        $.post(webSiteUrl+'/app/user/search',p,function(ret){
+   
+            //alert(JSON.stringify(ret))
+            if(ret.code==200){
+
+                html = "";
+                var tj=ret.data;
+                if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+
+                        html+='<li onclick="lawyer('+tj[i].id+')"><a href="javascript:;" ><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="lawyers_info"><h6>'+tj[i].nickname+'律师 <em>执业'+tj[i].year+'年</em></h6><p class="location">'+tj[i].addr+'</p><p class="addr">'+tj[i].depart+'</p><dl>';
+                        for(var j=0;j<tj[i].label.length;j++){
+                            html+='<dd>'+tj[i].label[j]+'</dd>';
+                        }
+                        html+='</dl></div></a></li>';
+
+                    }
+                    
+                    $('#con').html(html);
+
+                }else{
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                    
+
+                }
+            }})
+
+    }
+
+    //提示关闭
+    $(".fixed_tips").click(function () {
+        $(this).fadeOut();
+    });
+    function askmore(){
+        location.href='/home/user/free_consultation.html?typeid='+para('typeid');
+        
+    }
+    function lawyermore(){
+        location.href='/home/user/lawyers.html?ajid='+para('typeid');
+       
+    }
+
+    
+</script>
+</html>

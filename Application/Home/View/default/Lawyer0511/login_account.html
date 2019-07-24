@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelawyer.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css" />
+    <script type="text/javascript" src="__JS__/api.js"></script><script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/swiper.min.js"></script><script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script><script type="text/javascript" src="__JS__/ajaxupload.3.5.js" ></script><script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+    <script type="text/javascript" src="__JS__/mobile-detect.js"></script>
+    <script type="text/javascript" src="__JS__/mobile-detect.min.js"></script>
+</head>
+<body>
+<header class="header">
+    <!-- <a href="javascript:void(0);"  class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a> -->
+    <h2>登录</h2>
+    <a href="javascript:void(0);" class="qiandao_btn" onclick="aaplay('register')"  style="position: absolute;  right: 3%; top: 0; color: #fff;">注册</a>
+    <!--<a href="javascript:void(0);" class="qiandao_btn"><img src="__IMG__/qiandao.png" alt=""></a>-->
+</header>
+<section class="login_choose">
+    <ul>
+        <li><a href="javascript:;" onclick="aaplay('login')">账号密码登录</a></li>
+        <li class="active"><a href="javascript:;">手机快捷登录</a></li>
+
+    </ul>
+</section>
+<section class="login_section">
+    <div class="fyb_logo"><img src="__IMG__/fyb_logo.png" alt=""></div>
+    <div class="login_box">
+        <ul>
+            <li class="username"><input type="text" placeholder="请输入手机号" id='phone' name='phone' value="{$phone}"></li>
+            <li class="tel_code"><input type="text" placeholder="请输入验证码" id='yzm' name='yzm'><span id='regyzm' style="cursor:pointer">获取验证码</span></li>
+
+            <!--<li class="user_code"><input type="text" placeholder="请输入推荐人邀请码(选填)" id='idno' name='idno'></li>-->
+        </ul>
+
+        <p class="agree">成功登录即表示您同意<a href="##"  onclick="aaplay('yhxy')">《用户协议》</a></p>
+        <button class="login_submit" type="submit" onclick="login()">立即登录</button>
+        <!--<p>如果该手机号为第一次登录，我们会直接为该 <br>手机号创建会员</p>-->
+    </div>
+	<div class="login_kinds" style="">
+        <h6><span>第三方登录</span></h6>
+        <ul>
+            <li><a href="javascript:;" onclick="sanfangqq()"><img src="__IMG__/ologin1.png" alt=""></a></li>
+            <!--<li><a href="javascript:;" onclick="initWXBind()"><img src="__IMG__/ologin2.png" alt=""></a></li>-->
+            <li><a href="{$web_url}"><img src="__IMG__/ologin3.png" alt=""></a></li>
+        </ul>
+    </div>
+</section>
+<aside class="download">
+    <a href="{:U('public/login_account')}" class="user_download">普通用户点击跳转【法援宝】</a>
+</aside>
+
+
+</body><include file="Public/footer" /><script type="text/javascript" src="__JS__/lawyer.js"></script>
+
+<script>
+
+    console.log(loginphone)
+
+    var md = new MobileDetect(
+            'Mozilla/5.0 (Linux; U; Android 4.0.3; en-in; SonyEricssonMT11i' +
+            ' Build/4.1.A.0.562) AppleWebKit/534.30 (KHTML, like Gecko)' +
+            ' Version/4.0 Mobile Safari/534.30');
+
+    var os = md.os();
+    if (os == "iOS") {
+        var mt=2
+    }else if(os == "AndroidOS") { 
+        var mt=1
+    }
+    //apk()
+    function apk(){
+
+        if(mt==1){
+            var p={id:31};
+        }else {
+            var p={id:32};
+        }
+        $.post(webSiteUrl+'/app/public/ad',p,function(ret){
+            if(ret.code==200){
+                var tj=ret.data;
+                if(tj != null){
+                    $('.user_download').attr('href',webSiteUrl+tj.file);
+                    $('.user_download').attr('download',webSiteUrl+tj.file);
+
+                }
+            }
+
+        });
+
+    }
+
+    $('#phone').val(loginphone);
+
+    $('#regyzm').click(function () {
+        if($(this).hasClass('regyzm')==false){
+            var phone=$('input[name=phone]').val();
+            if(phone==''){
+                alert("请输入手机号！");return;
+            }else if(!/^1[345678]\d{9}$/.test(phone)){
+                alert("手机号格式错误！");return;
+            }
+
+            var p={phone:phone,type:1};
+            $.post(webSiteUrl+'/app/public/yzm',p,function(ret){
+                if(ret.code==200){
+
+                    $('#regyzm').addClass('regyzm');
+                    var num=60;
+                    timer=setInterval(function(){
+                        $('#regyzm').html(num+'秒');
+                        num--;
+                        if(num==0){
+                            clearInterval(timer);
+                            timer=null;
+                            $('#regyzm').html('重新获取');
+                            $('#regyzm').removeClass('regyzm');
+                        }
+                    },1000)
+
+                    alert(ret.msg);
+
+                }else{
+
+                    alert(JSON.stringify(ret.data));
+                }
+            });
+
+        }
+    })
+
+    function login(){
+        var phone=$("input[name=phone]").val();
+        var yzm=$("input[name=yzm]").val();
+        //var idno=$("input[name=idno]").val();
+
+        if(phone==''){
+            alert("请输入手机号！");return;
+        }else if(!/^1[345678]\d{9}$/.test(phone)){
+            alert("手机号格式错误！");return;
+        }else if(yzm==''){
+            alert("请输入验证码！");return;
+        }
+
+        var p={phone:phone,yzm:yzm,type:2};
+        //$.post(webSiteUrl+'/home/public/waplogin',p,function(ret){
+        $.post("{:U('Public/waplogin')}",p,function(ret){
+            var ret=jQuery.parseJSON(ret);
+            if(ret.code==200){
+                alert(ret.msg)
+                //alert(JSON.stringify(ret.data));
+              
+                location.href='/home/lawyer/workbench'
+                
+            }else if(ret.code==202){
+                alert(ret.msg)
+
+                location.href='/home/lawyer/register'
+
+            }else{alert(ret.msg)}
+        });
+
+    }
+	
+	function sanfangqq(){
+        location.href='/Home/Public/qq_login';
+
+    }
+
+    //微博登录
+    function initWBBind() {
+        location.href='/home/public/wb_login';
+
+    }
+        
+</script>
+</html>

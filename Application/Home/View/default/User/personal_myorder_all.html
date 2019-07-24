@@ -1,0 +1,256 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>法援宝</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/api.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lawyer_user.css"/>
+    <script type="text/javascript" src="__JS__/api.js"></script>
+    <script type="text/javascript" src="__JS__/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/mobile.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__JS__/ajaxupload.3.5.js"></script>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <a href="javascript:void(0);" class="back_btn"><img src="__IMG__/head-fanhui.png" alt=""></a>
+    <h2>全部订单</h2>
+    <a href="javascript:void (0);" class="share_btn" onclick="aaplay('index')"><img src="__IMG__/shouye1.png" alt=""></a>
+</header>
+<section class="order_section">
+    <div class="order_list">
+        <ul id='con'>
+
+        </ul>
+    </div>
+</section>
+</body>
+<include file="Public/userfooter"/>
+<script type="text/javascript" src="__JS__/lawyer_user.js"></script>
+<script>
+    loginCheck()
+    var page = 1;
+    var type = 1;
+    var p = '';
+
+    toDoRequest()
+
+    function toDoRequest() {
+        p = {token: token, page: page};
+        $.post(webSiteUrl + '/app/user/uaskorder', p, function (ret) {
+            if (ret.code == 200) {
+                console.log(JSON.stringify(ret));
+                var html = "";
+                var tj = ret.data;
+                if (tj != null) {
+                    for (var i = 0; i < tj.length; i++) {
+                        var wjHtm = '';
+                        if(tj[i].status == 0){
+                            //待付款
+                            html+='<li><p>订单号：'+tj[i].orderno+'<span class="fr" style="color: #333;">待付款</span></p><div onclick="lookDetails('+tj[i].id+','+tj[i].type+')" class="order_info"><img src="'+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'律师</h6><span>'+tj[i].ordertype+'</span> </div></div><div class="order_active"><span>总计：<em>¥'+tj[i].money+'</em></span><div class="active_btn"><a style="cursor: pointer" class="no_btn" onclick="qxorder('+tj[i].orderno+')">取消订单</a><a href="##" class="yes_btn" onclick="jixu('+tj[i].orderno+','+tj[i].money+','+tj[i].sid+','+tj[i].type+')">继续付款</a></div></div></li>';
+
+                        }else if(tj[i].status == 1){
+                            //待接单
+                            html += ' <li><p>订单号：'+tj[i].orderno+' <span class="fr" style="color: #333;">待接单</span></p><div onclick="lookDetails('+tj[i].id+','+tj[i].type+')" class="order_info"><img src="'+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'</h6><span>'+tj[i].ordertype+'</span></div></div><div class="order_active"><span>总计：<em>¥'+tj[i].money+'</em></span><div class="active_btn"><a style="cursor: pointer" class="no_btn" onclick="qxask('+tj[i].id+')">取消订单</a></div></div></li>';
+
+                        }else if(tj[i].status == 2){
+                            //已接单
+                            if (tj[i].type == 1 && tj[i].uover == 0) {
+                                // wjHtm = '<div class="look_demand1" onclick="message(' + tj[i].id + ')">查看问题</div><div class="look_demand" onclick="message(' + tj[i].id + ')">上传问题</div>';
+                                wjHtm = '<div class="look_demand" onclick="fnOpenChat(' + tj[i].staff_phone + ')">立即咨询</div>';
+                            }
+							var sbtnHtm = '';
+							if(tj[i].uover != 1){
+								sbtnHtm = '<div class="active_btn"><a onclick="shenqin('+tj[i].id+')" class="no_btn">申请售后</a><a href="##" class="yes_btn" onclick="uover('+tj[i].orderno+')">确认完成</a></div>';
+							
+							}
+                            html += '<li><p>订单号：' + tj[i].orderno + '<span class="fr" style="color: #333;">' + state(tj[i].status, tj[i].uover) + '</span></p><div class="order_info"><img onclick="lookDetails('+tj[i].id+')" src="' + tj[i].icon + '" alt=""><div onclick="lookDetails('+tj[i].id+','+tj[i].type+')" class="info"><h6>' + tj[i].name + '律师</h6><span>' + tj[i].ordertype + '</span> </div>' + wjHtm + '</div></div><div class="order_active"><span>律师正在为您服务</span>'+sbtnHtm+'</div></li></li>';
+
+                        }else if(tj[i].status == 4){
+                            //已完成
+                            html += '<li><p>订单号：'+tj[i].orderno+'  <span class="fr" style="color: #333;">已完成</span></p><div class="order_info" onclick="lookDetails('+tj[i].id+','+tj[i].type+')"><img src="'+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'</h6><span>'+tj[i].ordertype+'</span></div></div><div class="order_active"><span>您对律师的服务满意吗？</span><div class="active_btn"><a onclick="pingjia('+tj[i].id+')" class="yes_btn">去评价</a></div></div></li>';
+
+                        }else if(tj[i].status == 5){
+                            //已评价
+                            html += '<li><p>订单号：'+tj[i].orderno+'  <span class="fr" style="color: #333;">已评价</span></p><div onclick="lookDetails('+tj[i].id+','+tj[i].type+')" class="order_info"><img src="'+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'</h6><span>'+tj[i].ordertype+'</span></div></div><div class="order_active"><span>'+tj[i].plcon+'</span></div><div class="star_list"><dl data-num="'+tj[i].star+'"><dd></dd><dd></dd><dd></dd><dd></dd><dd></dd></dl></div></li>';
+
+                        }else if(tj[i].status == 6){
+							if(tj[i].after == 3){
+							//售后失败
+                            html += '<li><p>订单号：'+tj[i].orderno+'  <span class="fr" style="color: #333;">售后退款失败</span></p><div onclick="lookDetails('+tj[i].id+')" class="order_info"><img src="'+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'</h6><span>'+tj[i].ordertype+'</span></div></div><div class="order_active"><span>客服已处理</span></li>';
+							
+							}else{
+							
+							//售后中
+                            html += '<li><p>订单号：'+tj[i].orderno+'  <span class="fr" style="color: #333;">售后中</span></p><div onclick="lookDetails('+tj[i].id+')" class="order_info"><img src="'+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'</h6><span>'+tj[i].ordertype+'</span></div></div><div class="order_active"><span>请等待客服处理该订单</span></li>';
+							}
+                            
+
+                        }else if(tj[i].status == 7){
+                            //已退款
+							html += '<li><p>订单号：'+tj[i].orderno+'  <span class="fr" style="color: #333;">已取消</span></p><div onclick="lookDetails('+tj[i].id+','+tj[i].type+')" class="order_info"><img src="'+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'</h6><span>'+tj[i].ordertype+'</span></div></div><div class="order_active"><span>该订单已经关闭</span></div></li>';
+
+                        }else if(tj[i].status == 9){
+                            //已关闭
+                            
+							 html += '<li><p>订单号：'+tj[i].orderno+'  <span class="fr" style="color: #333;">已退款</span></p><div onclick="lookDetails('+tj[i].id+','+tj[i].type+')" class="order_info"><img src="'+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'</h6><span>'+tj[i].ordertype+'</span></div></div><div class="order_active"><span>款项已经退回您的账户余额中</span><div class="active_btn"><a href="javascript:void(0);" onclick="again()" class="yes_btn" style="width: 1.65rem!important;">重新选择律师</a></div></div></li>';
+
+                        }
+
+
+
+//html+='<li><p>订单号：'+tj[i].orderno+'<span class="fr" style="color: #333;">'+state(tj[i].status)+'</span></p><div class="order_info"><img src="'+webSiteUrl+tj[i].icon+'" alt=""><div class="info"><h6>'+tj[i].name+'律师</h6><span>'+tj[i].ordertype+'</span> </div></div><div class="order_active"><span>总计：<em>¥'+tj[i].money+'</em></span><div class="active_btn"><a href="##" class="no_btn"></a><a href="##" class="yes_btn"></a></div></div></li>';
+                    }
+                }
+                $('#con').html(html);
+                /*if(page==1){
+                    $('#con').html(html);
+                }else{
+                    $('#con').append(html);
+                }
+                page++;*/
+
+                //星级
+                $(".star_list").each(function(){
+                    var num = $(this).find('dl').attr('data-num');
+                    //alert(num)
+                    for( var i = 0; i<num;i++){
+                        $(this).find('dd').eq(i).addClass('star');
+                    }
+                })
+
+
+            } else {
+                //alert(ret.msg)
+                if (page == 1) {
+                    $('#con').html('<p style="text-align:center">暂无数据</p>');
+                }
+
+            }
+        });
+
+    }
+
+    function fnOpenChat(tel) {
+        location.href='/Home/User/chatroom?tel='+tel;
+    }
+
+    //确认订单
+    function uover(orderno) {
+	
+		 if (window.confirm('是否确认律师服务已完成？请在确认完成后给律师服务评价')) {
+		 
+			var p={token:token,orderno:orderno}
+			$.post(webSiteUrl+'/app/user/uover',p,function(ret) {
+				if (ret.code == 200) {
+					alert(ret.msg)
+					location.reload()
+				}
+			})
+		 }
+	
+        
+    }
+    //查看详情
+    function lookDetails(id,type) {
+       // location.href='/home/User/chakan?id='+id+'&type='+type;
+        location.href='/home/User/chakan?id='+id+'&type=1';
+    }
+
+    //重新选择律师
+    function again() {
+        window.location.href = '/Home/User/lawyers';
+    }
+
+    //查看文件
+    function chakan(id) {
+        location.href = '/home/user/checkfile?id=' + id
+
+    }
+
+    //跳转留言
+    function message(id, orderno) {
+        location.href = '/Home/User/viewmessage?id=' + id + '&orderno=' + orderno;
+    }
+
+    //上传文件
+    function chuan(id, orderno) {
+        location.href = '/home/user/chuan?id=' + id + '&orderno=' + orderno;
+    }
+
+    //继续支付
+    function jixu(orderno, money,sid,type) {
+        //window.location.href = '/Home/user/order_pay?type=8&orderno=' + orderno + '&money=' + money;
+		
+		window.location.href = '/Home/User/pay_service_cost?id='+sid+'&type='+type+'&orderno='+orderno+'&money='+money+'&have=1';
+    }
+
+    //取消订单 待付款
+    function qxorder(orderno) {
+        if (window.confirm('确定取消吗？')) {
+            var p = {model: 'ask', orderno: orderno,token:token}
+            $.post(webSiteUrl + '/app/user/qxorder', p, function (ret) {
+                if (ret.code == 200) {
+                    alert(ret.msg)
+                    location.reload()
+                }
+            })
+        }
+    }
+    //取消订单 已付款
+    function qxask(id) {
+        if(window.confirm('确定取消吗？')){
+            var p={token:token,id:id}
+            $.post(webSiteUrl+'/app/user/qxask',p,function(ret) {
+                if (ret.code == 200) {
+                    alert(ret.msg)
+                    location.reload()
+                }else{alert(ret.msg)}
+            })
+        }
+
+    }
+
+    //申请售后
+    function shenqin(id){
+        location.href='/home/user/personal_myOrder_finished_afterSale.html?id='+id
+    }
+
+    //评价
+    function pingjia(id){
+        location.href='/home/user/personal_myOrder_evaluate_edit.html?id='+id+'&type=3'
+    }
+
+
+    function state(type, over) {
+        var ordertype = ''
+        if (over == 0) {
+            if (type == 0) {
+                ordertype = '待付款';
+            } else if (type == 1) {
+                ordertype = '待接单';
+            } else if (type == 2) {
+                ordertype = '已接单';
+            } else if (type == 5) {
+                ordertype = '已评价';
+            } else if (type == 7) {
+                ordertype = '已退款';
+            } else if (type == 9) {
+                ordertype = '已关闭';
+            } else if (type == 6) {
+                ordertype = '售后中';
+            }
+        } else {
+            ordertype = '已完成';
+        }
+
+        return ordertype;
+    }
+</script>
+</html>
