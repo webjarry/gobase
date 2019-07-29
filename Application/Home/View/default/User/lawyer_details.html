@@ -232,6 +232,26 @@
 
 <section class="lawyer_evaluate" style="border-bottom: 0.25rem #f3f3f3 solid;">
     <div class="news_title" style="padding: 0.2rem 3%">
+        <h2 id="question">律师回复问题</h2>
+        <!--<a href="javascript:;" onclick="allpl()" class="news_more" id='question1'>查看全部</a>-->
+    </div>
+    <!--<div class="evaluate_kinds" style="padding-top: 0!important;">-->
+        <!--<ul>-->
+            <!--&lt;!&ndash;<li>讲解耐心(5)</li>-->
+            <!--<li>回复及时(5)</li>-->
+            <!--<li>分析到位(5)</li>&ndash;&gt;-->
+        <!--</ul>-->
+    <!--</div>-->
+    <div class="evaluate_list">
+        <ul id='question_list'>
+
+
+        </ul>
+    </div>
+</section>
+
+<section class="lawyer_evaluate" style="border-bottom: 0.25rem #f3f3f3 solid;">
+    <div class="news_title" style="padding: 0.2rem 3%">
         <h2 id="score">律师评价(好评率100%)</h2>
         <a href="javascript:;" onclick="allpl()" class="news_more" id='plnum'>查看全部</a>
     </div>
@@ -418,6 +438,7 @@
             }
 
             pl();
+            question_list();
         });
 
     }
@@ -548,6 +569,33 @@ html+='<li><div class="evaluate_user"><img src="'+tj[i].icon+'" alt=""><div clas
                 
             }else{
                 $('#plcon').html('<p style="text-align:center">暂无数据</p>');
+            }
+
+            toDoRequest2()
+        })
+
+
+    }
+    
+    function question_list(){
+        var p= {uid:para('id'),type:3};
+        $.post(webSiteUrl+'/app/public/pl',p,function(ret){
+            //console.log(ret.data)
+            if(ret.code==200){
+                html = "";
+                var tj=ret.data.com;
+                if(tj != null){
+
+                    for(var i=0;i<tj.length;i++){
+                        html+='<li><div class="evaluate_user"><img src="'+tj[i].icon+'" alt=""><div class="info"><p>'+tj[i].phone+'</p><span>'+tj[i].time+'</span></div></div><div class="evaluate_info"><p>'+tj[i].content+'</p></div></li>';
+                    }
+
+                    $('#question1').html('查看全部'+ret.data.plnum+'条评价');
+                }
+                $('#question_list').html(html);
+
+            }else{
+                $('#question_list').html('<p style="text-align:center">暂无数据</p>');
             }
 
             toDoRequest2()

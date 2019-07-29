@@ -484,7 +484,8 @@ function noncestr(){
 function servernum($sid){
     $a=M('ask')->where("sid=".$sid)->count();
     $b=M('wtjoin')->where("uid=".$sid)->count();
-    return $a+$b;
+    $f=M('fanswer')->where("sid=".$sid)->count();
+    return $a+$b+$f;
 }
 function score($sid){
     $w[tid]=array('in',implode(',',array_column(M('ask')->where("sid=".$sid)->select(),'id')) );
