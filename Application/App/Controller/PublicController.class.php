@@ -1911,6 +1911,58 @@ class PublicController extends HomeController {
         }
 
     }
+    /**
+     * 律师回复问题列表
+     */
+    public function question_list(){
+        $post = $this->param;
+        if( !$post['type']){
+            $this->appReturn(array('status'=>FALSE,'code'=>201,'msg'=>'未完善信息'));
+        }
+
+        $where['type']=array('eq',$post['type']);
+
+        if($post['uid'] >0 && $post['type']==3){
+            $ask=M('ask')->field('id')->where("sid=".$post['uid'])->select();
+            $ids=implode(',',array_column($ask,'id'));
+            $where['tid']=array('in',$ids);
+        }else{
+            $where['tid']=array('eq',$post['id']);
+        }
+        if($post[page] >0){
+            $start=$post[page]>0?($post[page]-1)*8: 0;
+            $com=M('pl')->where($where)->order('id desc')->limit($start,8)->select();$a=M('pl')->getLastSql();
+        }else{
+            $com=M('pl')->where($where)->order('id desc')->select();
+        }
+        if($com){
+            foreach ($com as $k=>$v){
+                if($v[utype]==1){
+                    $user=M('usermember')->find($v[uid]);
+                    $com[$k][phone]=yc_phone($user[phone]);
+                }else{
+                    $user=M('staff')->find($v[uid]);
+                    $com[$k][phone]=$user[nickname].'律师';
+                }
+                $com[$k][icon]=picture($user[icon]);
+                $com[$k][time]=date('Y-m-d H:i',$v[create_time]);
+
+                //$colorid=M('order')->where("id=".$v[oid])->find()[color];
+                //$com[$k][color]=M('color')->where("id=".$colorid)->find()[name];
+            }
+            $result[com]=$com;
+            $result[plnum]=count($com);
+        }else{
+            $result[com]='';
+            $result[plnum]=0;
+        }
+        if($result){
+            $this->appReturn(array('status'=>true,'code'=>200,'msg'=>$a,'data'=>$result));
+        }else{
+            $this->appReturn(array('status'=>false,'code'=>201,'msg'=>$a,'data'=>$result));
+        }
+
+    }
     
     public function province(){
         $post = $this->param;
