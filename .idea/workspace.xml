@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1dbde521-11c0-4e95-8d9a-7796c6834338" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-    </list>
+    <list default="true" id="1dbde521-11c0-4e95-8d9a-7796c6834338" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +50,7 @@
         <entry file="file://$PROJECT_DIR$/Application/App/Controller/PublicController.class.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="383">
-              <caret line="1918" column="28" lean-forward="true" selection-start-line="1918" selection-start-column="28" selection-end-line="1918" selection-end-column="28" />
+              <caret line="1918" column="28" selection-start-line="1918" selection-start-column="28" selection-end-line="1918" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -61,7 +59,7 @@
         <entry file="file://$PROJECT_DIR$/Application/Common/Conf/config.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="139">
-              <caret line="46" column="24" lean-forward="true" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
+              <caret line="46" column="24" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -222,7 +220,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19106000" />
+    <option name="totallyTimeSpent" value="19423000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="308" y="1072" width="1382" height="744" extended-state="6" />
@@ -326,14 +324,14 @@
     <entry file="file://$PROJECT_DIR$/Application/App/Controller/PublicController.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="383">
-          <caret line="1918" column="28" lean-forward="true" selection-start-line="1918" selection-start-column="28" selection-end-line="1918" selection-end-column="28" />
+          <caret line="1918" column="28" selection-start-line="1918" selection-start-column="28" selection-end-line="1918" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Application/Common/Conf/config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="139">
-          <caret line="46" column="24" lean-forward="true" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
+          <caret line="46" column="24" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
         </state>
       </provider>
     </entry>
