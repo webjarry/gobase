@@ -1912,7 +1912,7 @@ class PublicController extends HomeController {
 
     }
     /**
-     * 律师回复问题列表a
+     * 律师回复问题列表
      */
     public function question_list(){
         $post = $this->param;
